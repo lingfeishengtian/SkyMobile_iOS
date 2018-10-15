@@ -42,13 +42,11 @@ class GradeDisplay : UIViewController {
             self.webView.evaluateJavaScript(javascript) { (result, error) in
             if error == nil {
                     let returnedResults = result as! String
-                    print(returnedResults)
                     let Response = GradeResponder(returnedResults)
                     let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                     let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
-                    vc.GradeBookScrapedData = Response.GradeBookScrapedData
-                    vc.Classes = Response.Classes
                     vc.Courses = Response.Courses
+                    vc.webView = self.webView
                     self.present(vc, animated: true, completion: nil)
             }
         }

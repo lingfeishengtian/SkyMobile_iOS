@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		21BB8D1FBB83662783105E6D /* Pods_SkyMobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3E092CD02F2501C1A578457 /* Pods_SkyMobileTests.framework */; };
+		961317A12173019E0018684F /* ViewAssignments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961317A02173019E0018684F /* ViewAssignments.swift */; };
 		963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963383F7216ED9DA00C7C158 /* AppDelegate.swift */; };
 		963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963383FE216ED9DC00C7C158 /* Assets.xcassets */; };
 		9633840D216ED9DD00C7C158 /* SkyMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9633840C216ED9DD00C7C158 /* SkyMobileTests.swift */; };
@@ -48,6 +49,7 @@
 		5187BD4E98B14D527C912BA9 /* Pods-SkyMobileUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5DCF54703ABFFC5006713751 /* Pods-SkyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobile/Pods-SkyMobile.release.xcconfig"; sourceTree = "<group>"; };
 		68C8B590B5096B573B449CF2 /* Pods_SkyMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		961317A02173019E0018684F /* ViewAssignments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAssignments.swift; sourceTree = "<group>"; };
 		963383F4216ED9DA00C7C158 /* SkyMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		963383F7216ED9DA00C7C158 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		963383FE216ED9DC00C7C158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				96987935216EDBA100274869 /* ViewController.swift */,
 				96987936216EDBA100274869 /* GradeDisplay.swift */,
 				96987937216EDBA100274869 /* FinalGradeDisplay.swift */,
+				961317A02173019E0018684F /* ViewAssignments.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
 				96987940216EDBA100274869 /* GradeDisplay.swift in Sources */,
 				96987931216EDB8D00274869 /* GradientView.swift in Sources */,
+				961317A12173019E0018684F /* ViewAssignments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

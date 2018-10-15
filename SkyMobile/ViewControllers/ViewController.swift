@@ -105,7 +105,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
             }
         }
         }
-        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { (timer) in
+        _ = Timer.scheduledTimer(withTimeInterval: 8.0, repeats: false) { (timer) in
+            if(self.webViewtemp.url?.absoluteString == nil){
+                let alertController = UIAlertController(title: "Uh-Oh",
+                                                        message: "Invalid Credentials",
+                                                        preferredStyle: UIAlertController.Style.alert)
+                let confirmAction = UIAlertAction(
+                title: "OK", style: UIAlertAction.Style.destructive) { (action) in
+                    // ...
+                }
+                alertController.addAction(confirmAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
             self.changeColorOfButton(color: OGColor)
             self.enableButton(bool: true)
             self.startStopLoading(start: false)
