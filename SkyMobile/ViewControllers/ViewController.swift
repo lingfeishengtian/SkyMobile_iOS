@@ -98,28 +98,28 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
             if error == nil {
             }
         }
-         _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in
+         _ = Timer.scheduledTimer(withTimeInterval: 7.0, repeats: false) { (timer) in
         let javascrip1t = "msgBtn1.click()"
         self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
             if error == nil {
             }
         }
-        }
-        _ = Timer.scheduledTimer(withTimeInterval: 8.0, repeats: false) { (timer) in
-            if(self.webViewtemp.url?.absoluteString == nil){
-                let alertController = UIAlertController(title: "Uh-Oh",
-                                                        message: "Invalid Credentials",
-                                                        preferredStyle: UIAlertController.Style.alert)
-                let confirmAction = UIAlertAction(
-                title: "OK", style: UIAlertAction.Style.destructive) { (action) in
-                    // ...
+            _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { (timer) in
+                if(self.webViewtemp.url?.absoluteString == nil){
+                    let alertController = UIAlertController(title: "Uh-Oh",
+                                                            message: "Invalid Credentials",
+                                                            preferredStyle: UIAlertController.Style.alert)
+                    let confirmAction = UIAlertAction(
+                    title: "OK", style: UIAlertAction.Style.destructive) { (action) in
+                        // ...
+                    }
+                    alertController.addAction(confirmAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    self.changeColorOfButton(color: OGColor)
+                    self.enableButton(bool: true)
+                    self.startStopLoading(start: false)
                 }
-                alertController.addAction(confirmAction)
-                self.present(alertController, animated: true, completion: nil)
             }
-            self.changeColorOfButton(color: OGColor)
-            self.enableButton(bool: true)
-            self.startStopLoading(start: false)
         }
     }
     func startStopLoading(start: Bool){
@@ -163,15 +163,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
             // When page load finishes. Should work on each page reload.
             if (self.webViewtemp.estimatedProgress == 1) {
-                
-                _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { (timer) in
                 print("### EP:", self.webView.estimatedProgress)
-                    if self.webViewtemp.url?.absoluteString != nil && !self.runOnce {
-                        print("TestURL: " + (self.webViewtemp.url?.absoluteString)!)
-                        self.readyToSwitchViews(withWebView: self.webViewtemp)
-                        self.runOnce = true
+                if self.webViewtemp.url?.absoluteString != nil {
+                    print("TestURL: " + (self.webViewtemp.url?.absoluteString)!)
+                    self.readyToSwitchViews(withWebView: self.webViewtemp)
+                    self.runOnce = true
                 }
-            }
         }
         }
 }

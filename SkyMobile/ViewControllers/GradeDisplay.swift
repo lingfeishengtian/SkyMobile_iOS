@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 import SwiftSoup
 
-class GradeDisplay : UIViewController {
+class GradeDisplay : UIViewController, WKUIDelegate, WKNavigationDelegate {
     
     typealias Item = (text: String, html: String)
     
@@ -21,7 +21,14 @@ class GradeDisplay : UIViewController {
         if(webView == nil){
             print("ERROR, webview not declared in GradeDisplay Class")
         }
-       getHTMLCode()
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
+        self.webView.evaluateJavaScript(javascript1) { (result, error) in
+            if error == nil {
+                
+            }
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -29,16 +36,11 @@ class GradeDisplay : UIViewController {
     }
     
     func getHTMLCode(){
-        let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
-        self.webView.evaluateJavaScript(javascript1) { (result, error) in
-            if error == nil {
-            }
-        }
+       // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
         view.addSubview(webView)
         let javascript =
             "var outerHTML = document.documentElement.outerHTML.toString()\n" +
         "outerHTML\n"
-         _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { (timer) in
             self.webView.evaluateJavaScript(javascript) { (result, error) in
             if error == nil {
                     let returnedResults = result as! String
@@ -51,6 +53,11 @@ class GradeDisplay : UIViewController {
             }
         }
     }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print("### EP:", self.webView.estimatedProgress)
+        if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" {
+            getHTMLCode()
+        }
     }
 }
 

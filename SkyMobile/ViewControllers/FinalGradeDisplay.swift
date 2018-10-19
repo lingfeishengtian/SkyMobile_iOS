@@ -36,9 +36,10 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                     "S2",
                     "FIN"]
     var indexOfOptions = 0;
+    var isFirstRun = true
     @IBOutlet weak var table: UITableView!
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if IsElementaryAccount(courses: Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
@@ -49,16 +50,18 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         ClassColorsDependingOnGrade = DetermineColor(fromClassGrades: Courses)
         let ShouldBeDisplay = GuessShouldDisplayScreen(courses: Courses)
         indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
+        pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
+        ClassColorsDependingOnGrade = DetermineColor(fromClassGrades: Courses)
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
-        pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
-        ClassColorsDependingOnGrade = DetermineColor(fromClassGrades: Courses)
         table.reloadData()
         table.delegate = self
         table.dataSource = self
         pickTerm.delegate = self
         pickTerm.dataSource = self
+        
+        pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
     }
     
     override var prefersStatusBarHidden: Bool {

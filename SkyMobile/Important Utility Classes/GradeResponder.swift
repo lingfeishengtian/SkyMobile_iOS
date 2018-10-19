@@ -21,7 +21,7 @@ class GradeResponder {
     init(_ HTMLCode: String) {
         code = HTMLCode
         let HTMLParse:[Item] = parseHTML(htmlCodeToParse: HTMLCode)
-        var Classes = getClassAndGradesFrom(parsedHTML: HTMLParse)
+        Classes = getClassAndGradesFrom(parsedHTML: HTMLParse)
         Courses = SplitClassDescription(classArr: Classes)
         Courses = parseHTMLToGetGrades(htmlCodeToParse: code, courseToTakeInfoFrom: Courses)
         //TODO: Create new func that gets grades HINT: document.querySelectorAll("tr[group-parent]")[0]

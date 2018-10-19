@@ -64,3 +64,21 @@ struct Course: Hashable {
 func ==(lhs: Course, rhs: Course) -> Bool {
     return lhs.Class == rhs.Class
 }
+
+struct AssignmentGrades: Hashable{
+    var Class: String
+    var DailyGrades:[String: Double] = [:]
+    var MajorGrades:[String: Double] = [:]
+    
+    var hashValue: Int {
+        return Class.hashValue
+    }
+    
+    init(classDesc: String) {
+        Class = classDesc
+    }
+}
+
+func ==(lhs: AssignmentGrades, rhs: AssignmentGrades) -> Bool {
+    return lhs.Class == rhs.Class
+}

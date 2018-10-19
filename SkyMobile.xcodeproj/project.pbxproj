@@ -23,6 +23,7 @@
 		96987943216EDBA100274869 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9698793B216EDBA100274869 /* Main.storyboard */; };
 		96987944216EDBA100274869 /* GradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9698793D216EDBA100274869 /* GradeDisplay.storyboard */; };
 		96987945216EDBA100274869 /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9698793E216EDBA100274869 /* FinalGradeDisplay.storyboard */; };
+		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		A905FC23AAD23599C1E4AD73 /* Pods_SkyMobileUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D0677DC7402EE3B17AA8E /* Pods_SkyMobileUITests.framework */; };
 		AF883E160812D4E74F086120 /* Pods_SkyMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C8B590B5096B573B449CF2 /* Pods_SkyMobile.framework */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		9698793C216EDBA100274869 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9698793D216EDBA100274869 /* GradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GradeDisplay.storyboard; sourceTree = "<group>"; };
 		9698793E216EDBA100274869 /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
+		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96F1BF25B5EDCC423CF69C33 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9810368939E2DD17FF58FA56 /* Pods-SkyMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC84CC32D12ADB14ECC7AC /* Pods-SkyMobileUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				96987936216EDBA100274869 /* GradeDisplay.swift */,
 				96987937216EDBA100274869 /* FinalGradeDisplay.swift */,
 				961317A02173019E0018684F /* ViewAssignments.swift */,
+				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -444,6 +447,7 @@
 				9698793F216EDBA100274869 /* ViewController.swift in Sources */,
 				96987932216EDB8D00274869 /* GradeResponder.swift in Sources */,
 				96987933216EDB8D00274869 /* Types.swift in Sources */,
+				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
 				96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */,
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
 				96987940216EDBA100274869 /* GradeDisplay.swift in Sources */,
