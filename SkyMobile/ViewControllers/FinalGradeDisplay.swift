@@ -16,6 +16,9 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     var webView:WKWebView = WKWebView()
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
+    @IBOutlet weak var HideView: UIView!
+    
+    let importantUtils = ImportantUtils()
     
     var Courses: [Course] = []
     var Options = ["PR1",
@@ -47,14 +50,16 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                 }
             }
         }
-        ClassColorsDependingOnGrade = DetermineColor(fromClassGrades: Courses)
         let ShouldBeDisplay = GuessShouldDisplayScreen(courses: Courses)
         indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
-        ClassColorsDependingOnGrade = DetermineColor(fromClassGrades: Courses)
+        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: Courses, gradingTerm: Options[indexOfOptions])
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
+        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
+        view.addSubview(webView)
+        
         table.reloadData()
         table.delegate = self
         table.dataSource = self
@@ -82,7 +87,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         indexOfOptions = row
-        ClassColorsDependingOnGrade = DetermineColor(fromClassGrades: Courses)
+        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: Courses, gradingTerm: Options[indexOfOptions])
         table.reloadData()
     }
     
@@ -111,22 +116,26 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         cell.lblClassDesc.backgroundColor = currentColor
         cell.lblPeriod.backgroundColor = currentColor
         
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
         return cell;
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        GetAssignments(webView: webView, indexOfCourse: indexPath.row, indexOfOptions: indexOfOptions)
-        print(indexPath.row)
     }
     
     func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
         var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
         print(javaScript)
         loadingCircle.startAnimating()
+        HideView.isHidden = false
         webView.evaluateJavaScript(javaScript){ (result, error) in
         }
-        _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { (timer) in
+        _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { (timer) in
         javaScript = "document.documentElement.outerHTML.toString()"
         webView.evaluateJavaScript(javaScript){ (result, error) in
                 if error == nil {
@@ -165,46 +174,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         print("GUESS::     ",CurrentGuess)
         return CurrentGuess
-    }
-    
-    func DetermineColor(fromClassGrades classes: [Course]) -> [UIColor] {
-        var finalColors: [UIColor] = []
-        var high = -9999;
-        var low = 9999;
-        for cclass in classes{
-            if let Grade = Int(cclass.Grades.Grades[Options[indexOfOptions]]!){
-            if Grade != -1000{
-                if max(high, Grade) == Grade{
-                    high = Grade
-                }
-                if min(low, Grade) == Grade{
-                    low = Grade
-                }
-            }
-            }
-        }
-        let range = high - low
-        
-        print(high)
-        print(low)
-        print(range)
-        
-        for cclass in classes{
-            if let Grade = Int(cclass.Grades.Grades[Options[indexOfOptions]]!){
-             if Grade != -1000{
-            let greenVal = CGFloat(Double(Grade)/Double(100) )
-                let red = CGFloat((Double(Grade-(low-1))/Double(high)) * 10)
-            print((greenVal).description + "  " + red.description)
-                finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))
-             }else{
-                finalColors.append(UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0))
-            }
-            }else{
-                finalColors.append(UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0))
-            }
-        }
-        
-        return finalColors
     }
 
 }

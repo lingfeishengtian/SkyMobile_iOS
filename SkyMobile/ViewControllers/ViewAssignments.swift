@@ -19,19 +19,21 @@ class ViewAssignments: UIViewController {
     var Class = "Nil"
     var HTMLCodeFromGradeClick = " "
     var Courses: [Course] = []
+    let importantUtils = ImportantUtils()
+    var ColorsOfGrades:[UIColor] = []
     
     @IBOutlet weak var navView: UINavigationItem!
     @IBOutlet weak var lblClass: UILabel!
     @IBOutlet weak var lblTerm: UILabel!
-    @IBOutlet weak var DailyGradeTable: UITableView!
+    @IBOutlet weak var GradeTableView: UITableView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var mainView: GradientView!
     
-    let DailyGradeControl: AssignmentViewTable = AssignmentViewTable()
-    let MajorGradeControl: AssignmentViewTable = AssignmentViewTable()
+    let GradeTableViewController: AssignmentViewTable = AssignmentViewTable()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height*3)
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: mainView.frame.height)
         navView.hidesBackButton = false
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
         self.navView.leftBarButtonItem = backButton
@@ -44,18 +46,25 @@ class ViewAssignments: UIViewController {
                 }
             }
         }
+        
+        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
+        view.addSubview(webView)
+        
         var Assignments = AssignmentGrades(classDesc: Class)
         if !isNotValid{
         Assignments = GetMajorAndDailyGrades(htmlCode: HTMLCodeFromGradeClick, term: Term, Class: Class)
         }
+        ColorsOfGrades = importantUtils.DetermineColor(fromAssignmentGrades: Assignments, gradingTerm: Term)
+        GradeTableViewController.Colors = ColorsOfGrades
         
-        DailyGradeControl.DailyGrades = Assignments.DailyGrades
-        DailyGradeControl.MajorGrades = Assignments.MajorGrades
-        DailyGradeTable.delegate = DailyGradeControl
-        DailyGradeTable.dataSource = DailyGradeControl
-        DailyGradeControl.webView = webView
-
-        
+        GradeTableViewController.DailyGrades = Assignments.DailyGrades
+        GradeTableViewController.MajorGrades = Assignments.MajorGrades
+        GradeTableView.delegate = GradeTableViewController
+        GradeTableView.dataSource = GradeTableViewController
+        GradeTableViewController.webView = webView
+        GradeTableViewController.Class = Class
+        GradeTableViewController.Term = Term
+        GradeTableViewController.Courses = Courses
     }
     
     func SetLabelText(term: String, Class: String){
@@ -72,8 +81,8 @@ class ViewAssignments: UIViewController {
     }
     
     func GetMajorAndDailyGrades(htmlCode: String, term: String, Class: String) -> AssignmentGrades{
-        var DailyGrades:[String: Double] = [:];
-        var MajorGrades:[String: Double] = [:];
+        var DailyGrades:[Assignment] = [];
+        var MajorGrades:[Assignment] = [];
         do{
             //HINT: document.querySelector("#gradeInfoDialog").querySelectorAll("tbody")[2].querySelectorAll("tr.sf_Section,.odd,.even")
             let document = try SwiftSoup.parse(htmlCode)
@@ -81,6 +90,7 @@ class ViewAssignments: UIViewController {
             let elements1: Elements = try elements.eq(0).select("tbody")
             let finalGrades: Elements = try elements1.eq(2).select("tr.sf_Section,.odd,.even")
             var isDaily = true
+        
             for assignment in finalGrades{
                 var assignmentDesc = try assignment.text()
                 if assignmentDesc.contains("DAILY weighted at 50.00%") {
@@ -88,15 +98,17 @@ class ViewAssignments: UIViewController {
                 }else if assignmentDesc.contains("MAJOR weighted at 50.00%") {
                     isDaily = false
                 }else{
-                    assignmentDesc.removeLast(11)
+                    assignmentDesc = assignmentDesc.components(separatedBy: " out of ").dropLast().joined()
                     let shortened = assignmentDesc.components(separatedBy: " ").dropFirst().joined(separator: " ")
-                    let grade = shortened.components(separatedBy: "   ").last?.split(separator: " ").first
-                    let finalDesc = shortened.components(separatedBy: "   ").dropLast().joined(separator: " ").components(separatedBy: " ").dropLast().joined(separator: " ")
+                    let grade = shortened.components(separatedBy: "  ").last?.split(separator: " ").first
+                    let finalDesc = shortened.components(separatedBy: "  ").dropLast().joined(separator: " ").components(separatedBy: " ").dropLast().joined(separator: " ")
+                    print(assignmentDesc)
                     if isDaily{
-                        DailyGrades[finalDesc] = Double(String(grade ?? " "))
+                        DailyGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
                     }else{
-                        MajorGrades[finalDesc] = Double(String(grade ?? " "))
+                        MajorGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
                     }
+                    print(finalDesc)
                 }
             }
         } catch Exception.Error( _, let message) {
@@ -132,9 +144,16 @@ class HeaderCells: UITableViewCell{
 }
 
 class AssignmentViewTable: UITableViewController{
-    var DailyGrades:[String: Double] = [:]
-    var MajorGrades:[String: Double] = [:]
-    var webView = WKWebView()
+    var DailyGrades:[Assignment] = [];
+    var MajorGrades:[Assignment] = [];
+    var Colors:[UIColor] = []
+    
+    var webView: WKWebView = WKWebView()
+    var Term = "PR1"
+    var Class = "Nil"
+    var HTMLCodeFromGradeClick = " "
+    var Courses: [Course] = []
+    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2;
@@ -166,21 +185,80 @@ class AssignmentViewTable: UITableViewController{
          let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AssignmentViewCells
         
         if(indexPath.section == 0){
-            cell.lblAssignment.text = Array(DailyGrades)[indexPath.row].key
-            cell.lblGrade.text = String(Array(DailyGrades)[indexPath.row].value)
+            cell.lblAssignment.text = String(DailyGrades[indexPath.row].AssignmentName)
+            var grade = String(DailyGrades[indexPath.row].Grade)
+            if grade.contains("-1000"){
+                grade = " "
+            }
+            cell.lblGrade.text = grade
+            cell.lblGrade.textColor = Colors[indexPath.row]
         }else{
-            cell.lblAssignment.text = Array(MajorGrades)[indexPath.row].key
-            cell.lblGrade.text = String(Array(MajorGrades)[indexPath.row].value)
+            cell.lblAssignment.text = String(MajorGrades[indexPath.row].AssignmentName)
+            var grade = String(MajorGrades[indexPath.row].Grade)
+            if grade.contains("-1000"){
+                grade = " "
+            }
+            cell.lblGrade.text = grade
+            cell.lblGrade.textColor = Colors[indexPath.row + DailyGrades.count]
         }
         
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
         return cell
     }
     
-    func showAssignmentInformation(){
-        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
-        vc.webView = self.webView;
-        self.present(vc, animated: true, completion: nil)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //Array.from(document.querySelectorAll('a'))
+        //.find(el => el.textContent === 'Q Map');
+        var assignmentName = ""
+        if indexPath.section == 0{
+            assignmentName = String(DailyGrades[indexPath.row].AssignmentName)
+        }else{
+            assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
+        }
+        
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
+        customView.backgroundColor = UIColor(red: 111/255, green: 113/255, blue: 121/255, alpha: 0.7)
+        UIApplication.topViewController()?.view.addSubview(customView)
+        let loadingIcon = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        loadingIcon.frame.origin = CGPoint(x: 169, y: 315)
+        loadingIcon.startAnimating()
+        UIApplication.topViewController()?.view.addSubview(loadingIcon)
+        webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();"){ (result, error) in
+            if error == nil && result == nil{
+                _ = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { (timer) in
+                    let javaScript = "document.documentElement.outerHTML.toString()"
+                    self.webView.evaluateJavaScript(javaScript){ (result, error) in
+                        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                        let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
+                        vc.webView = self.webView;
+                        vc.html = result as! String
+                        vc.Class = self.Class
+                        vc.Courses = self.Courses
+                        vc.Term = self.Term
+                        vc.Assignments = assignmentName
+                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                    }
+                }
+            }else{
+                customView.removeFromSuperview()
+                loadingIcon.removeFromSuperview()
+            }
+        }
+    }
+}
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
     }
 }

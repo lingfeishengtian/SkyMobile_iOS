@@ -20,15 +20,13 @@ class GradeResponder {
     
     init(_ HTMLCode: String) {
         code = HTMLCode
-        let HTMLParse:[Item] = parseHTML(htmlCodeToParse: HTMLCode)
-        Classes = getClassAndGradesFrom(parsedHTML: HTMLParse)
-        Courses = SplitClassDescription(classArr: Classes)
-        Courses = parseHTMLToGetGrades(htmlCodeToParse: code, courseToTakeInfoFrom: Courses)
+        Courses = parseHTMLToGetGrades(htmlCodeToParse: code)
         //TODO: Create new func that gets grades HINT: document.querySelectorAll("tr[group-parent]")[0]
     }
-    func parseHTMLToGetGrades(htmlCodeToParse: String, courseToTakeInfoFrom course: [Course]) -> [Course]{
+    func parseHTMLToGetGrades(htmlCodeToParse: String) -> [Course]{
         //Contains all courses that are available
-        var newCourse: [Course] = course
+        var newCourse: [Course] = []
+        var classes: [String] = []
         let cssSelectorCode = "tr[group-parent]"
         //HINT: document.querySelectorAll("tr[group-parent]")[4].querySelectorAll("a[data-lit=\"T1\"]")[0].textContent
         do{
@@ -37,6 +35,14 @@ class GradeResponder {
                 // firn css selector
                 let elements: Elements = try document.select(cssSelectorCode)
                 //transform it into a local object (Item)
+            
+                for element in elements {
+                    let text = try element.text()
+                    if(text.contains("Period")){
+                        classes.append(text)
+                    }
+                }
+                newCourse = SplitClassDescription(classArr: classes)
                 for elementIndex in 0...newCourse.count-1{
                     let html = try elements.eq(elementIndex).outerHtml()
                     for (term, _) in newCourse[elementIndex].Grades.Grades{
@@ -57,28 +63,6 @@ class GradeResponder {
         return newCourse
     }
     
-    @available(*, deprecated, message: "Moving to one function that gets classes AND grades!")
-    func parseHTML(htmlCodeToParse: String) -> [Item]{
-        var items: [Item] = []
-        do {
-            let document = try SwiftSoup.parse(htmlCodeToParse)
-            //print(htmlCodeToParse)
-            // firn css selector
-            let elements: Elements = try document.select("tr[group-parent]")
-            //transform it into a local object (Item)
-            for element in elements {
-                let text = try element.text()
-                let html = try element.outerHtml()
-                items.append(Item(text: text, html: html))
-            }
-        } catch Exception.Error( _, let message) {
-            print(message)
-        } catch {
-            print("error")
-        }
-        return items
-    }
-    
     func SplitClassDescription(classArr: [String]) -> [Course]{
         var finalPeriod: [Course] = []
         for Class in classArr{
@@ -94,18 +78,4 @@ class GradeResponder {
         //        }
         return finalPeriod
     }
-
-    func getClassAndGradesFrom(parsedHTML: [Item]) -> [String]{
-        var FinalProduct: [String] = []
-        for item in parsedHTML{
-            if(item.text.contains("Period")){
-                FinalProduct.append(item.text)
-            }
-        }
-//                for Class in Classes{
-//                    print(Class + " is a " + GradeBookScrapedData[Class]!)
-//            }
-        return FinalProduct
-    }
-    
 }

@@ -12,8 +12,6 @@ import SwiftSoup
 
 class GradeDisplay : UIViewController, WKUIDelegate, WKNavigationDelegate {
     
-    typealias Item = (text: String, html: String)
-    
     var webView: WKWebView!
     
     override func viewDidLoad() {

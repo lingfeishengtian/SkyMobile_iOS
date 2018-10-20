@@ -24,7 +24,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 
         let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
         let request = URLRequest(url: url)
-        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
+        webView.frame = CGRect(x: 0, y: 300, width: 0, height:0)
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
         webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
@@ -35,10 +35,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         webView.allowsBackForwardNavigationGestures = true
         
         print(webView.url!.absoluteString)
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
     
     func readyToSwitchViews(withWebView tempView: WKWebView) {
@@ -102,26 +98,28 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         let javascrip1t = "msgBtn1.click()"
         self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
             if error == nil {
-            }
-        }
-            _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { (timer) in
-                if(self.webViewtemp.url?.absoluteString == nil){
-                    let alertController = UIAlertController(title: "Uh-Oh",
-                                                            message: "Invalid Credentials",
-                                                            preferredStyle: UIAlertController.Style.alert)
-                    let confirmAction = UIAlertAction(
-                    title: "OK", style: UIAlertAction.Style.destructive) { (action) in
-                        // ...
+                _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { (timer) in
+                    if(self.webViewtemp.url?.absoluteString == nil){
+                        let alertController = UIAlertController(title: "Uh-Oh",
+                                                                message: "Invalid Credentials or internet failure.",
+                                                                preferredStyle: UIAlertController.Style.alert)
+                        let confirmAction = UIAlertAction(
+                        title: "OK", style: UIAlertAction.Style.destructive) { (action) in
+                            // ...
+                        }
+                        alertController.addAction(confirmAction)
+                        self.present(alertController, animated: true, completion: nil)
+                        self.changeColorOfButton(color: OGColor)
+                        self.enableButton(bool: true)
+                        self.startStopLoading(start: false)
                     }
-                    alertController.addAction(confirmAction)
-                    self.present(alertController, animated: true, completion: nil)
-                    self.changeColorOfButton(color: OGColor)
-                    self.enableButton(bool: true)
-                    self.startStopLoading(start: false)
                 }
             }
         }
+            
     }
+    }
+    
     func startStopLoading(start: Bool){
         if(start){
         ProgressIndicator.startAnimating()
@@ -136,6 +134,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     func enableButton(bool: Bool){
         SubmitBtn.isEnabled = bool
     }
+    
     func checkURL(url: URL) -> Bool{
         print("CHECK: " + url.absoluteString)
         if url.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w"{
@@ -149,7 +148,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         let vc : GradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "GradeDisplay") as! GradeDisplay
         vc.webView = webViewa;
         self.present(vc, animated: true, completion: nil)
-    
     }
 
     var runOnce = false
