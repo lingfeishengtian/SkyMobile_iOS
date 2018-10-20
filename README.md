@@ -7,11 +7,11 @@ SkyMobile currently allows FBISD users to login to Skyward using a better UI and
 ## Progress
 * Login UI: finished
 * AverageViewer: finished
-* AssignmentViewer: UNFINISHED
-* Detailed Single AssignmentViewer: NOT STARTED
-
-## Deprecations
-Deprecating the function GetGraesFromGradebook(:[Item])->[ClassDesc] because of ClassDesc and migrating to Desktop App support
+* AssignmentViewer: finished
+* Detailed Single AssignmentViewer: finished
+* GPA Calculator: UNFINISHED
+* Mock Assignments: UNFINISHED
+* 
 
 ## Known Bugs
 + AverageViewer screen is indecisive on what averages it wants to display
