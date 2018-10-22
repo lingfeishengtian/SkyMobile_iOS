@@ -8,8 +8,8 @@ SkyMobile currently allows FBISD users to login to Skyward using a better UI and
 * Login UI: finished
 * AverageViewer: finished
 * AssignmentViewer: finished
-* Detailed Single AssignmentViewer: finished
-* GPA Calculator: UNFINISHED
+* Detailed Single AssignmentViewer: finished 
+* GPA Calculator: finished __NEEDS TESTING AND UPDATING__
 * Mock Assignments: UNFINISHED
 
 ## Known Bugs
