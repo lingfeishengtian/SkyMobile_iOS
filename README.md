@@ -16,6 +16,7 @@ SkyMobile currently allows FBISD users to login to Skyward using a better UI and
 + AverageViewer screen is indecisive on what averages it wants to display
 + AssignmentViewer crashes when trying to display semester averages
 + Loading into Gradebook can sometimes be slow when Skyward is fast
++ AutoLayout is not implemented yet, so views will look weird
 
 ## Instructions to Installation
 Currently, the app is not on the app store, so cydia impactor is required to install using your own apple id.
