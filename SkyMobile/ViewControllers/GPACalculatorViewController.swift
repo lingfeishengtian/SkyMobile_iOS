@@ -83,6 +83,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         SetFinalAverageValues()
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
+    
     func reloadGPAValues(term: String) -> Double{
         var NewClassAverage: Int = 0
         var FinalCount = 0

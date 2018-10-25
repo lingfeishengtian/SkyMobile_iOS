@@ -16,6 +16,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
     
+    @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     let importantUtils = ImportantUtils()
     
     var Courses: [Course] = []
@@ -40,7 +41,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     var isFirstRun = true
     @IBOutlet weak var table: UITableView!
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if IsElementaryAccount(courses: Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
@@ -93,13 +94,13 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     {
         return Courses.count;
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //Find cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        //Find cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! GradeTableViewCell
         
         //Add cell text
         cell.lblPeriod.text = String(Courses[indexPath.row].Period)
         cell.lblClassDesc.text = String(Courses[indexPath.row].Class)
+        cell.lblGrade.frame.origin = CGPoint(x: tableView.frame.maxX-50, y: cell.lblGrade.frame.minY)
         
         let grade = Courses[indexPath.row].Grades.Grades[Options[pickTerm.selectedRow(inComponent: 0)]]!
         if(grade == "-1000"){
@@ -107,12 +108,10 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         }else{
             cell.lblGrade.text = (grade)
         }
-        
+        cell.lblClassDesc.sizeToFit()
         //Add cell color!!!!
-//        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
-//        cell.lblGrade.backgroundColor = currentColor
-//        cell.lblClassDesc.backgroundColor = currentColor
-//        cell.lblPeriod.backgroundColor = currentColor
+        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
+        cell.backgroundColor = currentColor
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
@@ -167,7 +166,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                             if error == nil {
                                 let resultString = result as! String
                                 //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
-                                print(self.Options[indexOfOptions] + " Progress Report")
+                                if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
                                 let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                                 let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
                                 vc.webView = webView;
@@ -182,7 +181,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                             //}
                             }
                         }
-                }
+                        }}
             }else{
                 timer.invalidate()
                 }}}
@@ -210,7 +209,28 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         print("GUESS::     ",CurrentGuess)
         return CurrentGuess
     }
-
+    @IBAction func goToGPACalculator(_ sender: Any) {
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        let vc : GPACalculatorViewController = mainStoryboard.instantiateViewController(withIdentifier: "GPACalculator") as! GPACalculatorViewController
+        vc.webView = self.webView;
+        vc.Courses = self.Courses
+        self.present(vc, animated: true, completion: nil)
+    }
+    @IBAction func Logout(_ sender: Any) {
+        webView.removeFromSuperview()
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        importantUtils.resetDefaults()
+        self.present(vc, animated: true, completion: nil)
+    }
+    @IBAction func ShowMoreMenuItems(_ sender: Any) {
+        for view in self.moreMenuItemsStackView.arrangedSubviews{
+            UIView.animate(withDuration: 0.5, animations: {
+                view.isHidden = !view.isHidden
+                self.moreMenuItemsStackView.layoutIfNeeded()
+            })
+        }
+    }
 }
 
 class GradeTableViewCell: UITableViewCell{

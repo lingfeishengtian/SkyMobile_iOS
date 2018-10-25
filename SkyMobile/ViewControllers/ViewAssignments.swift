@@ -221,15 +221,16 @@ class AssignmentViewTable: UITableViewController{
         
         importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!)
         _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-            print(UIApplication.topViewController()?.description)
             if (UIApplication.topViewController()?.description.contains("ViewAssignments"))!{
                 DispatchQueue.main.async {
                     self.webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();\ndocument.documentElement.outerHTML.toString();"){ (result, error) in
                         if error == nil {
+                            let resultFinalString = result as! String
+                            if resultFinalString.contains("Assignment Details") && resultFinalString.contains("<td scope=\"row\" style=\"font-weight:bold\" colspan=\"4\">" + assignmentName) && resultFinalString.contains("dLog_showAssignmentInfo"){
                                 let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                                 let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
                                 vc.webView = self.webView;
-                                vc.html = result as! String
+                                vc.html = resultFinalString
                                 vc.Class = self.Class
                                 vc.Courses = self.Courses
                                 vc.Term = self.Term
@@ -237,6 +238,7 @@ class AssignmentViewTable: UITableViewController{
                                 vc.Assignments = self.Assignments
                                 UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
                             }
+                        }
                     }
                 }
             }else{
@@ -244,7 +246,6 @@ class AssignmentViewTable: UITableViewController{
             }
         }
     }
-
 }
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

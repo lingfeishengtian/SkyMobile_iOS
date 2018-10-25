@@ -39,6 +39,8 @@ class DetailedAssignmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.parseHTMLAndSetValues(html: self.html)
+        print(self.html)
         webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(webView)
         
@@ -47,7 +49,7 @@ class DetailedAssignmentViewController: UIViewController {
         self.AssignmentName.leftBarButtonItem = backButton
         
         AssignmentName.title = AssignmentNameString
-        parseHTMLAndSetValues(html: html)
+
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: AssignmentInfo.frame.height + 10)
         self.CommentScrollView.contentSize = CGSize(width: self.view.frame.width, height: Comments.frame.height + 10)
         // Do any additional setup after loading the view.
