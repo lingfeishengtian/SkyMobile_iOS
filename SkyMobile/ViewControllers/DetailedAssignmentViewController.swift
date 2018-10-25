@@ -33,7 +33,9 @@ class DetailedAssignmentViewController: UIViewController {
     var Class = "Nil"
     var html = " "
     var Courses: [Course] = []
-    var Assignments = ""
+    var AssignmentNameString = ""
+    var Assignments = AssignmentGrades(classDesc: "NIL")
+    var importantUtils = ImportantUtils()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +46,7 @@ class DetailedAssignmentViewController: UIViewController {
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
         self.AssignmentName.leftBarButtonItem = backButton
         
-        AssignmentName.title = Assignments
+        AssignmentName.title = AssignmentNameString
         parseHTMLAndSetValues(html: html)
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: AssignmentInfo.frame.height + 10)
         self.CommentScrollView.contentSize = CGSize(width: self.view.frame.width, height: Comments.frame.height + 10)
@@ -117,13 +119,7 @@ class DetailedAssignmentViewController: UIViewController {
         }
     }
     @objc func goBack(_ sender: Any) {
-        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        customView.backgroundColor = UIColor(red: 111/255, green: 113/255, blue: 121/255, alpha: 0.7)
-        self.view.addSubview(customView)
-        let loadingIcon = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
-        loadingIcon.frame.origin = CGPoint(x: 169, y: 315)
-        loadingIcon.startAnimating()
-        self.view.addSubview(loadingIcon)
+        importantUtils.CreateLoadingView(view: self.view)
             let javaScript = "dLog_showAssignmentInfo.querySelector(\"a[title=\\\"close the dialog\\\"]\").click();document.documentElement.outerHTML.toString()"
             self.webView.evaluateJavaScript(javaScript){ (result, error) in
                 let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
@@ -133,6 +129,7 @@ class DetailedAssignmentViewController: UIViewController {
                 vc.Class = self.Class
                 vc.Courses = self.Courses
                 vc.Term = self.Term
+                vc.Assignments = self.Assignments
                 self.present(vc, animated: true, completion: nil)
             }
     }

@@ -17,22 +17,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SkyMobile" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssg-Og-gsi">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SkyMobile" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssg-Og-gsi">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="195"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="195" id="uYj-Ch-tSr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="63"/>
                                 <color key="textColor" red="0.97647058819999999" green="0.93725490199999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Waiting for Login Items to Load" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAW-fM-g6h">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waiting for Login Items to Load" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAW-fM-g6h">
                                 <rect key="frame" x="49" y="373" width="276" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="20"/>
                                 <color key="textColor" red="0.93441106799999996" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1Lv-Xg-Iok"/>
+                            <constraint firstItem="dAW-fM-g6h" firstAttribute="top" secondItem="ssg-Og-gsi" secondAttribute="bottom" constant="178" id="67z-GL-dvZ"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="IZZ-Jh-IVo"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="N4u-nC-Wdj"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="TlH-ZW-MZE"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="WTj-15-Qpy"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Wnj-Nz-tmu"/>
+                            <constraint firstItem="dAW-fM-g6h" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="49" id="evZ-la-ktk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dAW-fM-g6h" secondAttribute="trailing" constant="50" id="kzR-Ln-oa4"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>

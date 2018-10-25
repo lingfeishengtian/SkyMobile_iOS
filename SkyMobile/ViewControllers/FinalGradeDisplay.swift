@@ -11,12 +11,10 @@ import UIKit
 import WebKit
 
 class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
-    
-    @IBOutlet weak var loadingCircle: UIActivityIndicatorView!
+
     var webView:WKWebView = WKWebView()
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
-    @IBOutlet weak var HideView: UIView!
     
     let importantUtils = ImportantUtils()
     
@@ -42,7 +40,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     var isFirstRun = true
     @IBOutlet weak var table: UITableView!
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if IsElementaryAccount(courses: Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
@@ -53,7 +51,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         let ShouldBeDisplay = GuessShouldDisplayScreen(courses: Courses)
         indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
-        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: Courses, gradingTerm: Options[indexOfOptions])
+       ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: Courses, gradingTerm: Options[indexOfOptions])
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
@@ -111,10 +109,10 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         //Add cell color!!!!
-        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
-        cell.lblGrade.backgroundColor = currentColor
-        cell.lblClassDesc.backgroundColor = currentColor
-        cell.lblPeriod.backgroundColor = currentColor
+//        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
+//        cell.lblGrade.backgroundColor = currentColor
+//        cell.lblClassDesc.backgroundColor = currentColor
+//        cell.lblPeriod.backgroundColor = currentColor
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
@@ -128,29 +126,66 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
        GetAssignments(webView: webView, indexOfCourse: indexPath.row, indexOfOptions: indexOfOptions)
     }
     
-    func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
-        var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
-        print(javaScript)
-        loadingCircle.startAnimating()
-        HideView.isHidden = false
-        webView.evaluateJavaScript(javaScript){ (result, error) in
-        }
-        _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { (timer) in
-        javaScript = "document.documentElement.outerHTML.toString()"
-        webView.evaluateJavaScript(javaScript){ (result, error) in
-                if error == nil {
-                    let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                    let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-                    vc.webView = self.webView;
-                    vc.Class = self.Courses[indexOfClass].Class
-                    vc.Term = self.Options[indexOfOptions]
-                    vc.HTMLCodeFromGradeClick = result as! String
-                    vc.Courses = self.Courses
-                    self.present(vc, animated: true, completion: nil)
-                }
-            }
-        }
+//    func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
+//        var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
+//        print(javaScript)
+//        loadingCircle.startAnimating()
+//        HideView.isHidden = false
+//        webView.evaluateJavaScript(javaScript){ (result, error) in
+//        }
+//        _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { (timer) in
+//        javaScript = "document.documentElement.outerHTML.toString()"
+//        webView.evaluateJavaScript(javaScript){ (result, error) in
+//                if error == nil {
+//                    let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+//                    let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
+//                    vc.webView = self.webView;
+//                    vc.Class = self.Courses[indexOfClass].Class
+//                    vc.Term = self.Options[indexOfOptions]
+//                    vc.HTMLCodeFromGradeClick = result as! String
+//                    vc.Courses = self.Courses
+//                    self.present(vc, animated: true, completion: nil)
+//                }
+//            }
+//        }
+//    }
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
+    func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
+        importantUtils.CreateLoadingView(view: self.view)
+        var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
+        webView.evaluateJavaScript(javaScript){ (result, error) in
+        }
+        //for i in 1...20{
+        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
+            if UIApplication.topViewController() == self{
+                    javaScript = "document.documentElement.outerHTML.toString()"
+                    DispatchQueue.main.async {
+                        webView.evaluateJavaScript(javaScript){ (result, error) in
+                            if error == nil {
+                                let resultString = result as! String
+                                //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
+                                print(self.Options[indexOfOptions] + " Progress Report")
+                                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                                let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
+                                vc.webView = webView;
+                                vc.Class = self.Courses[indexOfClass].Class
+                                vc.Term = self.Options[indexOfOptions]
+                                vc.HTMLCodeFromGradeClick = result as! String
+                                vc.Courses = self.Courses
+                                vc.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: resultString, term: vc.Term, Class: vc.Class)
+                                if !vc.Assignments.DailyGrades.isEmpty || !vc.Assignments.MajorGrades.isEmpty{
+                                self.present(vc, animated: true, completion: nil)
+                                }
+                            //}
+                            }
+                        }
+                }
+            }else{
+                timer.invalidate()
+                }}}
     
     func IsElementaryAccount(courses: [Course]) -> Bool{
         for course in courses{

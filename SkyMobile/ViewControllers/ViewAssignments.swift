@@ -16,11 +16,12 @@ import WebKit
 class ViewAssignments: UIViewController {
     var webView: WKWebView = WKWebView()
     var Term = "PR1"
-    var Class = "Nil"
+    var Class = "NIL"
     var HTMLCodeFromGradeClick = " "
     var Courses: [Course] = []
     let importantUtils = ImportantUtils()
     var ColorsOfGrades:[UIColor] = []
+    var Assignments = AssignmentGrades(classDesc: "NIL")
     
     @IBOutlet weak var navView: UINavigationItem!
     @IBOutlet weak var lblClass: UILabel!
@@ -50,8 +51,7 @@ class ViewAssignments: UIViewController {
         webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(webView)
         
-        var Assignments = AssignmentGrades(classDesc: Class)
-        if !isNotValid{
+        if !isNotValid && Assignments.Class == "NIL"{
         Assignments = GetMajorAndDailyGrades(htmlCode: HTMLCodeFromGradeClick, term: Term, Class: Class)
         }
         ColorsOfGrades = importantUtils.DetermineColor(fromAssignmentGrades: Assignments, gradingTerm: Term)
@@ -65,6 +65,7 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.Class = Class
         GradeTableViewController.Term = Term
         GradeTableViewController.Courses = Courses
+        GradeTableViewController.Assignments = Assignments
     }
     
     func SetLabelText(term: String, Class: String){
@@ -153,7 +154,8 @@ class AssignmentViewTable: UITableViewController{
     var Class = "Nil"
     var HTMLCodeFromGradeClick = " "
     var Courses: [Course] = []
-    
+    var importantUtils = ImportantUtils()
+    var Assignments = AssignmentGrades(classDesc: "NIL")
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2;
@@ -206,6 +208,7 @@ class AssignmentViewTable: UITableViewController{
         return cell
     }
     
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //Array.from(document.querySelectorAll('a'))
         //.find(el => el.textContent === 'Q Map');
@@ -216,35 +219,32 @@ class AssignmentViewTable: UITableViewController{
             assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
         }
         
-        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 375, height: 667))
-        customView.backgroundColor = UIColor(red: 111/255, green: 113/255, blue: 121/255, alpha: 0.7)
-        UIApplication.topViewController()?.view.addSubview(customView)
-        let loadingIcon = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
-        loadingIcon.frame.origin = CGPoint(x: 169, y: 315)
-        loadingIcon.startAnimating()
-        UIApplication.topViewController()?.view.addSubview(loadingIcon)
-        webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();"){ (result, error) in
-            if error == nil && result == nil{
-                _ = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { (timer) in
-                    let javaScript = "document.documentElement.outerHTML.toString()"
-                    self.webView.evaluateJavaScript(javaScript){ (result, error) in
-                        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                        let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
-                        vc.webView = self.webView;
-                        vc.html = result as! String
-                        vc.Class = self.Class
-                        vc.Courses = self.Courses
-                        vc.Term = self.Term
-                        vc.Assignments = assignmentName
-                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+        importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!)
+        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
+            print(UIApplication.topViewController()?.description)
+            if (UIApplication.topViewController()?.description.contains("ViewAssignments"))!{
+                DispatchQueue.main.async {
+                    self.webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();\ndocument.documentElement.outerHTML.toString();"){ (result, error) in
+                        if error == nil {
+                                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                                let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
+                                vc.webView = self.webView;
+                                vc.html = result as! String
+                                vc.Class = self.Class
+                                vc.Courses = self.Courses
+                                vc.Term = self.Term
+                                vc.AssignmentNameString = assignmentName
+                                vc.Assignments = self.Assignments
+                                UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                            }
                     }
                 }
             }else{
-                customView.removeFromSuperview()
-                loadingIcon.removeFromSuperview()
+                timer.invalidate()
             }
         }
     }
+
 }
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

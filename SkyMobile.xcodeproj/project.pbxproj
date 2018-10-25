@@ -13,16 +13,17 @@
 		963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963383FE216ED9DC00C7C158 /* Assets.xcassets */; };
 		9633840D216ED9DD00C7C158 /* SkyMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9633840C216ED9DD00C7C158 /* SkyMobileTests.swift */; };
 		96338418216ED9DD00C7C158 /* SkyMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96338417216ED9DD00C7C158 /* SkyMobileUITests.swift */; };
+		9636181D21812F51002A8B2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181921812F50002A8B2B /* LaunchScreen.storyboard */; };
+		9636181E21812F51002A8B2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Main.storyboard */; };
+		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
+		9636182021812F51002A8B2B /* GradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181C21812F51002A8B2B /* GradeDisplay.storyboard */; };
+		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
 		96987932216EDB8D00274869 /* GradeResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792F216EDB8D00274869 /* GradeResponder.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
 		96987940216EDBA100274869 /* GradeDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987936216EDBA100274869 /* GradeDisplay.swift */; };
 		96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* FinalGradeDisplay.swift */; };
-		96987942216EDBA100274869 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96987939216EDBA100274869 /* LaunchScreen.storyboard */; };
-		96987943216EDBA100274869 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9698793B216EDBA100274869 /* Main.storyboard */; };
-		96987944216EDBA100274869 /* GradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9698793D216EDBA100274869 /* GradeDisplay.storyboard */; };
-		96987945216EDBA100274869 /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9698793E216EDBA100274869 /* FinalGradeDisplay.storyboard */; };
 		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
 		A905FC23AAD23599C1E4AD73 /* Pods_SkyMobileUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D0677DC7402EE3B17AA8E /* Pods_SkyMobileUITests.framework */; };
@@ -62,16 +63,17 @@
 		96338413216ED9DD00C7C158 /* SkyMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96338417216ED9DD00C7C158 /* SkyMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyMobileUITests.swift; sourceTree = "<group>"; };
 		96338419216ED9DD00C7C158 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9636181921812F50002A8B2B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9636181A21812F51002A8B2B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
+		9636181C21812F51002A8B2B /* GradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GradeDisplay.storyboard; sourceTree = "<group>"; };
+		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		9698792F216EDB8D00274869 /* GradeResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeResponder.swift; sourceTree = "<group>"; };
 		96987930216EDB8D00274869 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		96987936216EDBA100274869 /* GradeDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeDisplay.swift; sourceTree = "<group>"; };
 		96987937216EDBA100274869 /* FinalGradeDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalGradeDisplay.swift; sourceTree = "<group>"; };
-		9698793A216EDBA100274869 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9698793C216EDBA100274869 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9698793D216EDBA100274869 /* GradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GradeDisplay.storyboard; sourceTree = "<group>"; };
-		9698793E216EDBA100274869 /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
 		96F1BF25B5EDCC423CF69C33 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				96987937216EDBA100274869 /* FinalGradeDisplay.swift */,
 				961317A02173019E0018684F /* ViewAssignments.swift */,
 				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
+				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -198,10 +201,10 @@
 		96987938216EDBA100274869 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				96987939216EDBA100274869 /* LaunchScreen.storyboard */,
-				9698793B216EDBA100274869 /* Main.storyboard */,
-				9698793D216EDBA100274869 /* GradeDisplay.storyboard */,
-				9698793E216EDBA100274869 /* FinalGradeDisplay.storyboard */,
+				9636181921812F50002A8B2B /* LaunchScreen.storyboard */,
+				9636181A21812F51002A8B2B /* Main.storyboard */,
+				9636181C21812F51002A8B2B /* GradeDisplay.storyboard */,
+				9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -327,11 +330,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96987945216EDBA100274869 /* FinalGradeDisplay.storyboard in Resources */,
-				96987943216EDBA100274869 /* Main.storyboard in Resources */,
+				9636182021812F51002A8B2B /* GradeDisplay.storyboard in Resources */,
+				9636181E21812F51002A8B2B /* Main.storyboard in Resources */,
 				963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */,
-				96987942216EDBA100274869 /* LaunchScreen.storyboard in Resources */,
-				96987944216EDBA100274869 /* GradeDisplay.storyboard in Resources */,
+				9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */,
+				9636181D21812F51002A8B2B /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +454,7 @@
 				96987932216EDB8D00274869 /* GradeResponder.swift in Sources */,
 				96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */,
 				96987933216EDB8D00274869 /* Types.swift in Sources */,
+				9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */,
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
 				96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */,
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
@@ -490,25 +494,6 @@
 			targetProxy = 96338414216ED9DD00C7C158 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		96987939216EDBA100274869 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9698793A216EDBA100274869 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		9698793B216EDBA100274869 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9698793C216EDBA100274869 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9633841A216ED9DD00C7C158 /* Debug */ = {

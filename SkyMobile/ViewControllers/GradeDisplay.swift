@@ -47,6 +47,7 @@ class GradeDisplay : UIViewController, WKUIDelegate, WKNavigationDelegate {
                     let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
                     vc.Courses = Response.Courses
                     vc.webView = self.webView
+                print(Response.Courses)
                     self.present(vc, animated: true, completion: nil)
             }
         }

@@ -17,12 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="FS3-OF-rcu">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="FS3-OF-rcu">
                                 <rect key="frame" x="177" y="323" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3qM-if-hrv" firstAttribute="trailing" secondItem="FS3-OF-rcu" secondAttribute="trailing" constant="178" id="483-e2-XR2"/>
+                            <constraint firstItem="FS3-OF-rcu" firstAttribute="leading" secondItem="3qM-if-hrv" secondAttribute="leading" constant="177" id="WmT-Df-8P7"/>
+                            <constraint firstItem="FS3-OF-rcu" firstAttribute="top" secondItem="3qM-if-hrv" secondAttribute="top" constant="303" id="k3m-8U-Zt1"/>
+                            <constraint firstItem="3qM-if-hrv" firstAttribute="bottom" secondItem="FS3-OF-rcu" secondAttribute="bottom" constant="324" id="sE3-nX-YEz"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="3qM-if-hrv"/>
                     </view>
                 </viewController>
