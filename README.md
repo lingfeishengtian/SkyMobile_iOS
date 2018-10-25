@@ -6,13 +6,13 @@ SkyMobile currently allows FBISD users to login to Skyward using a better UI and
 
 ## Progress
 * Login UI: finished
-* ~~AverageViewer~~: *TRANSITION INTO ASSIGNMENTVIEWER IS BROKEN*
-* ~~AssignmentViewer~~: *TRANSITION INTO DETAILEDASSIGNMENTVIEWER BROKEN*
+* AverageViewer: transition fixed
+* AssignmentViewer: transition fixed
 * Detailed Single AssignmentViewer: finished 
 * GPA Calculator: finished __NEEDS TESTING AND UPDATING__
 * Mock Assignments: UNFINISHED
 * Rank Viewer: UNFINISHED
-+ Commits halted for now due to major error in AverageViewer
++ Error has been fixed, but constraints have to be added
 
 ## Known Bugs
 + AverageViewer screen is indecisive on what averages it wants to display
@@ -21,15 +21,15 @@ SkyMobile currently allows FBISD users to login to Skyward using a better UI and
 + AutoLayout is not implemented yet, so views will look weird
 
 ## Instructions to Installation
-Currently, the app is not on the app store, so cydia impactor is required to install using your own apple id.
+Currently, the app is not on the app store, so cydia impactor is required to install using your own apple id. **NOTE: If you haven't installed iTunes, now's the time!**
 
 1. Install [Cydia Impactor](http://www.cydiaimpactor.com/ "Cydia Impactor")
 
 2. Download IPA release from *Release* section on GitHub
 
-3. Go to the [AppleID](https://appleid.apple.com/#!&page=signin "Manage my apple ID") website and log in.
+3. Go to the [AppleID](https://appleid.apple.com/#!&page=signin "Manage my Apple ID") website and log in.
 
-4. Create an app-specific passcode and name it **Cydia Impactor**, then save it to a secure location.
+4. Create an app-specific passcode and name it **Impactor**, then save it to a secure location on your computer.
 
 5. Connect your phone to you computer and open *Cydia Imapctor* from your computer. **WINDOWS USERS: DO NOT OPEN AS ADMINISTRATOR**
 
@@ -38,3 +38,5 @@ Currently, the app is not on the app store, so cydia impactor is required to ins
 7. Wait for the app to finish installing.
 
 8. On your phone, go to Settings -> General -> Profiles or Profiles & Device Management and trust your AppleID.
+
+9. Run the app!!!
