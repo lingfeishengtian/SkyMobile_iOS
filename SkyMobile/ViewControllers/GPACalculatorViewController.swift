@@ -18,9 +18,15 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var S2Average: UILabel!
     @IBOutlet weak var FinalGPA: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var GPACalculatorTitle: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.frame.origin = CGPoint(x: 0, y: FinalGPA.frame.maxY + 10)
+        tableView.frame.size = CGSize(width: self.view.frame.width, height: 100)
+        
+        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
+        GPACalculatorTitle.sizeToFit()
         tableView.delegate = self
         tableView.dataSource = self
         SetFinalAverageValues()
@@ -46,6 +52,8 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         cell.Course.sizeToFit()
         
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
+        
+        cell.APInfo.frame.origin = CGPoint(x: self.view.frame.maxX-80, y: cell.APInfo.frame.minY)
         return cell
     }
     
@@ -78,6 +86,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             newLevel = "Regular"
         }
+        
         UserDefaults.standard.set(newLevel, forKey: Class + "Level")
         self.tableView.reloadData()
         SetFinalAverageValues()

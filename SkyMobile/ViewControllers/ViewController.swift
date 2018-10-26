@@ -141,7 +141,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                         msgBtn1.click()
                         }
                         """
-        for i in 1...20{
+        for i in 1...40{
             delay(0.5 * Double(i)){
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error == nil {
@@ -149,7 +149,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                 }
             }
         }
-        perform(#selector(ShowError), with: nil, afterDelay: 10)
+        perform(#selector(ShowError), with: nil, afterDelay: 20)
     }
     func delay(_ delay:Double, closure:@escaping ()->()) {
         DispatchQueue.main.asyncAfter(

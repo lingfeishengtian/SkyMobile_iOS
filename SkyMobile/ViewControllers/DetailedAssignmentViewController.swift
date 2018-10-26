@@ -40,19 +40,18 @@ class DetailedAssignmentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.parseHTMLAndSetValues(html: self.html)
-        print(self.html)
         webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(webView)
         
+        scrollView.frame.size = CGSize(width: self.view.frame.width, height: scrollView.frame.height)
         AssignmentName.hidesBackButton = false
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
         self.AssignmentName.leftBarButtonItem = backButton
         
         AssignmentName.title = AssignmentNameString
-
+        
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: AssignmentInfo.frame.height + 10)
         self.CommentScrollView.contentSize = CGSize(width: self.view.frame.width, height: Comments.frame.height + 10)
-        // Do any additional setup after loading the view.
     }
     
     func parseHTMLAndSetValues(html: String){
@@ -111,7 +110,6 @@ class DetailedAssignmentViewController: UIViewController {
                         ClassHigh.text = elemText.components(separatedBy: " Low: ")[0]
                         ClassLow.text = elemText.components(separatedBy: " Low: ")[1]
                     }
-                    
                 }
             }
         } catch Exception.Error( _, let message) {

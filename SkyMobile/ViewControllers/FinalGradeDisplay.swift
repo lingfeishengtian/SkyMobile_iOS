@@ -56,6 +56,8 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
+        table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
+        table.frame.size = CGSize(width: self.view.frame.width, height: 100)
         webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(webView)
         
@@ -100,7 +102,8 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         //Add cell text
         cell.lblPeriod.text = String(Courses[indexPath.row].Period)
         cell.lblClassDesc.text = String(Courses[indexPath.row].Class)
-        cell.lblGrade.frame.origin = CGPoint(x: tableView.frame.maxX-50, y: cell.lblGrade.frame.minY)
+        cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
+        print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
         
         let grade = Courses[indexPath.row].Grades.Grades[Options[pickTerm.selectedRow(inComponent: 0)]]!
         if(grade == "-1000"){
@@ -200,8 +203,13 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     func GuessShouldDisplayScreen(courses: [Course]) -> String{
         var CurrentGuess = Options[0]
         for course in courses{
-            for (term, grade) in course.Grades.Grades{
-                if(grade != "-1000" && (term.contains("PR") || term.contains("T"))){
+            for term in Options{
+                if course.Grades.Grades[term] == "-1000"{
+                    break
+                }
+                let isSatisfy = term.contains("PR") || term.contains("T")
+                let indexSatisfy = abs(Options.firstIndex(of: term)!.distance(to: 0)) > abs(Options.firstIndex(of: CurrentGuess)!.distance(to: 0))
+                if isSatisfy && indexSatisfy {
                     CurrentGuess = term
                 }
             }

@@ -34,8 +34,6 @@ class ViewAssignments: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: mainView.frame.height)
-        navView.hidesBackButton = false
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
         self.navView.leftBarButtonItem = backButton
         SetLabelText(term: Term, Class: Class)
@@ -66,6 +64,8 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.Term = Term
         GradeTableViewController.Courses = Courses
         GradeTableViewController.Assignments = Assignments
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height*1.4)
+        navView.hidesBackButton = false
     }
     
     func SetLabelText(term: String, Class: String){
