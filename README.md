@@ -16,6 +16,7 @@ SkyMobile currently allows FBISD users to login to Skyward using a better UI and
 
 ## Known Bugs
 + AssignmentViewer crashes when trying to display semester averages
++ Loading Assignments very slow
 + Sometimes, app will run into infinite loop
 + *AutoLayout is not implemented yet, so views will look weird* Mostly fixed
 
