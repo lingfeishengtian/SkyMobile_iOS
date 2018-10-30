@@ -25,7 +25,7 @@ class ImportantUtils {
         }
     }
     
-    func DetermineColor(fromClassGrades classes: [Course] = [],fromAssignmentGrades assignments: AssignmentGrades = AssignmentGrades(classDesc: "NULL"), gradingTerm: String) -> [UIColor] {
+    func DetermineColor(fromClassGrades classes: [Course] = [],fromAssignmentGrades assignments: AssignmentGrades = AssignmentGrades(classDesc: "NIL"), gradingTerm: String) -> [UIColor] {
         var finalColors: [UIColor] = []
         var high:Double = -9999.0;
         var low:Double = 9999.0;
@@ -135,13 +135,11 @@ class ImportantUtils {
                     let shortened = assignmentDesc.components(separatedBy: " ").dropFirst().joined(separator: " ")
                     let grade = shortened.components(separatedBy: "  ").last?.split(separator: " ").first
                     let finalDesc = shortened.components(separatedBy: "  ").dropLast().joined(separator: " ").components(separatedBy: " ").dropLast().joined(separator: " ")
-                    print(assignmentDesc)
                     if isDaily{
                         DailyGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
                     }else{
                         MajorGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
                     }
-                    print(finalDesc)
                 }
             }
         } catch Exception.Error( _, let message) {
@@ -168,5 +166,59 @@ class ImportantUtils {
                 completion("Error in JavaScript")
             }
         })
+    }
+    func parseHTMLToGetGrades(htmlCodeToParse: String) -> [Course]{
+        //Contains all courses that are available
+        var newCourse: [Course] = []
+        var classes: [String] = []
+        let cssSelectorCode = "tr[group-parent]"
+        //HINT: document.querySelectorAll("tr[group-parent]")[4].querySelectorAll("a[data-lit=\"T1\"]")[0].textContent
+        do{
+            let document = try SwiftSoup.parse(htmlCodeToParse)
+            //print(htmlCodeToParse)
+            // firn css selector
+            let elements: Elements = try document.select(cssSelectorCode)
+            //transform it into a local object (Item)
+            
+            for element in elements {
+                let text = try element.text()
+                if(text.contains("Period")){
+                    classes.append(text)
+                }
+            }
+            newCourse = SplitClassDescription(classArr: classes)
+            for elementIndex in 0...newCourse.count-1{
+                let html = try elements.eq(elementIndex).outerHtml()
+                for (term, _) in newCourse[elementIndex].Grades.Grades{
+                    let document1 = try SwiftSoup.parse(html)
+                    let gradeElem1: Elements = try document1.select("a[data-lit=\""+term+"\"]")
+                    for element in gradeElem1{
+                        newCourse[elementIndex].Grades.Grades[term] = (try element.text())
+                    }
+                }
+                //print("Class: " + text + "\nGrade: " + html)
+            }
+        } catch Exception.Error( _, let message) {
+            print(message)
+        } catch {
+            print("error")
+        }
+        return newCourse
+    }
+    
+    fileprivate func SplitClassDescription(classArr: [String]) -> [Course]{
+        var finalPeriod: [Course] = []
+        for Class in classArr{
+            let current = Course(
+                period: Int(Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[0].components(separatedBy: "(")[0])!,
+                classDesc: Class.components(separatedBy: " Period")[0],
+                teacher: Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[1])
+            finalPeriod.append(current)
+        }
+        
+        //        for testCase in finalPeriod{
+        //            print("Class: " + testCase.Class + "\nPeriod: " + String(testCase.Period) + "\nTeacher: " + testCase.Teacher)
+        //        }
+        return finalPeriod
     }
 }

@@ -45,8 +45,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         self.view.addGestureRecognizer(tap)
     }
     
-    func readyToSwitchViews(withWebView tempView: WKWebView) {
-        if(!checkURL(url: tempView.url!)){
+    func readyToSwitchViews(withWebView tempView: WKWebView = WKWebView()) {
+        if(!checkURL(url: webView.url!)){
             let alertController = UIAlertController(title: "Uh-Oh",
                                                     message: "Invalid Credentials",
                                                     preferredStyle: UIAlertController.Style.alert)
@@ -59,7 +59,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         }else{
             let values: [String: String] = [UserName: Password]
             UserDefaults.standard.set(values, forKey: "Userstore")
-            switchScreen(withWebView: tempView)
+            //switchScreen(withWebView: tempView)
         }
     }
     
@@ -74,7 +74,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                 webViewtemp = WKWebView(frame: CGRect(x: 0, y: 250, width: 0, height: 0), configuration: configuration)
                 webViewtemp.uiDelegate = self
                 webViewtemp.navigationDelegate = self
-                webViewtemp.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
                 webViewtemp.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
                 self.view.addSubview(webViewtemp)
                 didRun = true
@@ -111,7 +110,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                                                 preferredStyle: UIAlertController.Style.alert)
         let confirmAction = UIAlertAction(
         title: "OK", style: UIAlertAction.Style.destructive) { (action) in
-            // ...
+            self.importantUtils.DestroyLoadingView(view: self.view)
         }
         alertController.addAction(confirmAction)
         self.present(alertController, animated: true, completion: nil)
@@ -141,15 +140,15 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                         msgBtn1.click()
                         }
                         """
-        for i in 1...40{
-            delay(0.5 * Double(i)){
+        for _ in 1...20{
+            delay(1.0){
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error == nil {
                     }
                 }
             }
         }
-        perform(#selector(ShowError), with: nil, afterDelay: 20)
+        perform(#selector(ShowError), with: nil, afterDelay: 25)
     }
     func delay(_ delay:Double, closure:@escaping ()->()) {
         DispatchQueue.main.asyncAfter(
@@ -197,13 +196,24 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
             return false;
         }
     }
-    func switchScreen(withWebView webViewa: WKWebView) {
-        let mainStoryboard = UIStoryboard(name: "GradeDisplay", bundle: Bundle.main)
-        let vc : GradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "GradeDisplay") as! GradeDisplay
-        vc.webView = webViewa;
-        self.present(vc, animated: true, completion: nil)
+    func getHTMLCode(){
+        // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
+        view.addSubview(webView)
+        let javascript =
+            "var outerHTML = document.documentElement.outerHTML.toString()\n" +
+        "outerHTML\n"
+        self.webView.evaluateJavaScript(javascript) { (result, error) in
+            if error == nil {
+                let returnedResults = result as! String
+                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
+                vc.Courses = self.importantUtils.parseHTMLToGetGrades(htmlCodeToParse: returnedResults)
+                vc.webView = self.webView
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
     }
-
+    
     var runOnce = false
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -216,10 +226,26 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
             // When page load finishes. Should work on each page reload.
             if (self.webViewtemp.estimatedProgress == 1) {
                 print("### EP:", self.webView.estimatedProgress)
-                if self.webViewtemp.url?.absoluteString != nil {
-                    print("TestURL: " + (self.webViewtemp.url?.absoluteString)!)
-                    self.readyToSwitchViews(withWebView: self.webViewtemp)
-                    self.runOnce = true
+                print("ACCESS")
+//                if self.webViewtemp.url?.absoluteString != nil {
+//                    print("TestURL: " + (self.webViewtemp.url?.absoluteString)!)
+//                    self.readyToSwitchViews(withWebView: self.webViewtemp)
+//                    self.runOnce = true
+//                }
+                if let web = webViewtemp.url {
+                if checkURL(url: web) {
+                    let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
+                    self.webViewtemp.evaluateJavaScript(javascript1) { (result, error) in
+                        if error == nil {
+                            self.webView = self.webViewtemp
+                            self.readyToSwitchViews()
+                        }
+                    }
+                }
+                }
+                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" {
+                    print("Attempt to login passed!")
+                    getHTMLCode()
                 }
         }
         }

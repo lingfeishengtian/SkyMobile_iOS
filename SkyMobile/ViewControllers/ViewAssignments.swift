@@ -32,6 +32,28 @@ class ViewAssignments: UIViewController {
     
     let GradeTableViewController: AssignmentViewTable = AssignmentViewTable()
     
+    func SetValuesOfGradeTableView() {
+        ColorsOfGrades = importantUtils.DetermineColor(fromAssignmentGrades: Assignments, gradingTerm: Term)
+        GradeTableViewController.Colors = ColorsOfGrades
+        
+        GradeTableViewController.DailyGrades = Assignments.DailyGrades
+        GradeTableViewController.MajorGrades = Assignments.MajorGrades
+        GradeTableView.delegate = GradeTableViewController
+        GradeTableView.dataSource = GradeTableViewController
+        GradeTableViewController.webView = webView
+        GradeTableViewController.Class = Class
+        GradeTableViewController.Term = Term
+        GradeTableViewController.Courses = Courses
+        GradeTableViewController.Assignments = Assignments
+        GradeTableViewController.HTMLCodeFromGradeClick = HTMLCodeFromGradeClick
+        if self.Assignments.DailyGrades.isEmpty && self.Assignments.MajorGrades.isEmpty{
+            importantUtils.CreateLoadingView(view: self.scrollView)
+        }else{
+            self.importantUtils.DestroyLoadingView(view: self.scrollView)
+        }
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
@@ -46,25 +68,13 @@ class ViewAssignments: UIViewController {
             }
         }
         
-        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
+        webView.frame = CGRect(x: 0, y: 400, width: 0, height: 0)
         view.addSubview(webView)
         
         if !isNotValid && Assignments.Class == "NIL"{
         Assignments = GetMajorAndDailyGrades(htmlCode: HTMLCodeFromGradeClick, term: Term, Class: Class)
         }
-        ColorsOfGrades = importantUtils.DetermineColor(fromAssignmentGrades: Assignments, gradingTerm: Term)
-        GradeTableViewController.Colors = ColorsOfGrades
-        
-        GradeTableViewController.DailyGrades = Assignments.DailyGrades
-        GradeTableViewController.MajorGrades = Assignments.MajorGrades
-        GradeTableView.delegate = GradeTableViewController
-        GradeTableView.dataSource = GradeTableViewController
-        GradeTableViewController.webView = webView
-        GradeTableViewController.Class = Class
-        GradeTableViewController.Term = Term
-        GradeTableViewController.Courses = Courses
-        GradeTableViewController.Assignments = Assignments
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height*1.4)
+        SetValuesOfGradeTableView()
         navView.hidesBackButton = false
     }
     
@@ -218,35 +228,35 @@ class AssignmentViewTable: UITableViewController{
         }else{
             assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
         }
-        
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
+        vc.webView = self.webView
+        vc.Class = self.Class
+        vc.Courses = self.Courses
+        vc.Term = self.Term
+        vc.AssignmentNameString = assignmentName
+        vc.Assignments = self.Assignments
+        let initialAmt = HTMLCodeFromGradeClick.components(separatedBy: assignmentName).count - 1
         importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!)
-        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-            if (UIApplication.topViewController()?.description.contains("ViewAssignments"))!{
-                DispatchQueue.main.async {
+        _ = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+            DispatchQueue.main.async {
                     self.webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();\ndocument.documentElement.outerHTML.toString();"){ (result, error) in
                         if error == nil {
                             let resultFinalString = result as! String
-                            if resultFinalString.contains("Assignment Details") && resultFinalString.contains("<td scope=\"row\" style=\"font-weight:bold\" colspan=\"4\">" + assignmentName) && resultFinalString.contains("dLog_showAssignmentInfo"){
-                                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                                let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
-                                vc.webView = self.webView;
+                            print("Initial, ", initialAmt)
+                            print(resultFinalString.components(separatedBy: assignmentName).count - 1)
+                            if resultFinalString.contains("Assignment Details") &&
+                                resultFinalString.components(separatedBy: assignmentName).count - 1 > initialAmt && resultFinalString.contains("dLog_showAssignmentInfo"){
                                 vc.html = resultFinalString
-                                vc.Class = self.Class
-                                vc.Courses = self.Courses
-                                vc.Term = self.Term
-                                vc.AssignmentNameString = assignmentName
-                                vc.Assignments = self.Assignments
                                 UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                                    timer.invalidate()
                             }
-                        }
-                    }
+                            }
+                       }
                 }
-            }else{
-                timer.invalidate()
+               }
             }
         }
-    }
-}
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {

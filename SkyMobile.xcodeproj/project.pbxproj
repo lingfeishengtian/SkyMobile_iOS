@@ -19,10 +19,8 @@
 		9636182021812F51002A8B2B /* GradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181C21812F51002A8B2B /* GradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
-		96987932216EDB8D00274869 /* GradeResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792F216EDB8D00274869 /* GradeResponder.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
-		96987940216EDBA100274869 /* GradeDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987936216EDBA100274869 /* GradeDisplay.swift */; };
 		96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* FinalGradeDisplay.swift */; };
 		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
@@ -69,10 +67,8 @@
 		9636181C21812F51002A8B2B /* GradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GradeDisplay.storyboard; sourceTree = "<group>"; };
 		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		9698792F216EDB8D00274869 /* GradeResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeResponder.swift; sourceTree = "<group>"; };
 		96987930216EDB8D00274869 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		96987936216EDBA100274869 /* GradeDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradeDisplay.swift; sourceTree = "<group>"; };
 		96987937216EDBA100274869 /* FinalGradeDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalGradeDisplay.swift; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
@@ -178,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				9698792E216EDB8D00274869 /* GradientView.swift */,
-				9698792F216EDB8D00274869 /* GradeResponder.swift */,
 				96987930216EDB8D00274869 /* Types.swift */,
 				96AD03F621795F6B0057066D /* ImportantUtils.swift */,
 			);
@@ -189,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				96987935216EDBA100274869 /* ViewController.swift */,
-				96987936216EDBA100274869 /* GradeDisplay.swift */,
 				96987937216EDBA100274869 /* FinalGradeDisplay.swift */,
 				961317A02173019E0018684F /* ViewAssignments.swift */,
 				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
@@ -451,14 +445,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9698793F216EDBA100274869 /* ViewController.swift in Sources */,
-				96987932216EDB8D00274869 /* GradeResponder.swift in Sources */,
 				96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */,
 				96987933216EDB8D00274869 /* Types.swift in Sources */,
 				9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */,
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
 				96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */,
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
-				96987940216EDBA100274869 /* GradeDisplay.swift in Sources */,
 				96987931216EDB8D00274869 /* GradientView.swift in Sources */,
 				961317A12173019E0018684F /* ViewAssignments.swift in Sources */,
 			);
@@ -620,6 +612,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -627,7 +620,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Imalols.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -639,6 +632,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -646,7 +640,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Imalols.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -160,34 +160,36 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
         webView.evaluateJavaScript(javaScript){ (result, error) in
         }
-        //for i in 1...20{
-        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-            if UIApplication.topViewController() == self{
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
+        vc.webView = webView;
+        vc.Class = self.Courses[indexOfClass].Class
+        vc.Term = self.Options[indexOfOptions]
+        vc.Courses = self.Courses
+       // for _ in 1...10{
+        _ = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+        DispatchQueue.main.async {
+             if vc.Assignments.DailyGrades.isEmpty && vc.Assignments.MajorGrades.isEmpty{
                     javaScript = "document.documentElement.outerHTML.toString()"
-                    DispatchQueue.main.async {
                         webView.evaluateJavaScript(javaScript){ (result, error) in
                             if error == nil {
                                 let resultString = result as! String
                                 //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
                                 if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
-                                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                                let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-                                vc.webView = webView;
-                                vc.Class = self.Courses[indexOfClass].Class
-                                vc.Term = self.Options[indexOfOptions]
                                 vc.HTMLCodeFromGradeClick = result as! String
-                                vc.Courses = self.Courses
                                 vc.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: resultString, term: vc.Term, Class: vc.Class)
-                                if !vc.Assignments.DailyGrades.isEmpty || !vc.Assignments.MajorGrades.isEmpty{
-                                self.present(vc, animated: true, completion: nil)
-                                }
-                            //}
-                            }
-                        }
-                        }}
-            }else{
-                timer.invalidate()
-                }}}
+                                vc.ColorsOfGrades = self.importantUtils.DetermineColor(fromAssignmentGrades: vc.Assignments, gradingTerm: vc.Term)
+                                    vc.SetValuesOfGradeTableView()
+                                    vc.GradeTableView.reloadData()
+                                    timer.invalidate()
+                           }
+                           }
+                }}else{ timer.invalidate() }
+            }
+            }
+            //}
+                self.present(vc, animated: true, completion: nil)
+    }
     
     func IsElementaryAccount(courses: [Course]) -> Bool{
         for course in courses{
