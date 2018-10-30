@@ -16,7 +16,6 @@
 		9636181D21812F51002A8B2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181921812F50002A8B2B /* LaunchScreen.storyboard */; };
 		9636181E21812F51002A8B2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Main.storyboard */; };
 		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
-		9636182021812F51002A8B2B /* GradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181C21812F51002A8B2B /* GradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
@@ -64,7 +63,6 @@
 		9636181921812F50002A8B2B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9636181A21812F51002A8B2B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
-		9636181C21812F51002A8B2B /* GradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GradeDisplay.storyboard; sourceTree = "<group>"; };
 		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		96987930216EDB8D00274869 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
@@ -197,7 +195,6 @@
 			children = (
 				9636181921812F50002A8B2B /* LaunchScreen.storyboard */,
 				9636181A21812F51002A8B2B /* Main.storyboard */,
-				9636181C21812F51002A8B2B /* GradeDisplay.storyboard */,
 				9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */,
 			);
 			path = Storyboards;
@@ -324,7 +321,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9636182021812F51002A8B2B /* GradeDisplay.storyboard in Resources */,
 				9636181E21812F51002A8B2B /* Main.storyboard in Resources */,
 				963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */,
 				9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */,

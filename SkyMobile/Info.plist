@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>v3.0-pubBeta</string>
 	<key>CFBundleVersion</key>
-	<string>53</string>
+	<string>54</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
