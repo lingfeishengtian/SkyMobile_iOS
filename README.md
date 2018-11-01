@@ -5,7 +5,7 @@ An enhanced Skyward mobile client.
 SkyMobile currently allows FBISD users to login to Skyward using a better UI and allows for easier grade viewing on iPhones, iPad support currently not available.  
 
 ## Progress
-* Login UI: finished
+* Login UI: **SLOW LOGIN - BEING TESTED**
 * AverageViewer: transition fixed
 * AssignmentViewer: fixed
 * Detailed Single AssignmentViewer: fixed
