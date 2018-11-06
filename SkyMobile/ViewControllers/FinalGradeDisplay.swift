@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import WebKit
+import iAd
 
 // MARK: - Prep into Private Beta 2.8
 class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
@@ -57,6 +58,8 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
+        let ads = ADClient()
+        
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
         table.frame.size = CGSize(width: self.view.frame.width, height: 100)
         webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
@@ -116,6 +119,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         //Add cell color!!!!
         let currentColor = ClassColorsDependingOnGrade[indexPath.row]
         cell.backgroundColor = currentColor
+        cell.alpha = CGFloat(0.7)
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
@@ -168,7 +172,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         vc.Term = self.Options[indexOfOptions]
         vc.Courses = self.Courses
        // for _ in 1...10{
-        _ = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+        _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
         DispatchQueue.main.async {
              if vc.Assignments.DailyGrades.isEmpty && vc.Assignments.MajorGrades.isEmpty{
                     javaScript = "document.documentElement.outerHTML.toString()"

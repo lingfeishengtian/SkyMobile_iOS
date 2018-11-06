@@ -238,7 +238,7 @@ class AssignmentViewTable: UITableViewController{
         vc.Assignments = self.Assignments
         let initialAmt = HTMLCodeFromGradeClick.components(separatedBy: assignmentName).count - 1
         importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!)
-        _ = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+        _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
             DispatchQueue.main.async {
                     self.webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();\ndocument.documentElement.outerHTML.toString();"){ (result, error) in
                         if error == nil {

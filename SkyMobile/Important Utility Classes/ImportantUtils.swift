@@ -203,6 +203,7 @@ class ImportantUtils {
         } catch {
             print("error")
         }
+        print("DONE")
         return newCourse
     }
     

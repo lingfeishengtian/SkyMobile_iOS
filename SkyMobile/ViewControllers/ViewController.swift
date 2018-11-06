@@ -71,7 +71,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
             components.scheme = tempURL?.scheme
             components.host = tempURL?.host
             components.path = (tempURL?.path)!
-                webViewtemp = WKWebView(frame: CGRect(x: 0, y: 250, width: 0, height: 0), configuration: configuration)
+                webViewtemp = WKWebView(frame: CGRect(x: 0, y: 400, width: 0, height: 0), configuration: configuration)
                 webViewtemp.uiDelegate = self
                 webViewtemp.navigationDelegate = self
                 webViewtemp.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
@@ -129,10 +129,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     
     func AttemptLogin() {
         let javascript = "login.value = \"\(UserName)\"; password.value = \"\(Password)\"; bLogin.click();"
-        webView.evaluateJavaScript(javascript) { (result, error) in
-            if error == nil {
-            }
-        }
+        webView.evaluateJavaScript(javascript, completionHandler: nil)
         
         let javascrip1t = """
                         if(dMessage.attributes["style"].textContent.includes("visibility: visible"))
@@ -140,15 +137,19 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                         msgBtn1.click()
                         }
                         """
-        for _ in 1...20{
+        for _ in 1...30{
             delay(1.0){
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
-                    if error == nil {
+                    if error != nil{
+                        let alertController = UIAlertController(title: "Uh-Oh",
+                                                                message: "Skyward in maintenence.",
+                                                                preferredStyle: UIAlertController.Style.alert)
+                        self.present(alertController, animated: true, completion: nil)
                     }
                 }
             }
         }
-        perform(#selector(ShowError), with: nil, afterDelay: 25)
+        perform(#selector(ShowError), with: nil, afterDelay: 40)
     }
     func delay(_ delay:Double, closure:@escaping ()->()) {
         DispatchQueue.main.asyncAfter(
@@ -200,8 +201,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
         view.addSubview(webView)
         let javascript =
-            "var outerHTML = document.documentElement.outerHTML.toString()\n" +
-        "outerHTML\n"
+            "document.querySelector(\"div.fixedWrap\").outerHTML"
         self.webView.evaluateJavaScript(javascript) { (result, error) in
             if error == nil {
                 let returnedResults = result as! String
