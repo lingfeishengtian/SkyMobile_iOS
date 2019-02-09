@@ -5,17 +5,17 @@ An enhanced Skyward mobile client.
 SkyMobile currently allows FBISD users to login to Skyward using a better UI and allows for easier grade viewing on iPhones, iPad support currently not available.  
 
 ## Progress
-* Login UI: **SLOW LOGIN - BEING TESTED**
-* AverageViewer: transition fixed
-* AssignmentViewer: fixed
-* Detailed Single AssignmentViewer: fixed
-* GPA Calculator: finished
+* Login UI: **IMPROVED**
+* AverageViewer: speed fix
+* AssignmentViewer: speed fix
+* Detailed Single AssignmentViewer: speed fix
+* GPA Calculator: reference fix
 * Mock Assignments: UNFINISHED
-* Rank Viewer: UNFINISHED
+* Rank Viewer: **DELAY**
 
 ## Known Bugs
 + AssignmentViewer shows big gaps when trying to display semester averages
-+ Rarely, the app will run into an infinite loop
++ ~Rarely, the app will run into an infinite loop~ FIXED
 + Having too many courses will cause AverageViewer to not display the view correctly
 + UserDefaults sometimes refuses to load
 
