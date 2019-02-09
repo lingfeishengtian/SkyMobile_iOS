@@ -47,9 +47,18 @@ class ImportantUtils {
         
         for Grade in finalGrades{
             if Grade != -1000.0{
-                let greenVal = CGFloat(Double(Grade)/Double(100) )
-                let red = CGFloat((Double(Grade-(low-1))/Double(high)) * 10)
-                finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))
+//                let greenVal = CGFloat(Double(Grade)/Double(100) )
+//                var red = CGFloat((Double(Grade+(low-1))/Double(high)) * 10)
+//                if Grade == low{
+//                    red = red  * 0.7
+//                }
+                var green = Double(Grade)*2.55/255
+                var red = (1.0-green)*6.0
+                
+                var color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
+                finalColors.append(color)
+                //print(color)
+                //finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))
             }else{
                 finalColors.append(UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0))
             }
@@ -76,21 +85,6 @@ class ImportantUtils {
     
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
-    }
-    
-    @available(*, deprecated, message: "Please use new function with loading message")
-    func CreateLoadingView(view: UIView) {
-        let customView = UIView(frame: view.frame)
-        customView.backgroundColor = UIColor(red: 111/255, green: 113/255, blue: 121/255, alpha: 0.7)
-        customView.tag = 154
-        view.addSubview(customView)
-        let loadingIcon = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
-        //Don't forget this line
-        loadingIcon.center = view.center
-        
-        loadingIcon.startAnimating()
-        loadingIcon.tag = 155
-        view.addSubview(loadingIcon)
     }
     
     func CreateLoadingView(view: UIView, message: String) {
@@ -235,11 +229,21 @@ class ImportantUtils {
     fileprivate func SplitClassDescription(classArr: [String]) -> [Course]{
         var finalPeriod: [Course] = []
         for Class in classArr{
+            if Class.components(separatedBy: " Period")[1].components(separatedBy: ") ").count <= 1{
+                let current = Course(
+                    period: Int(Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[0].components(separatedBy: "(")[0])!,
+                    classDesc: Class.components(separatedBy: " Period")[0],
+                    teacher: Class.components(separatedBy: " Period")[1].components(separatedBy: "( ")[0])
+                
+                finalPeriod.append(current)
+            }else{
             let current = Course(
                 period: Int(Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[0].components(separatedBy: "(")[0])!,
                 classDesc: Class.components(separatedBy: " Period")[0],
                 teacher: Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[1])
+            
             finalPeriod.append(current)
+            }
         }
         
         //        for testCase in finalPeriod{
