@@ -171,7 +171,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         DispatchQueue.main.async {
             webView.evaluateJavaScript(javaScript){ (result, error) in
                 if let fin = result as? String{
-                    if fin == self.Courses[indexOfClass].Class{
+                    if fin == self.Courses[indexOfClass].Class && UIApplication.topViewController() is FinalGradeDisplay{
                         self.present(vc, animated: true, completion: nil)
                         timer.invalidate()
                     }

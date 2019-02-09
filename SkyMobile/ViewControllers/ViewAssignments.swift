@@ -263,10 +263,18 @@ class AssignmentViewTable: UITableViewController{
             self.webView.evaluateJavaScript("document.querySelector(\"#dLog_showAssignmentInfo\").querySelector(\"td\").textContent"){ result, err in
                 
                 //REMOVE AFTER FINISHED TESTING
-                print("Searching for valid value")
+                print("Searching for valid value attemp ",Attempts)
                 Attempts += 1
                 if Attempts % 20 == 0{
                     self.AttemptToClick(assignmentName: assignmentName)
+                }
+                if Attempts >= 61{
+                    self.importantUtils.DestroyLoadingView(views: (UIApplication.topViewController()?.view)!)
+                    let CannotFindValidValue = UIAlertController(title: "Error", message: "An error occured and we cannot find this assignment. Status: KNOWN BUG", preferredStyle: .alert)
+                    let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    CannotFindValidValue.addAction(OKOption)
+                    UIApplication.topViewController()?.present(CannotFindValidValue, animated: true, completion: nil)
+                    timer.invalidate()
                 }
                 
                 if err == nil{
