@@ -17,7 +17,6 @@
 		9636181E21812F51002A8B2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Main.storyboard */; };
 		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
-		963975B82190F35300BDE6F9 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 963975B72190F35300BDE6F9 /* iAd.framework */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
@@ -84,7 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				963975B82190F35300BDE6F9 /* iAd.framework in Frameworks */,
 				AF883E160812D4E74F086120 /* Pods_SkyMobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

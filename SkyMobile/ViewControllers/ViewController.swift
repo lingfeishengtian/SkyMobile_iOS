@@ -25,14 +25,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        importantUtils.CreateLoadingView(view: self.view)
+        importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward FBISD")
         webView.navigationDelegate = self
         let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
         let request = URLRequest(url: url)
-        webView.frame = CGRect(x: 0, y: 500, width: 0, height: 0)
+        webView.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
-        webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
+        //webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
         
         webView.load(request)
         view.addSubview(webView)
@@ -43,6 +43,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let borderColor = UIColor.black
+        UsernameField.underlined()
+        PasswordField.underlined()
     }
     
     func readyToSwitchViews(withWebView tempView: WKWebView = WKWebView()) {
@@ -97,7 +103,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                         AttemptLogin()
                     }
                 }else{
-                    importantUtils.DestroyLoadingView(view: self.view)
+                    importantUtils.DestroyLoadingView(views: self.view)
                 }
             }
         }
@@ -110,7 +116,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                                                 preferredStyle: UIAlertController.Style.alert)
         let confirmAction = UIAlertAction(
         title: "OK", style: UIAlertAction.Style.destructive) { (action) in
-            self.importantUtils.DestroyLoadingView(view: self.view)
+            self.importantUtils.DestroyLoadingView(views: self.view)
         }
         alertController.addAction(confirmAction)
         self.present(alertController, animated: true, completion: nil)
@@ -121,7 +127,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     @IBAction func SubmitForm(_ sender: Any) {
         enableButton(bool: false)
         changeColorOfButton(color: .gray)
-        importantUtils.CreateLoadingView(view: self.view)
+        importantUtils.CreateLoadingView(view: self.view, message: "Logging in...")
         UserName = UsernameField.text ?? "000000"
         Password = PasswordField.text ?? "000000"
         AttemptLogin()
@@ -135,51 +141,34 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                         if(dMessage.attributes["style"].textContent.includes("visibility: visible"))
                         {
                         msgBtn1.click()
+                        console.log("clicked")
+                        }else{
+                        console.log("no BTN")
                         }
                         """
-        for _ in 1...30{
-            delay(1.0){
-                self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
-                    if error != nil{
-                        let alertController = UIAlertController(title: "Uh-Oh",
-                                                                message: "Skyward in maintenence.",
-                                                                preferredStyle: UIAlertController.Style.alert)
-                        self.present(alertController, animated: true, completion: nil)
-                    }
+        var finished = false;
+        //while !finished{
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){timer in
+                if finished == true{
+                    timer.invalidate()
                 }
-            }
-        }
-        perform(#selector(ShowError), with: nil, afterDelay: 40)
-    }
-    func delay(_ delay:Double, closure:@escaping ()->()) {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
-    }
-    
-    func tryToGetHTML(webView: WKWebView, completion: @escaping (_ titleString: String?) -> Void){
-        webView.evaluateJavaScript("document.documentElement.outerHTML.toString();", completionHandler: { (outerHTML, error ) in
-            if error == nil{
-                completion(outerHTML as? String)
-            }else{
-                completion("Error in JavaScript")
-            }
-        })
-    }
-    
-    func tryToClickMsgBtn1(webView: WKWebView, completion: @escaping (_ titleString: String?) -> Void){
-        let javascrip1t = """
-                        if(dMessage.attributes["style"].textContent.includes("visibility: visible"))
-                        {
-                        msgBtn1.click()
+                self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
+//                    if error != nil{
+//                        let alertController = UIAlertController(title: "Uh-Oh",
+//                                                                message: "Skyward in maintenence.",
+//                                                                preferredStyle: UIAlertController.Style.alert)
+//                        self.present(alertController, animated: true, completion: nil)
+//                    }
+                    if let out = result as? String{
+                        print("LOOPING: OUTPUT: " + out)
+                        if (out) == "clicked"{
+                            finished = true
                         }
-                        """
-        webView.evaluateJavaScript(javascrip1t, completionHandler: { (outerHTML, error ) in
-            if error == nil{
-                completion(outerHTML as? String)
-            }else{
-                completion("Error in JavaScript")
-            }
-        })
+                }
+        
+        }
+    }
+        //perform(#selector(ShowError), with: nil, afterDelay: 40)
     }
     
     func changeColorOfButton(color: UIColor){
@@ -199,9 +188,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     }
     func getHTMLCode(){
         // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
-        view.addSubview(webView)
+        //view.addSubview(webView)
         let javascript =
-            "document.querySelector(\"div.fixedWrap\").outerHTML"
+            "document.querySelector(\"div[id^=\\\"grid_stuGradesGrid\\\"]\").innerHTML"
         self.webView.evaluateJavaScript(javascript) { (result, error) in
             if error == nil {
                 let returnedResults = result as! String
@@ -210,6 +199,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                 vc.Courses = self.importantUtils.parseHTMLToGetGrades(htmlCodeToParse: returnedResults)
                 vc.webView = self.webView
                 self.present(vc, animated: true, completion: nil)
+            }else{
+                self.importantUtils.DestroyLoadingView(views: self.view)
+                let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
+                                                               message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
+                                                               preferredStyle: .alert)
+                
+                self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
             }
         }
     }
@@ -233,21 +229,37 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 //                    self.runOnce = true
 //                }
                 if let web = webViewtemp.url {
-                if checkURL(url: web) {
+                if checkURL(url: web)  && !runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
-                    self.webViewtemp.evaluateJavaScript(javascript1) { (result, error) in
-                        if error == nil {
-                            self.webView = self.webViewtemp
-                            self.readyToSwitchViews()
+                        self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
+                            if err == nil{
+                                self.webView = self.webViewtemp
+                                self.readyToSwitchViews()
+                                self.runOnce = true
+                            }
                         }
                     }
                 }
-                }
                 if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" {
-                    print("Attempt to login passed!")
+                    importantUtils.DestroyLoadingView(views: self.view)
+                    importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
                     getHTMLCode()
                 }
         }
         }
 }
+}
+
+extension UITextField {
+    
+    func underlined(){
+        let border = CALayer()
+        let width = CGFloat(1.0)
+        border.borderColor = UIColor.black.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+        self.layer.masksToBounds = true
+    }
+    
 }

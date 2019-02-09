@@ -119,7 +119,7 @@ class DetailedAssignmentViewController: UIViewController {
         }
     }
     @objc func goBack(_ sender: Any) {
-        importantUtils.CreateLoadingView(view: self.view)
+        importantUtils.CreateLoadingView(view: self.view, message: "Going back...")
             let javaScript = "dLog_showAssignmentInfo.querySelector(\"a[title=\\\"close the dialog\\\"]\").click();document.documentElement.outerHTML.toString()"
             self.webView.evaluateJavaScript(javaScript){ (result, error) in
                 let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)

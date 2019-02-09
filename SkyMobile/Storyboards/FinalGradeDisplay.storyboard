@@ -26,29 +26,15 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="GradeChecker" id="bjJ-Cn-0QC">
-                                        <barButtonItem key="leftBarButtonItem" style="done" id="GKn-Dq-OIu">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D4D-ii-Fm4">
-                                                <rect key="frame" x="16" y="0.0" width="71" height="44"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Logout">
-                                                    <color key="titleColor" red="0.99873989819999998" green="0.95136516360000001" blue="0.62338862100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="Logout:" destination="HiN-PA-Crp" eventType="touchUpInside" id="Pyv-Zg-WWf"/>
-                                                </connections>
-                                            </button>
+                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="GKn-Dq-OIu">
+                                            <connections>
+                                                <action selector="Logout:" destination="HiN-PA-Crp" id="s6P-DS-dBr"/>
+                                            </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="done" id="qYc-mf-Vcx">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qD2-Qw-qcz">
-                                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="More">
-                                                    <color key="titleColor" red="0.99873989819999998" green="0.95136516360000001" blue="0.62338862100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="ShowMoreMenuItems:" destination="HiN-PA-Crp" eventType="touchUpInside" id="4j5-jK-d5v"/>
-                                                </connections>
-                                            </button>
+                                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="qYc-mf-Vcx">
+                                            <connections>
+                                                <action selector="ShowMoreMenuItems:" destination="HiN-PA-Crp" id="qvy-OB-m3a"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -124,10 +110,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pxX-wc-Asd">
                                 <rect key="frame" x="375" y="44" width="0.0" height="0.0"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-6u-S26">
-                                        <rect key="frame" x="0.0" y="0.0" width="86" height="0.0"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="       GPA       "/>
+                                    <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-6u-S26">
+                                        <rect key="frame" x="0.0" y="0.0" width="119" height="0.0"/>
+                                        <color key="backgroundColor" red="0.43042561410000002" green="0.76206713910000001" blue="0.74720519780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="         GPA         ">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="goToGPACalculator:" destination="HiN-PA-Crp" eventType="touchUpInside" id="C2a-iL-YwF"/>
                                         </connections>
@@ -347,7 +336,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="63f-xF-tqP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1036" y="-762"/>
+            <point key="canvasLocation" x="1036" y="-875"/>
         </scene>
         <!--Detailed Assignment View Controller-->
         <scene sceneID="Sag-wA-Wdj">
@@ -642,7 +631,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fHj-Hk-6VR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2191.1999999999998" y="-763.26836581709154"/>
+            <point key="canvasLocation" x="1722" y="-875"/>
         </scene>
         <!--View Assignments-->
         <scene sceneID="S4S-Dh-noC">
@@ -657,13 +646,7 @@
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <items>
                                     <navigationItem title="Grades" id="02q-dj-sfa">
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="PBU-6r-4b6">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Weq-D0-uwW">
-                                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="+"/>
-                                            </button>
-                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="PBU-6r-4b6"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -823,7 +806,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uwX-Dx-JNx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2194" y="-1538"/>
+            <point key="canvasLocation" x="1726" y="-1537"/>
         </scene>
     </scenes>
 </document>

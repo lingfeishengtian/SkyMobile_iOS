@@ -33,6 +33,14 @@ class ViewAssignments: UIViewController {
     let GradeTableViewController: AssignmentViewTable = AssignmentViewTable()
     
     func SetValuesOfGradeTableView() {
+        if self.Assignments.DailyGrades.isEmpty && self.Assignments.MajorGrades.isEmpty{
+            importantUtils.CreateLoadingView(view: self.view, message: "Trying to view assignment grades...")
+        }else{
+            self.importantUtils.DestroyLoadingView(views: self.scrollView)
+        }
+        
+            //Assignments = GetMajorAndDailyGrades(htmlCode: HTMLCodeFromGradeClick, term: Term, Class: Class)
+        
         ColorsOfGrades = importantUtils.DetermineColor(fromAssignmentGrades: Assignments, gradingTerm: Term)
         GradeTableViewController.Colors = ColorsOfGrades
         
@@ -46,36 +54,45 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.Courses = Courses
         GradeTableViewController.Assignments = Assignments
         GradeTableViewController.HTMLCodeFromGradeClick = HTMLCodeFromGradeClick
-        if self.Assignments.DailyGrades.isEmpty && self.Assignments.MajorGrades.isEmpty{
-            importantUtils.CreateLoadingView(view: self.scrollView)
-        }else{
-            self.importantUtils.DestroyLoadingView(view: self.scrollView)
-        }
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
+        GradeTableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        webView.frame = CGRect(x: 0, y: 350, width: 0, height: 0)
+        view.addSubview(webView)
+        
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
         self.navView.leftBarButtonItem = backButton
         SetLabelText(term: Term, Class: Class)
-        var isNotValid = true
-        for course in Courses{
-            if(course.Class == Class){
-                if(course.Grades.Grades[Term] != "-1000"){
-                    isNotValid = false
+        
+        navView.hidesBackButton = false
+        AttemptToGetHTML()
+    }
+    
+    func AttemptToGetHTML(){
+        let javaScript = "document.querySelector(\"#gradeInfoDialog\").outerHTML"
+        var return1 = " "
+        // avoid deadlocks by not using .main queue here
+            self.webView.evaluateJavaScript(javaScript){(obj, err) in
+                if err != nil{
+                    print("Error occured in ViewAssignments.AttemptToGetHTML() ERROR: " + (err as! String))
+                }else{
+                    return1 = obj as! String
+                    print("OMG THERES SOMETHING HERE")
+                        self.HTMLCodeFromGradeClick = return1
+                        self.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: return1, term: self.Term, Class: self.Class)
+                    
+                        self.ColorsOfGrades = self.importantUtils.DetermineColor(fromAssignmentGrades: self.Assignments, gradingTerm: self.Term)
+                        self.SetValuesOfGradeTableView()
+                        self.GradeTableView.reloadData()
+                        self.SetValuesOfGradeTableView()
                 }
             }
-        }
-        
-        webView.frame = CGRect(x: 0, y: 400, width: 0, height: 0)
-        view.addSubview(webView)
-        
-        if !isNotValid && Assignments.Class == "NIL"{
-        Assignments = GetMajorAndDailyGrades(htmlCode: HTMLCodeFromGradeClick, term: Term, Class: Class)
-        }
-        SetValuesOfGradeTableView()
-        navView.hidesBackButton = false
+//        while !finished{
+//            sleep(1)
+//        }
     }
     
     func SetLabelText(term: String, Class: String){
@@ -237,25 +254,50 @@ class AssignmentViewTable: UITableViewController{
         vc.AssignmentNameString = assignmentName
         vc.Assignments = self.Assignments
         let initialAmt = HTMLCodeFromGradeClick.components(separatedBy: assignmentName).count - 1
-        importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!)
-        _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-            DispatchQueue.main.async {
-                    self.webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();\ndocument.documentElement.outerHTML.toString();"){ (result, error) in
-                        if error == nil {
-                            let resultFinalString = result as! String
-                            print("Initial, ", initialAmt)
-                            print(resultFinalString.components(separatedBy: assignmentName).count - 1)
-                            if resultFinalString.contains("Assignment Details") &&
-                                resultFinalString.components(separatedBy: assignmentName).count - 1 > initialAmt && resultFinalString.contains("dLog_showAssignmentInfo"){
-                                vc.html = resultFinalString
-                                UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
-                                    timer.invalidate()
-                            }
-                            }
-                       }
+        importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!, message: "Getting more detail...")
+        
+        AttemptToClick(assignmentName: assignmentName)
+        
+        var Attempts = 0;
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true){ timer in
+            self.webView.evaluateJavaScript("document.querySelector(\"#dLog_showAssignmentInfo\").querySelector(\"td\").textContent"){ result, err in
+                
+                //REMOVE AFTER FINISHED TESTING
+                print("Searching for valid value")
+                Attempts += 1
+                if Attempts % 20 == 0{
+                    self.AttemptToClick(assignmentName: assignmentName)
                 }
-               }
+                
+                if err == nil{
+                    if let fin = result as? String{
+                        if fin.contains(assignmentName){
+                            
+                            print("I found something!")
+                            
+                            //_ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
+                            self.webView.evaluateJavaScript("document.querySelector(\"#dLog_showAssignmentInfo\").outerHTML;"){ (result, error) in
+                                if error == nil {
+                                    let resultFinalString = result as! String
+                                    print("Initial, ", initialAmt)
+                                    print(resultFinalString.components(separatedBy: assignmentName).count - 1)
+                                        vc.html = resultFinalString
+                                        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                                        //    timer.invalidate()
+                                }
+                                //}
+                            }
+                            timer.invalidate()
+                        }
+                    }
+                }
             }
+        }
+        
+            }
+    func AttemptToClick(assignmentName: String){
+        webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();", completionHandler: nil)
+    }
         }
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

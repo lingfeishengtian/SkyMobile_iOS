@@ -78,6 +78,7 @@ class ImportantUtils {
         return UserDefaults.standard.object(forKey: key) != nil
     }
     
+    @available(*, deprecated, message: "Please use new function with loading message")
     func CreateLoadingView(view: UIView) {
         let customView = UIView(frame: view.frame)
         customView.backgroundColor = UIColor(red: 111/255, green: 113/255, blue: 121/255, alpha: 0.7)
@@ -92,14 +93,38 @@ class ImportantUtils {
         view.addSubview(loadingIcon)
     }
     
-    func DestroyLoadingView(view: UIView){
-        for view in view.subviews{
+    func CreateLoadingView(view: UIView, message: String) {
+        let customView = UIView(frame: view.frame)
+        customView.backgroundColor = UIColor(red: 111/255, green: 113/255, blue: 121/255, alpha: 0.7)
+        customView.tag = 154
+        view.addSubview(customView)
+        let loadingIcon = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        //Don't forget this line
+        loadingIcon.center = view.center
+        
+        loadingIcon.startAnimating()
+        loadingIcon.tag = 155
+        view.addSubview(loadingIcon)
+        
+        let loadingMessage = UILabel(frame: customView.frame)
+        loadingMessage.frame = CGRect(x: view.frame.minX, y: view.center.y + 20, width: view.frame.width, height: 30)
+        loadingMessage.textAlignment = .center
+        loadingMessage.text = message
+        loadingMessage.tag = 156
+        
+        view.addSubview(loadingMessage)
+    }
+    
+    func DestroyLoadingView(views: UIView){
+        for view in views.subviews{
             if view.tag == 154{
                 view.removeFromSuperview()
             }else if let loadIcon = view as? UIActivityIndicatorView{
                 if loadIcon.tag == 155{
                     loadIcon.removeFromSuperview()
                 }
+            }else if view.tag == 156{
+                view.removeFromSuperview()
             }
         }
     }
@@ -175,7 +200,7 @@ class ImportantUtils {
         //HINT: document.querySelectorAll("tr[group-parent]")[4].querySelectorAll("a[data-lit=\"T1\"]")[0].textContent
         do{
             let document = try SwiftSoup.parse(htmlCodeToParse)
-            //print(htmlCodeToParse)
+            print("Finished parsing")
             // firn css selector
             let elements: Elements = try document.select(cssSelectorCode)
             //transform it into a local object (Item)

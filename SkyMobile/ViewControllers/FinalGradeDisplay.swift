@@ -28,7 +28,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                     "PR3",
                     "PR4",
                     "T2",
-                    "SE1",
                     "S1",
                     "PR5",
                     "PR6",
@@ -36,7 +35,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                     "PR7",
                     "PR8",
                     "T4",
-                    "SE2",
                     "S2",
                     "FIN"]
     var indexOfOptions = 0;
@@ -58,8 +56,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
-        let ads = ADClient()
-        
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
         table.frame.size = CGSize(width: self.view.frame.width, height: 100)
         webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
@@ -161,39 +157,46 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
             deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
     func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
-        importantUtils.CreateLoadingView(view: self.view)
-        var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
-        webView.evaluateJavaScript(javaScript){ (result, error) in
-        }
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
         vc.webView = webView;
         vc.Class = self.Courses[indexOfClass].Class
         vc.Term = self.Options[indexOfOptions]
         vc.Courses = self.Courses
-       // for _ in 1...10{
-        _ = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
+        
+        webView.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + self.Options[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
+        let javaScript = "document.querySelector(\"table[id^=grid_stuGradeInfoGrid]\").querySelector(\"a\").text"
+        importantUtils.CreateLoadingView(view: self.view, message: "Trying to get grades...")
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true){ timer in
         DispatchQueue.main.async {
-             if vc.Assignments.DailyGrades.isEmpty && vc.Assignments.MajorGrades.isEmpty{
-                    javaScript = "document.documentElement.outerHTML.toString()"
-                        webView.evaluateJavaScript(javaScript){ (result, error) in
-                            if error == nil {
-                                let resultString = result as! String
-                                //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
-                                if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
-                                vc.HTMLCodeFromGradeClick = result as! String
-                                vc.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: resultString, term: vc.Term, Class: vc.Class)
-                                vc.ColorsOfGrades = self.importantUtils.DetermineColor(fromAssignmentGrades: vc.Assignments, gradingTerm: vc.Term)
-                                    vc.SetValuesOfGradeTableView()
-                                    vc.GradeTableView.reloadData()
-                                    timer.invalidate()
-                           }
-                           }
-                }}else{ timer.invalidate() }
+            webView.evaluateJavaScript(javaScript){ (result, error) in
+                if let fin = result as? String{
+                    if fin == self.Courses[indexOfClass].Class{
+                        self.present(vc, animated: true, completion: nil)
+                        timer.invalidate()
+                    }
+                }
             }
-            }
-            //}
-                self.present(vc, animated: true, completion: nil)
+        }
+        }
+            // for _ in 1...10{
+//            _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
+//                if vc.Assignments.DailyGrades.isEmpty && vc.Assignments.MajorGrades.isEmpty{
+//                    webView.evaluateJavaScript(javaScript){ (result, error) in
+//                        if error == nil {
+//                            let resultString = result as! String
+//                            //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
+//                            if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
+//                                vc.HTMLCodeFromGradeClick = result as! String
+//                                vc.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: resultString, term: vc.Term, Class: vc.Class)
+//                                vc.ColorsOfGrades = self.importantUtils.DetermineColor(fromAssignmentGrades: vc.Assignments, gradingTerm: vc.Term)
+//                                vc.SetValuesOfGradeTableView()
+//                                vc.GradeTableView.reloadData()
+//                                timer.invalidate()
+//                            }
+//                        }
+//                    }}else{ timer.invalidate() }
+//            }
     }
     
     func IsElementaryAccount(courses: [Course]) -> Bool{
@@ -232,20 +235,40 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         self.present(vc, animated: true, completion: nil)
     }
     @IBAction func Logout(_ sender: Any) {
-        webView.removeFromSuperview()
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-        importantUtils.resetDefaults()
-        self.present(vc, animated: true, completion: nil)
+        let alertController = UIAlertController(title: "Logout",
+                                                message: "Are you sure you want to logout?",
+                                                preferredStyle: UIAlertController.Style.alert)
+        let confirmAction = UIAlertAction(
+        title: "No", style: UIAlertAction.Style.cancel) { (action) in
+            // ...
+        }
+        let confirmedAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive){ (action) in
+            self.webView.removeFromSuperview()
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            self.importantUtils.resetDefaults()
+            self.present(vc, animated: true, completion: nil)
+        }
+        alertController.addAction(confirmAction)
+        alertController.addAction(confirmedAction)
+        present(alertController, animated: true, completion: nil)
     }
     @IBAction func ShowMoreMenuItems(_ sender: Any) {
-        for view in self.moreMenuItemsStackView.arrangedSubviews{
-            UIView.animate(withDuration: 0.5, animations: {
-                view.isHidden = !view.isHidden
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseIn, .transitionCurlDown] ,animations: {
+                for view in self.moreMenuItemsStackView.arrangedSubviews{
+                    let btn = view as? UIButton
+                    btn?.backgroundColor = .clear
+                    btn?.layer.cornerRadius = 5
+                    btn?.layer.borderWidth = 1
+                    btn?.layer.borderColor = UIColor.black.cgColor
+                    //btn?.frame = CGRect(x: btn!.frame.minX, y: (btn?.frame.minY)!, width: (btn?.frame.width)!, height: 50)
+                    UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                      view.isHidden = !view.isHidden
+                    })
+                }
                 self.moreMenuItemsStackView.layoutIfNeeded()
             })
         }
-    }
 }
 
 class GradeTableViewCell: UITableViewCell{
