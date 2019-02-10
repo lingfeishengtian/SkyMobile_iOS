@@ -118,6 +118,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
+        
         return cell;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -233,6 +234,13 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         vc.Courses = self.Courses
         self.present(vc, animated: true, completion: nil)
     }
+    
+    //TODO: Add ScrollView for all pages
+    //TODO: Create the settings
+    @IBAction func goToSettings(_ sender: Any) {
+        
+    }
+    
     @IBAction func Logout(_ sender: Any) {
         let alertController = UIAlertController(title: "Logout",
                                                 message: "Are you sure you want to logout?",
@@ -268,6 +276,9 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                 self.moreMenuItemsStackView.layoutIfNeeded()
             })
         }
+    @IBAction func GetSettingsView(_ sender: Any) {
+        
+    }
 }
 
 class GradeTableViewCell: UITableViewCell{

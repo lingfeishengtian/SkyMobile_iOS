@@ -19,6 +19,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var FinalGPA: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var GPACalculatorTitle: UILabel!
+    @IBOutlet weak var tableViewHighConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         cell.Course.sizeToFit()
         
         tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
+        tableViewHighConstraint.constant = tableView.contentSize.height
         
         cell.APInfo.frame.origin = CGPoint(x: self.view.frame.maxX-80, y: cell.APInfo.frame.minY)
         return cell

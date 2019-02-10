@@ -23,6 +23,7 @@ class ViewAssignments: UIViewController {
     var ColorsOfGrades:[UIColor] = []
     var Assignments = AssignmentGrades(classDesc: "NIL")
     
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var navView: UINavigationItem!
     @IBOutlet weak var lblClass: UILabel!
     @IBOutlet weak var lblTerm: UILabel!
@@ -55,6 +56,10 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.Assignments = Assignments
         GradeTableViewController.HTMLCodeFromGradeClick = HTMLCodeFromGradeClick
         GradeTableView.reloadData()
+        
+        mainView.frame.size = CGSize(width: mainView.frame.size.width, height: GradeTableView.contentSize.height + 100)
+        scrollView.contentSize = mainView.frame.size
+        tableViewHeightConstraint.constant = GradeTableView.contentSize.height
     }
     
     override func viewDidLoad() {
@@ -321,5 +326,11 @@ extension UIApplication {
             return topViewController(base: presented)
         }
         return base
+    }
+}
+
+extension UIScrollView {
+    func updateContentView() {
+        contentSize.height = subviews.sorted(by: { $0.frame.maxY < $1.frame.maxY }).last?.frame.maxY ?? contentSize.height
     }
 }
