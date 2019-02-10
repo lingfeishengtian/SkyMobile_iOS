@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,11 +15,11 @@
             <objects>
                 <viewController storyboardIdentifier="FinalGradeDisplay" id="HiN-PA-Crp" customClass="FinalGradeDisplay" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n0S-Wu-1V1" customClass="GradientView" customModule="SkyMobile" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" barStyle="black" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SnM-Th-6AN">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="6eL-F7-aQb"/>
@@ -40,15 +40,15 @@
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ncz-vp-Baj">
-                                <rect key="frame" x="0.0" y="172" width="375" height="495"/>
+                                <rect key="frame" x="0.0" y="172" width="320" height="495"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="46" id="Gq9-ib-ZYc" customClass="GradeTableViewCell" customModule="SkyMobile" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="46"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gq9-ib-ZYc" id="BZq-Iq-EIZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yDn-PI-X5p">
@@ -63,17 +63,17 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Class" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgK-8u-09f">
-                                                    <rect key="frame" x="40" y="0.0" width="42" height="46"/>
+                                                    <rect key="frame" x="40" y="0.0" width="210" height="46"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="46" id="Y3u-gx-mQl"/>
+                                                        <constraint firstAttribute="height" constant="46" id="vOO-hi-twE"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grade" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gk8-ie-TSU">
-                                                    <rect key="frame" x="313" y="0.0" width="47" height="46"/>
+                                                    <rect key="frame" x="258" y="0.0" width="47" height="46"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -81,15 +81,17 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="CgK-8u-09f" firstAttribute="leading" secondItem="yDn-PI-X5p" secondAttribute="trailing" id="0dS-b7-2X7"/>
-                                                <constraint firstItem="gk8-ie-TSU" firstAttribute="firstBaseline" secondItem="CgK-8u-09f" secondAttribute="firstBaseline" id="FNH-Uc-jof"/>
-                                                <constraint firstItem="CgK-8u-09f" firstAttribute="top" secondItem="BZq-Iq-EIZ" secondAttribute="top" id="PeD-a7-qYY"/>
+                                                <constraint firstAttribute="bottom" secondItem="gk8-ie-TSU" secondAttribute="bottom" id="CRA-if-7QO"/>
                                                 <constraint firstItem="yDn-PI-X5p" firstAttribute="leading" secondItem="BZq-Iq-EIZ" secondAttribute="leading" id="Xeb-aw-sdh"/>
-                                                <constraint firstItem="gk8-ie-TSU" firstAttribute="baseline" secondItem="CgK-8u-09f" secondAttribute="baseline" id="byC-ck-36n"/>
+                                                <constraint firstAttribute="bottom" secondItem="CgK-8u-09f" secondAttribute="bottom" id="Y7E-d2-A54"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="gk8-ie-TSU" secondAttribute="trailing" id="h8Y-ZM-t8K"/>
+                                                <constraint firstItem="gk8-ie-TSU" firstAttribute="leading" secondItem="CgK-8u-09f" secondAttribute="trailing" constant="8" id="lGc-xA-SMA"/>
                                                 <constraint firstItem="yDn-PI-X5p" firstAttribute="top" secondItem="BZq-Iq-EIZ" secondAttribute="top" id="mPH-IU-0Sm"/>
+                                                <constraint firstItem="CgK-8u-09f" firstAttribute="top" secondItem="BZq-Iq-EIZ" secondAttribute="top" id="nVk-fh-d1n"/>
                                                 <constraint firstItem="yDn-PI-X5p" firstAttribute="leading" secondItem="BZq-Iq-EIZ" secondAttribute="leading" id="r7F-MU-HgK"/>
                                                 <constraint firstItem="yDn-PI-X5p" firstAttribute="top" secondItem="BZq-Iq-EIZ" secondAttribute="top" id="tZX-uq-YTa"/>
+                                                <constraint firstItem="CgK-8u-09f" firstAttribute="leading" secondItem="yDn-PI-X5p" secondAttribute="trailing" id="zHr-Oe-Ncq"/>
+                                                <constraint firstItem="gk8-ie-TSU" firstAttribute="top" secondItem="BZq-Iq-EIZ" secondAttribute="top" id="zen-H9-OPj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -101,14 +103,14 @@
                                 </prototypes>
                             </tableView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ty3-j5-7YG">
-                                <rect key="frame" x="0.0" y="44" width="375" height="128"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="128"/>
                                 <color key="tintColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="1Xp-rI-i6e"/>
                                 </constraints>
                             </pickerView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pxX-wc-Asd">
-                                <rect key="frame" x="375" y="44" width="0.0" height="0.0"/>
+                                <rect key="frame" x="320" y="44" width="0.0" height="0.0"/>
                                 <subviews>
                                     <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-6u-S26">
                                         <rect key="frame" x="0.0" y="0.0" width="119" height="0.0"/>
@@ -156,24 +158,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RqB-BS-hwA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1036" y="-1537.7811094452775"/>
+            <point key="canvasLocation" x="1035" y="-1538.0281690140846"/>
         </scene>
         <!--Calculator View Controller-->
         <scene sceneID="nGy-sj-sJu">
             <objects>
                 <viewController storyboardIdentifier="GPACalculator" id="wNj-A7-MEt" customClass="GPACalculatorViewController" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kPl-GV-Xwn" customClass="GradientView" customModule="SkyMobile" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GPA Calculator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tj-WC-Ytb">
-                                <rect key="frame" x="16" y="57" width="154" height="28"/>
+                                <rect key="frame" x="16" y="57" width="99" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <navigationBar contentMode="scaleToFill" barStyle="black" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wlf-Pg-56g">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="mYP-Dc-b5k"/>
@@ -270,19 +272,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Semester 1 Average" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoF-3v-Ttd">
-                                <rect key="frame" x="202" y="104" width="157" height="34"/>
+                                <rect key="frame" x="202" y="104" width="102" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Semester 2 Average" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pa0-9G-JBm">
-                                <rect key="frame" x="200" y="146" width="159" height="34"/>
+                                <rect key="frame" x="200" y="146" width="104" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Final GPA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSZ-gE-FLu">
-                                <rect key="frame" x="200" y="188" width="159" height="34"/>
+                                <rect key="frame" x="200" y="188" width="104" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -343,11 +345,11 @@
             <objects>
                 <viewController storyboardIdentifier="DetailedAssignmentViewer" id="Qqd-4M-Csz" customClass="DetailedAssignmentViewController" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ap3-Cj-t9g" customClass="GradientView" customModule="SkyMobile" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" barStyle="black" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dZc-mZ-2Mx">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="XUD-HI-M9h"/>
@@ -443,7 +445,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView verifyAmbiguity="off" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXw-qa-PUA">
-                                <rect key="frame" x="0.0" y="521" width="375" height="146"/>
+                                <rect key="frame" x="0.0" y="521" width="375" height="47"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z1M-DM-zG8">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="163"/>
@@ -638,11 +640,11 @@
             <objects>
                 <viewController storyboardIdentifier="ViewAssignments" id="ba0-tb-9Gb" userLabel="View Assignments" customClass="ViewAssignments" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="82p-va-ndv" customClass="GradientView" customModule="SkyMobile" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="r6l-FD-EsL">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <items>
                                     <navigationItem title="Grades" id="02q-dj-sfa">
@@ -651,13 +653,13 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o54-X5-2sn">
-                                <rect key="frame" x="-20" y="44" width="415" height="668"/>
+                                <rect key="frame" x="-20" y="44" width="360" height="569"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C9Q-rf-YSd">
-                                        <rect key="frame" x="19" y="0.0" width="377" height="1236"/>
+                                        <rect key="frame" x="19" y="0.0" width="322" height="1236"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Class" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3Q-17-yOk">
-                                                <rect key="frame" x="8" y="0.0" width="259" height="44"/>
+                                                <rect key="frame" x="8" y="0.0" width="204" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="x4d-mL-NPo"/>
                                                 </constraints>
@@ -666,7 +668,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Term" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJk-dn-9lD">
-                                                <rect key="frame" x="286" y="0.0" width="83" height="44"/>
+                                                <rect key="frame" x="231" y="0.0" width="83" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="83" id="JeA-PN-zTp"/>
                                                 </constraints>
@@ -675,17 +677,17 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="udi-mc-YDr">
-                                                <rect key="frame" x="8" y="52" width="361" height="295"/>
+                                                <rect key="frame" x="8" y="52" width="306" height="295"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="295" id="5LU-iV-iey"/>
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="header" id="MTW-IL-Jgl" customClass="HeaderCells" customModule="SkyMobile" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="361" height="44"/>
+                                                        <rect key="frame" x="0.0" y="28" width="306" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MTW-IL-Jgl" id="PPC-xQ-VLD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="361" height="44"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="306" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAZ-6o-BjV">
@@ -707,10 +709,10 @@
                                                         </connections>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="ul3-rD-PCa" customClass="AssignmentViewCells" customModule="SkyMobile" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="72" width="361" height="44"/>
+                                                        <rect key="frame" x="0.0" y="72" width="306" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ul3-rD-PCa" id="CJW-KZ-Kd7">
-                                                            <rect key="frame" x="0.0" y="0.0" width="361" height="44"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="306" height="44"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="Assignment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2h6-iG-eVd">

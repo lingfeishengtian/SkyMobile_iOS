@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import WebKit
-import iAd
 
 // MARK: - Prep into Private Beta 2.8
 class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{

@@ -52,10 +52,10 @@ class ImportantUtils {
 //                if Grade == low{
 //                    red = red  * 0.7
 //                }
-                var green = Double(Grade)*2.55/255
-                var red = (1.0-green)*6.0
+                let green = Double(Grade)*2.55/255
+                let red = (1.0-green)*6.0
                 
-                var color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
+                let color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
                 finalColors.append(color)
                 //print(color)
                 //finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))

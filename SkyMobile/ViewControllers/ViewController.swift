@@ -17,6 +17,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var SubmitBtn: UIButton!
     
+    @IBOutlet weak var BetaInfoDisplayer: UILabel!
     var UserName = "000000"
     var Password = "000000"
     let importantUtils = ImportantUtils()
@@ -43,10 +44,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
+        
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+        BetaInfoDisplayer.text?.append(appVersion! + " on " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
     }
     
     override func viewDidLayoutSubviews() {
-        let borderColor = UIColor.black
         UsernameField.underlined()
         PasswordField.underlined()
     }
@@ -262,4 +265,17 @@ extension UITextField {
         self.layer.masksToBounds = true
     }
     
+}
+
+extension UIDevice {
+    var modelName: String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        return identifier
+    }
 }
