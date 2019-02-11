@@ -17,6 +17,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var SubmitBtn: UIButton!
     
+    @IBOutlet weak var SavedAccountsTableView: UITableView!
     @IBOutlet weak var BetaInfoDisplayer: UILabel!
     var UserName = "000000"
     var Password = "000000"
@@ -25,6 +26,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SavedAccountsTableView.separatorColor = UIColor.black
         
         importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward FBISD")
         webView.navigationDelegate = self
