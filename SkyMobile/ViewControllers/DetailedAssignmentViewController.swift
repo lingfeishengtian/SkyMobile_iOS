@@ -28,7 +28,6 @@ class DetailedAssignmentViewController: UIViewController {
     @IBOutlet weak var Comments: UILabel!
     @IBOutlet weak var CommentScrollView: UIScrollView!
     
-    var webView: WKWebView = WKWebView()
     var Term = "PR1"
     var Class = "Nil"
     var html = " "
@@ -39,9 +38,9 @@ class DetailedAssignmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.parseHTMLAndSetValues(html: self.html)
-        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
-        view.addSubview(webView)
+        Courses = InformationHolder.Courses
         
         scrollView.frame.size = CGSize(width: self.view.frame.width, height: scrollView.frame.height)
         AssignmentName.hidesBackButton = false
@@ -120,18 +119,13 @@ class DetailedAssignmentViewController: UIViewController {
     }
     @objc func goBack(_ sender: Any) {
         importantUtils.CreateLoadingView(view: self.view, message: "Going back...")
-            let javaScript = "dLog_showAssignmentInfo.querySelector(\"a[title=\\\"close the dialog\\\"]\").click();document.documentElement.outerHTML.toString()"
-            self.webView.evaluateJavaScript(javaScript){ (result, error) in
                 let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                 let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-                vc.webView = self.webView;
-                vc.HTMLCodeFromGradeClick = result as! String
+                vc.HTMLCodeFromGradeClick = html
                 vc.Class = self.Class
-                vc.Courses = self.Courses
                 vc.Term = self.Term
                 vc.Assignments = self.Assignments
                 self.present(vc, animated: true, completion: nil)
-            }
     }
     
     

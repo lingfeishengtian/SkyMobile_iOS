@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 import SwiftSoup
+import Kanna
 
 class ImportantUtils {
     fileprivate func findMaxAndLowOf(_ finalGrades: [Double], _ high: inout Double, _ low: inout Double) {
@@ -186,6 +187,8 @@ class ImportantUtils {
             }
         })
     }
+    
+    @available(*, deprecated, message: "Switching over to Kanna because of higher performance boost")
     func parseHTMLToGetGrades(htmlCodeToParse: String) -> [Course]{
         //Contains all courses that are available
         var newCourse: [Course] = []
@@ -224,6 +227,64 @@ class ImportantUtils {
         }
         print("DONE")
         return newCourse
+    }
+    
+    //MARK: New function using Kanna HTML parser to retrieve class data
+    func ParseHTMLAndRetrieveGrades(html: String) -> [Course]{
+        var newCourse: [Course] = []
+        var classes: [String] = []
+        let cssSelectorCode = "tr[group-parent]"
+        
+            if let document = try? HTML(html: html, encoding: .utf8){
+                let elements = document.css(cssSelectorCode)
+                //MARK: Retrieving classes
+                for element in elements {
+                    let text = element.text
+                    if(text!.contains("Period")){
+                        classes.append(text!)
+                    }
+                }
+                
+                newCourse = SplitClassDescriptionForKanna(classArr: classes)
+                for elementIndex in 0...newCourse.count-1{
+                    let html = elements[elementIndex].toHTML
+                    for (term, _) in newCourse[elementIndex].Grades.Grades{
+                        let document1 = try? HTML(html: html!, encoding: .utf8)
+                        let gradeElem1 = document1!.css("a[data-lit=\""+term+"\"]")
+                        for element in gradeElem1{
+                            newCourse[elementIndex].Grades.Grades[term] = element.text
+                        }
+                    }
+                    //print("Class: " + text + "\nGrade: " + html)
+                }
+            }
+        return newCourse
+    }
+    
+    fileprivate func SplitClassDescriptionForKanna(classArr: [String]) -> [Course]{
+        var finalPeriod: [Course] = []
+        for Class in classArr{
+            if Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n").count <= 1{
+                let current = Course(
+                    period: Int(Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0])!,
+                    classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
+                    teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "(\n")[0].components(separatedBy: "\n\n\n")[0])
+                
+                finalPeriod.append(current)
+            }else{
+                let current = Course(
+                    period: Int(Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0])!,
+                    classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
+                    teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[1].components(separatedBy: "\n\n\n")[0])
+                
+                finalPeriod.append(current)
+            }
+        }
+        
+        //        for testCase in finalPeriod{
+        //            print("Class: " + testCase.Class + "\nPeriod: " + String(testCase.Period) + "\nTeacher: " + testCase.Teacher)
+        //        }
+        return finalPeriod
     }
     
     fileprivate func SplitClassDescription(classArr: [String]) -> [Course]{

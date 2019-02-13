@@ -229,7 +229,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AP?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kE9-uB-nct">
-                                                    <rect key="frame" x="286" y="10.5" width="113" height="22.5"/>
+                                                    <rect key="frame" x="247" y="10.5" width="113" height="22.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="113" id="iVF-W6-Oob"/>
                                                     </constraints>
@@ -813,6 +813,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8Tj-UQ-4E3"/>
                     </view>
+                    <connections>
+                        <outlet property="SettingsNavigationItem" destination="bIu-2A-y8D" id="KfX-VP-UJZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fnM-j0-0nN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

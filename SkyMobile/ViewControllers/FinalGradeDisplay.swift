@@ -41,6 +41,11 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var table: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
+        if webView == WKWebView() || Courses.isEmpty{
+        webView = InformationHolder.SkywardWebsite
+        Courses = InformationHolder.Courses
+        }
+        
         if IsElementaryAccount(courses: Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
@@ -159,10 +164,10 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-        vc.webView = webView;
         vc.Class = self.Courses[indexOfClass].Class
         vc.Term = self.Options[indexOfOptions]
-        vc.Courses = self.Courses
+        InformationHolder.SkywardWebsite = webView
+        InformationHolder.Courses = Courses
         
         webView.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + self.Options[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
         let javaScript = "document.querySelector(\"table[id^=grid_stuGradeInfoGrid]\").querySelector(\"a\").text"
@@ -230,8 +235,8 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBAction func goToGPACalculator(_ sender: Any) {
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : GPACalculatorViewController = mainStoryboard.instantiateViewController(withIdentifier: "GPACalculator") as! GPACalculatorViewController
-        vc.webView = self.webView;
-        vc.Courses = self.Courses
+        InformationHolder.SkywardWebsite = webView
+        InformationHolder.Courses = Courses
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -278,9 +283,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                 self.moreMenuItemsStackView.layoutIfNeeded()
             })
         }
-    @IBAction func GetSettingsView(_ sender: Any) {
-        
-    }
 }
 
 class GradeTableViewCell: UITableViewCell{

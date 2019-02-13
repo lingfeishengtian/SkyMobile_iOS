@@ -1,16 +1,20 @@
 PODS:
+  - Kanna (4.0.3)
   - SwiftSoup (1.7.4)
 
 DEPENDENCIES:
+  - Kanna (~> 4.0.0)
   - SwiftSoup
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Kanna
     - SwiftSoup
 
 SPEC CHECKSUMS:
+  Kanna: 0ebbdd0e7e3308f0aafbd569e79c8cadc5eb877c
   SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
-PODFILE CHECKSUM: 52d7f43e7d155f55db80d2632fe9ef6557398d2d
+PODFILE CHECKSUM: 6c016c2eb691603594ae05ee34665a6f56129f8e
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0

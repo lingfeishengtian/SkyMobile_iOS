@@ -27,30 +27,12 @@
                                 <color key="textColor" red="0.97647058819999999" green="0.93725490199999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waiting for Login Items to Load" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAW-fM-g6h">
-                                <rect key="frame" x="67" y="338" width="241" height="36"/>
-                                <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="18"/>
-                                <color key="textColor" red="0.93441106799999996" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beta" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRh-l9-cU5">
-                                <rect key="frame" x="0.0" y="203" width="375" height="18"/>
-                                <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="18"/>
-                                <color key="textColor" red="0.93441106799999996" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="XRh-l9-cU5" firstAttribute="top" secondItem="ssg-Og-gsi" secondAttribute="bottom" constant="8" id="7t6-ME-4eE"/>
-                            <constraint firstItem="XRh-l9-cU5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8nE-IV-R0f"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dAW-fM-g6h" secondAttribute="bottom" constant="293" id="MlW-7r-Wjr"/>
                             <constraint firstItem="ssg-Og-gsi" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="PF5-mT-HLb"/>
                             <constraint firstItem="ssg-Og-gsi" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="XG8-Z2-q9D"/>
                             <constraint firstAttribute="trailing" secondItem="ssg-Og-gsi" secondAttribute="trailing" id="fxa-T8-Tax"/>
-                            <constraint firstItem="dAW-fM-g6h" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="67" id="hym-5A-6KT"/>
-                            <constraint firstItem="XRh-l9-cU5" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pSd-dO-Q94"/>
-                            <constraint firstItem="ssg-Og-gsi" firstAttribute="centerX" secondItem="dAW-fM-g6h" secondAttribute="centerX" id="yec-4a-A4k"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

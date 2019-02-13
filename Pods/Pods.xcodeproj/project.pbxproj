@@ -3,475 +3,603 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0125381E1C413679BD6DEE9B99950665 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		0C10A08B886BA3D100F147B082BCE560 /* ParseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75616435FEC520E0AB2B9A03B42B9463 /* ParseSettings.swift */; };
-		0CAD83E99ACBC0A2828626F52FBB5077 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A118F700581BBB3243C0D7FB77C29D4 /* Node.swift */; };
-		105CEBAE7ADDC82AA15E7394F63270A8 /* Pods-SkyMobileTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D7512BF632031B63375A421DBABB86 /* Pods-SkyMobileTests-dummy.m */; };
-		1510408AEAF5766A28A057CB803D7249 /* Collector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891F553D19B720459C76E855199AE6A8 /* Collector.swift */; };
-		16ACFF7A01822C54F6F387A95613B6D8 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C699DC348D289409414BCFACDADC92 /* Selector.swift */; };
-		16F0FFC8B09C15DDC1F60B9A4E589FEF /* TextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B9BE6A120CF124AC947FD213458C40 /* TextNode.swift */; };
-		1C63082BF815C37DFEE8FD710345CEB3 /* Cleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88AD2063C746E24C76A695124CB8F61C /* Cleaner.swift */; };
-		244F3577A0B93810DA67C6B8A65DCDBC /* XmlTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579FD986C85730D8DF75FB2A4152B0BD /* XmlTreeBuilder.swift */; };
-		24B3E687E54674743390A5FE1AF9E53A /* Whitelist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2C0DDEA29B76684DE018F529B05DAF /* Whitelist.swift */; };
-		26BCA10268B07F61E49160B7E213581E /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F70944F55E23CA9F1AA9C3F5E543E6 /* Attribute.swift */; };
-		282AF7AC8BF37E1A77FA9E0D79B84961 /* XmlDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1C5C6357B71AF5FED442F9E3F6C77C /* XmlDeclaration.swift */; };
-		358A1C0ECCE52FD05D72249138C952B7 /* DataUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE3159671F061357B3988820992AB3 /* DataUtil.swift */; };
-		3678501CCC31CDB5CCD74D3732D9D940 /* Pods-SkyMobileTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 39CA2DD2D66101305CF821C9F98687A3 /* Pods-SkyMobileTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		37AF3727E551586DB708C1C79C9AD995 /* Pods-SkyMobile-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F6DFA058C078AC9E7E8CDF48E492DBB4 /* Pods-SkyMobile-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		47A00868353FE26D36D49708BFD3EC6F /* Tokeniser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B3B52F70E88D2AAF09B90CF31FD8F3 /* Tokeniser.swift */; };
-		4DD346EB1D5F31FDB9B566A0C62300A4 /* Pods-SkyMobile-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4EBB2019A16139A1A223F56C0A7477 /* Pods-SkyMobile-dummy.m */; };
-		506E8228679B6C6FCE6703065672EEE1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F061E45166C4F6CA7950D7D4C21B927 /* String.swift */; };
-		5227009F3B130250471BF0A61B132B30 /* HttpStatusException.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630405AF103BE0784FC9F1DCDCD38697 /* HttpStatusException.swift */; };
-		52F13C63F5BA19EAE3C7666144A16BB0 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82C0363736F54D355C889057930C8FA /* StringUtil.swift */; };
-		55CB5634CA321218EEABB36812C389DE /* SimpleDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537704880A3EEBF0AEBDF2621EB6A0F3 /* SimpleDictionary.swift */; };
-		570836CA886745F11466ED59F968E29C /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007D3C79D0CF0BE6FF2556B8846850EA /* ArrayExt.swift */; };
-		5A5315131F30DFB34D3CB41C1675956A /* StringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D12F1CEC81E5C1E794F0CF413C1CB0A /* StringBuilder.swift */; };
-		5C0B1D46D6364E907308199F271D67DD /* TokenQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1FDBFD8A4C10159D5648D741FAABF /* TokenQueue.swift */; };
-		5E2F0F23C078B7DFBE6B2C761CF438B6 /* SerializationException.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB27AFE288A80F619BD84ABCA86E98E8 /* SerializationException.swift */; };
-		61204615B56996EAF101E9F0256C216C /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BA06715F85D033EEFF5E596790DFC3 /* OrderedDictionary.swift */; };
-		6B3D02C9915A4305FB6536E6FE23F595 /* Exception.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0F2496EE4A25ED1BC61246533BA9DB /* Exception.swift */; };
-		727AD8C596C0B1604D3FA80659CBD576 /* StructuralEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E9CAE847A747B6035DD7897522E6B3 /* StructuralEvaluator.swift */; };
-		7477B105AE076978A1B563D22AD7A05A /* BooleanAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43135FFED43499A32E8D4B93EF8497DE /* BooleanAttribute.swift */; };
-		7C411A69ED666E1C704060E095D1D73B /* TokeniserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E206093B8CFA7D169994473FF3E06161 /* TokeniserState.swift */; };
-		8667790F8F118CEA176AE6BCD4BFFBC0 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF8CDB58FEC3DF8E9E9C788D7986C1A /* Evaluator.swift */; };
-		872A7C2843A8242E748A4A821384A492 /* ParseErrorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED412CB67CEC5AD53D090DEE9295FEF /* ParseErrorList.swift */; };
-		89021D1B3BA28E65A8B9A11B9FC69F97 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		8F08CD1787795AA5EBD6869DAF3CBC59 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44522D8D8770660DA0A055D988C6FD66 /* Elements.swift */; };
-		8FF28F61B205D533768F6EFA1CB7F9D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		96231B24C7395E8D6F53D46B130BEE4F /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA80EA825456A85C5EAC81128B7D2A13 /* StreamReader.swift */; };
-		96E4B9C36E925B7785D865DE14B60630 /* NodeTraversor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8122F2BB284283B425EEEC260DED5BD /* NodeTraversor.swift */; };
-		972346BCADC158F12418642BB98A05C8 /* SwiftSoup-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B904EFDFEFD12E6251E008D801F1AA /* SwiftSoup-dummy.m */; };
-		97BF8A3C966453A27238B5C471BEE05C /* SwiftSoup-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E7F17F2F550754AAF9D410D5F392FE1 /* SwiftSoup-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		987BC8D45B7F49CF24B065F600A0F85F /* Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDCF5CC7CF2C5D8A9614A7594208FA7 /* Attributes.swift */; };
-		9A159A6EB6A8B4609FAB31F153A0D146 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956F25711ABFDA06A834B23E76E18FD /* Tag.swift */; };
-		A45533A560999A8C52B5185747ECE65E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61E30D96D9E0C51D7D98102AF5F400C /* Comment.swift */; };
-		A5B1E4215AA24CDC9C8702FBD9E4807E /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2005E18A17D8432D600D482946D4853 /* TreeBuilder.swift */; };
-		A7475997516D1DF91711922DAFD51BEF /* CharacterExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C99786795B1D08392875CE49B837F6 /* CharacterExt.swift */; };
-		AE965EFCCA5DF40F4DEDE7E6DB736CB8 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C6BF3EB96502284C4EED48AE8473 /* Entities.swift */; };
-		B5F4C6BB2C9CC95990444195050CAD49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
-		BE95A77B5ECBDC85126B9F5D415C77D5 /* HtmlTreeBuilderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DF94B4A7E96608E4C28CA87594E86E /* HtmlTreeBuilderState.swift */; };
-		C582087FAAD081362796F3D00C428436 /* FormElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B2CD38A0917CAC75420AFA2BE3217D /* FormElement.swift */; };
-		C70B0B11F921073CD093245F85577530 /* DocumentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D11884996774307AC571FE915381DDA /* DocumentType.swift */; };
-		CA3B544689A3CDC49A1CA1D63EE12D25 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD652EC954FA79D571169EEE782E52 /* Element.swift */; };
-		CAF2EBA9B5C75B807D91DC22DED85362 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E200B9A53BE45ABCE292F1D437814 /* Parser.swift */; };
-		CDBE7C3E9B4AB960DF0530625A144E53 /* DataNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29037850BEB5FB77E124FFF3C513B2DE /* DataNode.swift */; };
-		CDF4A13B76750260DE8D4F159C24CB3E /* OrderedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6624F64CD104A5B090FB1650EBBA42 /* OrderedSet.swift */; };
-		D6F8AE7C5590FBC24E7ACB3350F8A1B3 /* SwiftSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD7FE9BBC26C485FA0644BE827A3819 /* SwiftSoup.swift */; };
-		D75EFA0BE70338D0619DF65F54705E40 /* UnicodeScalar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0956AF381D1BCA58B1DB673ADE2D36F /* UnicodeScalar.swift */; };
-		D7CB6E0195859FFD26085B2CAE8EE247 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6235B2201DD7DB5DEC881D9EEFAD0668 /* Document.swift */; };
-		DE4BB92EBEC48827441767C6D7B81015 /* HtmlTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E06B99125D7235986F5D7B72C6375A2 /* HtmlTreeBuilder.swift */; };
-		E1B5E81E24578349AA018FFF4FCE057B /* CharacterReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CEDF1B4C93C6BF04A8B3A376D824DF8 /* CharacterReader.swift */; };
-		E3819EDFCCF57B2DE410B194F5E9DB3D /* CombiningEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9CFDFD9EC0461E0183230E7BD4D23C /* CombiningEvaluator.swift */; };
-		E57131E72E8ACA32393DF174EA6772BF /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85808BF20F785856A36A4A52D595EC /* Pattern.swift */; };
-		E5E2089E565315F753E948624965F5D2 /* Pods-SkyMobileUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7355CF3F30C1810F1DB7EDE6A810BEA2 /* Pods-SkyMobileUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E7E03A25058D1F3858A18389E06F829E /* NodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604190ED985B8459D4C3CB00B08EA1B2 /* NodeVisitor.swift */; };
-		E818247285600AD6EFAD11520196C540 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9C8B211B0D820409975E0CED455873 /* Token.swift */; };
-		ED140E4B7EDB30E14373B85655C4D992 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC3E56F2EE8DA918D59461695CA0A73 /* ParseError.swift */; };
-		F5BE21B6CD47E72548CC905539375720 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8DBAFB48F24C32F0F280BEEE6DF2D9 /* Connection.swift */; };
-		F7D7856E0AF00FF4884CF1F2E4919746 /* Pods-SkyMobileUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE0C48438DE9CF2A3EF914F08E77E5 /* Pods-SkyMobileUITests-dummy.m */; };
-		FD0442C603D16FA0B2BEB6AAF2CA78E6 /* QueryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C0F72E08235D6F7E7899B570146174 /* QueryParser.swift */; };
-		FD9F43C521B0C26DE14D32CADA736BB4 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A6677827DBA02A83EC3359D513333 /* Validate.swift */; };
+		05BB93AC14B861487B61FD7ED27EFCAA /* Cleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6563BFAFDB6C05D35B15B51C2B283C /* Cleaner.swift */; };
+		05DB3F173B19560BD8486529131606AD /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1E912F9BC7933898A7B005DE3C66F0 /* Node.swift */; };
+		0B2937BFFACDD848C493DD72582A0735 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF37D0B5082886D1CFD532F9AD6821C /* StreamReader.swift */; };
+		0EF41FD29CD71A2D435CF4BE5BDC0DC1 /* NodeTraversor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B46D1484979F345F9C79F00F9B37D /* NodeTraversor.swift */; };
+		134C71C4C1CAA156C950D9C302ADFDE4 /* SimpleDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93BD4C96F27BF06C2A2B5F0409D4C4C /* SimpleDictionary.swift */; };
+		1CD2C13D3F0ADFCACCEE47C9851EE321 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03C4DD316F7B1EB1496205CC61174F7 /* Token.swift */; };
+		21312268B6DB1D008AA00D29B3D860D2 /* Exception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F44FEAA8704EFDD73882C508E1EBA7 /* Exception.swift */; };
+		2DAC7A6A4DC00202CEDB3860F091C34D /* Kanna-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F0E4B4C6B8B28BB35D204984EE355B /* Kanna-dummy.m */; };
+		35199D3B0D0D93788A9F66A1727EB70D /* HtmlTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8DCDDB54849722FD9D614809BB83D3 /* HtmlTreeBuilder.swift */; };
+		378645760FF2F9B27130D9473ABB441E /* StringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F46EDE1CD80D1A626B6A584F373E67 /* StringBuilder.swift */; };
+		3DD965C113498DB8225CBCCFC8CE850F /* Collector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7731FBB06CB4F837CCCB566863DC7 /* Collector.swift */; };
+		4028EA3091800BA41A1B4255E675793A /* NodeVisitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029C20C3E1CAABF6B233E3C4C91242AF /* NodeVisitor.swift */; };
+		407D72416F59E857F611BFBEB45F7BBB /* ParseErrorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70CFFCB451770AC0D5E45EF0EC51CB9 /* ParseErrorList.swift */; };
+		417EDE25C65D9D4C21475A28C97FF219 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD47BE8124A412EAD3EC6FE99D917EB9 /* Validate.swift */; };
+		48EAFB23E51CFB029365640B79EC67B4 /* Kanna.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3360577AFA6064C574C2CA656191D5 /* Kanna.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C0F906591BC1EE143E3C52F2E0EAB35 /* Pods-SkyMobile-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7018F93B35AF975E85556971F0C0A079 /* Pods-SkyMobile-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C2DE52019670B533E562CE3F2A6E077 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D191EB97DD857ABA304A173A76CB1A8 /* Deprecated.swift */; };
+		5030DFBFED69147F0FDF62CEE63212FD /* HtmlTreeBuilderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223C715C04FCF0A847D225094F28FEC3 /* HtmlTreeBuilderState.swift */; };
+		54BE4DD73AD0199B6E881650A32631A9 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F6D24DEB4FD075C6C366993921DBA7 /* Comment.swift */; };
+		5B32A9E85D43A45FD12CE7E813A2775C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
+		5B4370A5A39E1FF70FFA7B6D6AAD2820 /* XmlDeclaration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C329D1627AC398A35EF74AEF1F8434B3 /* XmlDeclaration.swift */; };
+		5BE89559678A6FD651E1BEE00B4FA65F /* Whitelist.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1AA4B6641BFC9DCACFC48796B2755 /* Whitelist.swift */; };
+		60D81A82254562AF6535344D6BB976D3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
+		64826E34ED5014177AFA48FDCC58C511 /* CharacterExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A9376133EB08428FE4295B00FBBEF6 /* CharacterExt.swift */; };
+		6585F897A98CC045D36724BF65F03481 /* DataNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBBDF66AFA2F4CEC9DF2B2A310E3BFB /* DataNode.swift */; };
+		6587DAAD4E57E5CAC3CDB57CA1FDD7FB /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CD9B8242F925ECD1C4C0FE3E3D2B01 /* Tag.swift */; };
+		6921ED8F336C9A8584246C8EA9E05BCD /* CSS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99464EA9083AEFD4A175FA4CE9C0188 /* CSS.swift */; };
+		6CC61033934A50B0C3920611AD4149F9 /* SwiftSoup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B4E69C9F7DAB4E6DEEA3002CF8C86F /* SwiftSoup.swift */; };
+		70C7C248DF360C63FB6A379DBAA939C6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
+		725C70A40D989D67799CBD165328FC6F /* TextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81C340004C69D4B02DD9E7DDCEFBE59 /* TextNode.swift */; };
+		78603652B703AF89EC0727F5F8CC9933 /* DocumentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA7E743769B3175D17528FF7991C8A9 /* DocumentType.swift */; };
+		798B98B97EC04936DFA5DF29E851C06D /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C773A92F48798796C4743629B45A06 /* Entities.swift */; };
+		8774A5A653438FA4D9834431DEEBDAC7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8130A9B404C2692F089593A3D6A45FC /* String.swift */; };
+		8D47E85AD251CF60B802451C4860A9E2 /* Pods-SkyMobileUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 20F70DC0F775B419F53130821460AF4F /* Pods-SkyMobileUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8F1959C1EC0F0AF1E7D6E630D22880C2 /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F3772D5CCFCEEEBEDBCAF7BA0D0116 /* ArrayExt.swift */; };
+		9175E4549998CF7EBDD0D98E5EB4DC13 /* QueryParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED69DD597346ECD2361D9D52B2A19366 /* QueryParser.swift */; };
+		91A82D58A1FECD755BCB831F9D5F9115 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE0C9A9CCF45D6B4A1F8AF0948B206F /* Document.swift */; };
+		92D43939C6B66D438E8BF719DE14F434 /* DataUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7045F3261D24CCD3533E38221826A327 /* DataUtil.swift */; };
+		93A553CF8302FFEDF96584A23A6402F6 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EC4843ED54B53080A77D7E4C9B6166 /* Element.swift */; };
+		95C14B75D16548DB5609914B43F83E27 /* SwiftSoup-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4642096ADDF67220A08C7F958FB927B9 /* SwiftSoup-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		986F3EC3E696E5E0AAC0611145E14598 /* CharacterReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C357A91E83EB467292A79A07D31098 /* CharacterReader.swift */; };
+		9A497BBEBDF0E7613A35C85C44DF9164 /* SwiftSoup-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 26B5AD8808A52AEFC3CB89AC30DFD3B7 /* SwiftSoup-dummy.m */; };
+		9BD655CC5B5B9D4861B68B69C2B68EA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
+		9E0FDC860764DDDC385A5F78083E30CE /* BooleanAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE788BDB64BEC639D7A291BF30F55532 /* BooleanAttribute.swift */; };
+		A20D50BC4E158C5BCF2DDE93B62C6335 /* libxmlParserOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = A544D5FD0AA76393E22F8AA4ECCDC3FE /* libxmlParserOption.swift */; };
+		A21957106D06AF935DE17907FB48775F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */; };
+		A33285DB8EA599C84C0C0DA0971F6274 /* ParseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4894BBEE3F35CD979B51C1A8680AB7DC /* ParseSettings.swift */; };
+		A626EDD7DC5AD198A921E5951A073314 /* Kanna-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 536EDBB6606DD61DF783BBDC1DADCFCD /* Kanna-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A6F23D4EE8EBDD6CA42F9DE8CB98782B /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96955DA2BCC321ABA77B18017894B220 /* ParseError.swift */; };
+		AC7DB2D95D4EB1FC8EC7A28C467F44CE /* TokenQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465CB7F420D6F75538498336F53A4391 /* TokenQueue.swift */; };
+		B14809D3927B9BD3F5CE2DE1A95E72E8 /* OrderedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF06B54BD8EBD4B8E2B85155E0CA36A /* OrderedSet.swift */; };
+		B1B115F14779BE7B536162879CBB1C54 /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AC54E2B5C9C4F452675AFF919AC09A /* OrderedDictionary.swift */; };
+		B3C51C8E9BE751A1247FDF53D6702FAC /* TreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27659346E9BD090237EC57889914F205 /* TreeBuilder.swift */; };
+		B9311F1DB548043F4299222C50001384 /* Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89D405CFDBF81DE94795263362A55D5 /* Attributes.swift */; };
+		BA9C98F67A0C0DF3F7B431DDD333678D /* HttpStatusException.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7671D00CE3C6C16A8D286214207575E2 /* HttpStatusException.swift */; };
+		BB01E5C2361137030EECD341813BA379 /* libxmlHTMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CFAC84271830FD9136CA5C1798ECBC /* libxmlHTMLDocument.swift */; };
+		BEA58A8F865F4F7116B1D06AB268E0E9 /* XmlTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47C78C5FE9BD87F6D7CEC6200034537 /* XmlTreeBuilder.swift */; };
+		C1933B7FE21AC1C0FA855AEBD792F799 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428F400B12676ED0518C9A409C2ED337 /* StringUtil.swift */; };
+		C4F41B585BAB6CB8858FCD342A211757 /* Pods-SkyMobileUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A4D716270BDEC96AD1A3D91761DB54 /* Pods-SkyMobileUITests-dummy.m */; };
+		C579DBCE02684D5BB778DBFF33BD0533 /* TokeniserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7C1E3910C2782ED7076FD2CAD46654 /* TokeniserState.swift */; };
+		C73EC5098AFF72BB9B68A49AB7B5B23D /* libxmlHTMLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21A1C76F044D82B84A62F0F918B9DF4 /* libxmlHTMLNode.swift */; };
+		C98E03F41C8606CEFC7D43ED75342432 /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8C0FE7D44C2DD524DB5547AA5A3E37 /* Attribute.swift */; };
+		CF07FBA90C681D9A3744C6E9C6DBA259 /* Tokeniser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8555C2208F1F2F05E99F394326F6B /* Tokeniser.swift */; };
+		D820FD672F0FDDD9FD3787720AD5B32E /* UnicodeScalar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124A55B0FD2D3CD0642910D5A105A809 /* UnicodeScalar.swift */; };
+		DB313AE281EB0FB254BFDE6476723BC1 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30094F7AA0D0982D25C9E82B44A42548 /* Evaluator.swift */; };
+		DD956835C762975BFF358B5B01CD1B42 /* Pods-SkyMobileTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2A6264D1DAB51F62C05D02BBAF6760 /* Pods-SkyMobileTests-dummy.m */; };
+		DF26AB29242601F1EF844C1F93622769 /* Kanna.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9142ED3870087F9EC7D43450B8F8EBB5 /* Kanna.swift */; };
+		E0E85E6ADA08613D278A140392F75CA1 /* StructuralEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC9930428BA20C005C196319ED8A8E7 /* StructuralEvaluator.swift */; };
+		E62A0934D7E598A3CD382727BC9A981A /* Pods-SkyMobile-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC786A8A085743805C41C50E7B3F8FD /* Pods-SkyMobile-dummy.m */; };
+		E64BAFEA162E3E878C883DA02810B6E8 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EEDBDE1D53199E19B4DE1C2DB4023F /* Parser.swift */; };
+		E650255DE91DB456C79DB25FD053BF88 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEA45E74F7160E4D4039001397A1579 /* Pattern.swift */; };
+		E9901B9A88C4F409A71B62D4FED7FA34 /* FormElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B7DD97D4101DD2DC9361D1BCA6D3F0 /* FormElement.swift */; };
+		F14D793AF37B0D86F60AD24F25D0BCD0 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4144715E60CF5DDBD0E4775A8AE98B9 /* Selector.swift */; };
+		F1C34A47C9382C890707DD963A350BC9 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F68A5785A6FA6A049546F41284FD3E /* Elements.swift */; };
+		F4F4EDEC4E765B157123710E54EE9BEE /* Pods-SkyMobileTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E6CA1230961902D69C57E97D31EFC093 /* Pods-SkyMobileTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F62D929A9317245A16EE6AE5C300E13C /* SerializationException.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE701A793EA46EDE58E2DB7C825E60 /* SerializationException.swift */; };
+		F94B2BA9549291CB0C1C40CD1DCB7E1B /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F312DA794DC428B7C671A80D25FA573 /* Connection.swift */; };
+		F95EAB4B0DFC78ACEC3679BA1035E2A3 /* CombiningEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DE9A449AFA725D3DACA76BD5C414A0 /* CombiningEvaluator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0B0EC8235472B8AF17204A7303C7C272 /* PBXContainerItemProxy */ = {
+		78A2BD7B04773E005054668A0A2716F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 57A8CEB9EA3E68CE5BE54D87C3A748D4;
+			remoteGlobalIDString = 2EADD0B0529C7578FF462B6BA5BE46F0;
 			remoteInfo = "Pods-SkyMobile";
 		};
-		227DD2A26E2D25F7888B968EF6000B64 /* PBXContainerItemProxy */ = {
+		AB767D5C316DB850A0C8E4707FFC49A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 57A8CEB9EA3E68CE5BE54D87C3A748D4;
+			remoteGlobalIDString = 1E0B9DFE11A3B2711C371DDBBA9BDAA6;
+			remoteInfo = Kanna;
+		};
+		E05FF8AF2766FA9808DE2560AAEBF3A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2EADD0B0529C7578FF462B6BA5BE46F0;
 			remoteInfo = "Pods-SkyMobile";
 		};
-		68ADC8953FAD25CB84009312B03209ED /* PBXContainerItemProxy */ = {
+		F9F28C6CEC8E37F830744B2B94680E3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3C91A73D99D22F1BE87D62507A253596;
+			remoteGlobalIDString = 359CAFC5DB3F51E9C6C963CB202F0863;
 			remoteInfo = SwiftSoup;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		007D3C79D0CF0BE6FF2556B8846850EA /* ArrayExt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ArrayExt.swift; path = Sources/ArrayExt.swift; sourceTree = "<group>"; };
-		03AEA73E2CFB66A5807420C7384BF16C /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0AEE3159671F061357B3988820992AB3 /* DataUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataUtil.swift; path = Sources/DataUtil.swift; sourceTree = "<group>"; };
-		0D63F0DF9827A820FF582588D36FD7D7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		10F2A3E92D4CF1787D9413C0A09C3AA0 /* Pods_SkyMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B66D56B8C6D79969BDFC2A72E88AD0B /* Pods-SkyMobileTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SkyMobileTests.modulemap"; sourceTree = "<group>"; };
-		1CEDF1B4C93C6BF04A8B3A376D824DF8 /* CharacterReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterReader.swift; path = Sources/CharacterReader.swift; sourceTree = "<group>"; };
-		1F061E45166C4F6CA7950D7D4C21B927 /* String.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = String.swift; path = Sources/String.swift; sourceTree = "<group>"; };
-		1F9C8B211B0D820409975E0CED455873 /* Token.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Token.swift; path = Sources/Token.swift; sourceTree = "<group>"; };
-		234EF6D6F376C93DFBC6D46B32620582 /* Pods-SkyMobileTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobileTests-resources.sh"; sourceTree = "<group>"; };
-		25B2CD38A0917CAC75420AFA2BE3217D /* FormElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormElement.swift; path = Sources/FormElement.swift; sourceTree = "<group>"; };
-		277085FEDD12A5B41C80181F027FA51D /* Pods-SkyMobile-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobile-frameworks.sh"; sourceTree = "<group>"; };
-		29037850BEB5FB77E124FFF3C513B2DE /* DataNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataNode.swift; path = Sources/DataNode.swift; sourceTree = "<group>"; };
-		290518F81B80D9D53F574FE58869505F /* Pods-SkyMobile.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SkyMobile.modulemap"; sourceTree = "<group>"; };
-		2ED412CB67CEC5AD53D090DEE9295FEF /* ParseErrorList.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseErrorList.swift; path = Sources/ParseErrorList.swift; sourceTree = "<group>"; };
-		39CA2DD2D66101305CF821C9F98687A3 /* Pods-SkyMobileTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SkyMobileTests-umbrella.h"; sourceTree = "<group>"; };
-		3C128FD1A53CFB2C7C9A1CE3B2EBBEBE /* Pods-SkyMobileUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SkyMobileUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		3C2C0DDEA29B76684DE018F529B05DAF /* Whitelist.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Whitelist.swift; path = Sources/Whitelist.swift; sourceTree = "<group>"; };
-		41FCFAFC1ED640E7B1505DA1739518FA /* Pods-SkyMobileUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		43135FFED43499A32E8D4B93EF8497DE /* BooleanAttribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BooleanAttribute.swift; path = Sources/BooleanAttribute.swift; sourceTree = "<group>"; };
-		44522D8D8770660DA0A055D988C6FD66 /* Elements.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Elements.swift; path = Sources/Elements.swift; sourceTree = "<group>"; };
-		44B904EFDFEFD12E6251E008D801F1AA /* SwiftSoup-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftSoup-dummy.m"; sourceTree = "<group>"; };
-		48B3B52F70E88D2AAF09B90CF31FD8F3 /* Tokeniser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tokeniser.swift; path = Sources/Tokeniser.swift; sourceTree = "<group>"; };
-		49D7512BF632031B63375A421DBABB86 /* Pods-SkyMobileTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SkyMobileTests-dummy.m"; sourceTree = "<group>"; };
-		4A118F700581BBB3243C0D7FB77C29D4 /* Node.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Node.swift; path = Sources/Node.swift; sourceTree = "<group>"; };
-		4C41513963F37FCEB0BA7C90F741A0F4 /* Pods-SkyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobile.debug.xcconfig"; sourceTree = "<group>"; };
-		4CA4B67FC171EE980EBF810DAF66AADD /* Pods-SkyMobileTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SkyMobileTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		4D8DBAFB48F24C32F0F280BEEE6DF2D9 /* Connection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = Sources/Connection.swift; sourceTree = "<group>"; };
-		537704880A3EEBF0AEBDF2621EB6A0F3 /* SimpleDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SimpleDictionary.swift; path = Sources/SimpleDictionary.swift; sourceTree = "<group>"; };
-		579FD986C85730D8DF75FB2A4152B0BD /* XmlTreeBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XmlTreeBuilder.swift; path = Sources/XmlTreeBuilder.swift; sourceTree = "<group>"; };
-		5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		5CB53A109C7EA009A9F814253682D0A4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D12F1CEC81E5C1E794F0CF413C1CB0A /* StringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringBuilder.swift; path = Sources/StringBuilder.swift; sourceTree = "<group>"; };
-		604190ED985B8459D4C3CB00B08EA1B2 /* NodeVisitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodeVisitor.swift; path = Sources/NodeVisitor.swift; sourceTree = "<group>"; };
-		6235B2201DD7DB5DEC881D9EEFAD0668 /* Document.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Document.swift; path = Sources/Document.swift; sourceTree = "<group>"; };
-		630405AF103BE0784FC9F1DCDCD38697 /* HttpStatusException.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HttpStatusException.swift; path = Sources/HttpStatusException.swift; sourceTree = "<group>"; };
-		6AB68E8AE1B1BF9350EF64BA4CBACBA3 /* Pods-SkyMobileTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobileTests-frameworks.sh"; sourceTree = "<group>"; };
-		6BCE0C48438DE9CF2A3EF914F08E77E5 /* Pods-SkyMobileUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SkyMobileUITests-dummy.m"; sourceTree = "<group>"; };
-		6D6A6677827DBA02A83EC3359D513333 /* Validate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Sources/Validate.swift; sourceTree = "<group>"; };
-		71C0F72E08235D6F7E7899B570146174 /* QueryParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QueryParser.swift; path = Sources/QueryParser.swift; sourceTree = "<group>"; };
-		7355CF3F30C1810F1DB7EDE6A810BEA2 /* Pods-SkyMobileUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SkyMobileUITests-umbrella.h"; sourceTree = "<group>"; };
-		73DD652EC954FA79D571169EEE782E52 /* Element.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Element.swift; path = Sources/Element.swift; sourceTree = "<group>"; };
-		74C99786795B1D08392875CE49B837F6 /* CharacterExt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterExt.swift; path = Sources/CharacterExt.swift; sourceTree = "<group>"; };
-		75616435FEC520E0AB2B9A03B42B9463 /* ParseSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseSettings.swift; path = Sources/ParseSettings.swift; sourceTree = "<group>"; };
-		77AE82DBB9A4686490A6369EA14F0B02 /* Pods-SkyMobileUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobileUITests-resources.sh"; sourceTree = "<group>"; };
-		7AC3E56F2EE8DA918D59461695CA0A73 /* ParseError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseError.swift; path = Sources/ParseError.swift; sourceTree = "<group>"; };
-		7B6FE86825D777422766667496C571CA /* Pods-SkyMobile-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SkyMobile-acknowledgements.markdown"; sourceTree = "<group>"; };
-		7D11884996774307AC571FE915381DDA /* DocumentType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DocumentType.swift; path = Sources/DocumentType.swift; sourceTree = "<group>"; };
-		7E06B99125D7235986F5D7B72C6375A2 /* HtmlTreeBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HtmlTreeBuilder.swift; path = Sources/HtmlTreeBuilder.swift; sourceTree = "<group>"; };
-		7FDCF5CC7CF2C5D8A9614A7594208FA7 /* Attributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Attributes.swift; path = Sources/Attributes.swift; sourceTree = "<group>"; };
-		85BA06715F85D033EEFF5E596790DFC3 /* OrderedDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OrderedDictionary.swift; path = Sources/OrderedDictionary.swift; sourceTree = "<group>"; };
-		87C01056B20A676B2D7ECF64266FFA33 /* SwiftSoup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftSoup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		88AD2063C746E24C76A695124CB8F61C /* Cleaner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cleaner.swift; path = Sources/Cleaner.swift; sourceTree = "<group>"; };
-		891F553D19B720459C76E855199AE6A8 /* Collector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collector.swift; path = Sources/Collector.swift; sourceTree = "<group>"; };
-		8E09A245843C4A80DB3E851909D1E31F /* Pods-SkyMobileUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobileUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		9161B06CA12DCBC5B4DD06E44D91CB1E /* SwiftSoup.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftSoup.modulemap; sourceTree = "<group>"; };
-		91F70944F55E23CA9F1AA9C3F5E543E6 /* Attribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Attribute.swift; path = Sources/Attribute.swift; sourceTree = "<group>"; };
-		927E3ECDCA260063E8D083C57C86DADA /* Pods-SkyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobile.release.xcconfig"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		96A7686CCF09EBE7451368867828BE16 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
-		97B9BE6A120CF124AC947FD213458C40 /* TextNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextNode.swift; path = Sources/TextNode.swift; sourceTree = "<group>"; };
-		9A1C5C6357B71AF5FED442F9E3F6C77C /* XmlDeclaration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XmlDeclaration.swift; path = Sources/XmlDeclaration.swift; sourceTree = "<group>"; };
-		9A3BD63675A803D0EEA4AEEEEB94164E /* Pods-SkyMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileTests.release.xcconfig"; sourceTree = "<group>"; };
-		9BDD8B0DF25F379106203B007954A1F3 /* Pods-SkyMobileUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileUITests.release.xcconfig"; sourceTree = "<group>"; };
-		9CF8CDB58FEC3DF8E9E9C788D7986C1A /* Evaluator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Evaluator.swift; path = Sources/Evaluator.swift; sourceTree = "<group>"; };
-		9E7F17F2F550754AAF9D410D5F392FE1 /* SwiftSoup-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftSoup-umbrella.h"; sourceTree = "<group>"; };
-		A060C6BF3EB96502284C4EED48AE8473 /* Entities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Entities.swift; path = Sources/Entities.swift; sourceTree = "<group>"; };
-		A42378796BA489BD07A8C7B9F96C26A9 /* Pods_SkyMobileUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobileUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5C699DC348D289409414BCFACDADC92 /* Selector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Selector.swift; path = Sources/Selector.swift; sourceTree = "<group>"; };
-		A8122F2BB284283B425EEEC260DED5BD /* NodeTraversor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodeTraversor.swift; path = Sources/NodeTraversor.swift; sourceTree = "<group>"; };
-		AB27AFE288A80F619BD84ABCA86E98E8 /* SerializationException.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SerializationException.swift; path = Sources/SerializationException.swift; sourceTree = "<group>"; };
-		AB2E200B9A53BE45ABCE292F1D437814 /* Parser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Sources/Parser.swift; sourceTree = "<group>"; };
-		AB9CFDFD9EC0461E0183230E7BD4D23C /* CombiningEvaluator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombiningEvaluator.swift; path = Sources/CombiningEvaluator.swift; sourceTree = "<group>"; };
-		AD235F347521F41E55A9E26C8FD79FE1 /* Pods-SkyMobileUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobileUITests-frameworks.sh"; sourceTree = "<group>"; };
-		AD4EBB2019A16139A1A223F56C0A7477 /* Pods-SkyMobile-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SkyMobile-dummy.m"; sourceTree = "<group>"; };
-		B8514C0BB18FD3CA82876085C5D13D55 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BA80EA825456A85C5EAC81128B7D2A13 /* StreamReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StreamReader.swift; path = Sources/StreamReader.swift; sourceTree = "<group>"; };
-		BAD7FE9BBC26C485FA0644BE827A3819 /* SwiftSoup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftSoup.swift; path = Sources/SwiftSoup.swift; sourceTree = "<group>"; };
-		BE85808BF20F785856A36A4A52D595EC /* Pattern.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Pattern.swift; path = Sources/Pattern.swift; sourceTree = "<group>"; };
-		C5A1FDBFD8A4C10159D5648D741FAABF /* TokenQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TokenQueue.swift; path = Sources/TokenQueue.swift; sourceTree = "<group>"; };
-		CC676503D7AA719B6B12FA7C365E4EEE /* SwiftSoup.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftSoup.xcconfig; sourceTree = "<group>"; };
-		CD1C037EB6BD35D6B8F003A2613E1678 /* Pods-SkyMobile-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobile-resources.sh"; sourceTree = "<group>"; };
-		D0956AF381D1BCA58B1DB673ADE2D36F /* UnicodeScalar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UnicodeScalar.swift; path = Sources/UnicodeScalar.swift; sourceTree = "<group>"; };
-		D61E30D96D9E0C51D7D98102AF5F400C /* Comment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Sources/Comment.swift; sourceTree = "<group>"; };
-		D82C0363736F54D355C889057930C8FA /* StringUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringUtil.swift; path = Sources/StringUtil.swift; sourceTree = "<group>"; };
-		D956F25711ABFDA06A834B23E76E18FD /* Tag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tag.swift; path = Sources/Tag.swift; sourceTree = "<group>"; };
-		DF0F2496EE4A25ED1BC61246533BA9DB /* Exception.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Exception.swift; path = Sources/Exception.swift; sourceTree = "<group>"; };
-		E206093B8CFA7D169994473FF3E06161 /* TokeniserState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TokeniserState.swift; path = Sources/TokeniserState.swift; sourceTree = "<group>"; };
-		E5EF9B3875E197E92AC7E1A7316E4F34 /* Pods-SkyMobileUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SkyMobileUITests.modulemap"; sourceTree = "<group>"; };
-		E7E9CAE847A747B6035DD7897522E6B3 /* StructuralEvaluator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StructuralEvaluator.swift; path = Sources/StructuralEvaluator.swift; sourceTree = "<group>"; };
-		E8B0331E34447129475CAAC09D065C59 /* Pods-SkyMobileTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobileTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		F2005E18A17D8432D600D482946D4853 /* TreeBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TreeBuilder.swift; path = Sources/TreeBuilder.swift; sourceTree = "<group>"; };
-		F2DF94B4A7E96608E4C28CA87594E86E /* HtmlTreeBuilderState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HtmlTreeBuilderState.swift; path = Sources/HtmlTreeBuilderState.swift; sourceTree = "<group>"; };
-		F3BA526A97CA8B2EEA6816A625C2C7FC /* SwiftSoup-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftSoup-prefix.pch"; sourceTree = "<group>"; };
-		F6DFA058C078AC9E7E8CDF48E492DBB4 /* Pods-SkyMobile-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SkyMobile-umbrella.h"; sourceTree = "<group>"; };
-		FA6624F64CD104A5B090FB1650EBBA42 /* OrderedSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OrderedSet.swift; path = Sources/OrderedSet.swift; sourceTree = "<group>"; };
-		FC1E788B1B4192679558296C1B65FFCE /* Pods-SkyMobile-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobile-acknowledgements.plist"; sourceTree = "<group>"; };
-		FFCA982F3308A983D62BD457221AB54A /* Pods_SkyMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		008910CBB9832E8EA5E7BBF6B149455A /* Pods-SkyMobile-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobile-acknowledgements.plist"; sourceTree = "<group>"; };
+		029C20C3E1CAABF6B233E3C4C91242AF /* NodeVisitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodeVisitor.swift; path = Sources/NodeVisitor.swift; sourceTree = "<group>"; };
+		032FFE79AB2DDA9CC0E1E104FFA3404F /* Kanna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Kanna.framework; path = Kanna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		124A55B0FD2D3CD0642910D5A105A809 /* UnicodeScalar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UnicodeScalar.swift; path = Sources/UnicodeScalar.swift; sourceTree = "<group>"; };
+		1632DF6773E9E356737D1FE9C44FDFD9 /* Pods-SkyMobileTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SkyMobileTests.modulemap"; sourceTree = "<group>"; };
+		20F70DC0F775B419F53130821460AF4F /* Pods-SkyMobileUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SkyMobileUITests-umbrella.h"; sourceTree = "<group>"; };
+		223C715C04FCF0A847D225094F28FEC3 /* HtmlTreeBuilderState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HtmlTreeBuilderState.swift; path = Sources/HtmlTreeBuilderState.swift; sourceTree = "<group>"; };
+		24631BB33FEE66982C30CA776072CEB4 /* SwiftSoup.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftSoup.modulemap; sourceTree = "<group>"; };
+		26141BCF18FCA3003A8F7978A9E7B78A /* Pods-SkyMobileUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SkyMobileUITests.modulemap"; sourceTree = "<group>"; };
+		26B5AD8808A52AEFC3CB89AC30DFD3B7 /* SwiftSoup-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftSoup-dummy.m"; sourceTree = "<group>"; };
+		27659346E9BD090237EC57889914F205 /* TreeBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TreeBuilder.swift; path = Sources/TreeBuilder.swift; sourceTree = "<group>"; };
+		29C357A91E83EB467292A79A07D31098 /* CharacterReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterReader.swift; path = Sources/CharacterReader.swift; sourceTree = "<group>"; };
+		2B1AC06744412CAB915849487D86BE38 /* Pods_SkyMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SkyMobile.framework; path = "Pods-SkyMobile.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B70F667E0184EE97A33F957728940D1 /* SwiftSoup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftSoup.framework; path = SwiftSoup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30094F7AA0D0982D25C9E82B44A42548 /* Evaluator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Evaluator.swift; path = Sources/Evaluator.swift; sourceTree = "<group>"; };
+		3CD486BAD3E235E2053525CD8D548AE5 /* Pods_SkyMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SkyMobileTests.framework; path = "Pods-SkyMobileTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D191EB97DD857ABA304A173A76CB1A8 /* Deprecated.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Deprecated.swift; path = Sources/Kanna/Deprecated.swift; sourceTree = "<group>"; };
+		3F1F03CF2D2FFB65FC6796437140535F /* Kanna-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Kanna-prefix.pch"; sourceTree = "<group>"; };
+		3F7C1E3910C2782ED7076FD2CAD46654 /* TokeniserState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TokeniserState.swift; path = Sources/TokeniserState.swift; sourceTree = "<group>"; };
+		3FEA45E74F7160E4D4039001397A1579 /* Pattern.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Pattern.swift; path = Sources/Pattern.swift; sourceTree = "<group>"; };
+		417687ADB701ED6567FE4763C115C1D1 /* Pods-SkyMobileUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobileUITests-Info.plist"; sourceTree = "<group>"; };
+		428F400B12676ED0518C9A409C2ED337 /* StringUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringUtil.swift; path = Sources/StringUtil.swift; sourceTree = "<group>"; };
+		42F44FEAA8704EFDD73882C508E1EBA7 /* Exception.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Exception.swift; path = Sources/Exception.swift; sourceTree = "<group>"; };
+		460E76C5442FCA36489BC54FDA27EFA2 /* Pods-SkyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobile.debug.xcconfig"; sourceTree = "<group>"; };
+		4642096ADDF67220A08C7F958FB927B9 /* SwiftSoup-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftSoup-umbrella.h"; sourceTree = "<group>"; };
+		465CB7F420D6F75538498336F53A4391 /* TokenQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TokenQueue.swift; path = Sources/TokenQueue.swift; sourceTree = "<group>"; };
+		47864BCC4305B121A6A046EE7D402B93 /* Pods-SkyMobile.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SkyMobile.modulemap"; sourceTree = "<group>"; };
+		47A7731FBB06CB4F837CCCB566863DC7 /* Collector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collector.swift; path = Sources/Collector.swift; sourceTree = "<group>"; };
+		4894BBEE3F35CD979B51C1A8680AB7DC /* ParseSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseSettings.swift; path = Sources/ParseSettings.swift; sourceTree = "<group>"; };
+		4CC786A8A085743805C41C50E7B3F8FD /* Pods-SkyMobile-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SkyMobile-dummy.m"; sourceTree = "<group>"; };
+		4E8DCDDB54849722FD9D614809BB83D3 /* HtmlTreeBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HtmlTreeBuilder.swift; path = Sources/HtmlTreeBuilder.swift; sourceTree = "<group>"; };
+		4F2A6264D1DAB51F62C05D02BBAF6760 /* Pods-SkyMobileTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SkyMobileTests-dummy.m"; sourceTree = "<group>"; };
+		536EDBB6606DD61DF783BBDC1DADCFCD /* Kanna-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Kanna-umbrella.h"; sourceTree = "<group>"; };
+		54F6D24DEB4FD075C6C366993921DBA7 /* Comment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Sources/Comment.swift; sourceTree = "<group>"; };
+		54FA1A571F01011818EF08258906622A /* Kanna.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Kanna.xcconfig; sourceTree = "<group>"; };
+		57D40E772805203909BD7C5033002DDE /* Pods-SkyMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		613B46D1484979F345F9C79F00F9B37D /* NodeTraversor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodeTraversor.swift; path = Sources/NodeTraversor.swift; sourceTree = "<group>"; };
+		61DE9A449AFA725D3DACA76BD5C414A0 /* CombiningEvaluator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombiningEvaluator.swift; path = Sources/CombiningEvaluator.swift; sourceTree = "<group>"; };
+		63CD9B8242F925ECD1C4C0FE3E3D2B01 /* Tag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tag.swift; path = Sources/Tag.swift; sourceTree = "<group>"; };
+		653725A87ECF2F05AC0B1D444690673C /* Pods-SkyMobileUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		6928845BD4D3E67BBAFFE3871649170D /* Pods-SkyMobileUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobileUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		6F312DA794DC428B7C671A80D25FA573 /* Connection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = Sources/Connection.swift; sourceTree = "<group>"; };
+		7018F93B35AF975E85556971F0C0A079 /* Pods-SkyMobile-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SkyMobile-umbrella.h"; sourceTree = "<group>"; };
+		7045F3261D24CCD3533E38221826A327 /* DataUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataUtil.swift; path = Sources/DataUtil.swift; sourceTree = "<group>"; };
+		72F0E4B4C6B8B28BB35D204984EE355B /* Kanna-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Kanna-dummy.m"; sourceTree = "<group>"; };
+		73F68A5785A6FA6A049546F41284FD3E /* Elements.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Elements.swift; path = Sources/Elements.swift; sourceTree = "<group>"; };
+		7547B64F5ED3AE0214A781591B600E62 /* Pods-SkyMobileTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobileTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		7671D00CE3C6C16A8D286214207575E2 /* HttpStatusException.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HttpStatusException.swift; path = Sources/HttpStatusException.swift; sourceTree = "<group>"; };
+		79869F1BA954B979A18E6E25DC361AAD /* SwiftSoup-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftSoup-prefix.pch"; sourceTree = "<group>"; };
+		7EA7E743769B3175D17528FF7991C8A9 /* DocumentType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DocumentType.swift; path = Sources/DocumentType.swift; sourceTree = "<group>"; };
+		80A9376133EB08428FE4295B00FBBEF6 /* CharacterExt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CharacterExt.swift; path = Sources/CharacterExt.swift; sourceTree = "<group>"; };
+		893FCACB4C754C70D3087C1FA5F29819 /* Pods-SkyMobile-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SkyMobile-frameworks.sh"; sourceTree = "<group>"; };
+		8CF37D0B5082886D1CFD532F9AD6821C /* StreamReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StreamReader.swift; path = Sources/StreamReader.swift; sourceTree = "<group>"; };
+		8DEC8C8AD136EB1165B9F3C411B56625 /* SwiftSoup.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftSoup.xcconfig; sourceTree = "<group>"; };
+		900EA224AB02A59C85BB0D03FF716772 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9142ED3870087F9EC7D43450B8F8EBB5 /* Kanna.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Kanna.swift; path = Sources/Kanna/Kanna.swift; sourceTree = "<group>"; };
+		9160E8B1165E8E244CF8FF60E83006FE /* Pods-SkyMobileTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobileTests-Info.plist"; sourceTree = "<group>"; };
+		96955DA2BCC321ABA77B18017894B220 /* ParseError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseError.swift; path = Sources/ParseError.swift; sourceTree = "<group>"; };
+		98247BD5A7C8D2710BB06836A29FBE84 /* SwiftSoup-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftSoup-Info.plist"; sourceTree = "<group>"; };
+		98E8555C2208F1F2F05E99F394326F6B /* Tokeniser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tokeniser.swift; path = Sources/Tokeniser.swift; sourceTree = "<group>"; };
+		9AC9930428BA20C005C196319ED8A8E7 /* StructuralEvaluator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StructuralEvaluator.swift; path = Sources/StructuralEvaluator.swift; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A3AE701A793EA46EDE58E2DB7C825E60 /* SerializationException.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SerializationException.swift; path = Sources/SerializationException.swift; sourceTree = "<group>"; };
+		A544D5FD0AA76393E22F8AA4ECCDC3FE /* libxmlParserOption.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = libxmlParserOption.swift; path = Sources/Kanna/libxmlParserOption.swift; sourceTree = "<group>"; };
+		A8D01493E561FFEA6151642F3B3D030A /* Pods-SkyMobileUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobileUITests.release.xcconfig"; sourceTree = "<group>"; };
+		AA313E090A2E12C2B1249C34D4F1D0AC /* Pods-SkyMobileUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SkyMobileUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		AB3360577AFA6064C574C2CA656191D5 /* Kanna.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Kanna.h; path = Sources/Kanna/Kanna.h; sourceTree = "<group>"; };
+		AC6563BFAFDB6C05D35B15B51C2B283C /* Cleaner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cleaner.swift; path = Sources/Cleaner.swift; sourceTree = "<group>"; };
+		AD47BE8124A412EAD3EC6FE99D917EB9 /* Validate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Sources/Validate.swift; sourceTree = "<group>"; };
+		AFD45AEB94070C07C51E207ACF93CD89 /* Pods-SkyMobile-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SkyMobile-Info.plist"; sourceTree = "<group>"; };
+		B1C773A92F48798796C4743629B45A06 /* Entities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Entities.swift; path = Sources/Entities.swift; sourceTree = "<group>"; };
+		B7B4E69C9F7DAB4E6DEEA3002CF8C86F /* SwiftSoup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftSoup.swift; path = Sources/SwiftSoup.swift; sourceTree = "<group>"; };
+		B81C340004C69D4B02DD9E7DDCEFBE59 /* TextNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextNode.swift; path = Sources/TextNode.swift; sourceTree = "<group>"; };
+		BACF72FB0370F4559EB534CAD7B0F641 /* Kanna-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Kanna-Info.plist"; sourceTree = "<group>"; };
+		BAE6B34FA4C859A79B45316644EB66EF /* Pods-SkyMobile-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SkyMobile-acknowledgements.markdown"; sourceTree = "<group>"; };
+		BF1E912F9BC7933898A7B005DE3C66F0 /* Node.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Node.swift; path = Sources/Node.swift; sourceTree = "<group>"; };
+		C03C4DD316F7B1EB1496205CC61174F7 /* Token.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Token.swift; path = Sources/Token.swift; sourceTree = "<group>"; };
+		C0B7DD97D4101DD2DC9361D1BCA6D3F0 /* FormElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormElement.swift; path = Sources/FormElement.swift; sourceTree = "<group>"; };
+		C21A1C76F044D82B84A62F0F918B9DF4 /* libxmlHTMLNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = libxmlHTMLNode.swift; path = Sources/Kanna/libxmlHTMLNode.swift; sourceTree = "<group>"; };
+		C329D1627AC398A35EF74AEF1F8434B3 /* XmlDeclaration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XmlDeclaration.swift; path = Sources/XmlDeclaration.swift; sourceTree = "<group>"; };
+		C4E1AA4B6641BFC9DCACFC48796B2755 /* Whitelist.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Whitelist.swift; path = Sources/Whitelist.swift; sourceTree = "<group>"; };
+		C6AC54E2B5C9C4F452675AFF919AC09A /* OrderedDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OrderedDictionary.swift; path = Sources/OrderedDictionary.swift; sourceTree = "<group>"; };
+		C6AFE5DCAE73D71F3C059E5C9975FB84 /* Pods_SkyMobileUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SkyMobileUITests.framework; path = "Pods-SkyMobileUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C93BD4C96F27BF06C2A2B5F0409D4C4C /* SimpleDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SimpleDictionary.swift; path = Sources/SimpleDictionary.swift; sourceTree = "<group>"; };
+		C99464EA9083AEFD4A175FA4CE9C0188 /* CSS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CSS.swift; path = Sources/Kanna/CSS.swift; sourceTree = "<group>"; };
+		C9EE9254CC4ED3D11CEDA15186E07195 /* Pods-SkyMobileTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SkyMobileTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		CBBBDF66AFA2F4CEC9DF2B2A310E3BFB /* DataNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataNode.swift; path = Sources/DataNode.swift; sourceTree = "<group>"; };
+		CCF06B54BD8EBD4B8E2B85155E0CA36A /* OrderedSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OrderedSet.swift; path = Sources/OrderedSet.swift; sourceTree = "<group>"; };
+		CE788BDB64BEC639D7A291BF30F55532 /* BooleanAttribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BooleanAttribute.swift; path = Sources/BooleanAttribute.swift; sourceTree = "<group>"; };
+		D12BCCEDB1066779388DE403744EF716 /* Pods-SkyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SkyMobile.release.xcconfig"; sourceTree = "<group>"; };
+		D3F46EDE1CD80D1A626B6A584F373E67 /* StringBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringBuilder.swift; path = Sources/StringBuilder.swift; sourceTree = "<group>"; };
+		D47C78C5FE9BD87F6D7CEC6200034537 /* XmlTreeBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XmlTreeBuilder.swift; path = Sources/XmlTreeBuilder.swift; sourceTree = "<group>"; };
+		D70CFFCB451770AC0D5E45EF0EC51CB9 /* ParseErrorList.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseErrorList.swift; path = Sources/ParseErrorList.swift; sourceTree = "<group>"; };
+		DCE0C9A9CCF45D6B4A1F8AF0948B206F /* Document.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Document.swift; path = Sources/Document.swift; sourceTree = "<group>"; };
+		E2CFAC84271830FD9136CA5C1798ECBC /* libxmlHTMLDocument.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = libxmlHTMLDocument.swift; path = Sources/Kanna/libxmlHTMLDocument.swift; sourceTree = "<group>"; };
+		E4144715E60CF5DDBD0E4775A8AE98B9 /* Selector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Selector.swift; path = Sources/Selector.swift; sourceTree = "<group>"; };
+		E6CA1230961902D69C57E97D31EFC093 /* Pods-SkyMobileTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SkyMobileTests-umbrella.h"; sourceTree = "<group>"; };
+		E89D405CFDBF81DE94795263362A55D5 /* Attributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Attributes.swift; path = Sources/Attributes.swift; sourceTree = "<group>"; };
+		ED69DD597346ECD2361D9D52B2A19366 /* QueryParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QueryParser.swift; path = Sources/QueryParser.swift; sourceTree = "<group>"; };
+		F2EC4843ED54B53080A77D7E4C9B6166 /* Element.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Element.swift; path = Sources/Element.swift; sourceTree = "<group>"; };
+		F2F3772D5CCFCEEEBEDBCAF7BA0D0116 /* ArrayExt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ArrayExt.swift; path = Sources/ArrayExt.swift; sourceTree = "<group>"; };
+		F651C3CC16EB44D39A753628D2311EA2 /* Kanna.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Kanna.modulemap; sourceTree = "<group>"; };
+		F6A4D716270BDEC96AD1A3D91761DB54 /* Pods-SkyMobileUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SkyMobileUITests-dummy.m"; sourceTree = "<group>"; };
+		F7EEDBDE1D53199E19B4DE1C2DB4023F /* Parser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Sources/Parser.swift; sourceTree = "<group>"; };
+		F8130A9B404C2692F089593A3D6A45FC /* String.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = String.swift; path = Sources/String.swift; sourceTree = "<group>"; };
+		FD8C0FE7D44C2DD524DB5547AA5A3E37 /* Attribute.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Attribute.swift; path = Sources/Attribute.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		39F79D968D913CD8C1743FDC6E17FF67 /* Frameworks */ = {
+		2638AD6248DF23D89D5F1F3BDC2B2B40 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0125381E1C413679BD6DEE9B99950665 /* Foundation.framework in Frameworks */,
+				9BD655CC5B5B9D4861B68B69C2B68EA3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9DBA72AEE1EA94BFEE4E0748B862240D /* Frameworks */ = {
+		34A732DE905046589E2EBCBE8E5AFB97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FF28F61B205D533768F6EFA1CB7F9D1 /* Foundation.framework in Frameworks */,
+				60D81A82254562AF6535344D6BB976D3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A539434B04710D08FC5D965097564F84 /* Frameworks */ = {
+		A37304843406189DFAB4455B0DB89D8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5F4C6BB2C9CC95990444195050CAD49 /* Foundation.framework in Frameworks */,
+				A21957106D06AF935DE17907FB48775F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A816EFE65121DA9C2A380B681D00AA75 /* Frameworks */ = {
+		C51182ED4109313DDC62F514CB7F93C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89021D1B3BA28E65A8B9A11B9FC69F97 /* Foundation.framework in Frameworks */,
+				5B32A9E85D43A45FD12CE7E813A2775C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C81B59FD6044F17B916D2B1EEDA9E917 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70C7C248DF360C63FB6A379DBAA939C6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2585406248F42708599608914EA31A98 /* Support Files */ = {
+		19C568D5DE499C36223E537BA0087834 /* Pods-SkyMobileTests */ = {
 			isa = PBXGroup;
 			children = (
-				B8514C0BB18FD3CA82876085C5D13D55 /* Info.plist */,
-				9161B06CA12DCBC5B4DD06E44D91CB1E /* SwiftSoup.modulemap */,
-				CC676503D7AA719B6B12FA7C365E4EEE /* SwiftSoup.xcconfig */,
-				44B904EFDFEFD12E6251E008D801F1AA /* SwiftSoup-dummy.m */,
-				F3BA526A97CA8B2EEA6816A625C2C7FC /* SwiftSoup-prefix.pch */,
-				9E7F17F2F550754AAF9D410D5F392FE1 /* SwiftSoup-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/SwiftSoup";
-			sourceTree = "<group>";
-		};
-		4CC8EC2B6FCF74234C8DF1D2FAF4E695 /* SwiftSoup */ = {
-			isa = PBXGroup;
-			children = (
-				007D3C79D0CF0BE6FF2556B8846850EA /* ArrayExt.swift */,
-				91F70944F55E23CA9F1AA9C3F5E543E6 /* Attribute.swift */,
-				7FDCF5CC7CF2C5D8A9614A7594208FA7 /* Attributes.swift */,
-				43135FFED43499A32E8D4B93EF8497DE /* BooleanAttribute.swift */,
-				74C99786795B1D08392875CE49B837F6 /* CharacterExt.swift */,
-				1CEDF1B4C93C6BF04A8B3A376D824DF8 /* CharacterReader.swift */,
-				88AD2063C746E24C76A695124CB8F61C /* Cleaner.swift */,
-				891F553D19B720459C76E855199AE6A8 /* Collector.swift */,
-				AB9CFDFD9EC0461E0183230E7BD4D23C /* CombiningEvaluator.swift */,
-				D61E30D96D9E0C51D7D98102AF5F400C /* Comment.swift */,
-				4D8DBAFB48F24C32F0F280BEEE6DF2D9 /* Connection.swift */,
-				29037850BEB5FB77E124FFF3C513B2DE /* DataNode.swift */,
-				0AEE3159671F061357B3988820992AB3 /* DataUtil.swift */,
-				6235B2201DD7DB5DEC881D9EEFAD0668 /* Document.swift */,
-				7D11884996774307AC571FE915381DDA /* DocumentType.swift */,
-				73DD652EC954FA79D571169EEE782E52 /* Element.swift */,
-				44522D8D8770660DA0A055D988C6FD66 /* Elements.swift */,
-				A060C6BF3EB96502284C4EED48AE8473 /* Entities.swift */,
-				9CF8CDB58FEC3DF8E9E9C788D7986C1A /* Evaluator.swift */,
-				DF0F2496EE4A25ED1BC61246533BA9DB /* Exception.swift */,
-				25B2CD38A0917CAC75420AFA2BE3217D /* FormElement.swift */,
-				7E06B99125D7235986F5D7B72C6375A2 /* HtmlTreeBuilder.swift */,
-				F2DF94B4A7E96608E4C28CA87594E86E /* HtmlTreeBuilderState.swift */,
-				630405AF103BE0784FC9F1DCDCD38697 /* HttpStatusException.swift */,
-				4A118F700581BBB3243C0D7FB77C29D4 /* Node.swift */,
-				A8122F2BB284283B425EEEC260DED5BD /* NodeTraversor.swift */,
-				604190ED985B8459D4C3CB00B08EA1B2 /* NodeVisitor.swift */,
-				85BA06715F85D033EEFF5E596790DFC3 /* OrderedDictionary.swift */,
-				FA6624F64CD104A5B090FB1650EBBA42 /* OrderedSet.swift */,
-				7AC3E56F2EE8DA918D59461695CA0A73 /* ParseError.swift */,
-				2ED412CB67CEC5AD53D090DEE9295FEF /* ParseErrorList.swift */,
-				AB2E200B9A53BE45ABCE292F1D437814 /* Parser.swift */,
-				75616435FEC520E0AB2B9A03B42B9463 /* ParseSettings.swift */,
-				BE85808BF20F785856A36A4A52D595EC /* Pattern.swift */,
-				71C0F72E08235D6F7E7899B570146174 /* QueryParser.swift */,
-				A5C699DC348D289409414BCFACDADC92 /* Selector.swift */,
-				AB27AFE288A80F619BD84ABCA86E98E8 /* SerializationException.swift */,
-				537704880A3EEBF0AEBDF2621EB6A0F3 /* SimpleDictionary.swift */,
-				BA80EA825456A85C5EAC81128B7D2A13 /* StreamReader.swift */,
-				1F061E45166C4F6CA7950D7D4C21B927 /* String.swift */,
-				5D12F1CEC81E5C1E794F0CF413C1CB0A /* StringBuilder.swift */,
-				D82C0363736F54D355C889057930C8FA /* StringUtil.swift */,
-				E7E9CAE847A747B6035DD7897522E6B3 /* StructuralEvaluator.swift */,
-				BAD7FE9BBC26C485FA0644BE827A3819 /* SwiftSoup.swift */,
-				D956F25711ABFDA06A834B23E76E18FD /* Tag.swift */,
-				97B9BE6A120CF124AC947FD213458C40 /* TextNode.swift */,
-				1F9C8B211B0D820409975E0CED455873 /* Token.swift */,
-				48B3B52F70E88D2AAF09B90CF31FD8F3 /* Tokeniser.swift */,
-				E206093B8CFA7D169994473FF3E06161 /* TokeniserState.swift */,
-				C5A1FDBFD8A4C10159D5648D741FAABF /* TokenQueue.swift */,
-				F2005E18A17D8432D600D482946D4853 /* TreeBuilder.swift */,
-				D0956AF381D1BCA58B1DB673ADE2D36F /* UnicodeScalar.swift */,
-				6D6A6677827DBA02A83EC3359D513333 /* Validate.swift */,
-				3C2C0DDEA29B76684DE018F529B05DAF /* Whitelist.swift */,
-				9A1C5C6357B71AF5FED442F9E3F6C77C /* XmlDeclaration.swift */,
-				579FD986C85730D8DF75FB2A4152B0BD /* XmlTreeBuilder.swift */,
-				2585406248F42708599608914EA31A98 /* Support Files */,
-			);
-			path = SwiftSoup;
-			sourceTree = "<group>";
-		};
-		5E0D919E635D23B70123790B8308F8EF /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		7DB346D0F39D3F0E887471402A8071AB = {
-			isa = PBXGroup;
-			children = (
-				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				AC3460218F790A478D700E3775DA8276 /* Pods */,
-				8BD27EE559E1934FAE0DA3417190D967 /* Products */,
-				C4F77DA87E919BC4A0143ED6D194796D /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		8BD27EE559E1934FAE0DA3417190D967 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				10F2A3E92D4CF1787D9413C0A09C3AA0 /* Pods_SkyMobile.framework */,
-				FFCA982F3308A983D62BD457221AB54A /* Pods_SkyMobileTests.framework */,
-				A42378796BA489BD07A8C7B9F96C26A9 /* Pods_SkyMobileUITests.framework */,
-				87C01056B20A676B2D7ECF64266FFA33 /* SwiftSoup.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AC3460218F790A478D700E3775DA8276 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4CC8EC2B6FCF74234C8DF1D2FAF4E695 /* SwiftSoup */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		AEF4AA61E10FC3098D4BE8BB8ACCAAD6 /* Pods-SkyMobileTests */ = {
-			isa = PBXGroup;
-			children = (
-				5CB53A109C7EA009A9F814253682D0A4 /* Info.plist */,
-				1B66D56B8C6D79969BDFC2A72E88AD0B /* Pods-SkyMobileTests.modulemap */,
-				4CA4B67FC171EE980EBF810DAF66AADD /* Pods-SkyMobileTests-acknowledgements.markdown */,
-				E8B0331E34447129475CAAC09D065C59 /* Pods-SkyMobileTests-acknowledgements.plist */,
-				49D7512BF632031B63375A421DBABB86 /* Pods-SkyMobileTests-dummy.m */,
-				6AB68E8AE1B1BF9350EF64BA4CBACBA3 /* Pods-SkyMobileTests-frameworks.sh */,
-				234EF6D6F376C93DFBC6D46B32620582 /* Pods-SkyMobileTests-resources.sh */,
-				39CA2DD2D66101305CF821C9F98687A3 /* Pods-SkyMobileTests-umbrella.h */,
-				96A7686CCF09EBE7451368867828BE16 /* Pods-SkyMobileTests.debug.xcconfig */,
-				9A3BD63675A803D0EEA4AEEEEB94164E /* Pods-SkyMobileTests.release.xcconfig */,
+				1632DF6773E9E356737D1FE9C44FDFD9 /* Pods-SkyMobileTests.modulemap */,
+				C9EE9254CC4ED3D11CEDA15186E07195 /* Pods-SkyMobileTests-acknowledgements.markdown */,
+				7547B64F5ED3AE0214A781591B600E62 /* Pods-SkyMobileTests-acknowledgements.plist */,
+				4F2A6264D1DAB51F62C05D02BBAF6760 /* Pods-SkyMobileTests-dummy.m */,
+				9160E8B1165E8E244CF8FF60E83006FE /* Pods-SkyMobileTests-Info.plist */,
+				E6CA1230961902D69C57E97D31EFC093 /* Pods-SkyMobileTests-umbrella.h */,
+				900EA224AB02A59C85BB0D03FF716772 /* Pods-SkyMobileTests.debug.xcconfig */,
+				57D40E772805203909BD7C5033002DDE /* Pods-SkyMobileTests.release.xcconfig */,
 			);
 			name = "Pods-SkyMobileTests";
 			path = "Target Support Files/Pods-SkyMobileTests";
 			sourceTree = "<group>";
 		};
-		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+		3D86A1D3157AECF499A485C924A8F108 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				5E0D919E635D23B70123790B8308F8EF /* iOS */,
+				F651C3CC16EB44D39A753628D2311EA2 /* Kanna.modulemap */,
+				54FA1A571F01011818EF08258906622A /* Kanna.xcconfig */,
+				72F0E4B4C6B8B28BB35D204984EE355B /* Kanna-dummy.m */,
+				BACF72FB0370F4559EB534CAD7B0F641 /* Kanna-Info.plist */,
+				3F1F03CF2D2FFB65FC6796437140535F /* Kanna-prefix.pch */,
+				536EDBB6606DD61DF783BBDC1DADCFCD /* Kanna-umbrella.h */,
 			);
-			name = Frameworks;
+			name = "Support Files";
+			path = "../Target Support Files/Kanna";
 			sourceTree = "<group>";
 		};
-		C4F77DA87E919BC4A0143ED6D194796D /* Targets Support Files */ = {
+		74315156FB4DC3C3F992816C54B5BCBA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D50719FD3398EAC0260BCE3B347E245C /* Pods-SkyMobile */,
-				AEF4AA61E10FC3098D4BE8BB8ACCAAD6 /* Pods-SkyMobileTests */,
-				E62F77A9F59B8410938D614FA5464ED3 /* Pods-SkyMobileUITests */,
+				88764E49B1B3259D844966CAC3077AB9 /* Kanna */,
+				90DB9576D696EA0C525E8CF1C0A11141 /* SwiftSoup */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		88764E49B1B3259D844966CAC3077AB9 /* Kanna */ = {
+			isa = PBXGroup;
+			children = (
+				C99464EA9083AEFD4A175FA4CE9C0188 /* CSS.swift */,
+				3D191EB97DD857ABA304A173A76CB1A8 /* Deprecated.swift */,
+				AB3360577AFA6064C574C2CA656191D5 /* Kanna.h */,
+				9142ED3870087F9EC7D43450B8F8EBB5 /* Kanna.swift */,
+				E2CFAC84271830FD9136CA5C1798ECBC /* libxmlHTMLDocument.swift */,
+				C21A1C76F044D82B84A62F0F918B9DF4 /* libxmlHTMLNode.swift */,
+				A544D5FD0AA76393E22F8AA4ECCDC3FE /* libxmlParserOption.swift */,
+				3D86A1D3157AECF499A485C924A8F108 /* Support Files */,
+			);
+			name = Kanna;
+			path = Kanna;
+			sourceTree = "<group>";
+		};
+		90DB9576D696EA0C525E8CF1C0A11141 /* SwiftSoup */ = {
+			isa = PBXGroup;
+			children = (
+				F2F3772D5CCFCEEEBEDBCAF7BA0D0116 /* ArrayExt.swift */,
+				FD8C0FE7D44C2DD524DB5547AA5A3E37 /* Attribute.swift */,
+				E89D405CFDBF81DE94795263362A55D5 /* Attributes.swift */,
+				CE788BDB64BEC639D7A291BF30F55532 /* BooleanAttribute.swift */,
+				80A9376133EB08428FE4295B00FBBEF6 /* CharacterExt.swift */,
+				29C357A91E83EB467292A79A07D31098 /* CharacterReader.swift */,
+				AC6563BFAFDB6C05D35B15B51C2B283C /* Cleaner.swift */,
+				47A7731FBB06CB4F837CCCB566863DC7 /* Collector.swift */,
+				61DE9A449AFA725D3DACA76BD5C414A0 /* CombiningEvaluator.swift */,
+				54F6D24DEB4FD075C6C366993921DBA7 /* Comment.swift */,
+				6F312DA794DC428B7C671A80D25FA573 /* Connection.swift */,
+				CBBBDF66AFA2F4CEC9DF2B2A310E3BFB /* DataNode.swift */,
+				7045F3261D24CCD3533E38221826A327 /* DataUtil.swift */,
+				DCE0C9A9CCF45D6B4A1F8AF0948B206F /* Document.swift */,
+				7EA7E743769B3175D17528FF7991C8A9 /* DocumentType.swift */,
+				F2EC4843ED54B53080A77D7E4C9B6166 /* Element.swift */,
+				73F68A5785A6FA6A049546F41284FD3E /* Elements.swift */,
+				B1C773A92F48798796C4743629B45A06 /* Entities.swift */,
+				30094F7AA0D0982D25C9E82B44A42548 /* Evaluator.swift */,
+				42F44FEAA8704EFDD73882C508E1EBA7 /* Exception.swift */,
+				C0B7DD97D4101DD2DC9361D1BCA6D3F0 /* FormElement.swift */,
+				4E8DCDDB54849722FD9D614809BB83D3 /* HtmlTreeBuilder.swift */,
+				223C715C04FCF0A847D225094F28FEC3 /* HtmlTreeBuilderState.swift */,
+				7671D00CE3C6C16A8D286214207575E2 /* HttpStatusException.swift */,
+				BF1E912F9BC7933898A7B005DE3C66F0 /* Node.swift */,
+				613B46D1484979F345F9C79F00F9B37D /* NodeTraversor.swift */,
+				029C20C3E1CAABF6B233E3C4C91242AF /* NodeVisitor.swift */,
+				C6AC54E2B5C9C4F452675AFF919AC09A /* OrderedDictionary.swift */,
+				CCF06B54BD8EBD4B8E2B85155E0CA36A /* OrderedSet.swift */,
+				96955DA2BCC321ABA77B18017894B220 /* ParseError.swift */,
+				D70CFFCB451770AC0D5E45EF0EC51CB9 /* ParseErrorList.swift */,
+				F7EEDBDE1D53199E19B4DE1C2DB4023F /* Parser.swift */,
+				4894BBEE3F35CD979B51C1A8680AB7DC /* ParseSettings.swift */,
+				3FEA45E74F7160E4D4039001397A1579 /* Pattern.swift */,
+				ED69DD597346ECD2361D9D52B2A19366 /* QueryParser.swift */,
+				E4144715E60CF5DDBD0E4775A8AE98B9 /* Selector.swift */,
+				A3AE701A793EA46EDE58E2DB7C825E60 /* SerializationException.swift */,
+				C93BD4C96F27BF06C2A2B5F0409D4C4C /* SimpleDictionary.swift */,
+				8CF37D0B5082886D1CFD532F9AD6821C /* StreamReader.swift */,
+				F8130A9B404C2692F089593A3D6A45FC /* String.swift */,
+				D3F46EDE1CD80D1A626B6A584F373E67 /* StringBuilder.swift */,
+				428F400B12676ED0518C9A409C2ED337 /* StringUtil.swift */,
+				9AC9930428BA20C005C196319ED8A8E7 /* StructuralEvaluator.swift */,
+				B7B4E69C9F7DAB4E6DEEA3002CF8C86F /* SwiftSoup.swift */,
+				63CD9B8242F925ECD1C4C0FE3E3D2B01 /* Tag.swift */,
+				B81C340004C69D4B02DD9E7DDCEFBE59 /* TextNode.swift */,
+				C03C4DD316F7B1EB1496205CC61174F7 /* Token.swift */,
+				98E8555C2208F1F2F05E99F394326F6B /* Tokeniser.swift */,
+				3F7C1E3910C2782ED7076FD2CAD46654 /* TokeniserState.swift */,
+				465CB7F420D6F75538498336F53A4391 /* TokenQueue.swift */,
+				27659346E9BD090237EC57889914F205 /* TreeBuilder.swift */,
+				124A55B0FD2D3CD0642910D5A105A809 /* UnicodeScalar.swift */,
+				AD47BE8124A412EAD3EC6FE99D917EB9 /* Validate.swift */,
+				C4E1AA4B6641BFC9DCACFC48796B2755 /* Whitelist.swift */,
+				C329D1627AC398A35EF74AEF1F8434B3 /* XmlDeclaration.swift */,
+				D47C78C5FE9BD87F6D7CEC6200034537 /* XmlTreeBuilder.swift */,
+				EE97C4824EF18E44974C02ADBB2758B1 /* Support Files */,
+			);
+			name = SwiftSoup;
+			path = SwiftSoup;
+			sourceTree = "<group>";
+		};
+		9B055D0CFEA43187E72B03DED11F5662 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CB4607EFCA7C5F75397649E792E2AFCB /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		BA91C6EF8A9DB330DBD163D36CF55F89 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F6DD6A3AED4695949FDB82503412B204 /* Pods-SkyMobile */,
+				19C568D5DE499C36223E537BA0087834 /* Pods-SkyMobileTests */,
+				C1BB722CFE70CE173EA9A764EB7C88AA /* Pods-SkyMobileUITests */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		D50719FD3398EAC0260BCE3B347E245C /* Pods-SkyMobile */ = {
+		C1BB722CFE70CE173EA9A764EB7C88AA /* Pods-SkyMobileUITests */ = {
 			isa = PBXGroup;
 			children = (
-				0D63F0DF9827A820FF582588D36FD7D7 /* Info.plist */,
-				290518F81B80D9D53F574FE58869505F /* Pods-SkyMobile.modulemap */,
-				7B6FE86825D777422766667496C571CA /* Pods-SkyMobile-acknowledgements.markdown */,
-				FC1E788B1B4192679558296C1B65FFCE /* Pods-SkyMobile-acknowledgements.plist */,
-				AD4EBB2019A16139A1A223F56C0A7477 /* Pods-SkyMobile-dummy.m */,
-				277085FEDD12A5B41C80181F027FA51D /* Pods-SkyMobile-frameworks.sh */,
-				CD1C037EB6BD35D6B8F003A2613E1678 /* Pods-SkyMobile-resources.sh */,
-				F6DFA058C078AC9E7E8CDF48E492DBB4 /* Pods-SkyMobile-umbrella.h */,
-				4C41513963F37FCEB0BA7C90F741A0F4 /* Pods-SkyMobile.debug.xcconfig */,
-				927E3ECDCA260063E8D083C57C86DADA /* Pods-SkyMobile.release.xcconfig */,
-			);
-			name = "Pods-SkyMobile";
-			path = "Target Support Files/Pods-SkyMobile";
-			sourceTree = "<group>";
-		};
-		E62F77A9F59B8410938D614FA5464ED3 /* Pods-SkyMobileUITests */ = {
-			isa = PBXGroup;
-			children = (
-				03AEA73E2CFB66A5807420C7384BF16C /* Info.plist */,
-				E5EF9B3875E197E92AC7E1A7316E4F34 /* Pods-SkyMobileUITests.modulemap */,
-				3C128FD1A53CFB2C7C9A1CE3B2EBBEBE /* Pods-SkyMobileUITests-acknowledgements.markdown */,
-				8E09A245843C4A80DB3E851909D1E31F /* Pods-SkyMobileUITests-acknowledgements.plist */,
-				6BCE0C48438DE9CF2A3EF914F08E77E5 /* Pods-SkyMobileUITests-dummy.m */,
-				AD235F347521F41E55A9E26C8FD79FE1 /* Pods-SkyMobileUITests-frameworks.sh */,
-				77AE82DBB9A4686490A6369EA14F0B02 /* Pods-SkyMobileUITests-resources.sh */,
-				7355CF3F30C1810F1DB7EDE6A810BEA2 /* Pods-SkyMobileUITests-umbrella.h */,
-				41FCFAFC1ED640E7B1505DA1739518FA /* Pods-SkyMobileUITests.debug.xcconfig */,
-				9BDD8B0DF25F379106203B007954A1F3 /* Pods-SkyMobileUITests.release.xcconfig */,
+				26141BCF18FCA3003A8F7978A9E7B78A /* Pods-SkyMobileUITests.modulemap */,
+				AA313E090A2E12C2B1249C34D4F1D0AC /* Pods-SkyMobileUITests-acknowledgements.markdown */,
+				6928845BD4D3E67BBAFFE3871649170D /* Pods-SkyMobileUITests-acknowledgements.plist */,
+				F6A4D716270BDEC96AD1A3D91761DB54 /* Pods-SkyMobileUITests-dummy.m */,
+				417687ADB701ED6567FE4763C115C1D1 /* Pods-SkyMobileUITests-Info.plist */,
+				20F70DC0F775B419F53130821460AF4F /* Pods-SkyMobileUITests-umbrella.h */,
+				653725A87ECF2F05AC0B1D444690673C /* Pods-SkyMobileUITests.debug.xcconfig */,
+				A8D01493E561FFEA6151642F3B3D030A /* Pods-SkyMobileUITests.release.xcconfig */,
 			);
 			name = "Pods-SkyMobileUITests";
 			path = "Target Support Files/Pods-SkyMobileUITests";
 			sourceTree = "<group>";
 		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				74315156FB4DC3C3F992816C54B5BCBA /* Pods */,
+				FA86061C6B65B30E1D22602E800D2AA9 /* Products */,
+				BA91C6EF8A9DB330DBD163D36CF55F89 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9B055D0CFEA43187E72B03DED11F5662 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EE97C4824EF18E44974C02ADBB2758B1 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				24631BB33FEE66982C30CA776072CEB4 /* SwiftSoup.modulemap */,
+				8DEC8C8AD136EB1165B9F3C411B56625 /* SwiftSoup.xcconfig */,
+				26B5AD8808A52AEFC3CB89AC30DFD3B7 /* SwiftSoup-dummy.m */,
+				98247BD5A7C8D2710BB06836A29FBE84 /* SwiftSoup-Info.plist */,
+				79869F1BA954B979A18E6E25DC361AAD /* SwiftSoup-prefix.pch */,
+				4642096ADDF67220A08C7F958FB927B9 /* SwiftSoup-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SwiftSoup";
+			sourceTree = "<group>";
+		};
+		F6DD6A3AED4695949FDB82503412B204 /* Pods-SkyMobile */ = {
+			isa = PBXGroup;
+			children = (
+				47864BCC4305B121A6A046EE7D402B93 /* Pods-SkyMobile.modulemap */,
+				BAE6B34FA4C859A79B45316644EB66EF /* Pods-SkyMobile-acknowledgements.markdown */,
+				008910CBB9832E8EA5E7BBF6B149455A /* Pods-SkyMobile-acknowledgements.plist */,
+				4CC786A8A085743805C41C50E7B3F8FD /* Pods-SkyMobile-dummy.m */,
+				893FCACB4C754C70D3087C1FA5F29819 /* Pods-SkyMobile-frameworks.sh */,
+				AFD45AEB94070C07C51E207ACF93CD89 /* Pods-SkyMobile-Info.plist */,
+				7018F93B35AF975E85556971F0C0A079 /* Pods-SkyMobile-umbrella.h */,
+				460E76C5442FCA36489BC54FDA27EFA2 /* Pods-SkyMobile.debug.xcconfig */,
+				D12BCCEDB1066779388DE403744EF716 /* Pods-SkyMobile.release.xcconfig */,
+			);
+			name = "Pods-SkyMobile";
+			path = "Target Support Files/Pods-SkyMobile";
+			sourceTree = "<group>";
+		};
+		FA86061C6B65B30E1D22602E800D2AA9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				032FFE79AB2DDA9CC0E1E104FFA3404F /* Kanna.framework */,
+				2B1AC06744412CAB915849487D86BE38 /* Pods_SkyMobile.framework */,
+				3CD486BAD3E235E2053525CD8D548AE5 /* Pods_SkyMobileTests.framework */,
+				C6AFE5DCAE73D71F3C059E5C9975FB84 /* Pods_SkyMobileUITests.framework */,
+				2B70F667E0184EE97A33F957728940D1 /* SwiftSoup.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		1FD23119E20D515B215A91459B8DE032 /* Headers */ = {
+		09784831BE8777805A5D589463A0428E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37AF3727E551586DB708C1C79C9AD995 /* Pods-SkyMobile-umbrella.h in Headers */,
+				A626EDD7DC5AD198A921E5951A073314 /* Kanna-umbrella.h in Headers */,
+				48EAFB23E51CFB029365640B79EC67B4 /* Kanna.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8EE7DB8740287198B0CFA7C91AA7C0DD /* Headers */ = {
+		43F431B50FD9CF729DFAD88DB2FFF721 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97BF8A3C966453A27238B5C471BEE05C /* SwiftSoup-umbrella.h in Headers */,
+				F4F4EDEC4E765B157123710E54EE9BEE /* Pods-SkyMobileTests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E404F95ADC5EB67BE8856032AF139DC1 /* Headers */ = {
+		773CD203CDBE13C387CB88545E4153E2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3678501CCC31CDB5CCD74D3732D9D940 /* Pods-SkyMobileTests-umbrella.h in Headers */,
+				4C0F906591BC1EE143E3C52F2E0EAB35 /* Pods-SkyMobile-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ECFF59DB806EDE9A72119922F4089A21 /* Headers */ = {
+		E147D775668DCEED6E9812EA046EB04E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5E2089E565315F753E948624965F5D2 /* Pods-SkyMobileUITests-umbrella.h in Headers */,
+				8D47E85AD251CF60B802451C4860A9E2 /* Pods-SkyMobileUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB90941FFCD3364FF8E8BE0B61B60671 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95C14B75D16548DB5609914B43F83E27 /* SwiftSoup-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3C91A73D99D22F1BE87D62507A253596 /* SwiftSoup */ = {
+		1E0B9DFE11A3B2711C371DDBBA9BDAA6 /* Kanna */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95CF86AB3A89C28D5E86ACA4A9EE6F8F /* Build configuration list for PBXNativeTarget "SwiftSoup" */;
+			buildConfigurationList = 298C5DBE2FFB2DE540832BA1BD48B738 /* Build configuration list for PBXNativeTarget "Kanna" */;
 			buildPhases = (
-				8EE7DB8740287198B0CFA7C91AA7C0DD /* Headers */,
-				23C3C3309C3FCE0151BC91DCAFF274B2 /* Sources */,
-				A816EFE65121DA9C2A380B681D00AA75 /* Frameworks */,
-				EA473A4D2767BC135FE0350B4279A34E /* Resources */,
+				09784831BE8777805A5D589463A0428E /* Headers */,
+				0D23CFC99303143CC2318F21F02A96F9 /* Sources */,
+				C51182ED4109313DDC62F514CB7F93C8 /* Frameworks */,
+				988B19C4AA686C4184DDF5197B75E074 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Kanna;
+			productName = Kanna;
+			productReference = 032FFE79AB2DDA9CC0E1E104FFA3404F /* Kanna.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		2029031E871301D21B634257BC4C616A /* Pods-SkyMobileTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5AAF9501E28FA5BFA68398767058657 /* Build configuration list for PBXNativeTarget "Pods-SkyMobileTests" */;
+			buildPhases = (
+				43F431B50FD9CF729DFAD88DB2FFF721 /* Headers */,
+				67DD6D408C8B702F4F60184EAE29DD2A /* Sources */,
+				C81B59FD6044F17B916D2B1EEDA9E917 /* Frameworks */,
+				B002D91C9D0F04A3BEC00B3583CD0DB7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0061968D89584F2EE9620C5D925F0E4C /* PBXTargetDependency */,
+			);
+			name = "Pods-SkyMobileTests";
+			productName = "Pods-SkyMobileTests";
+			productReference = 3CD486BAD3E235E2053525CD8D548AE5 /* Pods_SkyMobileTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		2EADD0B0529C7578FF462B6BA5BE46F0 /* Pods-SkyMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19125AE0FFDE0C4FD9DE8FCE5A719250 /* Build configuration list for PBXNativeTarget "Pods-SkyMobile" */;
+			buildPhases = (
+				773CD203CDBE13C387CB88545E4153E2 /* Headers */,
+				0193063E60D90184F18BD4C67A7DF8BB /* Sources */,
+				A37304843406189DFAB4455B0DB89D8F /* Frameworks */,
+				E238ED19C92E1ACB10C40D27283A6AD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9FF41A014194FE1BA0C390F2C37C6FF /* PBXTargetDependency */,
+				6A5511555F002CA393817C03A330D082 /* PBXTargetDependency */,
+			);
+			name = "Pods-SkyMobile";
+			productName = "Pods-SkyMobile";
+			productReference = 2B1AC06744412CAB915849487D86BE38 /* Pods_SkyMobile.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		359CAFC5DB3F51E9C6C963CB202F0863 /* SwiftSoup */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2B3DA38A8FA96E34915F61E67BB823E7 /* Build configuration list for PBXNativeTarget "SwiftSoup" */;
+			buildPhases = (
+				EB90941FFCD3364FF8E8BE0B61B60671 /* Headers */,
+				D61B6FCBB34412F26F496E58B12D59FE /* Sources */,
+				34A732DE905046589E2EBCBE8E5AFB97 /* Frameworks */,
+				FF42B6F43239DD9B96FD6C7AFC556BEA /* Resources */,
 			);
 			buildRules = (
 			);
@@ -479,118 +607,88 @@
 			);
 			name = SwiftSoup;
 			productName = SwiftSoup;
-			productReference = 87C01056B20A676B2D7ECF64266FFA33 /* SwiftSoup.framework */;
+			productReference = 2B70F667E0184EE97A33F957728940D1 /* SwiftSoup.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		43C5F53C5FC013006868575472BCDFED /* Pods-SkyMobileUITests */ = {
+		D6B89EE9978D48279B1E8AD27D5D090C /* Pods-SkyMobileUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AF5222AAA235DF092733015B4AEF908F /* Build configuration list for PBXNativeTarget "Pods-SkyMobileUITests" */;
+			buildConfigurationList = 7874C5683F46270F12E8529029836F4E /* Build configuration list for PBXNativeTarget "Pods-SkyMobileUITests" */;
 			buildPhases = (
-				ECFF59DB806EDE9A72119922F4089A21 /* Headers */,
-				4F1DC6EA730DA30527752D46FA60AD3F /* Sources */,
-				39F79D968D913CD8C1743FDC6E17FF67 /* Frameworks */,
-				202F410B983D8A5F2E68170B460E15B8 /* Resources */,
+				E147D775668DCEED6E9812EA046EB04E /* Headers */,
+				921A277CAB812E75A2719E593E888870 /* Sources */,
+				2638AD6248DF23D89D5F1F3BDC2B2B40 /* Frameworks */,
+				D23E3E42986C29AF79D3D2D5DD0BA282 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7716DE2BB6CB9C546DA03825D176B3DA /* PBXTargetDependency */,
+				EB25D1C698EBCBBBCCDA47B04A7ED97E /* PBXTargetDependency */,
 			);
 			name = "Pods-SkyMobileUITests";
 			productName = "Pods-SkyMobileUITests";
-			productReference = A42378796BA489BD07A8C7B9F96C26A9 /* Pods_SkyMobileUITests.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		57A8CEB9EA3E68CE5BE54D87C3A748D4 /* Pods-SkyMobile */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0F23D6D31C07EEBA1A7A2CFB47F72E27 /* Build configuration list for PBXNativeTarget "Pods-SkyMobile" */;
-			buildPhases = (
-				1FD23119E20D515B215A91459B8DE032 /* Headers */,
-				C24FA0ADAF09C6A4635E3D07CCF06CE3 /* Sources */,
-				A539434B04710D08FC5D965097564F84 /* Frameworks */,
-				A3EAA9481F493F6EA716C561E8434304 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D21B57C3EFA31F9E0D434C37B13AD335 /* PBXTargetDependency */,
-			);
-			name = "Pods-SkyMobile";
-			productName = "Pods-SkyMobile";
-			productReference = 10F2A3E92D4CF1787D9413C0A09C3AA0 /* Pods_SkyMobile.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		57F47CEEAB521644D0B262F694C7FBED /* Pods-SkyMobileTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 16D2920350824392C62E198B24742EE0 /* Build configuration list for PBXNativeTarget "Pods-SkyMobileTests" */;
-			buildPhases = (
-				E404F95ADC5EB67BE8856032AF139DC1 /* Headers */,
-				2425C22EC2CF939D01E028F54D4ACB8F /* Sources */,
-				9DBA72AEE1EA94BFEE4E0748B862240D /* Frameworks */,
-				3D5E7293ADB29A397DFA80AC1797C3BD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B4C964EBA5A85DCDA5E0C67A1279E9F4 /* PBXTargetDependency */,
-			);
-			name = "Pods-SkyMobileTests";
-			productName = "Pods-SkyMobileTests";
-			productReference = FFCA982F3308A983D62BD457221AB54A /* Pods_SkyMobileTests.framework */;
+			productReference = C6AFE5DCAE73D71F3C059E5C9975FB84 /* Pods_SkyMobileUITests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 0930;
 			};
-			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 8BD27EE559E1934FAE0DA3417190D967 /* Products */;
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = FA86061C6B65B30E1D22602E800D2AA9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				57A8CEB9EA3E68CE5BE54D87C3A748D4 /* Pods-SkyMobile */,
-				57F47CEEAB521644D0B262F694C7FBED /* Pods-SkyMobileTests */,
-				43C5F53C5FC013006868575472BCDFED /* Pods-SkyMobileUITests */,
-				3C91A73D99D22F1BE87D62507A253596 /* SwiftSoup */,
+				1E0B9DFE11A3B2711C371DDBBA9BDAA6 /* Kanna */,
+				2EADD0B0529C7578FF462B6BA5BE46F0 /* Pods-SkyMobile */,
+				2029031E871301D21B634257BC4C616A /* Pods-SkyMobileTests */,
+				D6B89EE9978D48279B1E8AD27D5D090C /* Pods-SkyMobileUITests */,
+				359CAFC5DB3F51E9C6C963CB202F0863 /* SwiftSoup */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		202F410B983D8A5F2E68170B460E15B8 /* Resources */ = {
+		988B19C4AA686C4184DDF5197B75E074 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3D5E7293ADB29A397DFA80AC1797C3BD /* Resources */ = {
+		B002D91C9D0F04A3BEC00B3583CD0DB7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A3EAA9481F493F6EA716C561E8434304 /* Resources */ = {
+		D23E3E42986C29AF79D3D2D5DD0BA282 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA473A4D2767BC135FE0350B4279A34E /* Resources */ = {
+		E238ED19C92E1ACB10C40D27283A6AD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF42B6F43239DD9B96FD6C7AFC556BEA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -600,154 +698,141 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		23C3C3309C3FCE0151BC91DCAFF274B2 /* Sources */ = {
+		0193063E60D90184F18BD4C67A7DF8BB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				570836CA886745F11466ED59F968E29C /* ArrayExt.swift in Sources */,
-				26BCA10268B07F61E49160B7E213581E /* Attribute.swift in Sources */,
-				987BC8D45B7F49CF24B065F600A0F85F /* Attributes.swift in Sources */,
-				7477B105AE076978A1B563D22AD7A05A /* BooleanAttribute.swift in Sources */,
-				A7475997516D1DF91711922DAFD51BEF /* CharacterExt.swift in Sources */,
-				E1B5E81E24578349AA018FFF4FCE057B /* CharacterReader.swift in Sources */,
-				1C63082BF815C37DFEE8FD710345CEB3 /* Cleaner.swift in Sources */,
-				1510408AEAF5766A28A057CB803D7249 /* Collector.swift in Sources */,
-				E3819EDFCCF57B2DE410B194F5E9DB3D /* CombiningEvaluator.swift in Sources */,
-				A45533A560999A8C52B5185747ECE65E /* Comment.swift in Sources */,
-				F5BE21B6CD47E72548CC905539375720 /* Connection.swift in Sources */,
-				CDBE7C3E9B4AB960DF0530625A144E53 /* DataNode.swift in Sources */,
-				358A1C0ECCE52FD05D72249138C952B7 /* DataUtil.swift in Sources */,
-				D7CB6E0195859FFD26085B2CAE8EE247 /* Document.swift in Sources */,
-				C70B0B11F921073CD093245F85577530 /* DocumentType.swift in Sources */,
-				CA3B544689A3CDC49A1CA1D63EE12D25 /* Element.swift in Sources */,
-				8F08CD1787795AA5EBD6869DAF3CBC59 /* Elements.swift in Sources */,
-				AE965EFCCA5DF40F4DEDE7E6DB736CB8 /* Entities.swift in Sources */,
-				8667790F8F118CEA176AE6BCD4BFFBC0 /* Evaluator.swift in Sources */,
-				6B3D02C9915A4305FB6536E6FE23F595 /* Exception.swift in Sources */,
-				C582087FAAD081362796F3D00C428436 /* FormElement.swift in Sources */,
-				DE4BB92EBEC48827441767C6D7B81015 /* HtmlTreeBuilder.swift in Sources */,
-				BE95A77B5ECBDC85126B9F5D415C77D5 /* HtmlTreeBuilderState.swift in Sources */,
-				5227009F3B130250471BF0A61B132B30 /* HttpStatusException.swift in Sources */,
-				0CAD83E99ACBC0A2828626F52FBB5077 /* Node.swift in Sources */,
-				96E4B9C36E925B7785D865DE14B60630 /* NodeTraversor.swift in Sources */,
-				E7E03A25058D1F3858A18389E06F829E /* NodeVisitor.swift in Sources */,
-				61204615B56996EAF101E9F0256C216C /* OrderedDictionary.swift in Sources */,
-				CDF4A13B76750260DE8D4F159C24CB3E /* OrderedSet.swift in Sources */,
-				ED140E4B7EDB30E14373B85655C4D992 /* ParseError.swift in Sources */,
-				872A7C2843A8242E748A4A821384A492 /* ParseErrorList.swift in Sources */,
-				CAF2EBA9B5C75B807D91DC22DED85362 /* Parser.swift in Sources */,
-				0C10A08B886BA3D100F147B082BCE560 /* ParseSettings.swift in Sources */,
-				E57131E72E8ACA32393DF174EA6772BF /* Pattern.swift in Sources */,
-				FD0442C603D16FA0B2BEB6AAF2CA78E6 /* QueryParser.swift in Sources */,
-				16ACFF7A01822C54F6F387A95613B6D8 /* Selector.swift in Sources */,
-				5E2F0F23C078B7DFBE6B2C761CF438B6 /* SerializationException.swift in Sources */,
-				55CB5634CA321218EEABB36812C389DE /* SimpleDictionary.swift in Sources */,
-				96231B24C7395E8D6F53D46B130BEE4F /* StreamReader.swift in Sources */,
-				506E8228679B6C6FCE6703065672EEE1 /* String.swift in Sources */,
-				5A5315131F30DFB34D3CB41C1675956A /* StringBuilder.swift in Sources */,
-				52F13C63F5BA19EAE3C7666144A16BB0 /* StringUtil.swift in Sources */,
-				727AD8C596C0B1604D3FA80659CBD576 /* StructuralEvaluator.swift in Sources */,
-				972346BCADC158F12418642BB98A05C8 /* SwiftSoup-dummy.m in Sources */,
-				D6F8AE7C5590FBC24E7ACB3350F8A1B3 /* SwiftSoup.swift in Sources */,
-				9A159A6EB6A8B4609FAB31F153A0D146 /* Tag.swift in Sources */,
-				16F0FFC8B09C15DDC1F60B9A4E589FEF /* TextNode.swift in Sources */,
-				E818247285600AD6EFAD11520196C540 /* Token.swift in Sources */,
-				47A00868353FE26D36D49708BFD3EC6F /* Tokeniser.swift in Sources */,
-				7C411A69ED666E1C704060E095D1D73B /* TokeniserState.swift in Sources */,
-				5C0B1D46D6364E907308199F271D67DD /* TokenQueue.swift in Sources */,
-				A5B1E4215AA24CDC9C8702FBD9E4807E /* TreeBuilder.swift in Sources */,
-				D75EFA0BE70338D0619DF65F54705E40 /* UnicodeScalar.swift in Sources */,
-				FD9F43C521B0C26DE14D32CADA736BB4 /* Validate.swift in Sources */,
-				24B3E687E54674743390A5FE1AF9E53A /* Whitelist.swift in Sources */,
-				282AF7AC8BF37E1A77FA9E0D79B84961 /* XmlDeclaration.swift in Sources */,
-				244F3577A0B93810DA67C6B8A65DCDBC /* XmlTreeBuilder.swift in Sources */,
+				E62A0934D7E598A3CD382727BC9A981A /* Pods-SkyMobile-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2425C22EC2CF939D01E028F54D4ACB8F /* Sources */ = {
+		0D23CFC99303143CC2318F21F02A96F9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				105CEBAE7ADDC82AA15E7394F63270A8 /* Pods-SkyMobileTests-dummy.m in Sources */,
+				6921ED8F336C9A8584246C8EA9E05BCD /* CSS.swift in Sources */,
+				4C2DE52019670B533E562CE3F2A6E077 /* Deprecated.swift in Sources */,
+				2DAC7A6A4DC00202CEDB3860F091C34D /* Kanna-dummy.m in Sources */,
+				DF26AB29242601F1EF844C1F93622769 /* Kanna.swift in Sources */,
+				BB01E5C2361137030EECD341813BA379 /* libxmlHTMLDocument.swift in Sources */,
+				C73EC5098AFF72BB9B68A49AB7B5B23D /* libxmlHTMLNode.swift in Sources */,
+				A20D50BC4E158C5BCF2DDE93B62C6335 /* libxmlParserOption.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1DC6EA730DA30527752D46FA60AD3F /* Sources */ = {
+		67DD6D408C8B702F4F60184EAE29DD2A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7D7856E0AF00FF4884CF1F2E4919746 /* Pods-SkyMobileUITests-dummy.m in Sources */,
+				DD956835C762975BFF358B5B01CD1B42 /* Pods-SkyMobileTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C24FA0ADAF09C6A4635E3D07CCF06CE3 /* Sources */ = {
+		921A277CAB812E75A2719E593E888870 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DD346EB1D5F31FDB9B566A0C62300A4 /* Pods-SkyMobile-dummy.m in Sources */,
+				C4F41B585BAB6CB8858FCD342A211757 /* Pods-SkyMobileUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D61B6FCBB34412F26F496E58B12D59FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F1959C1EC0F0AF1E7D6E630D22880C2 /* ArrayExt.swift in Sources */,
+				C98E03F41C8606CEFC7D43ED75342432 /* Attribute.swift in Sources */,
+				B9311F1DB548043F4299222C50001384 /* Attributes.swift in Sources */,
+				9E0FDC860764DDDC385A5F78083E30CE /* BooleanAttribute.swift in Sources */,
+				64826E34ED5014177AFA48FDCC58C511 /* CharacterExt.swift in Sources */,
+				986F3EC3E696E5E0AAC0611145E14598 /* CharacterReader.swift in Sources */,
+				05BB93AC14B861487B61FD7ED27EFCAA /* Cleaner.swift in Sources */,
+				3DD965C113498DB8225CBCCFC8CE850F /* Collector.swift in Sources */,
+				F95EAB4B0DFC78ACEC3679BA1035E2A3 /* CombiningEvaluator.swift in Sources */,
+				54BE4DD73AD0199B6E881650A32631A9 /* Comment.swift in Sources */,
+				F94B2BA9549291CB0C1C40CD1DCB7E1B /* Connection.swift in Sources */,
+				6585F897A98CC045D36724BF65F03481 /* DataNode.swift in Sources */,
+				92D43939C6B66D438E8BF719DE14F434 /* DataUtil.swift in Sources */,
+				91A82D58A1FECD755BCB831F9D5F9115 /* Document.swift in Sources */,
+				78603652B703AF89EC0727F5F8CC9933 /* DocumentType.swift in Sources */,
+				93A553CF8302FFEDF96584A23A6402F6 /* Element.swift in Sources */,
+				F1C34A47C9382C890707DD963A350BC9 /* Elements.swift in Sources */,
+				798B98B97EC04936DFA5DF29E851C06D /* Entities.swift in Sources */,
+				DB313AE281EB0FB254BFDE6476723BC1 /* Evaluator.swift in Sources */,
+				21312268B6DB1D008AA00D29B3D860D2 /* Exception.swift in Sources */,
+				E9901B9A88C4F409A71B62D4FED7FA34 /* FormElement.swift in Sources */,
+				35199D3B0D0D93788A9F66A1727EB70D /* HtmlTreeBuilder.swift in Sources */,
+				5030DFBFED69147F0FDF62CEE63212FD /* HtmlTreeBuilderState.swift in Sources */,
+				BA9C98F67A0C0DF3F7B431DDD333678D /* HttpStatusException.swift in Sources */,
+				05DB3F173B19560BD8486529131606AD /* Node.swift in Sources */,
+				0EF41FD29CD71A2D435CF4BE5BDC0DC1 /* NodeTraversor.swift in Sources */,
+				4028EA3091800BA41A1B4255E675793A /* NodeVisitor.swift in Sources */,
+				B1B115F14779BE7B536162879CBB1C54 /* OrderedDictionary.swift in Sources */,
+				B14809D3927B9BD3F5CE2DE1A95E72E8 /* OrderedSet.swift in Sources */,
+				A6F23D4EE8EBDD6CA42F9DE8CB98782B /* ParseError.swift in Sources */,
+				407D72416F59E857F611BFBEB45F7BBB /* ParseErrorList.swift in Sources */,
+				E64BAFEA162E3E878C883DA02810B6E8 /* Parser.swift in Sources */,
+				A33285DB8EA599C84C0C0DA0971F6274 /* ParseSettings.swift in Sources */,
+				E650255DE91DB456C79DB25FD053BF88 /* Pattern.swift in Sources */,
+				9175E4549998CF7EBDD0D98E5EB4DC13 /* QueryParser.swift in Sources */,
+				F14D793AF37B0D86F60AD24F25D0BCD0 /* Selector.swift in Sources */,
+				F62D929A9317245A16EE6AE5C300E13C /* SerializationException.swift in Sources */,
+				134C71C4C1CAA156C950D9C302ADFDE4 /* SimpleDictionary.swift in Sources */,
+				0B2937BFFACDD848C493DD72582A0735 /* StreamReader.swift in Sources */,
+				8774A5A653438FA4D9834431DEEBDAC7 /* String.swift in Sources */,
+				378645760FF2F9B27130D9473ABB441E /* StringBuilder.swift in Sources */,
+				C1933B7FE21AC1C0FA855AEBD792F799 /* StringUtil.swift in Sources */,
+				E0E85E6ADA08613D278A140392F75CA1 /* StructuralEvaluator.swift in Sources */,
+				9A497BBEBDF0E7613A35C85C44DF9164 /* SwiftSoup-dummy.m in Sources */,
+				6CC61033934A50B0C3920611AD4149F9 /* SwiftSoup.swift in Sources */,
+				6587DAAD4E57E5CAC3CDB57CA1FDD7FB /* Tag.swift in Sources */,
+				725C70A40D989D67799CBD165328FC6F /* TextNode.swift in Sources */,
+				1CD2C13D3F0ADFCACCEE47C9851EE321 /* Token.swift in Sources */,
+				CF07FBA90C681D9A3744C6E9C6DBA259 /* Tokeniser.swift in Sources */,
+				C579DBCE02684D5BB778DBFF33BD0533 /* TokeniserState.swift in Sources */,
+				AC7DB2D95D4EB1FC8EC7A28C467F44CE /* TokenQueue.swift in Sources */,
+				B3C51C8E9BE751A1247FDF53D6702FAC /* TreeBuilder.swift in Sources */,
+				D820FD672F0FDDD9FD3787720AD5B32E /* UnicodeScalar.swift in Sources */,
+				417EDE25C65D9D4C21475A28C97FF219 /* Validate.swift in Sources */,
+				5BE89559678A6FD651E1BEE00B4FA65F /* Whitelist.swift in Sources */,
+				5B4370A5A39E1FF70FFA7B6D6AAD2820 /* XmlDeclaration.swift in Sources */,
+				BEA58A8F865F4F7116B1D06AB268E0E9 /* XmlTreeBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7716DE2BB6CB9C546DA03825D176B3DA /* PBXTargetDependency */ = {
+		0061968D89584F2EE9620C5D925F0E4C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-SkyMobile";
-			target = 57A8CEB9EA3E68CE5BE54D87C3A748D4 /* Pods-SkyMobile */;
-			targetProxy = 227DD2A26E2D25F7888B968EF6000B64 /* PBXContainerItemProxy */;
+			target = 2EADD0B0529C7578FF462B6BA5BE46F0 /* Pods-SkyMobile */;
+			targetProxy = 78A2BD7B04773E005054668A0A2716F2 /* PBXContainerItemProxy */;
 		};
-		B4C964EBA5A85DCDA5E0C67A1279E9F4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-SkyMobile";
-			target = 57A8CEB9EA3E68CE5BE54D87C3A748D4 /* Pods-SkyMobile */;
-			targetProxy = 0B0EC8235472B8AF17204A7303C7C272 /* PBXContainerItemProxy */;
-		};
-		D21B57C3EFA31F9E0D434C37B13AD335 /* PBXTargetDependency */ = {
+		6A5511555F002CA393817C03A330D082 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftSoup;
-			target = 3C91A73D99D22F1BE87D62507A253596 /* SwiftSoup */;
-			targetProxy = 68ADC8953FAD25CB84009312B03209ED /* PBXContainerItemProxy */;
+			target = 359CAFC5DB3F51E9C6C963CB202F0863 /* SwiftSoup */;
+			targetProxy = F9F28C6CEC8E37F830744B2B94680E3D /* PBXContainerItemProxy */;
+		};
+		A9FF41A014194FE1BA0C390F2C37C6FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Kanna;
+			target = 1E0B9DFE11A3B2711C371DDBBA9BDAA6 /* Kanna */;
+			targetProxy = AB767D5C316DB850A0C8E4707FFC49A7 /* PBXContainerItemProxy */;
+		};
+		EB25D1C698EBCBBBCCDA47B04A7ED97E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-SkyMobile";
+			target = 2EADD0B0529C7578FF462B6BA5BE46F0 /* Pods-SkyMobile */;
+			targetProxy = E05FF8AF2766FA9808DE2560AAEBF3A1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		38DCD534F1A3B023014C40944F573BC1 /* Release */ = {
+		15071DCCAC739170F4B7F0D02D59E471 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC676503D7AA719B6B12FA7C365E4EEE /* SwiftSoup.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftSoup/SwiftSoup-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftSoup/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SwiftSoup/SwiftSoup.modulemap";
-				PRODUCT_MODULE_NAME = SwiftSoup;
-				PRODUCT_NAME = SwiftSoup;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		43147C6C4BD8AB67C48B3E3C9861C3E2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9A3BD63675A803D0EEA4AEEEEB94164E /* Pods-SkyMobileTests.release.xcconfig */;
+			baseConfigurationReference = 57D40E772805203909BD7C5033002DDE /* Pods-SkyMobileTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -760,10 +845,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileTests/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.modulemap";
 				OTHER_LDFLAGS = "";
@@ -780,9 +869,9 @@
 			};
 			name = Release;
 		};
-		4456073FA924A076D5EB76F28A5FDA1B /* Release */ = {
+		1A53E75B422BDA2D72DF95AB45467F7C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 927E3ECDCA260063E8D083C57C86DADA /* Pods-SkyMobile.release.xcconfig */;
+			baseConfigurationReference = 653725A87ECF2F05AC0B1D444690673C /* Pods-SkyMobileUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -795,12 +884,16 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobile/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobile/Pods-SkyMobile.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -808,53 +901,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		47CBF630CBA385D2DF9698C2D41B3397 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C41513963F37FCEB0BA7C90F741A0F4 /* Pods-SkyMobile.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobile/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobile/Pods-SkyMobile.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		48762CF7C3ACE3A585A0F17EF81A9F47 /* Debug */ = {
+		4BE4AFCD0384DC9E62BBC048B4FCC56D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC676503D7AA719B6B12FA7C365E4EEE /* SwiftSoup.xcconfig */;
+			baseConfigurationReference = 8DEC8C8AD136EB1165B9F3C411B56625 /* SwiftSoup.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -866,25 +921,29 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_PREFIX_HEADER = "Target Support Files/SwiftSoup/SwiftSoup-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftSoup/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/SwiftSoup/SwiftSoup-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SwiftSoup/SwiftSoup.modulemap";
 				PRODUCT_MODULE_NAME = SwiftSoup;
 				PRODUCT_NAME = SwiftSoup;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		8C3D32AC054F4DBEE82EB2FD6A303D73 /* Debug */ = {
+		4CE281642D6EE9FAB113046B4B6328A0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -916,8 +975,66 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		6DFA1578582149B7E24AD55CBA30F07A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -944,73 +1061,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		B751CA5B597BFC35A6C0287C65F9E2E1 /* Release */ = {
+		73C8BD89158EA441C21D62FD95A84941 /* Release */ = {
 			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		D0BF01EF81A11DC1361734D161225EAE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96A7686CCF09EBE7451368867828BE16 /* Pods-SkyMobileTests.debug.xcconfig */;
+			baseConfigurationReference = D12BCCEDB1066779388DE403744EF716 /* Pods-SkyMobile.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1023,10 +1082,161 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileTests/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobile/Pods-SkyMobile-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobile/Pods-SkyMobile.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		77C133ACCAD6D13490FDEFE4C4FAC120 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8DEC8C8AD136EB1165B9F3C411B56625 /* SwiftSoup.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftSoup/SwiftSoup-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftSoup/SwiftSoup-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/SwiftSoup/SwiftSoup.modulemap";
+				PRODUCT_MODULE_NAME = SwiftSoup;
+				PRODUCT_NAME = SwiftSoup;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7B5BEDBC4D336448109B08AEBA1C15A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54FA1A571F01011818EF08258906622A /* Kanna.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Kanna/Kanna-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Kanna/Kanna-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Kanna/Kanna.modulemap";
+				PRODUCT_MODULE_NAME = Kanna;
+				PRODUCT_NAME = Kanna;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		862ED5AFF5F3E39E886D605DDBF86452 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 460E76C5442FCA36489BC54FDA27EFA2 /* Pods-SkyMobile.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobile/Pods-SkyMobile-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobile/Pods-SkyMobile.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8651A4D5870C762D618F9683D3A94709 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 900EA224AB02A59C85BB0D03FF716772 /* Pods-SkyMobileTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.modulemap";
 				OTHER_LDFLAGS = "";
@@ -1042,9 +1252,45 @@
 			};
 			name = Debug;
 		};
-		E1C6A2177FE9C19E5170060056E4D3DE /* Release */ = {
+		9AAC67894699A2EEB71D2275481B4077 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BDD8B0DF25F379106203B007954A1F3 /* Pods-SkyMobileUITests.release.xcconfig */;
+			baseConfigurationReference = 54FA1A571F01011818EF08258906622A /* Kanna.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Kanna/Kanna-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Kanna/Kanna-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Kanna/Kanna.modulemap";
+				PRODUCT_MODULE_NAME = Kanna;
+				PRODUCT_NAME = Kanna;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D34946A8B3E6551B4D0A44583946AAB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8D01493E561FFEA6151642F3B3D030A /* Pods-SkyMobileUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1057,10 +1303,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileUITests/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.modulemap";
 				OTHER_LDFLAGS = "";
@@ -1077,89 +1327,64 @@
 			};
 			name = Release;
 		};
-		E6149BEBB622275667C996B217853674 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41FCFAFC1ED640E7B1505DA1739518FA /* Pods-SkyMobileUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SkyMobileUITests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0F23D6D31C07EEBA1A7A2CFB47F72E27 /* Build configuration list for PBXNativeTarget "Pods-SkyMobile" */ = {
+		19125AE0FFDE0C4FD9DE8FCE5A719250 /* Build configuration list for PBXNativeTarget "Pods-SkyMobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				47CBF630CBA385D2DF9698C2D41B3397 /* Debug */,
-				4456073FA924A076D5EB76F28A5FDA1B /* Release */,
+				862ED5AFF5F3E39E886D605DDBF86452 /* Debug */,
+				73C8BD89158EA441C21D62FD95A84941 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16D2920350824392C62E198B24742EE0 /* Build configuration list for PBXNativeTarget "Pods-SkyMobileTests" */ = {
+		298C5DBE2FFB2DE540832BA1BD48B738 /* Build configuration list for PBXNativeTarget "Kanna" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D0BF01EF81A11DC1361734D161225EAE /* Debug */,
-				43147C6C4BD8AB67C48B3E3C9861C3E2 /* Release */,
+				7B5BEDBC4D336448109B08AEBA1C15A5 /* Debug */,
+				9AAC67894699A2EEB71D2275481B4077 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+		2B3DA38A8FA96E34915F61E67BB823E7 /* Build configuration list for PBXNativeTarget "SwiftSoup" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C3D32AC054F4DBEE82EB2FD6A303D73 /* Debug */,
-				B751CA5B597BFC35A6C0287C65F9E2E1 /* Release */,
+				77C133ACCAD6D13490FDEFE4C4FAC120 /* Debug */,
+				4BE4AFCD0384DC9E62BBC048B4FCC56D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95CF86AB3A89C28D5E86ACA4A9EE6F8F /* Build configuration list for PBXNativeTarget "SwiftSoup" */ = {
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				48762CF7C3ACE3A585A0F17EF81A9F47 /* Debug */,
-				38DCD534F1A3B023014C40944F573BC1 /* Release */,
+				6DFA1578582149B7E24AD55CBA30F07A /* Debug */,
+				4CE281642D6EE9FAB113046B4B6328A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AF5222AAA235DF092733015B4AEF908F /* Build configuration list for PBXNativeTarget "Pods-SkyMobileUITests" */ = {
+		7874C5683F46270F12E8529029836F4E /* Build configuration list for PBXNativeTarget "Pods-SkyMobileUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E6149BEBB622275667C996B217853674 /* Debug */,
-				E1C6A2177FE9C19E5170060056E4D3DE /* Release */,
+				1A53E75B422BDA2D72DF95AB45467F7C /* Debug */,
+				D34946A8B3E6551B4D0A44583946AAB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5AAF9501E28FA5BFA68398767058657 /* Build configuration list for PBXNativeTarget "Pods-SkyMobileTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8651A4D5870C762D618F9683D3A94709 /* Debug */,
+				15071DCCAC739170F4B7F0D02D59E471 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 }

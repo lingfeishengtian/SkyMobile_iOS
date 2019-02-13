@@ -10,7 +10,6 @@ import UIKit
 import WebKit
 
 class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var webView = WKWebView();
     var Courses: [Course] = []
     var importantUtils = ImportantUtils()
     
@@ -23,10 +22,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Courses = InformationHolder.Courses
         tableView.frame.origin = CGPoint(x: 0, y: FinalGPA.frame.maxY + 10)
         tableView.frame.size = CGSize(width: self.view.frame.width, height: 100)
         
-        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         GPACalculatorTitle.sizeToFit()
         tableView.delegate = self
         tableView.dataSource = self
@@ -123,8 +122,6 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @IBAction func goBack(_ sender: Any) {
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
-        vc.webView = self.webView;
-        vc.Courses = Courses
         self.present(vc, animated: true, completion: nil)
     }
 }

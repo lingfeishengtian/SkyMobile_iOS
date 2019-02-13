@@ -7,6 +7,7 @@ target 'SkyMobile' do
 
   # Pods for SkyMobile
   pod 'SwiftSoup'
+  pod 'Kanna', '~> 4.0.0'
   target 'SkyMobileTests' do
     inherit! :search_paths
     # Pods for testing

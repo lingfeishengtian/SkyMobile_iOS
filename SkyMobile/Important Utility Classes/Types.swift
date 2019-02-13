@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WebKit
 
 struct ClassGrades: Hashable{
     var ClassName: String
@@ -124,4 +125,9 @@ class Account: NSObject, NSCoding{
         code.encode(Username, forKey: "user")
         code.encode(Password, forKey: "pass")
     }
+}
+
+struct InformationHolder{
+    static var SkywardWebsite: WKWebView = WKWebView()
+    static var Courses: [Course] = []
 }

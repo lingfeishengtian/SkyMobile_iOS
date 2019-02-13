@@ -23,7 +23,6 @@ class ViewAssignments: UIViewController {
     var ColorsOfGrades:[UIColor] = []
     var Assignments = AssignmentGrades(classDesc: "NIL")
     
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var navView: UINavigationItem!
     @IBOutlet weak var lblClass: UILabel!
     @IBOutlet weak var lblTerm: UILabel!
@@ -67,11 +66,13 @@ class ViewAssignments: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        webView = InformationHolder.SkywardWebsite
+        Courses = InformationHolder.Courses
         webView.frame = CGRect(x: 0, y: 350, width: 0, height: 0)
         view.addSubview(webView)
         
         //self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
-        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
+        let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(self.goBack(_:)))
         self.navView.leftBarButtonItem = backButton
         SetLabelText(term: Term, Class: Class)
         
@@ -258,9 +259,8 @@ class AssignmentViewTable: UITableViewController{
         }
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
-        vc.webView = self.webView
+        InformationHolder.SkywardWebsite = webView
         vc.Class = self.Class
-        vc.Courses = self.Courses
         vc.Term = self.Term
         vc.AssignmentNameString = assignmentName
         vc.Assignments = self.Assignments
