@@ -103,3 +103,25 @@ func ==(lhs: Assignment, rhs: Assignment) -> Bool {
     return lhs.Class == rhs.Class
 }
 
+class Account: NSObject, NSCoding{
+    var NickName: String
+    var Username: String
+    var Password: String
+    
+    init(nick: String, user: String, pass: String) {
+        NickName = nick
+        Username = user
+        Password = pass
+    }
+    
+    required init(coder decoder: NSCoder) {
+        self.NickName = decoder.decodeObject(forKey: "nick") as! String
+        self.Username = decoder.decodeObject(forKey: "user") as! String
+        self.Password = decoder.decodeObject(forKey: "pass") as! String
+    }
+    func encode(with code: NSCoder){
+        code.encode(NickName, forKey: "nick")
+        code.encode(Username, forKey: "user")
+        code.encode(Password, forKey: "pass")
+    }
+}

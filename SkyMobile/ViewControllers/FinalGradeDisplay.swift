@@ -238,7 +238,9 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     //TODO: Add ScrollView for all pages
     //TODO: Create the settings
     @IBAction func goToSettings(_ sender: Any) {
-        
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        let vc : SettingsViewController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func Logout(_ sender: Any) {

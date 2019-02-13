@@ -45,49 +45,41 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" smartDashesType="no" textContentType="username"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTE: This is a beta version of SkyMobile, please report any bugs to the developer. Version: " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AD2-dl-L4t">
-                                <rect key="frame" x="10" y="570" width="355" height="87"/>
+                                <rect key="frame" x="10" y="492" width="355" height="165"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Li-xE-Vsq">
-                                <rect key="frame" x="119" y="273" width="135" height="39"/>
+                                <rect key="frame" x="119" y="258" width="135" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="ERs-1j-kJ5"/>
                                     <constraint firstAttribute="width" constant="135" id="Mba-aD-qWm"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="Submit">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="SubmitForm:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cxy-Zg-80S"/>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHE-md-pfH">
-                                <rect key="frame" x="0.0" y="333" width="375" height="221"/>
+                                <rect key="frame" x="0.0" y="352" width="375" height="130"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pFW-Gm-31B">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="221"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="375" id="his-c2-s7P"/>
-                                            <constraint firstAttribute="height" constant="221" id="ocV-sy-8ue"/>
+                                            <constraint firstAttribute="width" constant="320" id="Qd3-fB-UVG"/>
+                                            <constraint firstAttribute="height" constant="160" id="ocV-sy-8ue"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="b5B-tS-D05">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="b5B-tS-D05">
+                                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b5B-tS-D05" id="qN2-JX-Jcy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KdC-ld-A7Z">
-                                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KdC-ld-A7Z" id="VY1-lI-VIp">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -96,13 +88,23 @@
                                     </tableView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="pFW-Gm-31B" secondAttribute="bottom" id="0to-sO-Rjn"/>
-                                    <constraint firstItem="pFW-Gm-31B" firstAttribute="top" secondItem="dHE-md-pfH" secondAttribute="top" id="217-Zr-oIt"/>
-                                    <constraint firstAttribute="trailing" secondItem="pFW-Gm-31B" secondAttribute="trailing" id="IwO-x4-yjP"/>
-                                    <constraint firstItem="pFW-Gm-31B" firstAttribute="leading" secondItem="dHE-md-pfH" secondAttribute="leading" id="Zss-cg-SZ9"/>
-                                    <constraint firstAttribute="height" constant="221" id="qjA-sE-zm0"/>
+                                    <constraint firstItem="pFW-Gm-31B" firstAttribute="leading" secondItem="dHE-md-pfH" secondAttribute="leading" id="4z1-jA-ilt"/>
+                                    <constraint firstItem="pFW-Gm-31B" firstAttribute="top" secondItem="dHE-md-pfH" secondAttribute="top" id="BQ7-ZF-x57"/>
+                                    <constraint firstAttribute="height" constant="130" id="H2f-on-Krv"/>
+                                    <constraint firstAttribute="trailing" secondItem="pFW-Gm-31B" secondAttribute="trailing" id="MQl-MQ-wZ6"/>
+                                    <constraint firstAttribute="bottom" secondItem="pFW-Gm-31B" secondAttribute="bottom" id="xDm-6N-BWP"/>
                                 </constraints>
                             </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saved Accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9s-xW-k3L">
+                                <rect key="frame" x="10" y="323" width="124" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="124" id="SBw-n7-Xkj"/>
+                                    <constraint firstAttribute="height" constant="21" id="tPo-i1-I2G"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -114,12 +116,14 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Who-5Z-PY9" secondAttribute="trailing" constant="58" id="MQl-ds-iHP"/>
                             <constraint firstItem="SN2-Pa-1b9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="74" id="P6U-Lh-JSH"/>
                             <constraint firstItem="3Li-xE-Vsq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="119" id="PCk-wq-CXT"/>
+                            <constraint firstItem="AD2-dl-L4t" firstAttribute="top" secondItem="dHE-md-pfH" secondAttribute="bottom" constant="10" id="Si1-iP-H1T"/>
                             <constraint firstItem="dHE-md-pfH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Yfu-Wj-iJf"/>
                             <constraint firstItem="Bvu-ia-1fL" firstAttribute="top" secondItem="SN2-Pa-1b9" secondAttribute="bottom" constant="19" id="c3w-8p-ISC"/>
-                            <constraint firstItem="dHE-md-pfH" firstAttribute="top" secondItem="3Li-xE-Vsq" secondAttribute="bottom" constant="21" id="clZ-fs-5xm"/>
+                            <constraint firstItem="dHE-md-pfH" firstAttribute="top" secondItem="3Li-xE-Vsq" secondAttribute="bottom" constant="55" id="clZ-fs-5xm"/>
+                            <constraint firstItem="y9s-xW-k3L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="dAf-he-JvY"/>
                             <constraint firstItem="Who-5Z-PY9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="57" id="eFO-xd-Bye"/>
-                            <constraint firstItem="AD2-dl-L4t" firstAttribute="top" secondItem="dHE-md-pfH" secondAttribute="bottom" constant="16" id="eqr-Ca-PnM"/>
-                            <constraint firstItem="3Li-xE-Vsq" firstAttribute="top" secondItem="Bvu-ia-1fL" secondAttribute="bottom" constant="31" id="hHd-Ic-yeS"/>
+                            <constraint firstItem="dHE-md-pfH" firstAttribute="top" secondItem="y9s-xW-k3L" secondAttribute="bottom" constant="8" id="fDq-w2-pYm"/>
+                            <constraint firstItem="3Li-xE-Vsq" firstAttribute="top" secondItem="Bvu-ia-1fL" secondAttribute="bottom" constant="16" id="hHd-Ic-yeS"/>
                             <constraint firstItem="AD2-dl-L4t" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="hhE-v6-QY7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bvu-ia-1fL" secondAttribute="trailing" constant="58" id="lB3-Hi-aDZ"/>
                             <constraint firstItem="Who-5Z-PY9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="mHw-uB-k4b"/>
@@ -138,16 +142,20 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
+                        <outlet property="AccountTableScrollView" destination="dHE-md-pfH" id="IHs-Td-A6Z"/>
+                        <outlet property="AccountTableScrollViewHeightConstraint" destination="H2f-on-Krv" id="rWc-fG-LvL"/>
+                        <outlet property="AccountTableViewWidthConstraint" destination="Qd3-fB-UVG" id="PGK-Bb-Yu4"/>
                         <outlet property="BetaInfoDisplayer" destination="AD2-dl-L4t" id="s1L-lh-onv"/>
                         <outlet property="PasswordField" destination="Bvu-ia-1fL" id="pqv-Mg-KQ9"/>
                         <outlet property="SavedAccountsTableView" destination="pFW-Gm-31B" id="8CY-rF-oLl"/>
+                        <outlet property="SavedAccountsTableViewHeight" destination="ocV-sy-8ue" id="hpc-AQ-vBH"/>
                         <outlet property="SubmitBtn" destination="3Li-xE-Vsq" id="25k-JI-eAQ"/>
                         <outlet property="UsernameField" destination="SN2-Pa-1b9" id="u8K-ez-ibD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="60" y="47.226386806596707"/>
+            <point key="canvasLocation" x="60" y="46.478873239436624"/>
         </scene>
     </scenes>
 </document>

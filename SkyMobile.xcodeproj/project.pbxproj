@@ -17,6 +17,7 @@
 		9636181E21812F51002A8B2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Main.storyboard */; };
 		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
+		969715F0221393A200B810DD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969715EF221393A200B810DD /* SettingsViewController.swift */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
@@ -65,6 +66,7 @@
 		9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
 		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		963975B72190F35300BDE6F9 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		969715EF221393A200B810DD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		96987930216EDB8D00274869 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				961317A02173019E0018684F /* ViewAssignments.swift */,
 				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
 				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
+				969715EF221393A200B810DD /* SettingsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				9698793F216EDBA100274869 /* ViewController.swift in Sources */,
 				96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */,
 				96987933216EDB8D00274869 /* Types.swift in Sources */,
+				969715F0221393A200B810DD /* SettingsViewController.swift in Sources */,
 				9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */,
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
 				96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */,

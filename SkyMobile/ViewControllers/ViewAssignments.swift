@@ -28,8 +28,7 @@ class ViewAssignments: UIViewController {
     @IBOutlet weak var lblClass: UILabel!
     @IBOutlet weak var lblTerm: UILabel!
     @IBOutlet weak var GradeTableView: UITableView!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var mainView: GradientView!
+    //@IBOutlet weak var LabelTermLeading: NSLayoutConstraint!
     
     let GradeTableViewController: AssignmentViewTable = AssignmentViewTable()
     
@@ -37,7 +36,7 @@ class ViewAssignments: UIViewController {
         if self.Assignments.DailyGrades.isEmpty && self.Assignments.MajorGrades.isEmpty{
             importantUtils.CreateLoadingView(view: self.view, message: "Trying to view assignment grades...")
         }else{
-            self.importantUtils.DestroyLoadingView(views: self.scrollView)
+            self.importantUtils.DestroyLoadingView(views: self.view)
         }
         
             //Assignments = GetMajorAndDailyGrades(htmlCode: HTMLCodeFromGradeClick, term: Term, Class: Class)
@@ -55,11 +54,15 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.Courses = Courses
         GradeTableViewController.Assignments = Assignments
         GradeTableViewController.HTMLCodeFromGradeClick = HTMLCodeFromGradeClick
+        
         GradeTableView.reloadData()
         
-        mainView.frame.size = CGSize(width: mainView.frame.size.width, height: GradeTableView.contentSize.height + 100)
-        scrollView.contentSize = mainView.frame.size
-        tableViewHeightConstraint.constant = GradeTableView.contentSize.height
+//        let con = (GradeTableView.contentSize.height)
+//        tableViewHeightConstraint.constant = con
+//        //LabelTermLeading.constant = self.view.frame.width - 25 - lblClass.frame.width - lblTerm.frame.width
+//        //tableViewWidthConstraint.constant = self.scrollView.frame.size.width - 15
+//        //GradeTableView.frame = CGRect(x: GradeTableView.frame.minX, y: GradeTableView.frame.minY, width: self.view.frame.size.width - 15, height: con)
+//        scrollView.contentSize = CGSize(width: GradeTableView.frame.width, height:  con + 200)
     }
     
     override func viewDidLoad() {
@@ -67,13 +70,16 @@ class ViewAssignments: UIViewController {
         webView.frame = CGRect(x: 0, y: 350, width: 0, height: 0)
         view.addSubview(webView)
         
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
+        //self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.goBack(_:)))
         self.navView.leftBarButtonItem = backButton
         SetLabelText(term: Term, Class: Class)
         
         navView.hidesBackButton = false
-        AttemptToGetHTML()
+        
+            AttemptToGetHTML()
+//         mainView.frame = CGRect(x: mainView.frame.minX, y: mainView.frame.minY, width: mainView.frame.size.width, height: GradeTableView.contentSize.height + 100)
+//        tableViewHeightConstraint.constant = GradeTableView.contentSize.height
     }
     
     func AttemptToGetHTML(){
@@ -88,10 +94,6 @@ class ViewAssignments: UIViewController {
                     print("OMG THERES SOMETHING HERE")
                         self.HTMLCodeFromGradeClick = return1
                         self.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: return1, term: self.Term, Class: self.Class)
-                    
-                        self.ColorsOfGrades = self.importantUtils.DetermineColor(fromAssignmentGrades: self.Assignments, gradingTerm: self.Term)
-                        self.SetValuesOfGradeTableView()
-                        self.GradeTableView.reloadData()
                         self.SetValuesOfGradeTableView()
                 }
             }
@@ -188,6 +190,7 @@ class AssignmentViewTable: UITableViewController{
     var Courses: [Course] = []
     var importantUtils = ImportantUtils()
     var Assignments = AssignmentGrades(classDesc: "NIL")
+    var constraint: NSLayoutConstraint = NSLayoutConstraint()
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2;
@@ -208,13 +211,16 @@ class AssignmentViewTable: UITableViewController{
         }else{
             headerCell.GradeSectionDesc.text = "Major"
         }
+        headerCell.backgroundColor = UIColor(white: 1.0, alpha: 1.0)
         return headerCell
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44;
     }
-    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44;
+    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AssignmentViewCells
         
@@ -235,8 +241,8 @@ class AssignmentViewTable: UITableViewController{
             cell.lblGrade.text = grade
             cell.lblGrade.textColor = Colors[indexPath.row + DailyGrades.count]
         }
-        
-        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
+        cell.frame.size = CGSize(width: cell.frame.width, height: 44)
+        //tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
         return cell
     }
     
