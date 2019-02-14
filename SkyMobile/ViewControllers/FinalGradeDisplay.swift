@@ -13,14 +13,12 @@ import WebKit
 // MARK: - Prep into Private Beta 2.8
 class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
 
-    var webView:WKWebView = WKWebView()
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
     
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     let importantUtils = ImportantUtils()
     
-    var Courses: [Course] = []
     var Options = ["PR1",
                     "PR2",
                     "T1",
@@ -41,29 +39,26 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var table: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
-        if webView == WKWebView() || Courses.isEmpty{
-        webView = InformationHolder.SkywardWebsite
-        Courses = InformationHolder.Courses
-        }
         
-        if IsElementaryAccount(courses: Courses){
+        if IsElementaryAccount(Courses: InformationHolder.Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
                     Options.remove(at: Options.firstIndex(of: option)!)
                 }
             }
         }
-        let ShouldBeDisplay = GuessShouldDisplayScreen(courses: Courses)
+        let ShouldBeDisplay = GuessShouldDisplayScreen(Courses: InformationHolder.Courses)
         indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
-       ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: Courses, gradingTerm: Options[indexOfOptions])
+       ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
     }
     //TODO: Create Func that allows for assignment
     override func viewDidLoad() {
+        //InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
         table.frame.size = CGSize(width: self.view.frame.width, height: 100)
-        webView.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
-        view.addSubview(webView)
+        InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
+        view.addSubview(InformationHolder.SkywardWebsite)
         
         table.reloadData()
         table.delegate = self
@@ -92,24 +87,24 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         indexOfOptions = row
-        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: Courses, gradingTerm: Options[indexOfOptions])
+        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
         table.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return Courses.count;
+        return InformationHolder.Courses.count;
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        //Find cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! GradeTableViewCell
         
         //Add cell text
-        cell.lblPeriod.text = String(Courses[indexPath.row].Period)
-        cell.lblClassDesc.text = String(Courses[indexPath.row].Class)
+        cell.lblPeriod.text = String(InformationHolder.Courses[indexPath.row].Period)
+        cell.lblClassDesc.text = String(InformationHolder.Courses[indexPath.row].Class)
         cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
         print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
         
-        let grade = Courses[indexPath.row].Grades.Grades[Options[pickTerm.selectedRow(inComponent: 0)]]!
+        let grade = InformationHolder.Courses[indexPath.row].Grades.Grades[Options[pickTerm.selectedRow(inComponent: 0)]]!
         if(grade == "-1000"){
             cell.lblGrade.text = " "
         }else{
@@ -131,27 +126,27 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       GetAssignments(webView: webView, indexOfCourse: indexPath.row, indexOfOptions: indexOfOptions)
+       GetAssignments(indexOfCourse: indexPath.row, indexOfOptions: indexOfOptions)
     }
     
-//    func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
+//    func GetAssignments(InformationHolder.SkywardWebsite: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
 //        var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
 //        print(javaScript)
 //        loadingCircle.startAnimating()
 //        HideView.isHidden = false
-//        webView.evaluateJavaScript(javaScript){ (result, error) in
+//        InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
 //        }
 //        _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { (timer) in
 //        javaScript = "document.documentElement.outerHTML.toString()"
-//        webView.evaluateJavaScript(javaScript){ (result, error) in
+//        InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
 //                if error == nil {
 //                    let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
 //                    let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-//                    vc.webView = self.webView;
-//                    vc.Class = self.Courses[indexOfClass].Class
+//                    vc.InformationHolder.SkywardWebsite = self.InformationHolder.SkywardWebsite;
+//                    vc.Class = self.InformationHolder.Courses[indexOfClass].Class
 //                    vc.Term = self.Options[indexOfOptions]
 //                    vc.HTMLCodeFromGradeClick = result as! String
-//                    vc.Courses = self.Courses
+//                    vc.InformationHolder.Courses = self.InformationHolder.Courses
 //                    self.present(vc, animated: true, completion: nil)
 //                }
 //            }
@@ -161,22 +156,49 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         DispatchQueue.main.asyncAfter(
             deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
-    func GetAssignments(webView: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
+    
+    fileprivate func helperClickAssignmentValue(indexOfClass: Int, indexOfOptions: Int){
+        InformationHolder.SkywardWebsite.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + self.Options[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
+    }
+    
+    func GetAssignments(indexOfCourse indexOfClass: Int, indexOfOptions:Int){
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-        vc.Class = self.Courses[indexOfClass].Class
+        vc.Class = InformationHolder.Courses[indexOfClass].Class
         vc.Term = self.Options[indexOfOptions]
-        InformationHolder.SkywardWebsite = webView
-        InformationHolder.Courses = Courses
+        InformationHolder.SkywardWebsite = InformationHolder.SkywardWebsite
+        InformationHolder.Courses = InformationHolder.Courses
         
-        webView.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + self.Options[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
-        let javaScript = "document.querySelector(\"table[id^=grid_stuGradeInfoGrid]\").querySelector(\"a\").text"
+        helperClickAssignmentValue(indexOfClass: indexOfClass, indexOfOptions: indexOfOptions)
+        let javaScript = """
+                        function checkForCorrectClass(){
+                        if(document.querySelector("table[id^=grid_stuGradeInfoGrid]").querySelector("a").text == "\(InformationHolder.Courses[indexOfClass].Class)" && sf_DialogTitle_gradeInfoDialog.textContent.indexOf("\(self.Options[indexOfOptions])") != -1){
+                        return "Valid"
+                        }
+                        }
+                        checkForCorrectClass()
+                        """
         importantUtils.CreateLoadingView(view: self.view, message: "Trying to get grades...")
+        var Attempts = 0
+        var displayOnce = false
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true){ timer in
         DispatchQueue.main.async {
-            webView.evaluateJavaScript(javaScript){ (result, error) in
+            InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
+                Attempts += 1
+                
+                if Attempts % 4 == 0 { self.helperClickAssignmentValue(indexOfClass: indexOfClass, indexOfOptions: indexOfOptions) }
+                if Attempts >= 20 && !displayOnce{
+                    self.importantUtils.DestroyLoadingView(views: self.view)
+                    let errorAlert = UIAlertController(title: "Uh Oh", message: "Your class grades couldn't be retrieved, maybe you dont have any grades in there?", preferredStyle: .alert)
+                    let ok = UIAlertAction(title: "OK", style: .default, handler: {_ in
+                        displayOnce = true
+                    })
+                    errorAlert.addAction(ok)
+                    self.present(errorAlert, animated: true, completion: nil)
+                    timer.invalidate()
+                }
                 if let fin = result as? String{
-                    if fin == self.Courses[indexOfClass].Class && UIApplication.topViewController() is FinalGradeDisplay{
+                    if fin == "Valid" && UIApplication.topViewController() is FinalGradeDisplay{
                         self.present(vc, animated: true, completion: nil)
                         timer.invalidate()
                     }
@@ -187,7 +209,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
             // for _ in 1...10{
 //            _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
 //                if vc.Assignments.DailyGrades.isEmpty && vc.Assignments.MajorGrades.isEmpty{
-//                    webView.evaluateJavaScript(javaScript){ (result, error) in
+//                    InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
 //                        if error == nil {
 //                            let resultString = result as! String
 //                            //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
@@ -204,8 +226,8 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
 //            }
     }
     
-    func IsElementaryAccount(courses: [Course]) -> Bool{
-        for course in courses{
+    func IsElementaryAccount(Courses: [Course]) -> Bool{
+        for course in InformationHolder.Courses{
             for (term, grade) in course.Grades.Grades{
                 if(grade != "-1000" && (term.contains("PR"))){
                     return false
@@ -215,9 +237,9 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
         return true
     }
     
-    func GuessShouldDisplayScreen(courses: [Course]) -> String{
+    func GuessShouldDisplayScreen(Courses: [Course]) -> String{
         var CurrentGuess = Options[0]
-        for course in courses{
+        for course in InformationHolder.Courses{
             for term in Options{
                 if course.Grades.Grades[term] == "-1000"{
                     break
@@ -235,8 +257,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBAction func goToGPACalculator(_ sender: Any) {
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : GPACalculatorViewController = mainStoryboard.instantiateViewController(withIdentifier: "GPACalculator") as! GPACalculatorViewController
-        InformationHolder.SkywardWebsite = webView
-        InformationHolder.Courses = Courses
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -257,7 +277,6 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
             // ...
         }
         let confirmedAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive){ (action) in
-            self.webView.removeFromSuperview()
             let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
             let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             self.importantUtils.resetDefaults()

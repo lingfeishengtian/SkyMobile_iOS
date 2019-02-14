@@ -65,12 +65,16 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         S2Average.text = S2AverageInt
         if S1AverageInt == "nan"{
             S1Average.text = "Not Applicable"
-        }
-        if S2AverageInt == "nan"{
+        }else if S2AverageInt == "nan"{
             S2Average.text = "Not Applicable"
             FinalGPA.text = String(S1AverageInt)
+        }
+        if(String(reloadGPAValues(term: "FIN")) != "nan"){
+        FinalGPA.text = String(reloadGPAValues(term: "FIN"))
+        }else if(S1AverageInt != "nan" && S2AverageInt != "nan"){
+            FinalGPA.text = String((Double(S1AverageInt)! + Double(S2AverageInt)!)/2.0)
         }else{
-            FinalGPA.text = String(reloadGPAValues(term: "FIN"))
+            FinalGPA.text = "N/A"
         }
     }
     

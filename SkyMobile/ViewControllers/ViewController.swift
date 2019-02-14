@@ -314,11 +314,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             if (self.webViewtemp.estimatedProgress == 1) {
                 print("### EP:", self.webView.estimatedProgress)
                 print("ACCESS")
-//                if self.webViewtemp.url?.absoluteString != nil {
-//                    print("TestURL: " + (self.webViewtemp.url?.absoluteString)!)
-//                    self.readyToSwitchViews(withWebView: self.webViewtemp)
-//                    self.runOnce = true
-//                }
                 if let web = webViewtemp.url {
                 if checkURL(url: web)  && !runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
@@ -362,6 +357,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     }else{
                     getHTMLCode()
                     }
+                }
+                if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/qloggedout001.w" && !(UIApplication.topViewController() is ViewController) {
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    
+                    let alerttingLogout = UIAlertController(title: "Oh No!", message: "Looks like you have been automatically logged out!", preferredStyle: .alert)
+                    let OK = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
+                    })
+                    alerttingLogout.addAction(OK)
+                    
+                    UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
                 }
         }
         }
@@ -425,3 +432,4 @@ extension UIDevice {
         return identifier
     }
 }
+

@@ -111,8 +111,6 @@ class ViewAssignments: UIViewController {
     @objc func goBack(_ sender: Any) {
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
-        vc.webView = self.webView;
-        vc.Courses = Courses
         self.present(vc, animated: true, completion: nil)
     }
     
