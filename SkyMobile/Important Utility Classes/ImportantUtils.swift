@@ -133,7 +133,7 @@ class ImportantUtils {
             return "Regular"
         }
     }
-    func GetMajorAndDailyGrades(htmlCode: String, term: String, Class: String) -> AssignmentGrades{
+    func GetMajorAndDailyGrades(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentGrades{
         var DailyGrades:[Assignment] = [];
         var MajorGrades:[Assignment] = [];
         do{
@@ -147,8 +147,20 @@ class ImportantUtils {
             for assignment in finalGrades{
                 var assignmentDesc = try assignment.text()
                 if assignmentDesc.contains("DAILY weighted at 50.00%") {
+                    do{
+                        let dText =  try assignment.select(".bld.aRt").text()
+                        if !dText.split(separator: " ").isEmpty{
+                        DailyGrade = String(dText.split(separator: " ")[0])
+                        }
+                    }catch{}
                     isDaily = true
                 }else if assignmentDesc.contains("MAJOR weighted at 50.00%") {
+                    do{
+                        let dText =  try assignment.select(".bld.aRt").text()
+                        if !dText.split(separator: " ").isEmpty{
+                        MajorGrade = String(dText.split(separator: " ")[0])
+                        }
+                    }catch{}
                     isDaily = false
                 }else{
                     assignmentDesc = assignmentDesc.components(separatedBy: " out of ").dropLast().joined()
@@ -261,6 +273,14 @@ class ImportantUtils {
         return newCourse
     }
     
+    func DisplayErrorMessage(message: String){
+        DestroyLoadingView(views: (UIApplication.topViewController()?.view)!)
+        let CannotFindValidValue = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        CannotFindValidValue.addAction(OKOption)
+        UIApplication.topViewController()?.show(CannotFindValidValue, sender: nil)
+    }
+    
     fileprivate func SplitClassDescriptionForKanna(classArr: [String]) -> [Course]{
         var finalPeriod: [Course] = []
         for Class in classArr{
@@ -311,5 +331,11 @@ class ImportantUtils {
         //            print("Class: " + testCase.Class + "\nPeriod: " + String(testCase.Period) + "\nTeacher: " + testCase.Teacher)
         //        }
         return finalPeriod
+    }
+    
+    func SaveAccountValuesToStorage(accounts: [Account]) {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: accounts)
+        
+        UserDefaults.standard.set(encodedData, forKey: "AccountStorageService")
     }
 }

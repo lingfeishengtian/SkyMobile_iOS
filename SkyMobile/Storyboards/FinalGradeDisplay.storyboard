@@ -700,16 +700,26 @@
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDA-1o-OPq">
+                                                    <rect key="frame" x="302" y="11" width="36" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="RDA-1o-OPq" secondAttribute="bottom" id="1ss-b8-LPt"/>
                                                 <constraint firstItem="mAZ-6o-BjV" firstAttribute="leading" secondItem="PPC-xQ-VLD" secondAttribute="leading" constant="9" id="8gj-Wq-rFq"/>
                                                 <constraint firstAttribute="trailing" secondItem="mAZ-6o-BjV" secondAttribute="trailing" constant="112" id="9oH-Sm-SU2"/>
                                                 <constraint firstItem="mAZ-6o-BjV" firstAttribute="top" secondItem="PPC-xQ-VLD" secondAttribute="top" id="JQ2-4z-6RC"/>
+                                                <constraint firstItem="RDA-1o-OPq" firstAttribute="top" secondItem="PPC-xQ-VLD" secondAttribute="topMargin" id="nk8-0d-lAy"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="RDA-1o-OPq" secondAttribute="trailing" constant="6" id="txD-wB-NG9"/>
                                                 <constraint firstAttribute="bottom" secondItem="mAZ-6o-BjV" secondAttribute="bottom" id="wL6-6p-vwu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="GradeSectionDesc" destination="mAZ-6o-BjV" id="mLx-84-tlW"/>
+                                            <outlet property="Grades" destination="RDA-1o-OPq" id="cxd-WP-hGW"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="ul3-rD-PCa" customClass="AssignmentViewCells" customModule="SkyMobile" customModuleProvider="target">
@@ -786,32 +796,30 @@
         <scene sceneID="VvZ-7Q-uxq">
             <objects>
                 <viewController storyboardIdentifier="SettingsViewController" id="7wg-xX-AYD" customClass="SettingsViewController" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="vzn-8l-r8t">
+                    <view key="view" contentMode="scaleToFill" id="vzn-8l-r8t" customClass="GradientView" customModule="SkyMobile" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" barStyle="black" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6NN-BE-oem">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <items>
                                     <navigationItem title="Settings" id="bIu-2A-y8D"/>
                                 </items>
                             </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WORK IN PROGRESS :)" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEH-Mv-JkH">
-                                <rect key="frame" x="0.0" y="547.5" width="375" height="119.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="KEH-Mv-JkH" firstAttribute="trailing" secondItem="8Tj-UQ-4E3" secondAttribute="trailing" id="BU3-1j-Lhl"/>
-                            <constraint firstItem="KEH-Mv-JkH" firstAttribute="leading" secondItem="8Tj-UQ-4E3" secondAttribute="leading" id="Hgb-u5-LWa"/>
-                            <constraint firstItem="KEH-Mv-JkH" firstAttribute="bottom" secondItem="8Tj-UQ-4E3" secondAttribute="bottom" id="YFQ-IQ-SpH"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="8Tj-UQ-4E3"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                <color key="value" red="0.76386415155440412" green="0.5797149777769196" blue="0.29730028604412873" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHorizontal" value="NO"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                <color key="value" red="0.3707175189525288" green="1" blue="0.8697914000803797" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
                         <outlet property="SettingsNavigationItem" destination="bIu-2A-y8D" id="KfX-VP-UJZ"/>

@@ -15,11 +15,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBOutlet weak var SubmitBtn: UIButton!
     @IBOutlet weak var SavedAccountsTableView: UITableView!
     @IBOutlet weak var BetaInfoDisplayer: UILabel!
-    @IBOutlet weak var AccountTableScrollView: UIScrollView!
-    @IBOutlet weak var AccountTableScrollViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var AccountTableViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var SavedAccountsTableViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var EditBTN: UIButton!
     
     var UserName = "000000"
     var Password = "000000"
@@ -73,9 +69,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         
         SavedAccountsTableView.dataSource = self
         SavedAccountsTableView.delegate = self
-        let ExampleAccountCell = UITableViewCell(frame: CGRect(x: self.view.frame.minX, y: self.AccountTableScrollView.frame.minY, width: self.view.frame.width, height: 50))
-        let newContentSize = CGSize(width: self.view.frame.size.width, height: ExampleAccountCell.frame.size.height * CGFloat(AccountsStored.count))
-        AccountTableScrollView.contentSize = newContentSize
+        let newContentSize = CGSize(width: self.view.frame.size.width, height: 50 * CGFloat(AccountsStored.count))
         let defaultSize = self.view.frame.size.height/4.4
         SavedAccountsTableView.frame.size = newContentSize
         if newContentSize.height > defaultSize{
@@ -83,7 +77,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }else{
             SavedAccountsTableViewHeight.constant = newContentSize.height
         }
-        AccountTableViewWidthConstraint.constant = self.view.frame.size.width
     }
     
     override func viewDidLayoutSubviews() {
@@ -265,6 +258,32 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             }
         }
     }
+    
+    @objc func EditAccountName(sender: AnyObject){
+        let btn = sender as! UIButton
+        var index = 0
+        let GetTextInput = UIAlertController(title: "Edit Display Name", message: "What would you like to display?", preferredStyle: .alert)
+        GetTextInput.addTextField(configurationHandler: {(textField) -> Void in
+            for view in (btn.superview?.subviews)!{
+                if view is UILabel{
+                    textField.text = (view as! UILabel).text
+                    index = view.tag
+                }
+            }
+        })
+        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            if let Input = GetTextInput.textFields![0].text{
+            self.AccountsStored[index].NickName = Input
+                self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                self.SavedAccountsTableView.reloadData()
+            }
+        })
+        GetTextInput.addAction(CancelAction)
+        GetTextInput.addAction(OKAction)
+        self.present(GetTextInput, animated: true, completion: nil)
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -277,11 +296,17 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
         
+        let btn = UIButton(frame: CGRect(x: cell.frame.maxX-20, y: 0, width: 50, height: 50))
+        btn.setTitleColor(UIColor.blue, for: .normal)
+        btn.setTitle("Edit", for: .normal)
         cell.selectionStyle = .none
         let text = UILabel()
         text.text = AccountsStored[indexPath.row].NickName
-        text.frame = CGRect(x: 10, y: 0, width: 400, height: 40)
+        text.frame = CGRect(x: 10, y: 0, width: 400, height: 50)
+        text.tag = indexPath.row
+        btn.addTarget(self, action: #selector(self.EditAccountName(sender:)), for: .touchUpInside)
         cell.addSubview(text)
+        cell.addSubview(btn)
         cell.backgroundColor = UIColor.clear
         return cell
     }
@@ -342,10 +367,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
                         let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
                         self.AccountsStored.append(tmpAccount)
-                        
-                        let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.AccountsStored)
-                        
-                        UserDefaults.standard.set(encodedData, forKey: "AccountStorageService")
+                        self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                         self.getHTMLCode()
                     }
                         let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in

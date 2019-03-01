@@ -22,6 +22,8 @@ class ViewAssignments: UIViewController {
     let importantUtils = ImportantUtils()
     var ColorsOfGrades:[UIColor] = []
     var Assignments = AssignmentGrades(classDesc: "NIL")
+    var DailyGrade = "-1000"
+    var MajorGrade = "-1000"
     
     @IBOutlet weak var navView: UINavigationItem!
     @IBOutlet weak var lblClass: UILabel!
@@ -53,6 +55,8 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.Courses = Courses
         GradeTableViewController.Assignments = Assignments
         GradeTableViewController.HTMLCodeFromGradeClick = HTMLCodeFromGradeClick
+        GradeTableViewController.headerDaily = DailyGrade
+        GradeTableViewController.headerMajor = MajorGrade
         
         GradeTableView.reloadData()
         
@@ -94,7 +98,7 @@ class ViewAssignments: UIViewController {
                     return1 = obj as! String
                     print("OMG THERES SOMETHING HERE")
                         self.HTMLCodeFromGradeClick = return1
-                        self.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: return1, term: self.Term, Class: self.Class)
+                    self.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: return1, term: self.Term, Class: self.Class, DailyGrade: &self.DailyGrade, MajorGrade: &self.MajorGrade)
                         self.SetValuesOfGradeTableView()
                 }
             }
@@ -128,8 +132,16 @@ class ViewAssignments: UIViewController {
             for assignment in finalGrades{
                 var assignmentDesc = try assignment.text()
                 if assignmentDesc.contains("DAILY weighted at 50.00%") {
+                    do{
+                        let dText =  try assignment.select(".bld.aRt").text()
+                        DailyGrade = dText
+                    }catch{}
                     isDaily = true
                 }else if assignmentDesc.contains("MAJOR weighted at 50.00%") {
+                    do{
+                        let dText =  try assignment.select(".bld.aRt").text()
+                        MajorGrade = dText
+                    }catch{}
                     isDaily = false
                 }else{
                     assignmentDesc = assignmentDesc.components(separatedBy: " out of ").dropLast().joined()
@@ -175,6 +187,7 @@ class AssignmentViewCells: UITableViewCell{
 
 class HeaderCells: UITableViewCell{
     @IBOutlet weak var GradeSectionDesc: UILabel!
+    @IBOutlet weak var Grades: UILabel!
 }
 
 class AssignmentViewTable: UITableViewController{
@@ -190,6 +203,8 @@ class AssignmentViewTable: UITableViewController{
     var importantUtils = ImportantUtils()
     var Assignments = AssignmentGrades(classDesc: "NIL")
     var constraint: NSLayoutConstraint = NSLayoutConstraint()
+    var headerDaily = "-1000"
+    var headerMajor = "-1000"
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2;
@@ -207,8 +222,10 @@ class AssignmentViewTable: UITableViewController{
         let  headerCell = tableView.dequeueReusableCell(withIdentifier: "header") as! HeaderCells
         if section == 0 {
             headerCell.GradeSectionDesc.text = "Daily"
+            if headerDaily != "-1000" { headerCell.Grades.text = headerDaily}
         }else{
             headerCell.GradeSectionDesc.text = "Major"
+            if headerMajor != "-1000" { headerCell.Grades.text = headerMajor}
         }
         headerCell.backgroundColor = UIColor(white: 1.0, alpha: 1.0)
         return headerCell
@@ -245,16 +262,24 @@ class AssignmentViewTable: UITableViewController{
         return cell
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //Array.from(document.querySelectorAll('a'))
         //.find(el => el.textContent === 'Q Map');
         var assignmentName = ""
         if indexPath.section == 0{
             assignmentName = String(DailyGrades[indexPath.row].AssignmentName)
+            if DailyGrades[indexPath.row].Grade == -1000{
+                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
+                return
+            }
         }else{
             assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
+            if MajorGrades[indexPath.row].Grade == -1000{
+                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
+                return
+            }
         }
+        
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
         InformationHolder.SkywardWebsite = webView
@@ -279,7 +304,7 @@ class AssignmentViewTable: UITableViewController{
                 }
                 if Attempts >= 61{
                     self.importantUtils.DestroyLoadingView(views: (UIApplication.topViewController()?.view)!)
-                    let CannotFindValidValue = UIAlertController(title: "Error", message: "An error occured and we cannot find this assignment. Status: KNOWN BUG", preferredStyle: .alert)
+                    let CannotFindValidValue = UIAlertController(title: "Error", message: "An error occured and we cannot find this assignment. Maybe the website was reloaded?", preferredStyle: .alert)
                     let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     CannotFindValidValue.addAction(OKOption)
                     UIApplication.topViewController()?.present(CannotFindValidValue, animated: true, completion: nil)

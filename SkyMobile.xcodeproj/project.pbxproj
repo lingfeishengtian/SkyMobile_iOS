@@ -73,6 +73,7 @@
 		96987937216EDBA100274869 /* FinalGradeDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalGradeDisplay.swift; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
+		96DB53142222F1D1007EDC97 /* asu_pid.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = asu_pid.entitlements; sourceTree = "<group>"; };
 		96F1BF25B5EDCC423CF69C33 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9810368939E2DD17FF58FA56 /* Pods-SkyMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC84CC32D12ADB14ECC7AC /* Pods-SkyMobileUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		963383F6216ED9DA00C7C158 /* SkyMobile */ = {
 			isa = PBXGroup;
 			children = (
+				96DB53142222F1D1007EDC97 /* asu_pid.entitlements */,
 				96987938216EDBA100274869 /* Storyboards */,
 				96987934216EDBA100274869 /* ViewControllers */,
 				9698792D216EDB8D00274869 /* Important Utility Classes */,
@@ -613,6 +615,8 @@
 			baseConfigurationReference = 4BD4A5B8D9F348C87AD96051 /* Pods-SkyMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SkyMobile/asu_pid.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
@@ -623,6 +627,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Imalols.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -633,6 +638,8 @@
 			baseConfigurationReference = 5DCF54703ABFFC5006713751 /* Pods-SkyMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SkyMobile/asu_pid.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
@@ -643,6 +650,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Imalols.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
