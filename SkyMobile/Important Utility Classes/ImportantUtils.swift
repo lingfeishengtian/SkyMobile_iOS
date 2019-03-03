@@ -106,6 +106,7 @@ class ImportantUtils {
         loadingMessage.textAlignment = .center
         loadingMessage.text = message
         loadingMessage.tag = 156
+        loadingMessage.numberOfLines = 5
         
         view.addSubview(loadingMessage)
     }

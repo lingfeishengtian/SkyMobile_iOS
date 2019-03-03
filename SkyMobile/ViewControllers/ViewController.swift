@@ -85,7 +85,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func readyToSwitchViews(withWebView tempView: WKWebView = WKWebView()) {
-        if(!checkURL(url: webView.url!)){
+        if(self.webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){
             let alertController = UIAlertController(title: "Uh-Oh",
                                                     message: "Invalid Credentials",
                                                     preferredStyle: UIAlertController.Style.alert)
@@ -227,14 +227,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         SubmitBtn.isEnabled = bool
     }
     
-    func checkURL(url: URL) -> Bool{
-        print("CHECK: " + url.absoluteString)
-        if url.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w"{
-            return true;
-        }else{
-            return false;
-        }
-    }
     func getHTMLCode(){
         // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
         //view.addSubview(webView)
@@ -339,22 +331,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             if (self.webViewtemp.estimatedProgress == 1) {
                 print("### EP:", self.webView.estimatedProgress)
                 print("ACCESS")
-                if let web = webViewtemp.url {
-                if checkURL(url: web)  && !runOnce{
+                if webViewtemp.url!.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
                         self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
                             if err == nil{
                                 self.webView = self.webViewtemp
                                 self.readyToSwitchViews()
                                 self.runOnce = true
+                                InformationHolder.WebsiteStatus = WebsitePage.Home
                             }
                         }
-                    }
                 }
                 if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" {
                     importantUtils.DestroyLoadingView(views: self.view)
                     importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
-                    
+                    InformationHolder.WebsiteStatus = WebsitePage.Gradebook
                     var isAccountPresentInStorage = false
                     for Account in AccountsStored{
                         if Account.Username == self.UserName{
@@ -389,8 +380,22 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
                     })
                     alerttingLogout.addAction(OK)
-                    
+                    InformationHolder.WebsiteStatus = WebsitePage.Login
                     UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
+                }
+                if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfacademichistory001.w"{
+                    let CurrentTop = UIApplication.topViewController()
+                    if CurrentTop is GPACalculatorViewController{
+                        print("TESTGOING")
+                        InformationHolder.WebsiteStatus = WebsitePage.AcademicHistory
+                        let GPACalc = CurrentTop as! GPACalculatorViewController
+                        InformationHolder.SkywardWebsite.evaluateJavaScript(LegacyGradeSweeperAPI.JavaScriptToScrapeGrades){(result, error) in
+                            if(error == nil){
+                                print("GOING")
+                                GPACalc.RetrieveGradeInformation(grades: LegacyGradeSweeperAPI.ScrapeLegacyGrades(configuredString: result as! String))
+                            }
+                        }
+                    }
                 }
         }
         }

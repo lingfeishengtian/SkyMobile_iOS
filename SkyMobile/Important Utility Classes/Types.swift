@@ -130,4 +130,22 @@ class Account: NSObject, NSCoding{
 struct InformationHolder{
     static var SkywardWebsite: WKWebView = WKWebView()
     static var Courses: [Course] = []
+    static var WebsiteStatus = WebsitePage.Login;
 }
+
+enum WebsitePage {
+    case Login
+    case Home
+    case Gradebook
+    case AcademicHistory
+}
+
+class LegacyGrade {
+    var Courses: [Course] = []
+    var Grade: String = ""
+    init(sectionName: String,courses: [Course]) {
+        Courses = courses
+        Grade = sectionName
+    }
+}
+

@@ -11,7 +11,11 @@ import WebKit
 
 class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var Courses: [Course] = []
+    var OGCourses: [Course] = []
     var importantUtils = ImportantUtils()
+    var progress = 0
+    //Status 0 is simple and 1 is advanced
+    var Status = 0
     
     @IBOutlet weak var S1Average: UILabel!
     @IBOutlet weak var S2Average: UILabel!
@@ -19,9 +23,12 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var GPACalculatorTitle: UILabel!
     @IBOutlet weak var tableViewHighConstraint: NSLayoutConstraint!
+    @IBOutlet weak var AdvancedEnabler: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width:0, height: 0)
+        self.view.addSubview(InformationHolder.SkywardWebsite)
         Courses = InformationHolder.Courses
         tableView.frame.origin = CGPoint(x: 0, y: FinalGPA.frame.maxY + 10)
         tableView.frame.size = CGSize(width: self.view.frame.width, height: 100)
@@ -29,7 +36,12 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         GPACalculatorTitle.sizeToFit()
         tableView.delegate = self
         tableView.dataSource = self
-        SetFinalAverageValues()
+        
+        AdvancedEnabler.backgroundColor = UIColor.clear
+        AdvancedEnabler.layer.cornerRadius = 5
+        AdvancedEnabler.layer.borderWidth = 1
+        AdvancedEnabler.layer.borderColor = UIColor.black.cgColor
+        OGCourses = Courses
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,10 +63,17 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         cell.APInfo.text = UserDefaults.standard.object(forKey: Class+"Level") as? String
         cell.Course.sizeToFit()
         
-        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
-        tableViewHighConstraint.constant = tableView.contentSize.height
+        tableView.contentSize = CGSize(width: tableView.frame.size.width, height: CGFloat(indexPath.row*44))
+        //tableViewHighConstraint.constant = tableView.contentSize.height
         
         cell.APInfo.frame.origin = CGPoint(x: self.view.frame.maxX-80, y: cell.APInfo.frame.minY)
+        cell.frame.size = CGSize(width: cell.frame.size.width, height: 44)
+        progress += 1
+        if(progress == Courses.count){
+            progress = 0;
+            SetFinalAverageValues()
+        }
+        //tableView.sizeToFit()
         return cell
     }
     
@@ -98,7 +117,11 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        if(Status == 1){
+            return 33
+        }else{
+            return 44
+        }
     }
     
     func reloadGPAValues(term: String) -> Double{
@@ -121,6 +144,31 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
         }
         return Double(NewClassAverage)/Double(FinalCount)
+    }
+    @IBAction func SwitchToAdvancedOrSimple(_ sender: Any) {
+        if(Status == 1){ Status = 0; }else{ Status = 1 }
+        if(Status == 1){
+            //Switch to simple
+            importantUtils.CreateLoadingView(view: self.view, message: "This is a BETA TESTING PHASE!!!! ADDS ALL VALUES POSSIBLE!!!")
+            AdvancedEnabler.setTitle("Simple", for: .normal)
+            let JS = "document.querySelector('a[data-nav=\"sfacademichistory001.w\"]').click()"
+            InformationHolder.SkywardWebsite.evaluateJavaScript(JS, completionHandler: nil)
+        }
+        
+    }
+    
+    func RetrieveGradeInformation(grades: [LegacyGrade]){
+        for x in grades{
+            print(x.Grade)
+            for j in x.Courses{
+                print(j)
+                if(j.Grades.Grades["FIN"] != "" && j.Grades.Grades["S2"] != ""){
+                Courses.append(j)
+                }
+            }
+        }
+        tableView.reloadData()
+        importantUtils.DestroyLoadingView(views: self.view)
     }
     
     @IBAction func goBack(_ sender: Any) {
