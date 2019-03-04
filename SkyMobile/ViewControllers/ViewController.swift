@@ -84,21 +84,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         PasswordField.underlined()
     }
     
-    func readyToSwitchViews(withWebView tempView: WKWebView = WKWebView()) {
-        if(self.webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){
-            let alertController = UIAlertController(title: "Uh-Oh",
-                                                    message: "Invalid Credentials",
-                                                    preferredStyle: UIAlertController.Style.alert)
-            let confirmAction = UIAlertAction(
-            title: "OK", style: UIAlertAction.Style.destructive) { (action) in
-                // ...
-            }
-            alertController.addAction(confirmAction)
-            present(alertController, animated: true, completion: nil)
-        }
-    }
-    
-    
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if navigationAction.targetFrame == nil {
             let tempURL = navigationAction.request.url
@@ -336,7 +321,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
                             if err == nil{
                                 self.webView = self.webViewtemp
-                                self.readyToSwitchViews()
                                 self.runOnce = true
                                 InformationHolder.WebsiteStatus = WebsitePage.Home
                             }

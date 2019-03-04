@@ -140,9 +140,10 @@ enum WebsitePage {
     case AcademicHistory
 }
 
-class LegacyGrade {
+class LegacyGrade{
     var Courses: [Course] = []
     var Grade: String = ""
+    
     init(sectionName: String,courses: [Course]) {
         Courses = courses
         Grade = sectionName

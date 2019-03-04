@@ -229,7 +229,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AP?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kE9-uB-nct">
-                                                    <rect key="frame" x="192" y="10.5" width="113" height="22.5"/>
+                                                    <rect key="frame" x="247" y="10.5" width="113" height="22.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="113" id="iVF-W6-Oob"/>
                                                     </constraints>
@@ -314,6 +314,16 @@
                                     <action selector="SwitchToAdvancedOrSimple:" destination="wNj-A7-MEt" eventType="touchUpInside" id="lwk-3K-h1c"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Dy-sF-ONs">
+                                <rect key="frame" x="16" y="106" width="290" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Choose which courses count towards GPA"/>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIx-rx-j6z">
+                                <rect key="frame" x="16" y="148" width="100" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Reset Courses"/>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="EoF-3v-Ttd" firstAttribute="trailing" secondItem="pa0-9G-JBm" secondAttribute="trailing" id="1ff-L9-xcb"/>
@@ -362,6 +372,8 @@
                         <outlet property="AdvancedEnabler" destination="vdi-Qk-99B" id="NFP-P1-fTm"/>
                         <outlet property="FinalGPA" destination="qSZ-gE-FLu" id="u1q-dr-mhQ"/>
                         <outlet property="GPACalculatorTitle" destination="6tj-WC-Ytb" id="zhw-dg-AgF"/>
+                        <outlet property="ModifyIfCourseCounts" destination="5Dy-sF-ONs" id="TBx-kg-QZ2"/>
+                        <outlet property="ResetAllCourseLevels" destination="dIx-rx-j6z" id="TAd-wS-ALe"/>
                         <outlet property="S1Average" destination="EoF-3v-Ttd" id="c7v-7t-dDS"/>
                         <outlet property="S2Average" destination="pa0-9G-JBm" id="HHR-kG-wjb"/>
                         <outlet property="tableView" destination="Xzz-MF-5IA" id="9Rs-np-rOE"/>
@@ -710,13 +722,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAZ-6o-BjV">
-                                                    <rect key="frame" x="9" y="0.0" width="183" height="44"/>
+                                                    <rect key="frame" x="9" y="0.0" width="238" height="44"/>
                                                     <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="30"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDA-1o-OPq">
-                                                    <rect key="frame" x="247" y="11" width="36" height="22"/>
+                                                    <rect key="frame" x="302" y="11" width="36" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -751,7 +763,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkR-d0-d5S">
-                                                    <rect key="frame" x="242" y="11" width="47" height="23"/>
+                                                    <rect key="frame" x="297" y="11" width="47" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
