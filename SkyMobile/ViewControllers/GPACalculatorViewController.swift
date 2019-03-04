@@ -54,18 +54,42 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    func attemptToDeselectAllInSection(_ sender: Any){
+        let SectionView = (sender as! UIButton).superview
+                let SectionNumber = (sender as! UIButton).tag
+                for RowNum in 1...tableView.numberOfRows(inSection: SectionNumber){
+                    let row: CourseInfo = tableView.cellForRow(at: IndexPath(row: RowNum, section: SectionNumber)) as! CourseInfo
+                    UserDefaults.standard.set("N/A", forKey: row.Course.text! + "Level")
+                }
+        tableView.reloadData()
+        SetFinalAverageValues()
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if(Status == 1){
             let NewGrade = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60))
             let GradeLabel = UILabel(frame: CGRect(origin: CGPoint(x: 10, y: NewGrade.frame.maxY/2), size: CGSize(width: self.view.frame.size.width/4 * 3, height: NewGrade.frame.size.height)))
+            let DeselectButton = UIButton(type: .roundedRect)
             GradeLabel.center = CGPoint(x: NewGrade.frame.maxX/2, y: NewGrade.frame.maxY/2)
             GradeLabel.text = LegacyGrades[section].Grade
+            //DeselectButton.frame = CGRect(x: Int(NewGrade.frame.maxX - 50), y: Int(GradeLabel.frame.minY), width: 50, height: 50)
+            
+            DeselectButton.addTarget(self, action: Selector(("attemptToDeselectAllInSection:")), for: .touchUpInside)
+            GradeLabel.tag = 298
+            DeselectButton.tag = section
+            DeselectButton.center = CGPoint(x: NewGrade.frame.maxX - 50, y: NewGrade.frame.maxY/2)
+            DeselectButton.frame.origin = CGPoint(x: 90, y: 20)
             NewGrade.addSubview(GradeLabel)
+            NewGrade.addSubview(DeselectButton)
             NewGrade.backgroundColor = UIColor.white
             return NewGrade
         }else{
             return nil
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -183,7 +207,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     fileprivate func CheckLevelHelperForReloadGPAValues(_ level: (String?), _ NewClassAverage: inout Int, _ Class: Course, _ term: String, _ FinalCount: inout Int) {
-        let LevelAddAmt = CheckAddAmt(level: level!)
+        let LevelAddAmt = CheckAddAmt(level: level)
         if LevelAddAmt != -1{
             NewClassAverage += Int(Class.Grades.Grades[term]!)! + LevelAddAmt
         }else{
@@ -192,13 +216,17 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         FinalCount += 1
     }
     
-    fileprivate func CheckAddAmt(level: String) -> Int{
-        if level == "PreAP"{
-            return 5
-        }else if level == "AP"{
-            return 10
-        }else if level == "N/A"{
-            return -1
+    fileprivate func CheckAddAmt(level: String?) -> Int{
+        if let levelUnwrap = level{
+            if levelUnwrap == "PreAP"{
+                return 5
+            }else if levelUnwrap == "AP"{
+                return 10
+            }else if levelUnwrap == "N/A"{
+                return -1
+            }else{
+                return 0
+            }
         }else{
             return 0
         }
@@ -232,7 +260,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
                     if (Class.Grades.Grades["FIN"]) != "" && (Class.Grades.Grades["FIN"]) != "-1000"{
                         CheckLevelHelperForReloadGPAValues(level, &NewClassAverage, Class, term, &FinalCount)
                     }else if Class.Grades.Grades["S1"] != "" && Class.Grades.Grades["S2"] != "" {
-                        let LevelAddAmt = CheckAddAmt(level: level!)
+                        let LevelAddAmt = CheckAddAmt(level: level)
                         if LevelAddAmt != -1{
                             NewClassAverage += (Int(Class.Grades.Grades["S1"]!)! + Int(Class.Grades.Grades["S2"]!)!)/2 + LevelAddAmt
                         }else{
@@ -265,6 +293,8 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             ResetAllCourseLevels.isHidden = true
             S1Average.isHidden = false
             S2Average.isHidden = false
+            tableView.reloadData()
+            SetFinalAverageValues()
         }
     }
     
