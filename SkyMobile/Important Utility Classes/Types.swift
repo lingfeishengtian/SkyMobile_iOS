@@ -49,16 +49,37 @@ struct Course: Hashable {
     var Class: String
     var Teacher: String
     var Grades: ClassGrades
+    var isCourseHalfCredit: Bool = false
+    var HalfGradeFromCredit: ClassGrades
     
     var hashValue: Int {
         return Class.hashValue
     }
     
-    init(period: Int, classDesc: String, teacher: String) {
+    init(period: Int, classDesc: String, teacher: String, isTheCourseHalfCredit isHalf: Bool) {
         Period = period
         Class = classDesc
         Teacher = teacher
         Grades = ClassGrades(className: classDesc)
+        isCourseHalfCredit = isHalf
+        HalfGradeFromCredit = Grades
+        SetHalfGrades()
+    }
+    init(period: Int, classDesc: String, teacher: String){
+        Period = period
+        Class = classDesc
+        Teacher = teacher
+        Grades = ClassGrades(className: classDesc)
+        HalfGradeFromCredit = Grades
+        SetHalfGrades()
+    }
+    
+    mutating func SetHalfGrades(){
+        for (GradingPeriod, Grade) in Grades.Grades{
+            if(Grade != "-1000" && Grade != ""){
+                HalfGradeFromCredit.Grades[GradingPeriod] = String(Int(HalfGradeFromCredit.Grades[GradingPeriod]!)!/2)
+            }
+        }
     }
 }
 

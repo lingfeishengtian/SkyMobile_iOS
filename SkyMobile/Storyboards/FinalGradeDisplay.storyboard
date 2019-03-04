@@ -223,7 +223,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aml-JW-RnZ">
-                                                    <rect key="frame" x="10" y="10" width="55" height="21"/>
+                                                    <rect key="frame" x="10" y="10" width="225" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -237,20 +237,31 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ebm-cB-wd4">
+                                                    <rect key="frame" x="245" y="5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="HalfCreditSwitchChanged:" destination="wNj-A7-MEt" eventType="valueChanged" id="wHO-iJ-POe"/>
+                                                    </connections>
+                                                </switch>
                                             </subviews>
                                             <color key="backgroundColor" red="0.21136036520000001" green="0.59368717670000004" blue="0.56229925160000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="ebm-cB-wd4" secondAttribute="bottom" constant="7.5" id="22f-7i-WfD"/>
+                                                <constraint firstAttribute="trailing" secondItem="ebm-cB-wd4" secondAttribute="trailing" constant="81" id="3bM-ES-784"/>
+                                                <constraint firstItem="ebm-cB-wd4" firstAttribute="leading" secondItem="aml-JW-RnZ" secondAttribute="trailing" constant="10" id="JJC-EJ-qTy"/>
                                                 <constraint firstItem="kE9-uB-nct" firstAttribute="bottom" secondItem="gKo-7P-AfS" secondAttribute="bottomMargin" id="SNX-k2-wiX"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="kE9-uB-nct" secondAttribute="trailing" id="Wgv-VC-U1g"/>
                                                 <constraint firstItem="aml-JW-RnZ" firstAttribute="leading" secondItem="gKo-7P-AfS" secondAttribute="leading" constant="10" id="Xe0-2R-Ua6"/>
                                                 <constraint firstItem="aml-JW-RnZ" firstAttribute="top" secondItem="gKo-7P-AfS" secondAttribute="top" constant="10" id="apx-eT-zNM"/>
                                                 <constraint firstItem="kE9-uB-nct" firstAttribute="centerY" secondItem="gKo-7P-AfS" secondAttribute="centerY" id="dGa-vd-4o6"/>
                                                 <constraint firstAttribute="bottom" secondItem="aml-JW-RnZ" secondAttribute="bottom" constant="12.5" id="gjl-gF-KCk"/>
+                                                <constraint firstItem="ebm-cB-wd4" firstAttribute="top" secondItem="gKo-7P-AfS" secondAttribute="top" constant="5" id="t2D-Wi-bqe"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="APInfo" destination="kE9-uB-nct" id="arI-Tv-kdZ"/>
                                             <outlet property="Course" destination="aml-JW-RnZ" id="Uxa-5Y-gVa"/>
+                                            <outlet property="IsHalfCredit" destination="ebm-cB-wd4" id="5YS-CD-Rf0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -324,6 +335,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Reset Courses"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2b-4k-U5Q">
+                                <rect key="frame" x="163" y="57" width="88" height="30"/>
+                                <state key="normal" title="What is this?"/>
+                                <connections>
+                                    <action selector="DisplayInstructions:" destination="wNj-A7-MEt" eventType="touchUpInside" id="mjU-KH-ANt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="EoF-3v-Ttd" firstAttribute="trailing" secondItem="pa0-9G-JBm" secondAttribute="trailing" id="1ff-L9-xcb"/>
@@ -331,6 +349,8 @@
                             <constraint firstItem="gy3-s3-so9" firstAttribute="top" secondItem="Zv3-Rf-ZXi" secondAttribute="bottom" constant="8" symbolic="YES" id="3IK-XW-ieJ"/>
                             <constraint firstItem="pa0-9G-JBm" firstAttribute="leading" secondItem="qSZ-gE-FLu" secondAttribute="leading" id="3sa-hN-iw4"/>
                             <constraint firstItem="EoF-3v-Ttd" firstAttribute="leading" secondItem="Bll-xU-YlB" secondAttribute="trailing" constant="29" id="4mW-Gt-alH"/>
+                            <constraint firstItem="k2b-4k-U5Q" firstAttribute="top" secondItem="wlf-Pg-56g" secondAttribute="bottom" constant="13" id="984-6T-kZ2"/>
+                            <constraint firstItem="vdi-Qk-99B" firstAttribute="leading" secondItem="k2b-4k-U5Q" secondAttribute="trailing" constant="23" id="9cM-FR-bH9"/>
                             <constraint firstItem="gy3-s3-so9" firstAttribute="firstBaseline" secondItem="qSZ-gE-FLu" secondAttribute="firstBaseline" id="A5u-jc-xVM"/>
                             <constraint firstItem="Bll-xU-YlB" firstAttribute="top" secondItem="6tj-WC-Ytb" secondAttribute="bottom" constant="19" id="DA4-Ie-CEg"/>
                             <constraint firstItem="Bll-xU-YlB" firstAttribute="leading" secondItem="Zv3-Rf-ZXi" secondAttribute="leading" id="EVo-u5-kdw"/>
@@ -354,6 +374,7 @@
                             <constraint firstItem="6tj-WC-Ytb" firstAttribute="leading" secondItem="kPl-GV-Xwn" secondAttribute="leadingMargin" id="tX1-lM-eEZ"/>
                             <constraint firstItem="gy3-s3-so9" firstAttribute="baseline" secondItem="qSZ-gE-FLu" secondAttribute="baseline" id="tj9-g4-WTs"/>
                             <constraint firstItem="Zv3-Rf-ZXi" firstAttribute="leading" secondItem="gy3-s3-so9" secondAttribute="leading" id="uUu-cz-f6J"/>
+                            <constraint firstItem="k2b-4k-U5Q" firstAttribute="leading" secondItem="TTo-Da-gwZ" secondAttribute="leading" constant="163" id="y3R-5z-GeA"/>
                             <constraint firstItem="6tj-WC-Ytb" firstAttribute="top" secondItem="wlf-Pg-56g" secondAttribute="bottom" constant="13" id="y3j-0e-pAW"/>
                             <constraint firstItem="Bll-xU-YlB" firstAttribute="baseline" secondItem="EoF-3v-Ttd" secondAttribute="baseline" id="zIb-il-291"/>
                             <constraint firstItem="Zv3-Rf-ZXi" firstAttribute="top" secondItem="Bll-xU-YlB" secondAttribute="bottom" constant="8" symbolic="YES" id="zpt-X6-Ld2"/>
@@ -372,10 +393,13 @@
                         <outlet property="AdvancedEnabler" destination="vdi-Qk-99B" id="NFP-P1-fTm"/>
                         <outlet property="FinalGPA" destination="qSZ-gE-FLu" id="u1q-dr-mhQ"/>
                         <outlet property="GPACalculatorTitle" destination="6tj-WC-Ytb" id="zhw-dg-AgF"/>
+                        <outlet property="InstructionsButton" destination="k2b-4k-U5Q" id="lB6-tX-Cjo"/>
                         <outlet property="ModifyIfCourseCounts" destination="5Dy-sF-ONs" id="TBx-kg-QZ2"/>
                         <outlet property="ResetAllCourseLevels" destination="dIx-rx-j6z" id="TAd-wS-ALe"/>
                         <outlet property="S1Average" destination="EoF-3v-Ttd" id="c7v-7t-dDS"/>
+                        <outlet property="S1IndicatorLbl" destination="Bll-xU-YlB" id="F0Q-U1-f3b"/>
                         <outlet property="S2Average" destination="pa0-9G-JBm" id="HHR-kG-wjb"/>
+                        <outlet property="S2IndicatorLbl" destination="Zv3-Rf-ZXi" id="uA7-Zx-JVw"/>
                         <outlet property="tableView" destination="Xzz-MF-5IA" id="9Rs-np-rOE"/>
                         <outlet property="tableViewHighConstraint" destination="UDR-Vt-t2J" id="0pk-xn-jn2"/>
                     </connections>

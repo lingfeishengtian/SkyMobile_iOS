@@ -617,8 +617,9 @@
 			baseConfigurationReference = 4BD4A5B8D9F348C87AD96051 /* Pods-SkyMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SkyMobile/asu_pid.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
@@ -640,8 +641,9 @@
 			baseConfigurationReference = 5DCF54703ABFFC5006713751 /* Pods-SkyMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SkyMobile/asu_pid.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
