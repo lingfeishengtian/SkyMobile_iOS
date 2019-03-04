@@ -50,7 +50,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         self.view.addGestureRecognizer(tap)
         
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
-        let isBeta = appVersion?.lowercased().contains("beta")
+        let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
         
         if isBeta ?? true {
             BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)

@@ -66,12 +66,12 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    func attemptToDeselectAllInSection(_ sender: Any){
+    @objc func attemptToDeselectAllInSection(_ sender: Any){
         _ = (sender as! UIButton).superview
                 let SectionNumber = (sender as! UIButton).tag
-                for RowNum in 1...tableView.numberOfRows(inSection: SectionNumber){
-                    let row: CourseInfo = tableView.cellForRow(at: IndexPath(row: RowNum, section: SectionNumber)) as! CourseInfo
-                    UserDefaults.standard.set("N/A", forKey: row.Course.text! + "Level")
+                for RowNum in 0...tableView.numberOfRows(inSection: SectionNumber)-1{
+                    let row = LegacyGrades[SectionNumber].Courses[RowNum]
+                    UserDefaults.standard.set("N/A", forKey: row.Class + "Level")
                 }
         tableView.reloadData()
         SetFinalAverageValues()
@@ -84,14 +84,15 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             let DeselectButton = UIButton(type: .roundedRect)
             GradeLabel.center = CGPoint(x: NewGrade.frame.maxX/2, y: NewGrade.frame.maxY/2)
             GradeLabel.text = LegacyGrades[section].Grade
-            //DeselectButton.frame = CGRect(x: Int(NewGrade.frame.maxX - 50), y: Int(GradeLabel.frame.minY), width: 50, height: 50)
+            DeselectButton.frame = CGRect(x: Int(NewGrade.frame.maxX - 100), y: Int(GradeLabel.frame.minY), width: 100, height: 50)
             
-            DeselectButton.addTarget(self, action: Selector(("attemptToDeselectAllInSection:")), for: .touchUpInside)
+            DeselectButton.addTarget(self, action: #selector(GPACalculatorViewController.attemptToDeselectAllInSection(_:)), for: .touchUpInside)
             GradeLabel.tag = 298
             DeselectButton.tag = section
             DeselectButton.center = CGPoint(x: NewGrade.frame.maxX - 50, y: NewGrade.frame.maxY/2)
-            DeselectButton.frame.origin = CGPoint(x: 90, y: 20)
-            //DeselectButton.backgroundColor = UIColor.white
+            //DeselectButton.frame.origin = CGPoint(x: 90, y: 20)
+            DeselectButton.backgroundColor = UIColor.white
+            DeselectButton.setTitle("Deselect All", for: .normal)
             DeselectButton.isHidden = false
             NewGrade.addSubview(GradeLabel)
             NewGrade.addSubview(DeselectButton)
@@ -171,7 +172,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         cell.APInfo.text = UserDefaults.standard.object(forKey: Class+"Level") as? String
         cell.Section = indexPath.section
         cell.Row = indexPath.row
-        cell.APInfo.frame.origin = CGPoint(x: self.view.frame.maxX-80, y: cell.APInfo.frame.minY)
+        //cell.APInfo.frame.origin = CGPoint(x: self.view.frame.maxX-80, y: cell.APInfo.frame.minY)
         cell.frame.size = CGSize(width: cell.frame.size.width, height: 44)
         SetTableViewHeightConstraint()
         //tableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
@@ -180,7 +181,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     func SetTableViewHeightConstraint(){
         let TableContentSizeHeight = tableView.contentSize.height
-        let CalculationOfTableHeight = (self.view.frame.size.height * 0.63)
+        let CalculationOfTableHeight = self.view.frame.size.height - tableView.frame.minY
         if(TableContentSizeHeight > CalculationOfTableHeight){
             tableViewHighConstraint.constant = CalculationOfTableHeight
             tableView.frame.size = CGSize(width: tableView.frame.size.width, height: tableViewHighConstraint.constant)
@@ -193,6 +194,25 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func SetFinalAverageValues() {
+        if(Status == 0){
+            for Classe in 0...Courses.count-1{
+            let Class = Courses[Classe].Class
+            if(GetIsHalfCredit(Class)){
+                Courses[Classe].isCourseHalfCredit = true
+            }else{
+                Courses[Classe].isCourseHalfCredit = false
+            }
+            }
+        }else{
+            for Classe in 0...LegacyGrades.count-1{
+                for Classd in 0...LegacyGrades[Classe].Courses.count-1{
+                    let Class = LegacyGrades[Classe].Courses[Classd].Class
+                        LegacyGrades[Classe].Courses[Classd].isCourseHalfCredit = GetIsHalfCredit(Class)
+                    
+                }
+            }
+        }
+        
         var S1AverageInt = ""
         var S2AverageInt = ""
         if(Status == 0){
@@ -341,15 +361,14 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @IBAction func SwitchToAdvancedOrSimple(_ sender: Any) {
         if(Status == 1){ Status = 0; }else{ Status = 1 }
         if(Status == 1){
-            importantUtils.CreateLoadingView(view: self.view, message: "This is a BETA TESTING PHASE!!!! ADDS ALL VALUES POSSIBLE!!!")
+            importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
             AdvancedEnabler.setTitle("Simple", for: .normal)
             let JS = "document.querySelector('a[data-nav=\"sfacademichistory001.w\"]').click()"
             InformationHolder.SkywardWebsite.evaluateJavaScript(JS, completionHandler: nil)
         }else{
             //importantUtils.CreateLoadingView(view: self.view, message: "This is a BETA TESTING PHASE!!!! ADDS ALL VALUES POSSIBLE!!!")
             AdvancedEnabler.setTitle("Advanced", for: .normal)
-            ModifyIfCourseCounts.isHidden = true
-            ResetAllCourseLevels.isHidden = true
+            SetFinalAverageValues()
             tableView.reloadData()
         }
         ModifyIfCourseCounts.isHidden = !ModifyIfCourseCounts.isHidden
@@ -358,7 +377,6 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         S2Average.isHidden = !S2Average.isHidden
         S1IndicatorLbl.isHidden = !S1IndicatorLbl.isHidden
         S2IndicatorLbl.isHidden = !S2IndicatorLbl.isHidden
-        SetFinalAverageValues()
         //ScrollToBottom()
     }
     
@@ -384,6 +402,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         //LegacyGrades.insert(temp, at: 0)
         tableView.reloadData()
         importantUtils.DestroyLoadingView(views: self.view)
+        SetFinalAverageValues()
     }
     
     @IBAction func HalfCreditSwitchChanged(_ sender: UISwitch) {
@@ -405,7 +424,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @IBAction func DisplayInstructions(_ sender: Any) {
-        //UIAlertController
+        let instructions = UIAlertController(title: "Don't know how to use this?", message: "If you tap a cell in table view, it will change weights. The switch next to your weight information is to enable half credit course. This is for people who have courses that don't give a full credit for a year.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        instructions.addAction(ok)
+        self.present(instructions, animated: true, completion: nil)
     }
 }
 
