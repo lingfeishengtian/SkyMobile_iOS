@@ -52,13 +52,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
         
-        if isBeta ?? true {
+        if isBeta {
             BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
         }else{
             BetaInfoDisplayer.isHidden = true
         }
         
-        if importantUtils.isKeyPresentInUserDefaults(key: "AccountStorageService"){
+        if ImportantUtils.isKeyPresentInUserDefaults(key: "AccountStorageService"){
             if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
                 AccountsStored = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Account]
             }

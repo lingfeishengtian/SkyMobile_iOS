@@ -84,7 +84,7 @@ class ImportantUtils {
         defaults.removeObject(forKey: "Userstore")
     }
     
-    func isKeyPresentInUserDefaults(key: String) -> Bool {
+    static func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
     }
     

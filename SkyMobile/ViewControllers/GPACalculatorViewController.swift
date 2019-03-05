@@ -45,9 +45,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         AdvancedEnabler.layer.cornerRadius = 5
         AdvancedEnabler.layer.borderWidth = 1
         AdvancedEnabler.layer.borderColor = UIColor.black.cgColor
-        //OGCourses = Courses
-        //SetTableViewHeightConstraint()
-        //ScrollToBottom()
+        SetFinalAverageValues()
     }
     
     func ScrollToBottom(){
@@ -124,7 +122,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     fileprivate func SetClassLevel(_ Class: String) {
-        if !importantUtils.isKeyPresentInUserDefaults(key: Class+"Level"){
+        if !ImportantUtils.isKeyPresentInUserDefaults(key: Class+"Level"){
             UserDefaults.standard.set(importantUtils.GuessClassLevel(className: Class), forKey: Class + "Level")
         }
     }
@@ -145,26 +143,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseInfo
         var Class = ""
-        progress += 1
         if(Status == 0){
             Class = Courses[indexPath.row].Class
-            if(GetIsHalfCredit(Class)){
-                Courses[indexPath.row].isCourseHalfCredit = true
-            }else{
-                Courses[indexPath.row].isCourseHalfCredit = false
-            }
-            if(progress == Courses.count){
-                progress = 0;
-                SetFinalAverageValues()
-            }
         }else{
             Class = LegacyGrades[indexPath.section].Courses[indexPath.row].Class
-            if(GetIsHalfCredit(Class)){
-                LegacyGrades[indexPath.section].Courses[indexPath.row].isCourseHalfCredit = true
-            }else{
-                LegacyGrades[indexPath.section].Courses[indexPath.row].isCourseHalfCredit = false
-            }
-            SetFinalAverageValues()
         }
         cell.IsHalfCredit.isOn = GetIsHalfCredit(Class)
         cell.Course.text = Class
@@ -172,10 +154,8 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         cell.APInfo.text = UserDefaults.standard.object(forKey: Class+"Level") as? String
         cell.Section = indexPath.section
         cell.Row = indexPath.row
-        //cell.APInfo.frame.origin = CGPoint(x: self.view.frame.maxX-80, y: cell.APInfo.frame.minY)
         cell.frame.size = CGSize(width: cell.frame.size.width, height: 44)
         SetTableViewHeightConstraint()
-        //tableView.setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude), animated: false)
         return cell
     }
     
@@ -202,17 +182,16 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             }else{
                 Courses[Classe].isCourseHalfCredit = false
             }
+                Courses[Classe].isCourseHalfCredit = GetIsHalfCredit(Class)
             }
         }else{
             for Classe in 0...LegacyGrades.count-1{
                 for Classd in 0...LegacyGrades[Classe].Courses.count-1{
                     let Class = LegacyGrades[Classe].Courses[Classd].Class
                         LegacyGrades[Classe].Courses[Classd].isCourseHalfCredit = GetIsHalfCredit(Class)
-                    
                 }
             }
         }
-        
         var S1AverageInt = ""
         var S2AverageInt = ""
         if(Status == 0){
@@ -239,8 +218,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var Class = ""
-        
-        
+
         if(Status == 0){
             Class = Courses[indexPath.row].Class
         }else{
@@ -263,17 +241,6 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         UserDefaults.standard.set(newLevel, forKey: Class + "Level")
         self.tableView.reloadData()
         SetFinalAverageValues()
-    }
-    
-    fileprivate func CheckLevelHelperForReloadGPAValues(_ level: (String?), _ NewClassAverage: inout Double, _ Class: Course, _ term: String, _ FinalCount: inout Double) {
-        let CreditWorth = NumberOfCreditsCourseIsWorth(Course: Class)
-        let LevelAddAmt = CheckAddAmt(level: level)
-        if LevelAddAmt != -1{
-            NewClassAverage += (Double(Class.Grades.Grades[term]!)! + Double(LevelAddAmt)) * CreditWorth
-        }else{
-            FinalCount -= CreditWorth
-        }
-        FinalCount += CreditWorth
     }
     
     fileprivate func CheckAddAmt(level: String?) -> Int{
@@ -300,22 +267,26 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
+    fileprivate func CalculateNewClassAverageFromInformation(_ course: Course, _ NewClassAverage: inout Double, _ term: String, _ FinalCount: inout Double) {
+        let className = course.Class
+        let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
+        let CreditWorth = NumberOfCreditsCourseIsWorth(Course: course)
+        let LevelAddAmt = CheckAddAmt(level: level)
+        if LevelAddAmt != -1{
+            NewClassAverage += ((Double(course.Grades.Grades[term]!)!) + Double(LevelAddAmt)) * CreditWorth
+        }else{
+            FinalCount -= CreditWorth
+        }
+        FinalCount += CreditWorth
+    }
+    
     func reloadGPAValues(term: String) -> Double{
         var NewClassAverage: Double = 0
         var FinalCount: Double = 0
         if Status == 0{
         for course in Courses{
-            let className = course.Class
-            let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
-            let CreditWorth = NumberOfCreditsCourseIsWorth(Course: course)
             if Int(course.Grades.Grades[term]!) != -1000{
-                let LevelAddAmt = CheckAddAmt(level: level)
-                if LevelAddAmt != -1{
-                    NewClassAverage += ((Double(course.Grades.Grades[term]!)!) + Double(LevelAddAmt)) * CreditWorth
-                }else{
-                    FinalCount -= CreditWorth
-                }
-                FinalCount += CreditWorth
+                CalculateNewClassAverageFromInformation(course, &NewClassAverage, term, &FinalCount)
             }
         }
         }else{
@@ -325,7 +296,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
                     let className = Class.Class
                     let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
                     if (Class.Grades.Grades["FIN"]) != "" && (Class.Grades.Grades["FIN"]) != "-1000"{
-                        CheckLevelHelperForReloadGPAValues(level, &NewClassAverage, Class, term, &FinalCount)
+                        CalculateNewClassAverageFromInformation(Class, &NewClassAverage, "FIN", &FinalCount)
                     }else if Class.Grades.Grades["S1"] != "" && Class.Grades.Grades["S2"] != "" && Class.Grades.Grades["S1"] != "-1000" && Class.Grades.Grades["S2"] != "-1000"{
                         let LevelAddAmt = CheckAddAmt(level: level)
                         if LevelAddAmt != -1{
@@ -335,23 +306,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
                         }
                         FinalCount += CreditWorth
                     }else if Class.Grades.Grades["S2"] != "" && Class.Grades.Grades["S2"] != "-1000"{
-                        let LevelAddAmt = CheckAddAmt(level: level)
-                        if LevelAddAmt != -1{
-                            NewClassAverage += ((Double(Class.Grades.Grades["S2"]!)!) + Double(LevelAddAmt)) * CreditWorth
-                        }else{
-                            FinalCount -= CreditWorth
-                        }
-                        FinalCount += CreditWorth
+                        CalculateNewClassAverageFromInformation(Class, &NewClassAverage, "S2", &FinalCount)
                     }else if Class.Grades.Grades["S1"] != "" && Class.Grades.Grades["S1"] != "-1000"{
-                        let LevelAddAmt = CheckAddAmt(level: level)
-                        if LevelAddAmt != -1{
-                            NewClassAverage += ((Double(Class.Grades.Grades["S1"]!)!) + Double(LevelAddAmt)) * CreditWorth
-                        }else{
-                            FinalCount -= CreditWorth
-                        }
-                        FinalCount += CreditWorth
+                        CalculateNewClassAverageFromInformation(Class, &NewClassAverage, "S1", &FinalCount)
                     }
-                    //print("Times " + FinalCount + " AT AVERAGE " + NewClassAverage + " FOR COURSE " + Class.Class)
                 }
             }
         }
@@ -366,18 +324,16 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             let JS = "document.querySelector('a[data-nav=\"sfacademichistory001.w\"]').click()"
             InformationHolder.SkywardWebsite.evaluateJavaScript(JS, completionHandler: nil)
         }else{
-            //importantUtils.CreateLoadingView(view: self.view, message: "This is a BETA TESTING PHASE!!!! ADDS ALL VALUES POSSIBLE!!!")
             AdvancedEnabler.setTitle("Advanced", for: .normal)
             SetFinalAverageValues()
             tableView.reloadData()
         }
-        ModifyIfCourseCounts.isHidden = !ModifyIfCourseCounts.isHidden
-        ResetAllCourseLevels.isHidden = !ResetAllCourseLevels.isHidden
+        //ModifyIfCourseCounts.isHidden = !ModifyIfCourseCounts.isHidden
+        //ResetAllCourseLevels.isHidden = !ResetAllCourseLevels.isHidden
         S1Average.isHidden = !S1Average.isHidden
         S2Average.isHidden = !S2Average.isHidden
         S1IndicatorLbl.isHidden = !S1IndicatorLbl.isHidden
         S2IndicatorLbl.isHidden = !S2IndicatorLbl.isHidden
-        //ScrollToBottom()
     }
     
     func RetrieveGradeInformation(grades: [LegacyGrade]){
@@ -399,7 +355,6 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let tmp = LegacyGrades.removeFirst()
         tmp.Courses = Courses
         LegacyGrades.insert(tmp, at: 0)
-        //LegacyGrades.insert(temp, at: 0)
         tableView.reloadData()
         importantUtils.DestroyLoadingView(views: self.view)
         SetFinalAverageValues()
@@ -412,6 +367,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             SetIsHalfCredit(LegacyGrades[cell.Section].Courses[cell.Row].Class, isHalfCredit: sender.isOn)
         }
+        SetFinalAverageValues()
         tableView.reloadData()
     }
     

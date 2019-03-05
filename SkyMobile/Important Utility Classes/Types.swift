@@ -171,3 +171,7 @@ class LegacyGrade{
     }
 }
 
+class Preferences{
+    static var AutoLoginMethodDoesStoreAllAvailableAccounts = true
+    static var ModernUI = false //Not implemented
+}
