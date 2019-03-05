@@ -385,7 +385,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let JS = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
         InformationHolder.SkywardWebsite.evaluateJavaScript(JS, completionHandler: nil)
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
+        let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
         self.present(vc, animated: true, completion: nil)
     }
     

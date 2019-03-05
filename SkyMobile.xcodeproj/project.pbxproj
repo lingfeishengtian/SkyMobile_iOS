@@ -21,7 +21,7 @@
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
-		96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* FinalGradeDisplay.swift */; };
+		96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* ProgressReportAverages.swift */; };
 		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
 		96AEE146222EBBF800A3C0DE /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */; };
@@ -72,7 +72,7 @@
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		96987930216EDB8D00274869 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		96987937216EDBA100274869 /* FinalGradeDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalGradeDisplay.swift; sourceTree = "<group>"; };
+		96987937216EDBA100274869 /* ProgressReportAverages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressReportAverages.swift; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
 		96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
@@ -193,7 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				96987935216EDBA100274869 /* ViewController.swift */,
-				96987937216EDBA100274869 /* FinalGradeDisplay.swift */,
+				96987937216EDBA100274869 /* ProgressReportAverages.swift */,
 				961317A02173019E0018684F /* ViewAssignments.swift */,
 				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
 				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
@@ -460,7 +460,7 @@
 				969715F0221393A200B810DD /* SettingsViewController.swift in Sources */,
 				9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */,
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
-				96987941216EDBA100274869 /* FinalGradeDisplay.swift in Sources */,
+				96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */,
 				96FC4857222B7D76007645DD /* LegacyClassScraperAPI.swift in Sources */,
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
 				96987931216EDB8D00274869 /* GradientView.swift in Sources */,

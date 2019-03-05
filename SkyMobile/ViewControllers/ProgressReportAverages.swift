@@ -11,7 +11,7 @@ import UIKit
 import WebKit
 
 // MARK: - Prep into Private Beta 2.8
-class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
+class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
 
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
@@ -198,7 +198,7 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
                     timer.invalidate()
                 }
                 if let fin = result as? String{
-                    if fin == "Valid" && UIApplication.topViewController() is FinalGradeDisplay{
+                    if fin == "Valid" && UIApplication.topViewController() is ProgressReportAverages{
                         self.present(vc, animated: true, completion: nil)
                         timer.invalidate()
                     }
@@ -263,9 +263,17 @@ class FinalGradeDisplay: UIViewController, UITableViewDelegate, UITableViewDataS
     //TODO: Add ScrollView for all pages
     //TODO: Create the settings
     @IBAction func goToSettings(_ sender: Any) {
-        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : SettingsViewController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
-        self.present(vc, animated: true, completion: nil)
+        let appVersion = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String)?.lowercased()
+        if (appVersion?.starts(with: "2."))! || (appVersion?.starts(with: "b2."))! || (appVersion?.starts(with: "vb2."))!{
+            let alert = UIAlertController(title: "Sorry", message: "The version of the app is too old, please update to modify your settings.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc : SettingsViewController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     @IBAction func Logout(_ sender: Any) {

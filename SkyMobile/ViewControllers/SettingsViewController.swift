@@ -31,7 +31,7 @@ class SettingsViewController: UIViewController{
     
     @objc func goBack(_ sender: Any){
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
+        let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
         self.present(vc, animated: true, completion: nil)
     }
     

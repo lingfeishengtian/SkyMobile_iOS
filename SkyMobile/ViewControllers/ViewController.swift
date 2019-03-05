@@ -221,7 +221,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             if error == nil {
                 let returnedResults = result as! String
                 let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                let vc : FinalGradeDisplay = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! FinalGradeDisplay
+                let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
                 InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: returnedResults)
                 InformationHolder.SkywardWebsite = self.webView
                 self.present(vc, animated: true, completion: nil)
