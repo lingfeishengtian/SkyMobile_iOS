@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SettingsViewController: UIViewController{
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var SettingsNavigationItem: UINavigationItem!
     @IBOutlet weak var SettingsTableView: UITableView!
     
@@ -21,6 +21,8 @@ class SettingsViewController: UIViewController{
         let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(self.goBack(_:)))
         self.SettingsNavigationItem.leftBarButtonItem = backButton
         SettingsNavigationItem.hidesBackButton = false
+        SettingsTableView.delegate = self
+        SettingsTableView.dataSource = self
     }
     
     func SetUpAccounts(){
@@ -47,18 +49,38 @@ class SettingsViewController: UIViewController{
         let ArchivedPrefs = NSKeyedArchiver.archivedData(withRootObject: CurrentPreferences)
         UserDefaults.standard.set(ArchivedPrefs, forKey: "Preferences")
     }
+    
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//
+//        
 //    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SettingsTableViewCell
+        
+    }
+    
+    
 }
 
 class SettingsTableViewCell: UITableViewCell{
     private var Status: SettingsTableViewAvailableStatuses = SettingsTableViewAvailableStatuses.NormalSettingView
+    var SettingName = UILabel(frame: CGRect.null)
+    var isEnabled = UISwitch(frame: CGRect.null)
     
+    func Setup(settingName: String = " Placeholder ", isSettingEnabled: Bool = false) {
+        SettingName.text = settingName
+        SettingName.center = CGPoint(x: 10, y: self.frame.size.height/2)
+        SettingName.frame = CGRect(x: 10, y: SettingName.frame.minY, width: self.frame.size.width - 30, height: self.frame.size.height)
+        SettingName.isHidden = false
+        SettingName.isEnabled = true
+        
+        isEnabled.center = CGPoint(x: 10, y: self.frame.size.height/2)
+        isEnabled.frame = CGRect(x: SettingName.frame.maxX + 10, y: SettingName.frame.minY, width: self.frame.size.width - 40, height: self.frame.size.height)
+        isEnabled.isHidden = false
+        isEnabled.isEnabled = true
+        isEnabled.isOn = isSettingEnabled
+    }
+       
     func ChangeStatus(statusToUpdateTo status: SettingsTableViewAvailableStatuses) -> (Bool){
         if status == Status{
             return false
