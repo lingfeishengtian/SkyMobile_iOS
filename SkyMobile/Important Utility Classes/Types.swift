@@ -152,6 +152,7 @@ struct InformationHolder{
     static var SkywardWebsite: WKWebView = WKWebView()
     static var Courses: [Course] = []
     static var WebsiteStatus = WebsitePage.Login;
+    static var GlobalPreferences = Preferences()
 }
 
 enum WebsitePage {
@@ -171,7 +172,23 @@ class LegacyGrade{
     }
 }
 
-class Preferences{
-    static var AutoLoginMethodDoesStoreAllAvailableAccounts = true
-    static var ModernUI = false //Not implemented
+class Preferences: NSObject, NSCoding{
+    var AutoLoginMethodDoesStoreAllAvailableAccounts = true
+    var ModernUI = false //Not implemented
+    var BiometricEnabled = false
+    
+    init(loginMethodStore: Bool = true, modern: Bool = false, biometricEnacted: Bool = false){
+        AutoLoginMethodDoesStoreAllAvailableAccounts = loginMethodStore
+        ModernUI = modern
+        BiometricEnabled = biometricEnacted
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        self.AutoLoginMethodDoesStoreAllAvailableAccounts = aDecoder.decodeObject(forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts") as! Bool
+        self.ModernUI = aDecoder.decodeObject(forKey: "ModernUI") as! Bool
+    }
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(AutoLoginMethodDoesStoreAllAvailableAccounts,forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
+        aCoder.encode(ModernUI, forKey: "ModernUI")
+    }
 }

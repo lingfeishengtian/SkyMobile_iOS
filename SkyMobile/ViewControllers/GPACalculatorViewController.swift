@@ -149,6 +149,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             Class = LegacyGrades[indexPath.section].Courses[indexPath.row].Class
         }
         cell.IsHalfCredit.isOn = GetIsHalfCredit(Class)
+        SetCellCreditAmount(cell: cell, isHalf: cell.IsHalfCredit.isOn)
         cell.Course.text = Class
         SetClassLevel(Class)
         cell.APInfo.text = UserDefaults.standard.object(forKey: Class+"Level") as? String
@@ -367,8 +368,17 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             SetIsHalfCredit(LegacyGrades[cell.Section].Courses[cell.Row].Class, isHalfCredit: sender.isOn)
         }
+        SetCellCreditAmount(cell: cell, isHalf: sender.isOn)
         SetFinalAverageValues()
         tableView.reloadData()
+    }
+    
+    func SetCellCreditAmount(cell: CourseInfo, isHalf: Bool){
+        if isHalf{
+            cell.CreditAmount.text = "HC"
+        }else{
+            cell.CreditAmount.text = "FC"
+        }
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -380,7 +390,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @IBAction func DisplayInstructions(_ sender: Any) {
-        let instructions = UIAlertController(title: "Don't know how to use this?", message: "If you tap a cell in table view, it will change weights. The switch next to your weight information is to enable half credit course. This is for people who have courses that don't give a full credit for a year.", preferredStyle: .alert)
+        let instructions = UIAlertController(title: "Don't know how to use this?", message: "If you tap a cell in table view, it will change weights. The switch next to your weight information is to enable half credit course. This is for people who have courses that don't give a full credit for a year. (HC indicates half credit while FC indicates full credit.)", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         instructions.addAction(ok)
         self.present(instructions, animated: true, completion: nil)
@@ -391,6 +401,7 @@ class CourseInfo: UITableViewCell{
     @IBOutlet weak var Course: UILabel!
     @IBOutlet weak var APInfo: UILabel!
     @IBOutlet weak var IsHalfCredit: UISwitch!
+    @IBOutlet weak var CreditAmount: UILabel!
     
     var Section: Int = 0
     var Row: Int = 0
