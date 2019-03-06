@@ -6,8 +6,10 @@
 //  Copyright © 2018 Hunter Han. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import WebKit
+import SystemConfiguration
 
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var UsernameField: UITextField!
@@ -30,58 +32,90 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         
         SavedAccountsTableView.separatorColor = UIColor.black
         
-        importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward FBISD")
-        webView.navigationDelegate = self
-        let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
-        let request = URLRequest(url: url)
-        webView.frame = CGRect(x: 0, y: 400, width: 0, height: 0)
-        self.webView.navigationDelegate = self
-        self.webView.uiDelegate = self
-        //webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
-        
-        webView.load(request)
-        view.addSubview(webView)
-        
-        webView.allowsBackForwardNavigationGestures = true
-        
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
-        
-        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
-        let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
-        
-        if isBeta {
-            BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
-        }else{
-            BetaInfoDisplayer.isHidden = true
-        }
-        
-        if ImportantUtils.isKeyPresentInUserDefaults(key: "AccountStorageService"){
-            if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
-                AccountsStored = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Account]
+        if isConnectedToNetwork() {
+            importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward FBISD")
+            webView.navigationDelegate = self
+            let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+            let request = URLRequest(url: url)
+            webView.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            self.webView.navigationDelegate = self
+            self.webView.uiDelegate = self
+            //webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
+            
+            webView.load(request)
+            view.addSubview(webView)
+            
+            webView.allowsBackForwardNavigationGestures = true
+            
+            self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+            let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+            tap.cancelsTouchesInView = false
+            self.view.addGestureRecognizer(tap)
+            
+            let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+            let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
+            
+            if isBeta {
+                BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
+            }else{
+                BetaInfoDisplayer.isHidden = true
+            }
+            
+            if ImportantUtils.isKeyPresentInUserDefaults(key: "AccountStorageService"){
+                if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
+                    AccountsStored = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Account]
+                }
+            }else{
+                let encoded = NSKeyedArchiver.archivedData(withRootObject: AccountsStored)
+                UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
+            }
+            
+            SavedAccountsTableView.dataSource = self
+            SavedAccountsTableView.delegate = self
+            let newContentSize = CGSize(width: self.view.frame.size.width, height: 50 * CGFloat(AccountsStored.count))
+            let defaultSize = self.view.frame.size.height/4.4
+            SavedAccountsTableView.frame.size = newContentSize
+            if newContentSize.height > defaultSize{
+                SavedAccountsTableViewHeight.constant = defaultSize
+            }else{
+                SavedAccountsTableViewHeight.constant = newContentSize.height
             }
         }else{
-            let encoded = NSKeyedArchiver.archivedData(withRootObject: AccountsStored)
-            UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
-        }
-        
-        SavedAccountsTableView.dataSource = self
-        SavedAccountsTableView.delegate = self
-        let newContentSize = CGSize(width: self.view.frame.size.width, height: 50 * CGFloat(AccountsStored.count))
-        let defaultSize = self.view.frame.size.height/4.4
-        SavedAccountsTableView.frame.size = newContentSize
-        if newContentSize.height > defaultSize{
-            SavedAccountsTableViewHeight.constant = defaultSize
-        }else{
-            SavedAccountsTableViewHeight.constant = newContentSize.height
+            let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
+            UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
         }
     }
     
     override func viewDidLayoutSubviews() {
         UsernameField.underlined()
         PasswordField.underlined()
+    }
+    
+    func isConnectedToNetwork() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        }) else {
+            return false
+        }
+        
+        var flags: SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        if flags.isEmpty {
+            return false
+        }
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        
+        return (isReachable && !needsConnection)
     }
     
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -100,6 +134,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 return webViewtemp
         }
         return nil
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        //importantUtils.DestroyLoadingView(views: self.view)
+        print("call")
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        
+        let alerttingLogout = UIAlertController(title: "Oh No!", message: "A network error occured! Please retry.", preferredStyle: .alert)
+        let OK = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
+        })
+        alerttingLogout.addAction(OK)
+        InformationHolder.WebsiteStatus = WebsitePage.Login
+        UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -166,10 +215,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         """
         var finished = false;
         //while !finished{
+        var times = 0
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){timer in
                 if finished == true{
                     timer.invalidate()
                 }
+                if times >= 40 {
+                    timer.invalidate()
+                    self.importantUtils.DestroyLoadingView(views: self.view)
+                    self.importantUtils.DisplayErrorMessage(message: "Failed to Login, please retry!")
+                }
+                times+=1
+                print(times)
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error != nil{
                         self.importantUtils.DestroyLoadingView(views: self.view)
@@ -187,6 +244,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         if (out.contains("fail")){
                             self.importantUtils.DestroyLoadingView(views: self.view)
                             let Invalid = UIAlertController(title: "Uh-Oh", message: "Invalid login or password!", preferredStyle: .alert)
+                            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            Invalid.addAction(ok)
+                            self.present(Invalid, animated: true, completion: nil)
+                            self.SubmitBtn.isEnabled = true
+                            self.changeColorOfButton(color: UIColor.red)
+                            finished = true
+                            timer.invalidate()
+                        }else if out.contains("no BTN"){
+                            self.importantUtils.DestroyLoadingView(views: self.view)
+                            let Invalid = UIAlertController(title: "Uh-Oh", message: "Network changed!", preferredStyle: .alert)
                             let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                             Invalid.addAction(ok)
                             self.present(Invalid, animated: true, completion: nil)

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    
     @IBOutlet weak var SettingsNavigationItem: UINavigationItem!
     @IBOutlet weak var SettingsTableView: UITableView!
     
@@ -57,9 +58,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SettingsTableViewCell
         
+        
+        
+        return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
 }
 
 class SettingsTableViewCell: UITableViewCell{

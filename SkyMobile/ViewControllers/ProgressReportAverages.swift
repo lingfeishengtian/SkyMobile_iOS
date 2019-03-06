@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import WebKit
 
-// MARK: - Prep into Private Beta 2.8
 class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
 
     var ClassColorsDependingOnGrade: [UIColor] = []
@@ -39,7 +38,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var table: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        //TestInject()
         if IsElementaryAccount(Courses: InformationHolder.Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
@@ -67,6 +66,24 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         pickTerm.dataSource = self
         
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
+    }
+    
+    func TestInject(){
+        for _ in 1...99{
+            InformationHolder.Courses.append(Course(period: 1111, classDesc: "TEST", teacher: "MR TESTER"))
+    }
+    }
+    
+    func RefreshTable(){
+        let TableContentHeight = table.contentSize.height
+        let TableCalculatedHeight = self.view.frame.size.height - table.frame.minY
+        if TableContentHeight > TableCalculatedHeight{
+            table.isScrollEnabled = true
+            table.frame.size = CGSize(width: self.view.frame.width, height: TableCalculatedHeight)
+        }else{
+            table.isScrollEnabled = false
+            table.frame.size = CGSize(width: self.view.frame.width, height: TableContentHeight)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -117,8 +134,9 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         cell.alpha = CGFloat(0.7)
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
+        //tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
         
+        RefreshTable()
         return cell;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

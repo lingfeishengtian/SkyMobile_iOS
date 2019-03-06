@@ -127,29 +127,33 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    fileprivate func SetIsHalfCredit(_ Class: String, isHalfCredit: Bool) {
-            UserDefaults.standard.set(isHalfCredit, forKey: Class + "HalfCreditBool")
+    fileprivate func SetCourseCreditWorthLibrary(_ Class: String, credits: Double) {
+            UserDefaults.standard.set(credits, forKey: Class + "CreditWorthStorageInGPA")
     }
     
-    fileprivate func GetIsHalfCredit(_ Class: String) -> (Bool) {
-        if let Retrieved =  UserDefaults.standard.object(forKey: Class + "HalfCreditBool"){
-            return Retrieved as! Bool
+    fileprivate func GetCourseCreditWorthFromLibrary(_ Class: String) -> (Double) {
+        if let Retrieved =  UserDefaults.standard.object(forKey: Class + "CreditWorthStorageInGPA"){
+            return Retrieved as! Double
         }else{
-            SetIsHalfCredit(Class, isHalfCredit: false)
-            return false
+            SetCourseCreditWorthLibrary(Class, credits: 1.0)
+            return 1.0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseInfo
         var Class = ""
+        var AmtOfCredits = 1.0
         if(Status == 0){
-            Class = Courses[indexPath.row].Class
+            let tmp = Courses[indexPath.row]
+            Class = tmp.Class
+            AmtOfCredits = tmp.CourseCreditWorth
         }else{
-            Class = LegacyGrades[indexPath.section].Courses[indexPath.row].Class
+            let tmp = LegacyGrades[indexPath.section].Courses[indexPath.row]
+            Class = tmp.Class
+            AmtOfCredits = tmp.CourseCreditWorth
         }
-        cell.IsHalfCredit.isOn = GetIsHalfCredit(Class)
-        SetCellCreditAmount(cell: cell, isHalf: cell.IsHalfCredit.isOn)
+        cell.CreditWorth.selectedSegmentIndex = GetIndexOfValue(valueToSelect: AmtOfCredits)
         cell.Course.text = Class
         SetClassLevel(Class)
         cell.APInfo.text = UserDefaults.standard.object(forKey: Class+"Level") as? String
@@ -158,6 +162,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         cell.frame.size = CGSize(width: cell.frame.size.width, height: 44)
         SetTableViewHeightConstraint()
         return cell
+    }
+    
+    func GetIndexOfValue(valueToSelect val: Double) -> (Int){
+        return Int(val * 2 - 1)
     }
     
     func SetTableViewHeightConstraint(){
@@ -178,18 +186,13 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         if(Status == 0){
             for Classe in 0...Courses.count-1{
             let Class = Courses[Classe].Class
-            if(GetIsHalfCredit(Class)){
-                Courses[Classe].isCourseHalfCredit = true
-            }else{
-                Courses[Classe].isCourseHalfCredit = false
-            }
-                Courses[Classe].isCourseHalfCredit = GetIsHalfCredit(Class)
+            Courses[Classe].CourseCreditWorth = GetCourseCreditWorthFromLibrary(Class)
             }
         }else{
             for Classe in 0...LegacyGrades.count-1{
                 for Classd in 0...LegacyGrades[Classe].Courses.count-1{
                     let Class = LegacyGrades[Classe].Courses[Classd].Class
-                        LegacyGrades[Classe].Courses[Classd].isCourseHalfCredit = GetIsHalfCredit(Class)
+                        LegacyGrades[Classe].Courses[Classd].CourseCreditWorth = GetCourseCreditWorthFromLibrary(Class)
                 }
             }
         }
@@ -260,18 +263,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    fileprivate func NumberOfCreditsCourseIsWorth(Course: Course) -> (Double){
-        if(Course.isCourseHalfCredit){
-            return 0.5
-        }else{
-            return 1
-        }
-    }
-    
     fileprivate func CalculateNewClassAverageFromInformation(_ course: Course, _ NewClassAverage: inout Double, _ term: String, _ FinalCount: inout Double) {
         let className = course.Class
         let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
-        let CreditWorth = NumberOfCreditsCourseIsWorth(Course: course)
+        let CreditWorth = course.CourseCreditWorth
         let LevelAddAmt = CheckAddAmt(level: level)
         if LevelAddAmt != -1{
             NewClassAverage += ((Double(course.Grades.Grades[term]!)!) + Double(LevelAddAmt)) * CreditWorth
@@ -293,7 +288,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             for grade in LegacyGrades{
                 for Class in grade.Courses{
-                    let CreditWorth = NumberOfCreditsCourseIsWorth(Course: Class)
+                    let CreditWorth = Class.CourseCreditWorth
                     let className = Class.Class
                     let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
                     if (Class.Grades.Grades["FIN"]) != "" && (Class.Grades.Grades["FIN"]) != "-1000"{
@@ -361,25 +356,28 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         SetFinalAverageValues()
     }
     
-    @IBAction func HalfCreditSwitchChanged(_ sender: UISwitch) {
+    @IBAction func ChangeCreditValueAmount(_ sender: UISegmentedControl) {
         let cell = sender.superview?.superview as! CourseInfo
+        let CourseCreditAmts = (Double(sender.selectedSegmentIndex) + 1.0)/2.0
         if Status == 0{
-            SetIsHalfCredit(Courses[cell.Row].Class, isHalfCredit: sender.isOn)
+            SetCourseCreditWorthLibrary(Courses[cell.Row].Class, credits: CourseCreditAmts)
         }else{
-            SetIsHalfCredit(LegacyGrades[cell.Section].Courses[cell.Row].Class, isHalfCredit: sender.isOn)
+            SetCourseCreditWorthLibrary(LegacyGrades[cell.Section].Courses[cell.Row].Class, credits: CourseCreditAmts)
         }
-        SetCellCreditAmount(cell: cell, isHalf: sender.isOn)
         SetFinalAverageValues()
-        tableView.reloadData()
     }
     
-    func SetCellCreditAmount(cell: CourseInfo, isHalf: Bool){
-        if isHalf{
-            cell.CreditAmount.text = "HC"
-        }else{
-            cell.CreditAmount.text = "FC"
-        }
-    }
+    //    @IBAction func HalfCreditSwitchChanged(_ sender: UISwitch) {
+//        let cell = sender.superview?.superview as! CourseInfo
+//        if Status == 0{
+//            SetIsHalfCredit(Courses[cell.Row].Class, isHalfCredit: sender.isOn)
+//        }else{
+//            SetIsHalfCredit(LegacyGrades[cell.Section].Courses[cell.Row].Class, isHalfCredit: sender.isOn)
+//        }
+//        SetCellCreditAmount(cell: cell, isHalf: sender.isOn)
+//        SetFinalAverageValues()
+//        tableView.reloadData()
+//    }
     
     @IBAction func goBack(_ sender: Any) {
         let JS = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
@@ -390,7 +388,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @IBAction func DisplayInstructions(_ sender: Any) {
-        let instructions = UIAlertController(title: "Don't know how to use this?", message: "If you tap a cell in table view, it will change weights. The switch next to your weight information is to enable half credit course. This is for people who have courses that don't give a full credit for a year. (HC indicates half credit while FC indicates full credit.)", preferredStyle: .alert)
+        let instructions = UIAlertController(title: "Don't know how to use this?", message: "If you tap a cell in table view, it will change weights. Change how many credits a class is worth with the sections on every cell.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         instructions.addAction(ok)
         self.present(instructions, animated: true, completion: nil)
@@ -400,8 +398,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
 class CourseInfo: UITableViewCell{
     @IBOutlet weak var Course: UILabel!
     @IBOutlet weak var APInfo: UILabel!
-    @IBOutlet weak var IsHalfCredit: UISwitch!
-    @IBOutlet weak var CreditAmount: UILabel!
+    @IBOutlet weak var CreditWorth: UISegmentedControl!
     
     var Section: Int = 0
     var Row: Int = 0
