@@ -41,6 +41,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         GPACalculatorTitle.sizeToFit()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.bounces = false
         
         AdvancedEnabler.backgroundColor = UIColor.clear
         AdvancedEnabler.layer.cornerRadius = 5
@@ -158,12 +159,16 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             AmtOfCredits = tmp.CourseCreditWorth
         }
         cell.CreditWorth.selectedSegmentIndex = GetIndexOfValue(valueToSelect: AmtOfCredits)
+        cell.APInfo.frame = CGRect(x: self.view.frame.width-(8+50), y: cell.APInfo.frame.minY, width: 50, height: cell.APInfo.frame.height)
+        cell.CreditWorth.frame = CGRect(x: self.view.frame.width
+            - (cell.APInfo.frame.width + cell.CreditWorth.frame.width + 16), y: cell.CreditWorth.frame.minY, width: cell.CreditWorth.frame.width, height: cell.CreditWorth.frame.height)
         cell.Course.text = Class
         SetClassLevel(Class)
         cell.APInfo.text = UserDefaults.standard.object(forKey: Class+"Level") as? String
+        cell.Course.frame.size = CGSize(width: self.view.frame.width - (cell.CreditWorth.frame.size.width + cell.APInfo.frame.size.width + 32), height: cell.Course.frame.size.height)
         cell.Section = indexPath.section
         cell.Row = indexPath.row
-        cell.frame.size = CGSize(width: cell.frame.size.width, height: 44)
+        cell.frame.size = CGSize(width: self.view.frame.width, height: 44)
         SetTableViewHeightConstraint()
         return cell
     }

@@ -15,6 +15,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
     
+    @IBOutlet var MainGradientView: GradientView!
     @IBOutlet weak var TableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     let importantUtils = ImportantUtils()
@@ -62,11 +63,15 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         table.reloadData()
         table.delegate = self
         table.dataSource = self
+        table.bounces = false
         pickTerm.delegate = self
         pickTerm.dataSource = self
         
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
         RefreshTable()
+        if InformationHolder.GlobalPreferences.ModernUI{
+            MainGradientView.secondColor = MainGradientView.firstColor
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,7 +141,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         }else{
             cell.lblGrade.text = (grade)
         }
-        cell.lblClassDesc.sizeToFit()
+        //cell.lblClassDesc.sizeToFit()
         //Add cell color!!!!
         let currentColor = ClassColorsDependingOnGrade[indexPath.row]
         cell.backgroundColor = currentColor
@@ -324,6 +329,10 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                 for view in self.moreMenuItemsStackView.arrangedSubviews{
                     let btn = view as? UIButton
                     btn?.backgroundColor = .clear
+                    if InformationHolder.GlobalPreferences.ModernUI{
+                        btn?.backgroundColor = UIColor.black
+                        btn?.setTitleColor(UIColor.white, for: .normal)
+                    }
                     btn?.layer.cornerRadius = 5
                     btn?.layer.borderWidth = 1
                     btn?.layer.borderColor = UIColor.black.cgColor

@@ -33,7 +33,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var webViewtemp = WKWebView()
     var AccountsStored: [Account] = []
     var SavedAccountsTableView = UITableView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,14 +88,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             
             SavedAccountsTableView.dataSource = self
             SavedAccountsTableView.delegate = self
-            let newContentSize = CGSize(width: self.view.frame.size.width, height: 50 * CGFloat(AccountsStored.count))
-            let defaultSize = self.view.frame.size.height/4.4
-            SavedAccountsTableView.frame.size = newContentSize
-            if newContentSize.height > defaultSize{
-                SavedAccountsTableViewHeight.constant = defaultSize
-            }else{
-                SavedAccountsTableViewHeight.constant = newContentSize.height
-            }
+//            let newContentSize = CGSize(width: self.view.frame.size.width, height: 50 * CGFloat(AccountsStored.count))
+//            let defaultSize = self.view.frame.size.height/4.4
+//            SavedAccountsTableView.frame.size = newContentSize
+//            if newContentSize.height > defaultSize{
+//                SavedAccountsTableViewHeight.constant = defaultSize
+//            }else{
+//                SavedAccountsTableViewHeight.constant = newContentSize.height
+//            }
         }else{
             let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
             UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
@@ -402,7 +402,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete"){ (row, index) in
             let Areyousure = UIAlertController(title: "Wait a minute!", message: "You're trying to delete this account from your saved accounts list. Are you sure?", preferredStyle: .alert)
             let YesAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
-                self.AccountsStored.remove(at: index.row)
+                self.AccountsStored.remove(at: index.row/2)
                 self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                 self.SavedAccountsTableView.reloadData()
             })
@@ -427,32 +427,47 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         if AccountsStored.count == 0{
             tableView.isHidden = true
         }else{
-            return AccountsStored.count
+            return AccountsStored.count * 2 - 1
         }
         return 0
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(50)
+        if indexPath.row % 2 == 0{
+            return CGFloat(50)
+        }else{
+            return 5
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-
-        cell.selectionStyle = .none
-        let text = UILabel()
-        text.text = AccountsStored[indexPath.row].NickName
-        text.textColor = UIColor.white
-        text.isHidden = false
-        text.frame = CGRect(x: 10, y: 0, width: 300, height: 50)
-        text.tag = indexPath.row
-        cell.addSubview(text)
-        cell.backgroundColor = UIColor.clear
+        let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.SavedAccountsTableView.frame.width, height: 50))
+        
+        if indexPath.row % 2 == 0{
+            cell.selectionStyle = .none
+            let text = UILabel()
+            text.text = AccountsStored[indexPath.row/2].NickName
+            text.textColor = UIColor.white
+            text.isHidden = false
+            text.frame = CGRect(x: 10, y: 0, width: 300, height: 50)
+            text.tag = indexPath.row/2
+            cell.addSubview(text)
+            cell.backgroundColor = UIColor(red: 22/255, green: 22/255, blue: 22/255, alpha: 1)
+            cell.layer.cornerRadius = 5
+        }else{
+            cell.backgroundColor = UIColor.clear
+            cell.selectionStyle = .none
+        }
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let AccountSelected = AccountsStored[indexPath.row]
-        self.UserName = AccountSelected.Username
-        self.Password = AccountSelected.Password
-        self.AttemptLogin()
+        if indexPath.row % 2 == 0 {
+            let AccountSelected = AccountsStored[indexPath.row/2]
+            self.UserName = AccountSelected.Username
+            self.Password = AccountSelected.Password
+            self.AttemptLogin()
+        }else{
+            return
+        }
     }
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
     {
