@@ -15,9 +15,15 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBOutlet weak var UsernameField: UITextField!
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var SubmitBtn: UIButton!
-    @IBOutlet weak var SavedAccountsTableView: UITableView!
     @IBOutlet weak var BetaInfoDisplayer: UILabel!
     @IBOutlet weak var SavedAccountsTableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var OldSaveAccount: UITableView!
+    
+    @IBOutlet weak var ModernUsernameTextField: UITextField!
+    @IBOutlet weak var ModernPasswordTextField: UITextField!
+    @IBOutlet var ModernView: UIView!
+    @IBOutlet weak var ModernLoginButton: UIButton!
+    @IBOutlet weak var ModernTableView: UITableView!
     
     var UserName = "000000"
     var Password = "000000"
@@ -26,11 +32,30 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var webView = WKWebView()
     var webViewtemp = WKWebView()
     var AccountsStored: [Account] = []
+    var SavedAccountsTableView = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SavedAccountsTableView.separatorColor = UIColor.black
+        InformationHolder.GlobalPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
+        let Prefs = InformationHolder.GlobalPreferences
+        if Prefs.ModernUI{
+            self.view = ModernView
+        }
+        if InformationHolder.GlobalPreferences.ModernUI{
+            SavedAccountsTableView = ModernTableView
+        }else{
+            SavedAccountsTableView = OldSaveAccount
+        }
+        ModernUsernameTextField.borderStyle = .roundedRect
+        ModernUsernameTextField.textColor = UIColor.white
+        ModernPasswordTextField.borderStyle = .roundedRect
+        ModernPasswordTextField.textColor = UIColor.white
+        
+        ModernLoginButton.layer.cornerRadius = 5.0
+        ModernLoginButton.layer.borderWidth = 1.0
+        ModernLoginButton.layer.borderColor = UIColor.black.cgColor
+        SavedAccountsTableView.separatorColor = UIColor.clear
         
         if isConnectedToNetwork() {
             importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward FBISD")
@@ -51,15 +76,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
             tap.cancelsTouchesInView = false
             self.view.addGestureRecognizer(tap)
-            
-            let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
-            let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
-            
-            if isBeta {
-                BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
-            }else{
-                BetaInfoDisplayer.isHidden = true
-            }
             
             if ImportantUtils.isKeyPresentInUserDefaults(key: "AccountStorageService"){
                 if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
@@ -86,9 +102,30 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+        let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
+        
+        if isBeta {
+            let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            betaAlert.addAction(okAction)
+            self.present(betaAlert, animated: true, completion: nil)
+            if !InformationHolder.GlobalPreferences.ModernUI{
+            BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
+            }
+        }else{
+            if !InformationHolder.GlobalPreferences.ModernUI{
+            BetaInfoDisplayer.isHidden = true
+            }
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
-        UsernameField.underlined()
-        PasswordField.underlined()
+        if !InformationHolder.GlobalPreferences.ModernUI{
+            UsernameField.underlined()
+            PasswordField.underlined()
+        }
     }
     
     func isConnectedToNetwork() -> Bool {
@@ -125,7 +162,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             components.scheme = tempURL?.scheme
             components.host = tempURL?.host
             components.path = (tempURL?.path)!
-                webViewtemp = WKWebView(frame: CGRect(x: 0, y: 400, width: 0, height: 0), configuration: configuration)
+                webViewtemp = WKWebView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), configuration: configuration)
                 webViewtemp.uiDelegate = self
                 webViewtemp.navigationDelegate = self
                 webViewtemp.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
@@ -136,20 +173,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         return nil
     }
     
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        //importantUtils.DestroyLoadingView(views: self.view)
-        print("call")
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-        
-        let alerttingLogout = UIAlertController(title: "Oh No!", message: "A network error occured! Please retry.", preferredStyle: .alert)
-        let OK = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-            UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
-        })
-        alerttingLogout.addAction(OK)
-        InformationHolder.WebsiteStatus = WebsitePage.Login
-        UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
-    }
+//    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//        //importantUtils.DestroyLoadingView(views: self.view)
+//        print("call")
+//        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+//
+//        let alerttingLogout = UIAlertController(title: "Oh No!", message: "A network error occured! Please retry.", preferredStyle: .alert)
+//        let OK = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+//            UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
+//        })
+//        alerttingLogout.addAction(OK)
+//        InformationHolder.WebsiteStatus = WebsitePage.Login
+//        UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
+//    }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if !didRun{
@@ -189,8 +226,37 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBAction func SubmitForm(_ sender: Any) {
         enableButton(bool: false)
         changeColorOfButton(color: .gray)
-        UserName = UsernameField.text ?? "000000"
-        Password = PasswordField.text ?? "000000"
+        if !InformationHolder.GlobalPreferences.ModernUI{
+            if let u = UsernameField.text, let p = PasswordField.text{
+                if !u.isEmpty && !p.isEmpty{
+                    UserName = u
+                    Password = p
+                }else{
+                    importantUtils.DisplayErrorMessage(message: "One or more fields are empty!")
+                    changeColorOfButton(color: UIColor.red)
+                    enableButton(bool: true)
+                    return
+                }
+            }else{
+                importantUtils.DisplayErrorMessage(message: "Problem loading the text fields, the app is probably broken. Please contact the developer!")
+                return
+            }
+        }else{
+            if let u = ModernUsernameTextField.text, let p = ModernPasswordTextField.text{
+                if !u.isEmpty && !p.isEmpty{
+                    UserName = u
+                    Password = p
+                }else{
+                    importantUtils.DisplayErrorMessage(message: "One or more fields are empty!")
+                    changeColorOfButton(color: UIColor.red)
+                    enableButton(bool: true)
+                    return
+                }
+            }else{
+                importantUtils.DisplayErrorMessage(message: "Problem loading the text fields, the app is probably broken. Please contact the developer!")
+                return
+            }
+        }
         AttemptLogin()
     }
     
@@ -207,8 +273,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         } else if(dMessage.attributes["style"].textContent.includes("visibility: visible")) {
                         msgBtn1.click()
                         return "clicked"
-                        }else{
-                        return "no BTN"
+                        }else if(document.querySelector(".ui-widget").textContent.includes("Please wait")){
+                        return "Loading"
                         }
                         }
                         check()
@@ -230,7 +296,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error != nil{
                         self.importantUtils.DestroyLoadingView(views: self.view)
-                        let Invalid = UIAlertController(title: "Uh-Oh", message: "A network error occurred", preferredStyle: .alert)
+                        let Invalid = UIAlertController(title: "Uh-Oh", message: "A network error occurred. The network probably changed.", preferredStyle: .alert)
                         let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                         Invalid.addAction(ok)
                         self.present(Invalid, animated: true, completion: nil)
@@ -247,23 +313,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                             let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                             Invalid.addAction(ok)
                             self.present(Invalid, animated: true, completion: nil)
-                            self.SubmitBtn.isEnabled = true
-                            self.changeColorOfButton(color: UIColor.red)
-                            finished = true
-                            timer.invalidate()
-                        }else if out.contains("no BTN"){
-                            self.importantUtils.DestroyLoadingView(views: self.view)
-                            let Invalid = UIAlertController(title: "Uh-Oh", message: "Network changed!", preferredStyle: .alert)
-                            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-                            Invalid.addAction(ok)
-                            self.present(Invalid, animated: true, completion: nil)
-                            self.SubmitBtn.isEnabled = true
+                            self.enableButton(bool: true)
                             self.changeColorOfButton(color: UIColor.red)
                             finished = true
                             timer.invalidate()
                         }
                         if (out).contains("clicked"){
                             finished = true
+                            timer.invalidate()
                         }
                 }
         
@@ -273,10 +330,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func changeColorOfButton(color: UIColor){
-        SubmitBtn.setTitleColor(color, for: .normal)
+        if !InformationHolder.GlobalPreferences.ModernUI{
+            SubmitBtn.setTitleColor(color, for: .normal)
+        }else{
+            ModernLoginButton.setTitleColor(color, for: .normal)
+            if color == UIColor.red{
+                ModernLoginButton.setTitleColor(UIColor.white, for: .normal)
+            }
+        }
     }
     func enableButton(bool: Bool){
-        SubmitBtn.isEnabled = bool
+        if !InformationHolder.GlobalPreferences.ModernUI{
+            SubmitBtn.isEnabled = bool
+        }else{
+            ModernLoginButton.isEnabled = bool
+        }
     }
     
     func getHTMLCode(){
@@ -304,53 +372,79 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     @objc func EditAccountName(sender: AnyObject){
-        let btn = sender as! UIButton
-        var index = 0
-        let GetTextInput = UIAlertController(title: "Edit Display Name", message: "What would you like to display?", preferredStyle: .alert)
-        GetTextInput.addTextField(configurationHandler: {(textField) -> Void in
-            for view in (btn.superview?.subviews)!{
-                if view is UILabel{
-                    textField.text = (view as! UILabel).text
-                    index = view.tag
+        if sender.reuseIdentifier != "ERRORCANNOTFIND"{
+            let btn = sender as! UITableViewCell
+            var index = 0
+            let GetTextInput = UIAlertController(title: "Edit Display Name", message: "What would you like to display?", preferredStyle: .alert)
+            GetTextInput.addTextField(configurationHandler: {(textField) -> Void in
+                for view in (btn.subviews){
+                    if view is UILabel{
+                        textField.text = (view as! UILabel).text
+                        index = view.tag
+                    }
                 }
-            }
-        })
-        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
-            if let Input = GetTextInput.textFields![0].text{
-            self.AccountsStored[index].NickName = Input
+            })
+            let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let OKAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+                if let Input = GetTextInput.textFields![0].text{
+                self.AccountsStored[index].NickName = Input
+                    self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                    self.SavedAccountsTableView.reloadData()
+                }
+            })
+            GetTextInput.addAction(CancelAction)
+            GetTextInput.addAction(OKAction)
+            self.present(GetTextInput, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete"){ (row, index) in
+            let Areyousure = UIAlertController(title: "Wait a minute!", message: "You're trying to delete this account from your saved accounts list. Are you sure?", preferredStyle: .alert)
+            let YesAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
+                self.AccountsStored.remove(at: index.row)
                 self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                 self.SavedAccountsTableView.reloadData()
-            }
-        })
-        GetTextInput.addAction(CancelAction)
-        GetTextInput.addAction(OKAction)
-        self.present(GetTextInput, animated: true, completion: nil)
+            })
+            let Cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+            Areyousure.addAction(Cancel)
+            Areyousure.addAction(YesAction)
+            self.present(Areyousure, animated: true, completion: nil)
+        }
+
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit"){(row, index) in
+            self.EditAccountName(sender: self.SavedAccountsTableView.cellForRow(at: indexPath) ?? UITableViewCell(style: .default, reuseIdentifier: "ERRORCANNOTFIND"))
+        }
+        editAction.backgroundColor = UIColor(red: 46/255, green: 117/255, blue: 232/255, alpha: 1)
+        
+        return [deleteAction, editAction]
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AccountsStored.count
+        if AccountsStored.count == 0{
+            tableView.isHidden = true
+        }else{
+            return AccountsStored.count
+        }
+        return 0
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(50)
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-        
-        let btn = UIButton(frame: CGRect(x: cell.frame.maxX-20, y: 0, width: 50, height: 50))
-        btn.setTitleColor(UIColor.blue, for: .normal)
-        btn.setTitle("Edit", for: .normal)
+
         cell.selectionStyle = .none
         let text = UILabel()
         text.text = AccountsStored[indexPath.row].NickName
-        text.frame = CGRect(x: 10, y: 0, width: 400, height: 50)
+        text.textColor = UIColor.white
+        text.isHidden = false
+        text.frame = CGRect(x: 10, y: 0, width: 300, height: 50)
         text.tag = indexPath.row
-        btn.addTarget(self, action: #selector(self.EditAccountName(sender:)), for: .touchUpInside)
         cell.addSubview(text)
-        cell.addSubview(btn)
         cell.backgroundColor = UIColor.clear
         return cell
     }
@@ -360,22 +454,15 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         self.Password = AccountSelected.Password
         self.AttemptLogin()
     }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
+    {
+            return UITableViewCell.EditingStyle.none
     }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete{
-            print("TEST")
-        }
-    }
-    
     var runOnce = false
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.url) {
             print("### URL:", self.webViewtemp.url!)
-            
         }
 
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
@@ -385,13 +472,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 print("ACCESS")
                 if webViewtemp.url!.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
-                        self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
-                            if err == nil{
-                                self.webView = self.webViewtemp
-                                self.runOnce = true
-                                InformationHolder.WebsiteStatus = WebsitePage.Home
-                            }
+                    self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
+                        if err == nil{
+                            self.webView = self.webViewtemp
+                            self.runOnce = true
+                            InformationHolder.WebsiteStatus = WebsitePage.Home
                         }
+                    }
                 }
                 if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" {
                     importantUtils.DestroyLoadingView(views: self.view)

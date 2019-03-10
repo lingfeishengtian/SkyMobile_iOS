@@ -9,23 +9,24 @@
 import Foundation
 import UIKit
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class SettingsViewController: UIViewController{
     
     @IBOutlet weak var SettingsNavigationItem: UINavigationItem!
-    @IBOutlet weak var SettingsTableView: UITableView!
+    @IBOutlet weak var TableContainerView: UIView!
     
     var AccountsStored: [Account] = []
     var CurrentPreferences = Preferences()
+    var TableView = UITableView(frame: CGRect())
     
     //ADD ALLOW FOR ONLY SAVE ONE ACCOUNT PREFERENCE
     override func viewDidLoad() {
         let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(self.goBack(_:)))
         self.SettingsNavigationItem.leftBarButtonItem = backButton
         SettingsNavigationItem.hidesBackButton = false
-        SettingsTableView.delegate = self
-        SettingsTableView.dataSource = self
+        
+        CurrentPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
     }
-    
+
     func SetUpAccounts(){
         if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
             AccountsStored = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Account]
@@ -45,67 +46,23 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return Preferences()
     }
     
-    func SavePreferencesIntoLibraryAndApplication(){
-        InformationHolder.GlobalPreferences = CurrentPreferences
-        let ArchivedPrefs = NSKeyedArchiver.archivedData(withRootObject: CurrentPreferences)
+    static func SavePreferencesIntoLibraryAndApplication(pref: Preferences){
+        InformationHolder.GlobalPreferences = pref
+        let ArchivedPrefs = NSKeyedArchiver.archivedData(withRootObject: pref)
         UserDefaults.standard.set(ArchivedPrefs, forKey: "Preferences")
     }
-    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        
-//    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! SettingsTableViewCell
-        
-        
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
 }
 
-class SettingsTableViewCell: UITableViewCell{
-    private var Status: SettingsTableViewAvailableStatuses = SettingsTableViewAvailableStatuses.NormalSettingView
-    var SettingName = UILabel(frame: CGRect.null)
-    var isEnabled = UISwitch(frame: CGRect.null)
+class TableSettingsViewController: UITableViewController{
+    @IBOutlet weak var ModernUISwitch: UISwitch!
     
-    func Setup(settingName: String = " Placeholder ", isSettingEnabled: Bool = false) {
-        SettingName.text = settingName
-        SettingName.center = CGPoint(x: 10, y: self.frame.size.height/2)
-        SettingName.frame = CGRect(x: 10, y: SettingName.frame.minY, width: self.frame.size.width - 30, height: self.frame.size.height)
-        SettingName.isHidden = false
-        SettingName.isEnabled = true
-        
-        isEnabled.center = CGPoint(x: 10, y: self.frame.size.height/2)
-        isEnabled.frame = CGRect(x: SettingName.frame.maxX + 10, y: SettingName.frame.minY, width: self.frame.size.width - 40, height: self.frame.size.height)
-        isEnabled.isHidden = false
-        isEnabled.isEnabled = true
-        isEnabled.isOn = isSettingEnabled
+    @IBAction func ModernUISwitchChanged(_ sender: Any) {
+        let New = SettingsViewController.LoadPreferencesFromSavedLibrary()
+        New.ModernUI = ModernUISwitch.isOn
+        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: New)
     }
-       
-    func ChangeStatus(statusToUpdateTo status: SettingsTableViewAvailableStatuses) -> (Bool){
-        if status == Status{
-            return false
-        }else{
-            switch status{
-            case .NormalSettingView:
-                print("Switching to Normal")
-            case .EmptySettingsView:
-                print("Switching to Empty")
-            case .TextSettingsView:
-                print("Switching to User input text")
-            }
-        }
-        return true
+    
+    override func viewDidLoad() {
+        ModernUISwitch.isOn = InformationHolder.GlobalPreferences.ModernUI
     }
-}
-
-enum SettingsTableViewAvailableStatuses{
-    case NormalSettingView
-    case EmptySettingsView
-    case TextSettingsView
 }

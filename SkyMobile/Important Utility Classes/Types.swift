@@ -161,7 +161,7 @@ class LegacyGrade{
 
 class Preferences: NSObject, NSCoding{
     var AutoLoginMethodDoesStoreAllAvailableAccounts = true
-    var ModernUI = false //Not implemented
+    var ModernUI = true //Currently being implemented
     var BiometricEnabled = false
     
     init(loginMethodStore: Bool = true, modern: Bool = false, biometricEnacted: Bool = false){
@@ -170,12 +170,15 @@ class Preferences: NSObject, NSCoding{
         BiometricEnabled = biometricEnacted
     }
     
-    required init(coder aDecoder: NSCoder) {
-        self.AutoLoginMethodDoesStoreAllAvailableAccounts = aDecoder.decodeObject(forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts") as! Bool
-        self.ModernUI = aDecoder.decodeObject(forKey: "ModernUI") as! Bool
+    required convenience init(coder aDecoder: NSCoder) {
+        let foundAutoLoginMethodDoesStoreAllAvailableAccounts = aDecoder.decodeBool(forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
+        let foundModernUI = aDecoder.decodeBool(forKey: "ModernUI")
+        let foundBiometricOption = aDecoder.decodeBool(forKey: "BiometricSecurity")
+        self.init(loginMethodStore: foundAutoLoginMethodDoesStoreAllAvailableAccounts, modern: foundModernUI, biometricEnacted: foundBiometricOption)
     }
     func encode(with aCoder: NSCoder) {
         aCoder.encode(AutoLoginMethodDoesStoreAllAvailableAccounts,forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
         aCoder.encode(ModernUI, forKey: "ModernUI")
+        aCoder.encode(BiometricEnabled, forKey: "BiometricSecurity")
     }
 }

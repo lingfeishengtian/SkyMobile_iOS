@@ -15,6 +15,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
     
+    @IBOutlet weak var TableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     let importantUtils = ImportantUtils()
     
@@ -51,11 +52,10 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
     }
-    //TODO: Create Func that allows for assignment
+    
     override func viewDidLoad() {
         //InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
-        table.frame.size = CGSize(width: self.view.frame.width, height: 100)
         InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(InformationHolder.SkywardWebsite)
         
@@ -66,6 +66,12 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         pickTerm.dataSource = self
         
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
+        RefreshTable()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        RefreshTable()
     }
     
     func TestInject(){
@@ -80,9 +86,11 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         if TableContentHeight > TableCalculatedHeight{
             table.isScrollEnabled = true
             table.frame.size = CGSize(width: self.view.frame.width, height: TableCalculatedHeight)
+            TableViewHeightConstraint.constant = TableCalculatedHeight
         }else{
             table.isScrollEnabled = false
             table.frame.size = CGSize(width: self.view.frame.width, height: TableContentHeight)
+            TableViewHeightConstraint.constant = TableContentHeight
         }
     }
     
@@ -106,6 +114,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         indexOfOptions = row
         ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
         table.reloadData()
+        RefreshTable()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -134,9 +143,6 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         cell.alpha = CGFloat(0.7)
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        //tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
-        
-        RefreshTable()
         return cell;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -275,6 +281,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     @IBAction func goToGPACalculator(_ sender: Any) {
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : GPACalculatorViewController = mainStoryboard.instantiateViewController(withIdentifier: "GPACalculator") as! GPACalculatorViewController
+        vc.isElemAccount = self.IsElementaryAccount(Courses: InformationHolder.Courses)
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -327,6 +334,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                 }
                 self.moreMenuItemsStackView.layoutIfNeeded()
             })
+        RefreshTable()
         }
 }
 

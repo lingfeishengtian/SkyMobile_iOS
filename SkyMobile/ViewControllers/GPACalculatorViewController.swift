@@ -16,6 +16,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     var progress = 0
     //Status 0 is simple and 1 is advanced
     var Status = 0
+    var isElemAccount = false
     
     @IBOutlet weak var S1Average: UILabel!
     @IBOutlet weak var S2Average: UILabel!
@@ -46,6 +47,9 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         AdvancedEnabler.layer.borderWidth = 1
         AdvancedEnabler.layer.borderColor = UIColor.black.cgColor
         SetFinalAverageValues()
+        if isElemAccount {
+            AdvancedEnabler.isHidden = true
+        }
     }
     
     func ScrollToBottom(){
