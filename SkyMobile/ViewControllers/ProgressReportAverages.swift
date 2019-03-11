@@ -11,15 +11,16 @@ import UIKit
 import WebKit
 
 class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
-
-    var ClassColorsDependingOnGrade: [UIColor] = []
+    
     @IBOutlet weak var pickTerm: UIPickerView!
-    @IBOutlet weak var TableConstraintLeft: NSLayoutConstraint!
-    @IBOutlet weak var TableConstraintRight: NSLayoutConstraint!
+    //@IBOutlet weak var TableTrailing: NSLayoutConstraint!
+    //@IBOutlet weak var TableLeading: NSLayoutConstraint!
     @IBOutlet var MainGradientView: GradientView!
-    @IBOutlet weak var TableViewHeightConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var TableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     let importantUtils = ImportantUtils()
+    var ClassColorsDependingOnGrade: [UIColor] = []
+    var TableShouldSub = 0
     
     var Options = ["PR1",
                     "PR2",
@@ -40,8 +41,12 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     var isFirstRun = true
     @IBOutlet weak var table: UITableView!
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidLoad() {
         //TestInject()
+        if InformationHolder.GlobalPreferences.ModernUI{
+            MainGradientView.secondColor = MainGradientView.firstColor
+            TableShouldSub = 10
+        }
         if IsElementaryAccount(Courses: InformationHolder.Courses){
             for option in Options{
                 if option.contains("PR") || option.contains("S"){
@@ -51,11 +56,8 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         }
         let ShouldBeDisplay = GuessShouldDisplayScreen(Courses: InformationHolder.Courses)
         indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
-        pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
-    }
-    
-    override func viewDidLoad() {
         ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
+        
         //InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
         InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
@@ -68,14 +70,9 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         table.backgroundColor = .clear
         pickTerm.delegate = self
         pickTerm.dataSource = self
-        
-        pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
+
         RefreshTable()
-        if InformationHolder.GlobalPreferences.ModernUI{
-            MainGradientView.secondColor = MainGradientView.firstColor
-                TableConstraintLeft.constant = 10
-                TableConstraintRight.constant = -10
-            }
+        pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -92,14 +89,15 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     func RefreshTable(){
         let TableContentHeight = table.contentSize.height
         let TableCalculatedHeight = self.view.frame.size.height - table.frame.minY
+        let WidthOfFrame = self.view.frame.width
         if TableContentHeight > TableCalculatedHeight{
             table.isScrollEnabled = true
-            table.frame.size = CGSize(width: self.view.frame.width, height: TableCalculatedHeight)
-            TableViewHeightConstraint.constant = TableCalculatedHeight
+            table.frame = CGRect(x: CGFloat(TableShouldSub/2), y: table.frame.minY, width: (WidthOfFrame) - CGFloat(TableShouldSub), height: TableCalculatedHeight)
+            //TableViewHeightConstraint.constant = TableCalculatedHeight
         }else{
             table.isScrollEnabled = false
-            table.frame.size = CGSize(width: self.view.frame.width, height: TableContentHeight)
-            TableViewHeightConstraint.constant = TableContentHeight
+            table.frame = CGRect(x: CGFloat(TableShouldSub/2), y: table.frame.minY, width: (WidthOfFrame) - CGFloat(TableShouldSub), height: TableContentHeight)
+            //TableViewHeightConstraint.constant = TableContentHeight
         }
     }
     
@@ -136,11 +134,16 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         //Add cell text
         cell.lblPeriod.text = String(InformationHolder.Courses[indexPath.row].Period)
         cell.lblClassDesc.text = String(InformationHolder.Courses[indexPath.row].Class)
-        cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
-        print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
+        //cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
+        for ClassDescConstraint in cell.lblClassDesc.constraints{
+            if ClassDescConstraint.identifier == "ClassDescWidth"{
+                ClassDescConstraint.constant = cell.frame.size.width - (cell.lblGrade.frame.size.width + cell.lblPeriod.frame.size.width + 15)
+            }
+        }
+        //print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
         let currentColor = ClassColorsDependingOnGrade[indexPath.row]
         
-        let grade = InformationHolder.Courses[indexPath.row].Grades.Grades[Options[pickTerm.selectedRow(inComponent: 0)]]!
+        let grade = InformationHolder.Courses[indexPath.row].Grades.Grades[Options[indexOfOptions]]!
         if(grade == "-1000"){
             cell.lblGrade.text = " "
         }else{
@@ -150,7 +153,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         //Add cell color!!!!
         cell.backgroundColor = currentColor
         cell.alpha = CGFloat(0.7)
-        
+        cell.lblGrade.textAlignment = .right
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
         if InformationHolder.GlobalPreferences.ModernUI{
