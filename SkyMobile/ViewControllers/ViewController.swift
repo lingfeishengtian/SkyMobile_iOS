@@ -555,37 +555,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
 }
 }
 
-//class AccountListsTableView: UITableViewController {
-//    var AccountList: [Account] = []
-//
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return 1
-//    }
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return AccountList.count
-//    }
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return CGFloat(50)
-//    }
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = UITableViewCell(frame: CGRect(x: 10, y: 0, width: self.view.frame.width, height: 50))
-//
-//        cell.selectionStyle = .none
-//        let text = UILabel()
-//        text.text = AccountList[indexPath.row].NickName
-//        text.frame = CGRect(x: 0, y: 0, width: 400, height: 40)
-//        cell.addSubview(text)
-//        cell.backgroundColor = UIColor.clear
-//        return cell
-//    }
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let AccountSelected = AccountList[indexPath.row]
-//        LoginScreen.UserName = AccountSelected.Username
-//        LoginScreen.Password = AccountSelected.Password
-//        LoginScreen.AttemptLogin()
-//    }
-//}
-
 extension UITextField {
     
     func underlined(){

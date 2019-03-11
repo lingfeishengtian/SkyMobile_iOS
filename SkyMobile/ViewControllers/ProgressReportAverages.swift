@@ -14,7 +14,8 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
 
     var ClassColorsDependingOnGrade: [UIColor] = []
     @IBOutlet weak var pickTerm: UIPickerView!
-    
+    @IBOutlet weak var TableConstraintLeft: NSLayoutConstraint!
+    @IBOutlet weak var TableConstraintRight: NSLayoutConstraint!
     @IBOutlet var MainGradientView: GradientView!
     @IBOutlet weak var TableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
@@ -51,10 +52,10 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         let ShouldBeDisplay = GuessShouldDisplayScreen(Courses: InformationHolder.Courses)
         indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
-       ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
     }
     
     override func viewDidLoad() {
+        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
         //InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
         InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
@@ -64,6 +65,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         table.delegate = self
         table.dataSource = self
         table.bounces = false
+        table.backgroundColor = .clear
         pickTerm.delegate = self
         pickTerm.dataSource = self
         
@@ -71,7 +73,9 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         RefreshTable()
         if InformationHolder.GlobalPreferences.ModernUI{
             MainGradientView.secondColor = MainGradientView.firstColor
-        }
+                TableConstraintLeft.constant = 10
+                TableConstraintRight.constant = -10
+            }
     }
     
     override func viewDidLayoutSubviews() {
@@ -134,6 +138,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         cell.lblClassDesc.text = String(InformationHolder.Courses[indexPath.row].Class)
         cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
         print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
+        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
         
         let grade = InformationHolder.Courses[indexPath.row].Grades.Grades[Options[pickTerm.selectedRow(inComponent: 0)]]!
         if(grade == "-1000"){
@@ -143,11 +148,14 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         }
         //cell.lblClassDesc.sizeToFit()
         //Add cell color!!!!
-        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
         cell.backgroundColor = currentColor
         cell.alpha = CGFloat(0.7)
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        
+        if InformationHolder.GlobalPreferences.ModernUI{
+            cell.layer.cornerRadius = 5
+        }
         return cell;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -324,19 +332,19 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         alertController.addAction(confirmedAction)
         present(alertController, animated: true, completion: nil)
     }
+    
     @IBAction func ShowMoreMenuItems(_ sender: Any) {
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseIn, .transitionCurlDown] ,animations: {
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.transitionCurlDown] ,animations: {
                 for view in self.moreMenuItemsStackView.arrangedSubviews{
                     let btn = view as? UIButton
                     btn?.backgroundColor = .clear
                     if InformationHolder.GlobalPreferences.ModernUI{
-                        btn?.backgroundColor = UIColor.black
+                        btn?.backgroundColor = UIColor(red: 57/255, green: 57/255, blue: 57/255, alpha: 1)
                         btn?.setTitleColor(UIColor.white, for: .normal)
                     }
                     btn?.layer.cornerRadius = 5
                     btn?.layer.borderWidth = 1
                     btn?.layer.borderColor = UIColor.black.cgColor
-                    //btn?.frame = CGRect(x: btn!.frame.minX, y: (btn?.frame.minY)!, width: (btn?.frame.width)!, height: 50)
                     UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
                       view.isHidden = !view.isHidden
                     })
