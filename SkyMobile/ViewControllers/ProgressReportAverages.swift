@@ -28,6 +28,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                     "PR3",
                     "PR4",
                     "T2",
+                    "SE1",
                     "S1",
                     "PR5",
                     "PR6",
@@ -35,6 +36,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                     "PR7",
                     "PR8",
                     "T4",
+                    "SE2",
                     "S2",
                     "FIN"]
     var indexOfOptions = 0;
@@ -63,6 +65,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(InformationHolder.SkywardWebsite)
         
+        print(InformationHolder.Courses)
         table.reloadData()
         table.delegate = self
         table.dataSource = self
@@ -118,83 +121,72 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        indexOfOptions = row
-        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
-        table.reloadData()
-        RefreshTable()
+            indexOfOptions = row
+            ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
+            table.reloadData()
+            RefreshTable()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return InformationHolder.Courses.count;
+        return InformationHolder.Courses.count * 2 - 1;
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        //Find cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! GradeTableViewCell
         
-        //Add cell text
-        cell.lblPeriod.text = String(InformationHolder.Courses[indexPath.row].Period)
-        cell.lblClassDesc.text = String(InformationHolder.Courses[indexPath.row].Class)
-        //cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
-        for ClassDescConstraint in cell.lblClassDesc.constraints{
-            if ClassDescConstraint.identifier == "ClassDescWidth"{
-                ClassDescConstraint.constant = cell.frame.size.width - (cell.lblGrade.frame.size.width + cell.lblPeriod.frame.size.width + 15)
+        if indexPath.row % 2 == 0{
+            //Add cell text
+            cell.lblPeriod.text = String(InformationHolder.Courses[indexPath.row/2].Period)
+            cell.lblClassDesc.text = String(InformationHolder.Courses[indexPath.row/2].Class)
+            //cell.lblGrade.frame.origin = CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY)
+            for ClassDescConstraint in cell.lblClassDesc.constraints{
+                if ClassDescConstraint.identifier == "ClassDescWidth"{
+                    ClassDescConstraint.constant = cell.frame.size.width - (cell.lblGrade.frame.size.width + cell.lblPeriod.frame.size.width + 15)
+                }
             }
-        }
-        //print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
-        let currentColor = ClassColorsDependingOnGrade[indexPath.row]
-        
-        let grade = InformationHolder.Courses[indexPath.row].Grades.Grades[Options[indexOfOptions]]!
-        if(grade == "-1000"){
-            cell.lblGrade.text = " "
+            //print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
+            let currentColor = ClassColorsDependingOnGrade[indexPath.row/2]
+            
+            let grade = InformationHolder.Courses[indexPath.row/2].Grades.Grades[Options[indexOfOptions]]!
+            if(grade == "-1000"){
+                cell.lblGrade.text = " "
+            }else{
+                cell.lblGrade.text = (grade)
+            }
+            //cell.lblClassDesc.sizeToFit()
+            //Add cell color!!!!
+            cell.backgroundColor = currentColor
+            cell.alpha = CGFloat(0.7)
+            cell.lblGrade.textAlignment = .right
+            cell.selectionStyle = UITableViewCell.SelectionStyle.none
+            
+            if InformationHolder.GlobalPreferences.ModernUI{
+                cell.layer.cornerRadius = 5
+            }
         }else{
-            cell.lblGrade.text = (grade)
-        }
-        //cell.lblClassDesc.sizeToFit()
-        //Add cell color!!!!
-        cell.backgroundColor = currentColor
-        cell.alpha = CGFloat(0.7)
-        cell.lblGrade.textAlignment = .right
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
-        
-        if InformationHolder.GlobalPreferences.ModernUI{
-            cell.layer.cornerRadius = 5
+            cell.isHidden = true
+            cell.backgroundColor = .clear
         }
         return cell;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        if indexPath.row % 2 == 0{
+            return 44
+        }else{
+            if InformationHolder.GlobalPreferences.ModernUI{
+                return 3
+            }else{
+                return 0
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       GetAssignments(indexOfCourse: indexPath.row, indexOfOptions: indexOfOptions)
-    }
-    
-//    func GetAssignments(InformationHolder.SkywardWebsite: WKWebView,indexOfCourse indexOfClass: Int, indexOfOptions:Int){
-//        var javaScript = "document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + Options[indexOfOptions] + "\\\"]\").click();"
-//        print(javaScript)
-//        loadingCircle.startAnimating()
-//        HideView.isHidden = false
-//        InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
-//        }
-//        _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { (timer) in
-//        javaScript = "document.documentElement.outerHTML.toString()"
-//        InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
-//                if error == nil {
-//                    let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-//                    let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
-//                    vc.InformationHolder.SkywardWebsite = self.InformationHolder.SkywardWebsite;
-//                    vc.Class = self.InformationHolder.Courses[indexOfClass].Class
-//                    vc.Term = self.Options[indexOfOptions]
-//                    vc.HTMLCodeFromGradeClick = result as! String
-//                    vc.InformationHolder.Courses = self.InformationHolder.Courses
-//                    self.present(vc, animated: true, completion: nil)
-//                }
-//            }
-//        }
-//    }
-    func delay(_ delay:Double, closure:@escaping ()->()) {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
+        if Int(InformationHolder.Courses[indexPath.row/2].Grades.Grades[Options[indexOfOptions]] ?? "NA") != nil{
+            GetAssignments(indexOfCourse: indexPath.row/2, indexOfOptions: indexOfOptions)
+        }else{
+            importantUtils.DisplayErrorMessage(message: "You dont have any grades in this class this term!")
+        }
     }
     
     fileprivate func helperClickAssignmentValue(indexOfClass: Int, indexOfOptions: Int){
@@ -279,14 +271,9 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     
     func GuessShouldDisplayScreen(Courses: [Course]) -> String{
         var CurrentGuess = Options[0]
-        for course in InformationHolder.Courses{
-            for term in Options{
-                if course.Grades.Grades[term] == "-1000"{
-                    break
-                }
-                let isSatisfy = term.contains("PR") || term.contains("T")
-                let indexSatisfy = abs(Options.firstIndex(of: term)!.distance(to: 0)) > abs(Options.firstIndex(of: CurrentGuess)!.distance(to: 0))
-                if isSatisfy && indexSatisfy {
+        for term in Options{
+            for course in InformationHolder.Courses{
+                if Int(course.Grades.Grades[term] ?? "NA") != nil && term != "S1" && term != "S2"{
                     CurrentGuess = term
                 }
             }

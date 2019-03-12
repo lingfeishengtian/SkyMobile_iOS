@@ -12,7 +12,10 @@ import UIKit
 class SettingsViewController: UIViewController{
     
     @IBOutlet weak var SettingsNavigationItem: UINavigationItem!
-    @IBOutlet weak var TableContainerView: UIView!
+    @IBOutlet var WidthsToModify: [NSLayoutConstraint]!
+    @IBOutlet weak var ModernUISwitch: UISwitch!
+    @IBOutlet weak var AuthenticationSwitch: UISwitch!
+    @IBOutlet var SettingsSections: [UIView]!
     
     var AccountsStored: [Account] = []
     var CurrentPreferences = Preferences()
@@ -25,12 +28,21 @@ class SettingsViewController: UIViewController{
         SettingsNavigationItem.hidesBackButton = false
         
         CurrentPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
+        SetupPreferences()
+        
+        let Width = self.view.frame.size.width
+        for Constraint in WidthsToModify{
+            Constraint.constant = Width-10
+        }
+        for Section in SettingsSections{
+            Section.layer.cornerRadius = 5
+        }
     }
 
-    func SetUpAccounts(){
-        if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
-            AccountsStored = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Account]
-        }
+    func SetupPreferences(){
+        InformationHolder.GlobalPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
+        ModernUISwitch.isOn = InformationHolder.GlobalPreferences.ModernUI
+        AuthenticationSwitch.isOn = InformationHolder.GlobalPreferences.BiometricEnabled
     }
     
     @objc func goBack(_ sender: Any){
@@ -51,18 +63,15 @@ class SettingsViewController: UIViewController{
         let ArchivedPrefs = NSKeyedArchiver.archivedData(withRootObject: pref)
         UserDefaults.standard.set(ArchivedPrefs, forKey: "Preferences")
     }
-}
-
-class TableSettingsViewController: UITableViewController{
-    @IBOutlet weak var ModernUISwitch: UISwitch!
     
-    @IBAction func ModernUISwitchChanged(_ sender: Any) {
-        let New = SettingsViewController.LoadPreferencesFromSavedLibrary()
-        New.ModernUI = ModernUISwitch.isOn
-        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: New)
+    @IBAction func ModernUISwitchChanged(_ sender: UISwitch) {
+        InformationHolder.GlobalPreferences.ModernUI = sender.isOn
+        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
     }
     
-    override func viewDidLoad() {
-        ModernUISwitch.isOn = InformationHolder.GlobalPreferences.ModernUI
+    @IBAction func BiometricAuthenticationSwitchChanged(_ sender: UISwitch) {
+        InformationHolder.GlobalPreferences.BiometricEnabled = sender.isOn
+        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
     }
+    
 }

@@ -134,6 +134,8 @@ class ImportantUtils {
             return "Regular"
         }
     }
+    
+    @available(*, deprecated, message: "This function still uses SwiftSoup, try to avoid using this.")
     func GetMajorAndDailyGrades(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentGrades{
         var DailyGrades:[Assignment] = [];
         var MajorGrades:[Assignment] = [];
@@ -147,7 +149,7 @@ class ImportantUtils {
             
             for assignment in finalGrades{
                 var assignmentDesc = try assignment.text()
-                if assignmentDesc.contains("DAILY weighted at 50.00%") {
+                if assignmentDesc.contains("DAILY") {
                     do{
                         let dText =  try assignment.select(".bld.aRt").text()
                         if !dText.split(separator: " ").isEmpty{
@@ -186,6 +188,63 @@ class ImportantUtils {
         return finalAssignment
     }
     
+    func RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentGrades{
+        var DailyGrades:[Assignment] = [];
+        var MajorGrades:[Assignment] = [];
+        do{
+            //HINT: document.querySelector("#gradeInfoDialog").querySelectorAll("tbody")[2].querySelectorAll("tr.sf_Section,.odd,.even")
+            let document = try HTML(html: htmlCode, encoding: .utf8)
+            let elements = document.css("#gradeInfoDialog")
+            let elements1 = elements.first!.css("tbody")
+            let finalGrades = elements1.first!.css("tr.sf_Section,.odd,.even")
+            var isDaily = true
+            var findingFirstGrade = true
+            
+            for assignment in finalGrades{
+                let assignmentDesc = assignment.text
+                if (assignment.toHTML?.contains("sf_Section"))!{
+                    if assignmentDesc!.contains("DAILY") {
+                            let dText =   assignment.css(".bld.aRt").first!.text
+                            if !dText!.split(separator: " ").isEmpty{
+                                DailyGrade = String(dText!.split(separator: " ")[0])
+                            }
+                        isDaily = true
+                    }else if assignmentDesc!.contains("MAJOR") {
+                            let dText =  assignment.css(".bld.aRt").first!.text
+                            if !dText!.split(separator: " ").isEmpty{
+                                MajorGrade = String(dText!.split(separator: " ")[0])
+                            }
+                        isDaily = false
+                    }
+                    findingFirstGrade = false
+                }else if !findingFirstGrade{
+                    let FoundElements = assignment.css("td")
+                    var grade = ""
+                    var assignmentDesc = ""
+                    for elem in FoundElements{
+                        if let assinGrade = Int(elem.text!.trimmingCharacters(in: .whitespaces)){
+                            grade = String(assinGrade)
+                        }
+                    }
+                    assignmentDesc = FoundElements[1].text!
+                    if isDaily{
+                        DailyGrades.append(Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade )) ?? -1000.0))
+                    }else{
+                        MajorGrades.append(Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade )) ?? -1000.0))
+                    }
+                }
+            }
+        } catch Exception.Error( _, let message) {
+            print(message)
+        } catch {
+            print("error")
+        }
+        var finalAssignment = AssignmentGrades(classDesc: Class)
+        finalAssignment.DailyGrades = DailyGrades
+        finalAssignment.MajorGrades = MajorGrades
+        return finalAssignment
+    }
+    
     func delay(_ delay:Double, closure:@escaping ()->()) {
         DispatchQueue.main.asyncAfter(
             deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
@@ -201,7 +260,7 @@ class ImportantUtils {
         })
     }
     
-    @available(*, deprecated, message: "Switching over to Kanna because of higher performance boost")
+    @available(*, deprecated, message: "REMOVING IN VERSION 3.1.0")
     func parseHTMLToGetGrades(htmlCodeToParse: String) -> [Course]{
         //Contains all courses that are available
         var newCourse: [Course] = []
@@ -243,7 +302,7 @@ class ImportantUtils {
     }
     
     //MARK: New function using Kanna HTML parser to retrieve class data
-    func ParseHTMLAndRetrieveGrades(html: String) -> [Course]{
+    func ParseHTMLAndRetrieveGrades(html: String, allTheTermsSeperatedByN terms: String, GradesOptionsOut:inout [String]) -> [Course]{
         var newCourse: [Course] = []
         var classes: [String] = []
         let cssSelectorCode = "tr[group-parent]"
@@ -258,16 +317,25 @@ class ImportantUtils {
                     }
                 }
                 
+                var Grades: [String:String] = [:]
+                for elem in terms.components(separatedBy: "@SWIFT_TERM_SEPARATOR@"){
+                    if !elem.isEmpty{
+                        Grades[elem] = "-1000"
+                        GradesOptionsOut.append(elem)
+                    }
+                }
+                
                 newCourse = SplitClassDescriptionForKanna(classArr: classes)
                 for elementIndex in 0...newCourse.count-1{
                     let html = elements[elementIndex].toHTML
-                    for (term, _) in newCourse[elementIndex].Grades.Grades{
                         let document1 = try? HTML(html: html!, encoding: .utf8)
-                        let gradeElem1 = document1!.css("a[data-lit=\""+term+"\"]")
+                        let gradeElem1 = document1!.css("td")
+                        var index = 0
                         for element in gradeElem1{
-                            newCourse[elementIndex].Grades.Grades[term] = element.text
+                            Grades[GradesOptionsOut[index]] = element.text
+                            index += 1
                         }
-                    }
+                    newCourse[elementIndex].Grades.Grades = Grades
                     //print("Class: " + text + "\nGrade: " + html)
                 }
             }

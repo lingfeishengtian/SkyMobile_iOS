@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 import SystemConfiguration
+import LocalAuthentication
 
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var UsernameField: UITextField!
@@ -99,6 +100,28 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }else{
             let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
             UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
+        }
+    }
+    
+    func BiometricAuthentication(){
+        if InformationHolder.GlobalPreferences.BiometricEnabled{
+            let BiometricAuthenticationContext = LAContext()
+            let BiometricAuthenticationPolicy = LAPolicy.deviceOwnerAuthentication
+            var ErrorsThatOccur: NSError?
+            
+            if BiometricAuthenticationContext.canEvaluatePolicy(BiometricAuthenticationPolicy, error: &ErrorsThatOccur){
+                BiometricAuthenticationContext.evaluatePolicy(BiometricAuthenticationPolicy, localizedReason: "Authentication required to login.") { (Status, Errors) in
+                    if Status{
+                        self.AttemptFinalInitBeforeLogin()
+                    }else{
+                        self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
+                    }
+                }
+            }else{
+                importantUtils.DisplayErrorMessage(message: "This device cannot authenticate with a password or biometrics. SkyMobile will now automatically disable biometrics.")
+            }
+        }else{
+            AttemptFinalInitBeforeLogin()
         }
     }
     
@@ -351,22 +374,39 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
         //view.addSubview(webView)
         let javascript =
-            "document.querySelector(\"div[id^=\\\"grid_stuGradesGrid\\\"]\").innerHTML"
-        self.webView.evaluateJavaScript(javascript) { (result, error) in
-            if error == nil {
-                let returnedResults = result as! String
-                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
-                InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: returnedResults)
-                InformationHolder.SkywardWebsite = self.webView
-                self.present(vc, animated: true, completion: nil)
-            }else{
-                self.importantUtils.DestroyLoadingView(views: self.view)
-                let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
-                                                               message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
-                                                               preferredStyle: .alert)
-                
-                self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
+            """
+            function PrintTerms(){
+            var FinalString = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
+            let elems = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").querySelector("table[id*=\\\"grid_stuGradesGrid\\\"]").querySelectorAll("th")
+            for(var i = 0; i < elems.length; i++){
+                FinalString = FinalString + elems[i].textContent + "@SWIFT_TERM_SEPARATOR@"
+            }
+            return FinalString
+            }
+            PrintTerms()
+            """
+        DispatchQueue.main.async {
+            self.webView.evaluateJavaScript(javascript) { (result, error) in
+                if error == nil {
+                    let returnedResults = result as! String
+                    let SplitString = returnedResults.components(separatedBy: "@SWIFT_HTML&TERMS_SEPARATION@")
+                    let html = SplitString[0]
+                    let terms = SplitString[1]
+                    let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                    let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+                    var OptionsAllowed:[String] = []
+                    InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: html, allTheTermsSeperatedByN: terms, GradesOptionsOut: &OptionsAllowed)
+                    InformationHolder.SkywardWebsite = self.webView
+                    vc.Options = OptionsAllowed
+                    self.present(vc, animated: true, completion: nil)
+                }else{
+                    self.importantUtils.DestroyLoadingView(views: self.view)
+                    let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
+                                                                   message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
+                                                                   preferredStyle: .alert)
+                    
+                    self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -475,6 +515,36 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     var runOnce = false
     
+    fileprivate func AttemptFinalInitBeforeLogin() {
+        importantUtils.DestroyLoadingView(views: self.view)
+        importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
+        InformationHolder.WebsiteStatus = WebsitePage.Gradebook
+        var isAccountPresentInStorage = false
+        for Account in AccountsStored{
+            if Account.Username == self.UserName{
+                isAccountPresentInStorage = true
+                break
+            }
+        }
+        if !isAccountPresentInStorage{
+            let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "We've detected that you are a new user! Would you like to save your credentials?", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
+                let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
+                self.AccountsStored.append(tmpAccount)
+                self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                self.getHTMLCode()
+            }
+            let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
+                self.getHTMLCode()
+            }
+            alertUserSavePassword.addAction(OKAction)
+            alertUserSavePassword.addAction(Cancel)
+            self.present(alertUserSavePassword, animated: true, completion: nil)
+        }else{
+            getHTMLCode()
+        }
+    }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.url) {
             print("### URL:", self.webViewtemp.url!)
@@ -495,34 +565,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         }
                     }
                 }
-                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" {
-                    importantUtils.DestroyLoadingView(views: self.view)
-                    importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
-                    InformationHolder.WebsiteStatus = WebsitePage.Gradebook
-                    var isAccountPresentInStorage = false
-                    for Account in AccountsStored{
-                        if Account.Username == self.UserName{
-                            isAccountPresentInStorage = true
-                            break
-                        }
-                    }
-                    if !isAccountPresentInStorage{
-                    let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "We've detected that you are a new user! Would you like to save your credentials?", preferredStyle: .alert)
-                    let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
-                        let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
-                        self.AccountsStored.append(tmpAccount)
-                        self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
-                        self.getHTMLCode()
-                    }
-                        let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
-                            self.getHTMLCode()
-                        }
-                    alertUserSavePassword.addAction(OKAction)
-                    alertUserSavePassword.addAction(Cancel)
-                        self.present(alertUserSavePassword, animated: true, completion: nil)
-                    }else{
-                    getHTMLCode()
-                    }
+                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" && InformationHolder.WebsiteStatus == WebsitePage.Home{
+                    BiometricAuthentication()
                 }
                 if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/qloggedout001.w" && !(UIApplication.topViewController() is ViewController) {
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)

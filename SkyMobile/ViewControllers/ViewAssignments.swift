@@ -98,7 +98,7 @@ class ViewAssignments: UIViewController {
                     return1 = obj as! String
                     print("OMG THERES SOMETHING HERE")
                         self.HTMLCodeFromGradeClick = return1
-                    self.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: return1, term: self.Term, Class: self.Class, DailyGrade: &self.DailyGrade, MajorGrade: &self.MajorGrade)
+                    self.Assignments = self.importantUtils.RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: return1, term: self.Term, Class: self.Class, DailyGrade: &self.DailyGrade, MajorGrade: &self.MajorGrade)
                         self.SetValuesOfGradeTableView()
                 }
             }
@@ -117,67 +117,6 @@ class ViewAssignments: UIViewController {
         let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
         self.present(vc, animated: true, completion: nil)
     }
-    
-    func GetMajorAndDailyGrades(htmlCode: String, term: String, Class: String) -> AssignmentGrades{
-        var DailyGrades:[Assignment] = [];
-        var MajorGrades:[Assignment] = [];
-        do{
-            //HINT: document.querySelector("#gradeInfoDialog").querySelectorAll("tbody")[2].querySelectorAll("tr.sf_Section,.odd,.even")
-            let document = try SwiftSoup.parse(htmlCode)
-            let elements: Elements = try document.select("#gradeInfoDialog")
-            let elements1: Elements = try elements.eq(0).select("tbody")
-            let finalGrades: Elements = try elements1.eq(2).select("tr.sf_Section,.odd,.even")
-            var isDaily = true
-        
-            for assignment in finalGrades{
-                var assignmentDesc = try assignment.text()
-                if assignmentDesc.contains("DAILY weighted at 50.00%") {
-                    do{
-                        let dText =  try assignment.select(".bld.aRt").text()
-                        DailyGrade = dText
-                    }catch{}
-                    isDaily = true
-                }else if assignmentDesc.contains("MAJOR weighted at 50.00%") {
-                    do{
-                        let dText =  try assignment.select(".bld.aRt").text()
-                        MajorGrade = dText
-                    }catch{}
-                    isDaily = false
-                }else{
-                    assignmentDesc = assignmentDesc.components(separatedBy: " out of ").dropLast().joined()
-                    let shortened = assignmentDesc.components(separatedBy: " ").dropFirst().joined(separator: " ")
-                    let grade = shortened.components(separatedBy: "  ").last?.split(separator: " ").first
-                    let finalDesc = shortened.components(separatedBy: "  ").dropLast().joined(separator: " ").components(separatedBy: " ").dropLast().joined(separator: " ")
-                    print(assignmentDesc)
-                    if isDaily{
-                        DailyGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
-                    }else{
-                        MajorGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
-                    }
-                    print(finalDesc)
-                }
-            }
-        } catch Exception.Error( _, let message) {
-            print(message)
-        } catch {
-            print("error")
-        }
-        var finalAssignment = AssignmentGrades(classDesc: Class)
-        finalAssignment.DailyGrades = DailyGrades
-        finalAssignment.MajorGrades = MajorGrades
-        return finalAssignment
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 class AssignmentViewCells: UITableViewCell{

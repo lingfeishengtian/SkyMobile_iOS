@@ -278,7 +278,9 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let CreditWorth = course.CourseCreditWorth
         let LevelAddAmt = CheckAddAmt(level: level)
         if LevelAddAmt != -1{
-            NewClassAverage += ((Double(course.Grades.Grades[term]!)!) + Double(LevelAddAmt)) * CreditWorth
+            if let AttemptedDouble = Double(course.Grades.Grades[term]!){
+                NewClassAverage += ((AttemptedDouble) + Double(LevelAddAmt)) * CreditWorth
+            }
         }else{
             FinalCount -= CreditWorth
         }
