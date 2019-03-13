@@ -138,6 +138,7 @@ class Account: NSObject, NSCoding{
 struct InformationHolder{
     static var SkywardWebsite: WKWebView = WKWebView()
     static var Courses: [Course] = []
+    static var AvailableTerms:[String] = []
     static var WebsiteStatus = WebsitePage.Login;
     static var GlobalPreferences = Preferences()
 }

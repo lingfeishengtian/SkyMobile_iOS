@@ -23,7 +23,8 @@ class SettingsViewController: UIViewController{
     
     //ADD ALLOW FOR ONLY SAVE ONE ACCOUNT PREFERENCE
     override func viewDidLoad() {
-        let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(self.goBack(_:)))
+        let backButton = UIBarButtonItem(title: "Refresh", style: .done, target: self, action: #selector(goBack(_:)))
+        
         self.SettingsNavigationItem.leftBarButtonItem = backButton
         SettingsNavigationItem.hidesBackButton = false
         
@@ -46,9 +47,15 @@ class SettingsViewController: UIViewController{
     }
     
     @objc func goBack(_ sender: Any){
-        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
-        self.present(vc, animated: true, completion: nil)
+        if InformationHolder.GlobalPreferences.ModernUI{
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc = mainStoryboard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     static func LoadPreferencesFromSavedLibrary() -> Preferences{

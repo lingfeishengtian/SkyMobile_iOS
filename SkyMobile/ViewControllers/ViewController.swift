@@ -59,7 +59,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         SavedAccountsTableView.separatorColor = UIColor.clear
         
         if isConnectedToNetwork() {
-            importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward FBISD")
             webView.navigationDelegate = self
             let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
             let request = URLRequest(url: url)
@@ -103,26 +102,43 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        importantUtils.CreateLoadingView(view: (self.view), message: "Loading Skyward FBISD")
+    }
+    
     func BiometricAuthentication(){
         if InformationHolder.GlobalPreferences.BiometricEnabled{
             let BiometricAuthenticationContext = LAContext()
-            let BiometricAuthenticationPolicy = LAPolicy.deviceOwnerAuthentication
+            let BiometricAuthenticationPolicy = LAPolicy.deviceOwnerAuthenticationWithBiometrics
+            
             var ErrorsThatOccur: NSError?
             
             if BiometricAuthenticationContext.canEvaluatePolicy(BiometricAuthenticationPolicy, error: &ErrorsThatOccur){
                 BiometricAuthenticationContext.evaluatePolicy(BiometricAuthenticationPolicy, localizedReason: "Authentication required to login.") { (Status, Errors) in
-                    if Status{
-                        self.AttemptFinalInitBeforeLogin()
-                    }else{
-                        self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                    }
+                    
+                    DispatchQueue.main.async(execute: {
+                        if let error = Errors{
+                            self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
+                            print(error)
+                        }else{
+                            if Status{
+                                self.AttemptFinalInitBeforeLogin()
+                            }else{
+                                self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
+                            }
+                        }
+                    })
                 }
             }else{
-                importantUtils.DisplayErrorMessage(message: "This device cannot authenticate with a password or biometrics. SkyMobile will now automatically disable biometrics.")
+                importantUtils.DisplayErrorMessage(message: "Biometrics haven't been set in settings. SkyMobile will now automatically disable biometrics.")
+                InformationHolder.GlobalPreferences.BiometricEnabled = false
+                SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
             }
         }else{
             AttemptFinalInitBeforeLogin()
         }
+        importantUtils.DestroyLoadingView(views: self.view)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -286,7 +302,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     func AttemptLogin() {
         importantUtils.CreateLoadingView(view: self.view, message: "Logging in...")
         let javascript = "login.value = \"\(UserName)\"; password.value = \"\(Password)\"; bLogin.click();"
-        webView.evaluateJavaScript(javascript, completionHandler: nil)
+        DispatchQueue.main.async {
+            self.webView.evaluateJavaScript(javascript, completionHandler: nil)
+        }
         
         let javascrip1t = """
                         function check(){
@@ -316,6 +334,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 }
                 times+=1
                 print(times)
+                DispatchQueue.main.async {
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error != nil{
                         self.importantUtils.DestroyLoadingView(views: self.view)
@@ -323,9 +342,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                         Invalid.addAction(ok)
                         self.present(Invalid, animated: true, completion: nil)
-                        self.SubmitBtn.isEnabled = true
+                        self.enableButton(bool: true)
                         self.changeColorOfButton(color: UIColor.red)
                         finished = true
+                        let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                        let request = URLRequest(url: url)
+                        self.webView.load(request)
                         timer.invalidate()
                     }
                     if let out = result as? String{
@@ -346,7 +368,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                             timer.invalidate()
                         }
                 }
-        
+                    }
         }
     }
         //perform(#selector(ShowError), with: nil, afterDelay: 40)
@@ -392,13 +414,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     let SplitString = returnedResults.components(separatedBy: "@SWIFT_HTML&TERMS_SEPARATION@")
                     let html = SplitString[0]
                     let terms = SplitString[1]
-                    let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                    let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
                     var OptionsAllowed:[String] = []
                     InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: html, allTheTermsSeperatedByN: terms, GradesOptionsOut: &OptionsAllowed)
                     InformationHolder.SkywardWebsite = self.webView
-                    vc.Options = OptionsAllowed
-                    self.present(vc, animated: true, completion: nil)
+                    if InformationHolder.GlobalPreferences.ModernUI{
+                        let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+                        InformationHolder.AvailableTerms = OptionsAllowed
+                        self.present(vc, animated: true, completion: nil)
+                    }else{
+                        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                        let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+                        InformationHolder.AvailableTerms = OptionsAllowed
+                        self.present(vc, animated: true, completion: nil)
+                    }
                 }else{
                     self.importantUtils.DestroyLoadingView(views: self.view)
                     let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
@@ -467,7 +496,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         if AccountsStored.count == 0{
             tableView.isHidden = true
         }else{
-            return AccountsStored.count * 2 - 1
+            return AccountsStored.count * 2
         }
         return 0
     }
@@ -557,12 +586,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 print("ACCESS")
                 if webViewtemp.url!.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
+                    DispatchQueue.main.async {
                     self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
                         if err == nil{
                             self.webView = self.webViewtemp
                             self.runOnce = true
                             InformationHolder.WebsiteStatus = WebsitePage.Home
                         }
+                    }
                     }
                 }
                 if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" && InformationHolder.WebsiteStatus == WebsitePage.Home{
@@ -586,10 +617,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         print("TESTGOING")
                         InformationHolder.WebsiteStatus = WebsitePage.AcademicHistory
                         let GPACalc = CurrentTop as! GPACalculatorViewController
+                        DispatchQueue.main.async {
                         InformationHolder.SkywardWebsite.evaluateJavaScript(LegacyGradeSweeperAPI.JavaScriptToScrapeGrades){(result, error) in
                             if(error == nil){
                                 print("GOING")
                                 GPACalc.RetrieveGradeInformation(grades: LegacyGradeSweeperAPI.ScrapeLegacyGrades(configuredString: result as! String))
+                            }
                             }
                         }
                     }

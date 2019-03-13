@@ -12,33 +12,16 @@ import WebKit
 
 class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
     
+    @IBOutlet weak var LogoutButton: UIButton!
     @IBOutlet weak var pickTerm: UIPickerView!
-    //@IBOutlet weak var TableTrailing: NSLayoutConstraint!
-    //@IBOutlet weak var TableLeading: NSLayoutConstraint!
+    @IBOutlet weak var NavBar: UINavigationBar!
+    @IBOutlet weak var NavBarItems: UINavigationItem!
     @IBOutlet var MainGradientView: GradientView!
-    //@IBOutlet weak var TableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     let importantUtils = ImportantUtils()
     var ClassColorsDependingOnGrade: [UIColor] = []
     var TableShouldSub = 0
     
-    var Options = ["PR1",
-                    "PR2",
-                    "T1",
-                    "PR3",
-                    "PR4",
-                    "T2",
-                    "SE1",
-                    "S1",
-                    "PR5",
-                    "PR6",
-                    "T3",
-                    "PR7",
-                    "PR8",
-                    "T4",
-                    "SE2",
-                    "S2",
-                    "FIN"]
     var indexOfOptions = 0;
     var isFirstRun = true
     @IBOutlet weak var table: UITableView!
@@ -50,15 +33,15 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             TableShouldSub = 10
         }
         if IsElementaryAccount(Courses: InformationHolder.Courses){
-            for option in Options{
+            for option in InformationHolder.AvailableTerms{
                 if option.contains("PR") || option.contains("S"){
-                    Options.remove(at: Options.firstIndex(of: option)!)
+                    InformationHolder.AvailableTerms.remove(at: InformationHolder.AvailableTerms.firstIndex(of: option)!)
                 }
             }
         }
         let ShouldBeDisplay = GuessShouldDisplayScreen(Courses: InformationHolder.Courses)
-        indexOfOptions = Options.firstIndex(of: ShouldBeDisplay)!
-        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
+        indexOfOptions = InformationHolder.AvailableTerms.firstIndex(of: ShouldBeDisplay)!
+        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: InformationHolder.AvailableTerms[indexOfOptions])
         
         //InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
@@ -74,6 +57,15 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         pickTerm.delegate = self
         pickTerm.dataSource = self
 
+        if !InformationHolder.GlobalPreferences.ModernUI{
+            let NewButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ShowMoreMenuItems(_:)))
+            NavBarItems.setRightBarButton(NewButton, animated: true)
+            LogoutButton.isHidden = true
+        }
+        
+        LogoutButton.layer.cornerRadius = 5
+        LogoutButton.layer.borderWidth = 1
+        LogoutButton.layer.borderColor = UIColor.black.cgColor
         RefreshTable()
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
     }
@@ -113,23 +105,23 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Options.count
+        return InformationHolder.AvailableTerms.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Options[row]
+        return InformationHolder.AvailableTerms[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             indexOfOptions = row
-            ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: Options[indexOfOptions])
+            ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: InformationHolder.AvailableTerms[indexOfOptions])
             table.reloadData()
             RefreshTable()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return InformationHolder.Courses.count * 2 - 1;
+        return InformationHolder.Courses.count * 2;
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        //Find cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! GradeTableViewCell
@@ -147,7 +139,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             //print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
             let currentColor = ClassColorsDependingOnGrade[indexPath.row/2]
             
-            let grade = InformationHolder.Courses[indexPath.row/2].Grades.Grades[Options[indexOfOptions]]!
+            let grade = InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]]!
             if(grade == "-1000"){
                 cell.lblGrade.text = " "
             }else{
@@ -182,7 +174,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if Int(InformationHolder.Courses[indexPath.row/2].Grades.Grades[Options[indexOfOptions]] ?? "NA") != nil{
+        if Int(InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]] ?? "NA") != nil{
             GetAssignments(indexOfCourse: indexPath.row/2, indexOfOptions: indexOfOptions)
         }else{
             importantUtils.DisplayErrorMessage(message: "You dont have any grades in this class this term!")
@@ -190,21 +182,21 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     fileprivate func helperClickAssignmentValue(indexOfClass: Int, indexOfOptions: Int){
-        InformationHolder.SkywardWebsite.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + self.Options[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
+        InformationHolder.SkywardWebsite.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + InformationHolder.AvailableTerms[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
     }
     
     func GetAssignments(indexOfCourse indexOfClass: Int, indexOfOptions:Int){
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
         let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
         vc.Class = InformationHolder.Courses[indexOfClass].Class
-        vc.Term = self.Options[indexOfOptions]
+        vc.Term = InformationHolder.AvailableTerms[indexOfOptions]
         InformationHolder.SkywardWebsite = InformationHolder.SkywardWebsite
         InformationHolder.Courses = InformationHolder.Courses
         
         helperClickAssignmentValue(indexOfClass: indexOfClass, indexOfOptions: indexOfOptions)
         let javaScript = """
                         function checkForCorrectClass(){
-                        if(document.querySelector("table[id^=grid_stuGradeInfoGrid]").querySelector("a").text == "\(InformationHolder.Courses[indexOfClass].Class)" && sf_DialogTitle_gradeInfoDialog.textContent.indexOf("\(self.Options[indexOfOptions])") != -1){
+                        if(document.querySelector("table[id^=grid_stuGradeInfoGrid]").querySelector("a").text == "\(InformationHolder.Courses[indexOfClass].Class)" && sf_DialogTitle_gradeInfoDialog.textContent.indexOf("\(InformationHolder.AvailableTerms[indexOfOptions])") != -1){
                         return "Valid"
                         }
                         }
@@ -270,8 +262,8 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func GuessShouldDisplayScreen(Courses: [Course]) -> String{
-        var CurrentGuess = Options[0]
-        for term in Options{
+        var CurrentGuess = InformationHolder.AvailableTerms[0]
+        for term in InformationHolder.AvailableTerms{
             for course in InformationHolder.Courses{
                 if Int(course.Grades.Grades[term] ?? "NA") != nil && term != "S1" && term != "S2"{
                     CurrentGuess = term
@@ -324,6 +316,9 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func ShowMoreMenuItems(_ sender: Any) {
+        if InformationHolder.GlobalPreferences.ModernUI{
+            goToSettings(sender)
+        }else{
             UIView.animate(withDuration: 0.5, delay: 0.0, options: [.transitionCurlDown] ,animations: {
                 for view in self.moreMenuItemsStackView.arrangedSubviews{
                     let btn = view as? UIButton
@@ -343,6 +338,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             })
         RefreshTable()
         }
+    }
 }
 
 class GradeTableViewCell: UITableViewCell{

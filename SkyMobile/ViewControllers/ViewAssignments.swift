@@ -113,9 +113,15 @@ class ViewAssignments: UIViewController {
     }
     
     @objc func goBack(_ sender: Any) {
-        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
-        self.present(vc, animated: true, completion: nil)
+        if InformationHolder.GlobalPreferences.ModernUI{
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc = mainStoryboard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
 
