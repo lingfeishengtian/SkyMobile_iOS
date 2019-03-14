@@ -17,9 +17,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBOutlet weak var PasswordField: UITextField!
     @IBOutlet weak var SubmitBtn: UIButton!
     @IBOutlet weak var BetaInfoDisplayer: UILabel!
-    @IBOutlet weak var SavedAccountsTableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var OldSaveAccount: UITableView!
-    
     @IBOutlet weak var ModernUsernameTextField: UITextField!
     @IBOutlet weak var ModernPasswordTextField: UITextField!
     @IBOutlet var ModernView: UIView!
@@ -31,7 +29,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     let importantUtils = ImportantUtils()
     var didRun = false
     var webView = WKWebView()
-    var webViewtemp = WKWebView()
     var AccountsStored: [Account] = []
     var SavedAccountsTableView = UITableView()
 
@@ -131,14 +128,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     })
                 }
             }else{
+                importantUtils.DestroyLoadingView(views: self.view)
                 importantUtils.DisplayErrorMessage(message: "Biometrics haven't been set in settings. SkyMobile will now automatically disable biometrics.")
                 InformationHolder.GlobalPreferences.BiometricEnabled = false
                 SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
+                let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                let request = URLRequest(url: url)
+                self.webView.load(request)
+                runOnce = false
             }
         }else{
             AttemptFinalInitBeforeLogin()
         }
-        importantUtils.DestroyLoadingView(views: self.view)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -195,41 +196,17 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil {
-            let tempURL = navigationAction.request.url
-            var components = URLComponents()
-            components.scheme = tempURL?.scheme
-            components.host = tempURL?.host
-            components.path = (tempURL?.path)!
-                webViewtemp = WKWebView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), configuration: configuration)
-                webViewtemp.uiDelegate = self
-                webViewtemp.navigationDelegate = self
-                webViewtemp.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
-                self.view.addSubview(webViewtemp)
-                didRun = true
-                return webViewtemp
-        }
-        return nil
+        self.webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), configuration: configuration)
+        self.view.addSubview(self.webView)
+        self.webView.navigationDelegate = self
+        self.webView.uiDelegate = self
+        self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        return self.webView
     }
-    
-//    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-//        //importantUtils.DestroyLoadingView(views: self.view)
-//        print("call")
-//        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//        let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-//
-//        let alerttingLogout = UIAlertController(title: "Oh No!", message: "A network error occured! Please retry.", preferredStyle: .alert)
-//        let OK = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-//            UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
-//        })
-//        alerttingLogout.addAction(OK)
-//        InformationHolder.WebsiteStatus = WebsitePage.Login
-//        UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
-//    }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if !didRun{
-//            if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w" || self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"{
+            if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w"{
 //                if importantUtils.isKeyPresentInUserDefaults(key: "Userstore"){
 //                    SubmitBtn.isEnabled = false
 //                    let userstandard = UserDefaults.standard
@@ -244,7 +221,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
 //                }else{
                     importantUtils.DestroyLoadingView(views: self.view)
                }
-//            }
+           }
 //        }
 //        print("Loaded")
     }
@@ -576,20 +553,19 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.url) {
-            print("### URL:", self.webViewtemp.url!)
+            print("### URL:", self.webView.url!)
         }
 
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
             // When page load finishes. Should work on each page reload.
-            if (self.webViewtemp.estimatedProgress == 1) {
+            if (self.webView.estimatedProgress == 1) {
                 print("### EP:", self.webView.estimatedProgress)
                 print("ACCESS")
-                if webViewtemp.url!.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !runOnce{
+                if webView.url!.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
                     DispatchQueue.main.async {
-                    self.webViewtemp.evaluateJavaScript(javascript1){ obj, err in
+                    self.webView.evaluateJavaScript(javascript1){ obj, err in
                         if err == nil{
-                            self.webView = self.webViewtemp
                             self.runOnce = true
                             InformationHolder.WebsiteStatus = WebsitePage.Home
                         }

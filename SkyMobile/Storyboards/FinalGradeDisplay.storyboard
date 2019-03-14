@@ -141,7 +141,7 @@
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ai9-it-kRE">
                                 <rect key="frame" x="16" y="108" width="78" height="30"/>
-                                <color key="backgroundColor" red="1" green="0.1036627975" blue="0.1300057647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.63576323450000005" green="0.65515612499999998" blue="0.66666668650000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="78" id="cWc-8p-1kM"/>
                                 </constraints>
