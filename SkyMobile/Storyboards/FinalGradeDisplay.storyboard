@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="172" y="-1229"/>
         </scene>
-        <!--Grades-->
+        <!--Progress Report Averages-->
         <scene sceneID="969-9g-5Xl">
             <objects>
                 <viewController storyboardIdentifier="FinalGradeDisplay" id="HiN-PA-Crp" customClass="ProgressReportAverages" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
@@ -177,7 +177,9 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isHorizontal" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Grades" image="TabBar_MostViewed_2x" id="oJP-9C-D1G"/>
+                    <tabBarItem key="tabBarItem" title="" image="TabBar_MostViewed_2x" id="oJP-9C-D1G">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="LogoutButton" destination="Ai9-it-kRE" id="Nj2-fj-QhZ"/>
                         <outlet property="MainGradientView" destination="n0S-Wu-1V1" id="Rtz-Oi-ISn"/>
@@ -192,7 +194,7 @@
             </objects>
             <point key="canvasLocation" x="-671.20000000000005" y="-481.70914542728639"/>
         </scene>
-        <!--GPA Calculator-->
+        <!--Calculator View Controller-->
         <scene sceneID="nGy-sj-sJu">
             <objects>
                 <viewController storyboardIdentifier="GPACalculator" id="wNj-A7-MEt" customClass="GPACalculatorViewController" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
@@ -390,7 +392,9 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isHorizontal" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <tabBarItem key="tabBarItem" title="GPA Calculator" image="TabBar_Search_2x" id="Sz8-pI-PID"/>
+                    <tabBarItem key="tabBarItem" title="" image="TabBar_Search_2x" id="Sz8-pI-PID">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="AdvancedEnabler" destination="vdi-Qk-99B" id="NFP-P1-fTm"/>
                         <outlet property="FinalGPA" destination="qSZ-gE-FLu" id="u1q-dr-mhQ"/>
@@ -704,7 +708,78 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fHj-Hk-6VR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172" y="931"/>
+            <point key="canvasLocation" x="-201" y="940"/>
+        </scene>
+        <!--Modern Detailed Assignment View Controller-->
+        <scene sceneID="7Fd-1F-Zk1">
+            <objects>
+                <viewController storyboardIdentifier="ModernDetailedAssignmentViewer" id="oB1-SK-JSc" customClass="ModernDetailedAssignmentViewController" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ebU-6G-eHj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" barStyle="black" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hdH-KH-a3X">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                                <items>
+                                    <navigationItem title="Assignment Name" id="dhe-Pz-d1j"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vtQ-bX-jra">
+                                <rect key="frame" x="10" y="116" width="355" height="531"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DetailCell" id="Q9w-Ig-XcV" customClass="AssignmentInfoDetailedCell" customModule="SkyMobile" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="355" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Q9w-Ig-XcV" id="9pN-HI-PwV">
+                                            <rect key="frame" x="0.0" y="0.0" width="355" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4g-df-KXk">
+                                                    <rect key="frame" x="15" y="11" width="93" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Grade, etc." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPC-r9-u41">
+                                                    <rect key="frame" x="126" y="11" width="229" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="Description" destination="P4g-df-KXk" id="K98-6V-9ek"/>
+                                            <outlet property="ExpandedDetail" destination="vPC-r9-u41" id="aFZ-ox-dEJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hdH-KH-a3X" firstAttribute="trailing" secondItem="f27-F4-597" secondAttribute="trailing" id="0Lh-iZ-fRR"/>
+                            <constraint firstItem="f27-F4-597" firstAttribute="trailing" secondItem="vtQ-bX-jra" secondAttribute="trailing" constant="10" id="Hgr-4o-KLO"/>
+                            <constraint firstItem="hdH-KH-a3X" firstAttribute="leading" secondItem="f27-F4-597" secondAttribute="leading" id="Thc-qI-iDd"/>
+                            <constraint firstItem="vtQ-bX-jra" firstAttribute="bottom" secondItem="f27-F4-597" secondAttribute="bottom" constant="-20" id="UeH-F6-EZT"/>
+                            <constraint firstItem="vtQ-bX-jra" firstAttribute="top" secondItem="hdH-KH-a3X" secondAttribute="bottom" constant="20" id="azR-Fy-XVO"/>
+                            <constraint firstItem="hdH-KH-a3X" firstAttribute="top" secondItem="ebU-6G-eHj" secondAttribute="top" id="elB-MS-Fij"/>
+                            <constraint firstItem="vtQ-bX-jra" firstAttribute="leading" secondItem="f27-F4-597" secondAttribute="leading" constant="10" id="md6-82-ta9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="f27-F4-597"/>
+                    </view>
+                    <connections>
+                        <outlet property="AssignementName" destination="dhe-Pz-d1j" id="9Bv-bi-fd6"/>
+                        <outlet property="DetailedInfoTableView" destination="vtQ-bX-jra" id="57V-Xq-zg3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A5E-qv-Ic6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="488.80000000000001" y="939.58020989505258"/>
         </scene>
         <!--View Assignments-->
         <scene sceneID="S4S-Dh-noC">
@@ -849,7 +924,7 @@
             </objects>
             <point key="canvasLocation" x="172" y="238"/>
         </scene>
-        <!--Settings-->
+        <!--Settings View Controller-->
         <scene sceneID="VvZ-7Q-uxq">
             <objects>
                 <viewController storyboardIdentifier="SettingsViewController" id="7wg-xX-AYD" customClass="SettingsViewController" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
@@ -933,7 +1008,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authenticates using the available authentication method available. Methods include Face ID, Touch ID, or password." lineBreakMode="wordWrap" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUf-8Y-MaA">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authenticates using the available authentication method available. Methods include Face ID or Touch ID." lineBreakMode="wordWrap" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUf-8Y-MaA">
                                         <rect key="frame" x="8" y="229" width="370" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="90" id="4ev-SB-NME"/>
@@ -984,7 +1059,9 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="SettingsIcon" id="iIV-bl-ht3"/>
+                    <tabBarItem key="tabBarItem" title="" image="SettingsIcon" id="iIV-bl-ht3">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="AuthenticationSwitch" destination="3cl-r1-53q" id="jh7-AZ-wZ9"/>
                         <outlet property="ModernUISwitch" destination="O7e-4I-V92" id="dII-Sx-Pvn"/>

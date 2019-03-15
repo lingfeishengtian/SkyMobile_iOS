@@ -207,34 +207,7 @@ class AssignmentViewTable: UITableViewController{
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //Array.from(document.querySelectorAll('a'))
-        //.find(el => el.textContent === 'Q Map');
-        var assignmentName = ""
-        if indexPath.section == 0{
-            assignmentName = String(DailyGrades[indexPath.row].AssignmentName)
-            if DailyGrades[indexPath.row].Grade == -1000{
-                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
-                return
-            }
-        }else{
-            assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
-            if MajorGrades[indexPath.row].Grade == -1000{
-                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
-                return
-            }
-        }
-        
-        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
-        InformationHolder.SkywardWebsite = webView
-        vc.Class = self.Class
-        vc.Term = self.Term
-        vc.AssignmentNameString = assignmentName
-        vc.Assignments = self.Assignments
-        let initialAmt = HTMLCodeFromGradeClick.components(separatedBy: assignmentName).count - 1
-        importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!, message: "Getting more detail...")
-        
+    fileprivate func AttemptToDisplayDetailedAssignment(_ assignmentName: String, _ initialAmt: Int, _ vc: DetailedAssignmentViewController = DetailedAssignmentViewController(), _ vc2: ModernDetailedAssignmentViewController = ModernDetailedAssignmentViewController()) {
         AttemptToClick(assignmentName: assignmentName)
         
         var Attempts = 0;
@@ -268,9 +241,15 @@ class AssignmentViewTable: UITableViewController{
                                     let resultFinalString = result as! String
                                     print("Initial, ", initialAmt)
                                     print(resultFinalString.components(separatedBy: assignmentName).count - 1)
-                                        vc.html = resultFinalString
+                                    vc.html = resultFinalString
+                                    vc2.html = resultFinalString
+                                    
+                                    if InformationHolder.GlobalPreferences.ModernUI{
+                                        UIApplication.topViewController()?.present(vc2, animated: true, completion: nil)
+                                    }else{
                                         UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
-                                        //    timer.invalidate()
+                                    }
+                                    //    timer.invalidate()
                                 }
                                 //}
                             }
@@ -280,10 +259,54 @@ class AssignmentViewTable: UITableViewController{
                 }
             }
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //Array.from(document.querySelectorAll('a'))
+        //.find(el => el.textContent === 'Q Map');
+        var assignmentName = ""
+        if indexPath.section == 0{
+            assignmentName = String(DailyGrades[indexPath.row].AssignmentName)
+            if DailyGrades[indexPath.row].Grade == -1000{
+                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
+                return
+            }
+        }else{
+            assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
+            if MajorGrades[indexPath.row].Grade == -1000{
+                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
+                return
+            }
+        }
         
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        
+        if !InformationHolder.GlobalPreferences.ModernUI{
+            let vc : DetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "DetailedAssignmentViewer") as! DetailedAssignmentViewController
+            InformationHolder.SkywardWebsite = webView
+            vc.Class = self.Class
+            vc.Term = self.Term
+            vc.AssignmentNameString = assignmentName
+            vc.Assignments = self.Assignments
+            let initialAmt = HTMLCodeFromGradeClick.components(separatedBy: assignmentName).count - 1
+            importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!, message: "Getting more detail...")
+            
+            AttemptToDisplayDetailedAssignment(assignmentName, initialAmt, vc)
+        }else{
+            let vc : ModernDetailedAssignmentViewController = mainStoryboard.instantiateViewController(withIdentifier: "ModernDetailedAssignmentViewer") as! ModernDetailedAssignmentViewController
+            InformationHolder.SkywardWebsite = webView
+            vc.AssignmentNameString = assignmentName
+            vc.Class = self.Class
+            vc.Term = self.Term
+            let initialAmt = HTMLCodeFromGradeClick.components(separatedBy: assignmentName).count - 1
+            importantUtils.CreateLoadingView(view: (UIApplication.topViewController()?.view)!, message: "Getting more detail...")
+            
+            AttemptToDisplayDetailedAssignment(assignmentName, initialAmt,DetailedAssignmentViewController(),vc)
+        }
             }
     func AttemptToClick(assignmentName: String){
-        webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + assignmentName + "').click();", completionHandler: nil)
+        let finalString = assignmentName.replacingOccurrences(of: "'", with: "\\'")
+        webView.evaluateJavaScript("Array.from(document.querySelectorAll('a')).find(el => el.textContent === '" + finalString + "').click();", completionHandler: nil)
     }
         }
 extension UIApplication {

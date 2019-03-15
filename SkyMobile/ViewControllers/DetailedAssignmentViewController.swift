@@ -53,6 +53,7 @@ class DetailedAssignmentViewController: UIViewController {
         self.CommentScrollView.contentSize = CGSize(width: self.view.frame.width, height: Comments.frame.height + 10)
     }
     
+    @available(*, deprecated, message: "Still uses SwiftSoup")
     func parseHTMLAndSetValues(html: String){
         do{
             let document = try SwiftSoup.parse(html)
@@ -128,15 +129,4 @@ class DetailedAssignmentViewController: UIViewController {
                 self.present(vc, animated: true, completion: nil)
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
