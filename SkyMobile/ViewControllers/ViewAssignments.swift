@@ -59,32 +59,23 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.headerMajor = MajorGrade
         
         GradeTableView.reloadData()
-        
-//        let con = (GradeTableView.contentSize.height)
-//        tableViewHeightConstraint.constant = con
-//        //LabelTermLeading.constant = self.view.frame.width - 25 - lblClass.frame.width - lblTerm.frame.width
-//        //tableViewWidthConstraint.constant = self.scrollView.frame.size.width - 15
-//        //GradeTableView.frame = CGRect(x: GradeTableView.frame.minX, y: GradeTableView.frame.minY, width: self.view.frame.size.width - 15, height: con)
-//        scrollView.contentSize = CGSize(width: GradeTableView.frame.width, height:  con + 200)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        GradeTableView.layer.cornerRadius = 5
         webView = InformationHolder.SkywardWebsite
         Courses = InformationHolder.Courses
         webView.frame = CGRect(x: 0, y: 350, width: 0, height: 0)
         view.addSubview(webView)
         
-        //self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: GradeTableView.frame.height*4)
         let backButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(self.goBack(_:)))
         self.navView.leftBarButtonItem = backButton
         SetLabelText(term: Term, Class: Class)
         
         navView.hidesBackButton = false
         
-            AttemptToGetHTML()
-//         mainView.frame = CGRect(x: mainView.frame.minX, y: mainView.frame.minY, width: mainView.frame.size.width, height: GradeTableView.contentSize.height + 100)
-//        tableViewHeightConstraint.constant = GradeTableView.contentSize.height
+        AttemptToGetHTML()
     }
     
     func AttemptToGetHTML(){

@@ -221,16 +221,22 @@ class ImportantUtils {
                     let FoundElements = assignment.css("td")
                     var grade = ""
                     var assignmentDesc = ""
+                    var FinalAssignment = Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade)) ?? -1000.0)
+                    if FoundElements.count <= 1{
+                        FinalAssignment = Assignment(classDesc: Class, assignments: "No grades here...", grade: -1000)
+                    }else{
                     for elem in FoundElements{
                         if let assinGrade = Int(elem.text!.trimmingCharacters(in: .whitespaces)){
                             grade = String(assinGrade)
                         }
                     }
                     assignmentDesc = FoundElements[1].text!
+                        FinalAssignment = Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade )) ?? -1000.0)
+                    }
                     if isDaily{
-                        DailyGrades.append(Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade )) ?? -1000.0))
+                        DailyGrades.append(FinalAssignment)
                     }else{
-                        MajorGrades.append(Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade )) ?? -1000.0))
+                        MajorGrades.append(FinalAssignment)
                     }
                 }
             }

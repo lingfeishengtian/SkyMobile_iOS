@@ -165,7 +165,7 @@ class Preferences: NSObject, NSCoding{
     var ModernUI = true //Currently being implemented
     var BiometricEnabled = false
     
-    init(loginMethodStore: Bool = true, modern: Bool = false, biometricEnacted: Bool = false){
+    init(loginMethodStore: Bool = true, modern: Bool = true, biometricEnacted: Bool = false){
         AutoLoginMethodDoesStoreAllAvailableAccounts = loginMethodStore
         ModernUI = modern
         BiometricEnabled = biometricEnacted

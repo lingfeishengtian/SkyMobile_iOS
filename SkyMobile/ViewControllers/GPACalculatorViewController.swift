@@ -340,20 +340,24 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
                     let CreditWorth = Class.CourseCreditWorth
                     let className = Class.Class
                     let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
-                    if (Class.Grades.Grades["FIN"]) != "" && (Class.Grades.Grades["FIN"]) != "-1000"{
-                        CalculateNewClassAverageFromInformation(Class, &NewClassAverage, "FIN", &courseCount)
-                    }else if Class.Grades.Grades["S1"] != "" && Class.Grades.Grades["S2"] != "" && Class.Grades.Grades["S1"] != "-1000" && Class.Grades.Grades["S2"] != "-1000"{
+                    var ClassGrades = Class
+                    for (key, _) in ClassGrades.Grades.Grades{
+                        ClassGrades.Grades.Grades[key] = Class.Grades.Grades[key]?.trimmingCharacters(in: .whitespaces)
+                    }
+                    if (ClassGrades.Grades.Grades["FIN"]) != "" && (ClassGrades.Grades.Grades["FIN"]) != "-1000"{
+                        CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "FIN", &courseCount)
+                    }else if ClassGrades.Grades.Grades["S1"] != "" && ClassGrades.Grades.Grades["S2"] != "" && ClassGrades.Grades.Grades["S1"] != "-1000" && ClassGrades.Grades.Grades["S2"] != "-1000"{
                         let LevelAddAmt = CheckAddAmt(level: level)
                         if LevelAddAmt != -1{
-                            NewClassAverage += ((Double(Class.Grades.Grades["S1"]!)! + Double(Class.Grades.Grades["S2"]!)!)/2 + Double(LevelAddAmt)) * CreditWorth
+                            NewClassAverage += ((Double(ClassGrades.Grades.Grades["S1"]!)! + Double(ClassGrades.Grades.Grades["S2"]!)!)/2 + Double(LevelAddAmt)) * CreditWorth
                         }else{
                             courseCount -= CreditWorth
                         }
                         courseCount += CreditWorth
-                    }else if Class.Grades.Grades["S2"] != "" && Class.Grades.Grades["S2"] != "-1000"{
-                        CalculateNewClassAverageFromInformation(Class, &NewClassAverage, "S2", &courseCount)
-                    }else if Class.Grades.Grades["S1"] != "" && Class.Grades.Grades["S1"] != "-1000"{
-                        CalculateNewClassAverageFromInformation(Class, &NewClassAverage, "S1", &courseCount)
+                    }else if ClassGrades.Grades.Grades["S2"] != "" && ClassGrades.Grades.Grades["S2"] != "-1000"{
+                        CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "S2", &courseCount)
+                    }else if ClassGrades.Grades.Grades["S1"] != "" && ClassGrades.Grades.Grades["S1"] != "-1000"{
+                        CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "S1", &courseCount)
                     }
                 }
             }

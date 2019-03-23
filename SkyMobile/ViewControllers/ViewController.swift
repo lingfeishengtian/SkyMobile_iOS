@@ -117,12 +117,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     DispatchQueue.main.async(execute: {
                         if let error = Errors{
                             self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
+                            let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                            let request = URLRequest(url: url)
+                            self.webView.load(request)
+                            self.runOnce = false
                             print(error)
                         }else{
                             if Status{
                                 self.AttemptFinalInitBeforeLogin()
                             }else{
                                 self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
+                                let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                                let request = URLRequest(url: url)
+                                self.webView.load(request)
+                                self.runOnce = false
                             }
                         }
                     })
