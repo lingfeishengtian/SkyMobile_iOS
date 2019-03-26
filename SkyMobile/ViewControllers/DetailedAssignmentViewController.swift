@@ -53,7 +53,7 @@ class DetailedAssignmentViewController: UIViewController {
         self.CommentScrollView.contentSize = CGSize(width: self.view.frame.width, height: Comments.frame.height + 10)
     }
     
-    @available(*, deprecated, message: "Still uses SwiftSoup")
+    @available(*, deprecated, message: "Still uses SwiftSoup. Removing in Version 4.0 and above")
     func parseHTMLAndSetValues(html: String){
         do{
             let document = try SwiftSoup.parse(html)
@@ -63,9 +63,7 @@ class DetailedAssignmentViewController: UIViewController {
             //dLog_showAssignmentInfo.querySelectorAll("a[onclick]")[1].outerHTML
             var elem: String = try gradeElements.eq(0).select("a[onclick]").eq(1).parents().eq(0).html()
             if !elem.isEmpty{
-                print(elem)
                 elem = elem.components(separatedBy: "html&quot;: &quot;").last?.components(separatedBy: "&quot;, &quot;autoHide&quot").first ?? ""
-                print(elem)
                 Comments.text = elem
                 Comments.sizeToFit()
             }else{
@@ -82,10 +80,6 @@ class DetailedAssignmentViewController: UIViewController {
                 
                 for element in infoElements{
                     var elemText = try element.text()
-                    
-                    //Delete when not testing
-                    print(elemText)
-                    
                     if elemText.contains(" Date Due: "){
                         DueDate.text = elemText.components(separatedBy: " Date Due: ")[1]
                         var AssignDateTemp = elemText.components(separatedBy: " Date Due: ")[0]
@@ -112,10 +106,8 @@ class DetailedAssignmentViewController: UIViewController {
                     }
                 }
             }
-        } catch Exception.Error( _, let message) {
-            print(message)
         } catch {
-            print("error")
+            print("Error message useless, this is being removed in version 4 and above")
         }
     }
     @objc func goBack(_ sender: Any) {

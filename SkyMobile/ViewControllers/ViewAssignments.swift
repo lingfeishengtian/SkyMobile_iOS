@@ -81,21 +81,16 @@ class ViewAssignments: UIViewController {
     func AttemptToGetHTML(){
         let javaScript = "document.querySelector(\"#gradeInfoDialog\").outerHTML"
         var return1 = " "
-        // avoid deadlocks by not using .main queue here
             self.webView.evaluateJavaScript(javaScript){(obj, err) in
                 if err != nil{
-                    print("Error occured in ViewAssignments.AttemptToGetHTML() ERROR: " + (err as! String))
+                    self.importantUtils.DisplayErrorMessage(message: "There was an error getting your grades, try again.")
                 }else{
                     return1 = obj as! String
-                    print("OMG THERES SOMETHING HERE")
                         self.HTMLCodeFromGradeClick = return1
                     self.Assignments = self.importantUtils.RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: return1, term: self.Term, Class: self.Class, DailyGrade: &self.DailyGrade, MajorGrade: &self.MajorGrade)
                         self.SetValuesOfGradeTableView()
                 }
             }
-//        while !finished{
-//            sleep(1)
-//        }
     }
     
     func SetLabelText(term: String, Class: String){

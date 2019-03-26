@@ -148,7 +148,14 @@
                         <navigationBar contentMode="scaleToFill" barStyle="black" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7OL-Bu-t3p">
                             <rect key="frame" x="0.0" y="0.0" width="374" height="96"/>
                             <items>
-                                <navigationItem title="Login" id="tlD-6Q-eoB"/>
+                                <navigationItem title="Login" id="tlD-6Q-eoB">
+                                    <barButtonItem key="rightBarButtonItem" title="Settings" image="SettingsIcon" id="M5p-0d-xTJ">
+                                        <inset key="imageInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <action selector="SettingsViewTouched:" destination="BYZ-38-t0r" id="6Xj-bN-EuZ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
                             </items>
                         </navigationBar>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VGB-bt-Jfk">
@@ -236,4 +243,7 @@
             <point key="canvasLocation" x="60" y="46.326836581709152"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="SettingsIcon" width="30" height="30"/>
+    </resources>
 </document>

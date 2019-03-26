@@ -31,6 +31,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var webView = WKWebView()
     var AccountsStored: [Account] = []
     var SavedAccountsTableView = UITableView()
+    var AccountFromPreviousSession = Account(nick: "", user: "", pass: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }else{
             SavedAccountsTableView = OldSaveAccount
         }
+        
+        if Prefs.AutoLoginMethodDoesStoreAllAvailableAccounts{
+            ModernTableView.isHidden = false
+        }else{
+            ModernTableView.isHidden = true
+        }
         ModernUsernameTextField.borderStyle = .roundedRect
         ModernUsernameTextField.textColor = UIColor.white
         ModernPasswordTextField.borderStyle = .roundedRect
@@ -57,17 +64,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         
         if isConnectedToNetwork() {
             webView.navigationDelegate = self
-            let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
-            let request = URLRequest(url: url)
             webView.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
-            self.webView.navigationDelegate = self
-            self.webView.uiDelegate = self
-            //webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36"
-            
-            webView.load(request)
             view.addSubview(webView)
-            
-            webView.allowsBackForwardNavigationGestures = true
             
             self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
             let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
@@ -85,23 +83,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             
             SavedAccountsTableView.dataSource = self
             SavedAccountsTableView.delegate = self
-//            let newContentSize = CGSize(width: self.view.frame.size.width, height: 50 * CGFloat(AccountsStored.count))
-//            let defaultSize = self.view.frame.size.height/4.4
-//            SavedAccountsTableView.frame.size = newContentSize
-//            if newContentSize.height > defaultSize{
-//                SavedAccountsTableViewHeight.constant = defaultSize
-//            }else{
-//                SavedAccountsTableViewHeight.constant = newContentSize.height
-//            }
         }else{
             let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
             UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        importantUtils.CreateLoadingView(view: (self.view), message: "Loading Skyward FBISD")
+    func reloadSkyward(){
+        let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+        let request = URLRequest(url: url)
+        self.webView.navigationDelegate = self
+        self.webView.uiDelegate = self
+        webView.load(request)
     }
     
     func BiometricAuthentication(){
@@ -115,13 +108,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 BiometricAuthenticationContext.evaluatePolicy(BiometricAuthenticationPolicy, localizedReason: "Authentication required to login.") { (Status, Errors) in
                     
                     DispatchQueue.main.async(execute: {
-                        if let error = Errors{
+                        if let _ = Errors{
                             self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
                             let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
                             let request = URLRequest(url: url)
                             self.webView.load(request)
                             self.runOnce = false
-                            print(error)
                         }else{
                             if Status{
                                 self.AttemptFinalInitBeforeLogin()
@@ -151,6 +143,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward...")
+        reloadSkyward()
+        
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: false){ timer in
+            print("Idle for too long, assuming infinite looped. Exiting all loops")
+            if self.importantUtils.GetLoadingViewText(views: self.view) == "Loading Skyward..."{
+                self.importantUtils.DestroyLoadingView(views: self.view)
+            }
+        }
+        print("Timer asynchronaly loading")
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
         
@@ -167,6 +169,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             BetaInfoDisplayer.isHidden = true
             }
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -213,25 +216,22 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if !didRun{
             if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w"{
-//                if importantUtils.isKeyPresentInUserDefaults(key: "Userstore"){
-//                    SubmitBtn.isEnabled = false
-//                    let userstandard = UserDefaults.standard
-//                    let Values: [String: String] = userstandard.object(forKey: "Userstore") as! [String : String]
-//                    if Values.count >= 1{
-//                        UserName = Values.first?.key ?? "000000"
-//                        Password = Values.first?.value ?? "000000"
-//                        importantUtils.resetDefaults()
-//                        print(UserName + " " + Password)
-//                        AttemptLogin()
-//                    }
-//                }else{
                     importantUtils.DestroyLoadingView(views: self.view)
+                if !didRun{
+                    if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+                        if ImportantUtils.isKeyPresentInUserDefaults(key: "JedepomachdiniaopindieniLemachesie"){
+                            if let data = UserDefaults.standard.data(forKey: "JedepomachdiniaopindieniLemachesie"){
+                                AccountFromPreviousSession = NSKeyedUnarchiver.unarchiveObject(with: data) as! Account
+                                UserName = AccountFromPreviousSession.Username
+                                Password = AccountFromPreviousSession.Password
+                                didRun = true
+                                AttemptLogin()
+                            }
+                        }
+                    }
                }
            }
-//        }
-//        print("Loaded")
     }
     
     @objc func ShowError() {
@@ -308,6 +308,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         var finished = false;
         //while !finished{
         var times = 0
+        importantUtils.CreateLoadingView(view: self.view, message: "Logging in...")
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){timer in
                 if finished == true{
                     timer.invalidate()
@@ -318,25 +319,25 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     self.importantUtils.DisplayErrorMessage(message: "Failed to Login, please retry!")
                 }
                 times+=1
-                print(times)
                 DispatchQueue.main.async {
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error != nil{
-                        self.importantUtils.DestroyLoadingView(views: self.view)
-                        let Invalid = UIAlertController(title: "Uh-Oh", message: "A network error occurred. The network probably changed.", preferredStyle: .alert)
-                        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        Invalid.addAction(ok)
-                        self.present(Invalid, animated: true, completion: nil)
-                        self.enableButton(bool: true)
-                        self.changeColorOfButton(color: UIColor.red)
-                        finished = true
-                        let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
-                        let request = URLRequest(url: url)
-                        self.webView.load(request)
-                        timer.invalidate()
-                    }
+                        if InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+                            self.importantUtils.DestroyLoadingView(views: self.view)
+                            let Invalid = UIAlertController(title: "Uh-Oh", message: "A network error occurred. The network probably changed.", preferredStyle: .alert)
+                            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            Invalid.addAction(ok)
+                            self.present(Invalid, animated: true, completion: nil)
+                            self.enableButton(bool: true)
+                            self.changeColorOfButton(color: UIColor.red)
+                            finished = true
+                            let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                            let request = URLRequest(url: url)
+                            self.webView.load(request)
+                            timer.invalidate()
+                        }
+                    }else{
                     if let out = result as? String{
-                        print("LOOPING: OUTPUT: " + out)
                         if (out.contains("fail")){
                             self.importantUtils.DestroyLoadingView(views: self.view)
                             let Invalid = UIAlertController(title: "Uh-Oh", message: "Invalid login or password!", preferredStyle: .alert)
@@ -353,6 +354,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                             timer.invalidate()
                         }
                 }
+                    }
                     }
         }
     }
@@ -402,6 +404,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     var OptionsAllowed:[String] = []
                     InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: html, allTheTermsSeperatedByN: terms, GradesOptionsOut: &OptionsAllowed)
                     InformationHolder.SkywardWebsite = self.webView
+                    self.AccountFromPreviousSession = Account(nick: "", user: self.UserName, pass: self.Password)
+                    let encoded = NSKeyedArchiver.archivedData(withRootObject: self.AccountFromPreviousSession)
+                    UserDefaults.standard.set(encoded, forKey: "JedepomachdiniaopindieniLemachesie")
                     if InformationHolder.GlobalPreferences.ModernUI{
                         let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                         let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
@@ -450,6 +455,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             GetTextInput.addAction(OKAction)
             self.present(GetTextInput, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func SettingsViewTouched(_ sender: Any) {
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        let vc : SettingsViewController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        vc.isFromLockScreen = true
+        self.present(vc, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -533,31 +545,44 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         importantUtils.DestroyLoadingView(views: self.view)
         importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
         InformationHolder.WebsiteStatus = WebsitePage.Gradebook
-        var isAccountPresentInStorage = false
-        for Account in AccountsStored{
-            if Account.Username == self.UserName{
-                isAccountPresentInStorage = true
-                break
+        
+        if InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+            var isAccountPresentInStorage = false
+            for Account in AccountsStored{
+                if Account.Username == self.UserName{
+                    isAccountPresentInStorage = true
+                    break
+                }
             }
-        }
-        if !isAccountPresentInStorage{
-            let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "We've detected that you are a new user! Would you like to save your credentials?", preferredStyle: .alert)
-            let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
-                let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
-                self.AccountsStored.append(tmpAccount)
-                self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
-                self.getHTMLCode()
+            if !isAccountPresentInStorage{
+                let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "We've detected that you are a new user! Would you like to save your credentials?", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
+                    let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
+                    self.AccountsStored.append(tmpAccount)
+                    self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                    self.getHTMLCode()
+                }
+                let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
+                    self.getHTMLCode()
+                }
+                alertUserSavePassword.addAction(OKAction)
+                alertUserSavePassword.addAction(Cancel)
+                self.present(alertUserSavePassword, animated: true, completion: nil)
+            }else{
+                getHTMLCode()
             }
-            let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
-                self.getHTMLCode()
-            }
-            alertUserSavePassword.addAction(OKAction)
-            alertUserSavePassword.addAction(Cancel)
-            self.present(alertUserSavePassword, animated: true, completion: nil)
         }else{
             getHTMLCode()
         }
     }
+    
+    /*
+ 
+     Important note to take note of.
+     
+     iOS 11 WebView observe value sometimes cannot unwrap webview values
+     
+     */
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.url) {
@@ -567,11 +592,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
             // When page load finishes. Should work on each page reload.
             if (self.webView.estimatedProgress == 1) {
-                print("### EP:", self.webView.estimatedProgress)
-                print("ACCESS")
-                if webView.url!.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !runOnce{
+                print("### EP:", self.webView.estimatedProgress, " URL: ", self.webView.url?.absoluteString ?? "No URL?")
+                DispatchQueue.main.async {
+                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !self.runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
-                    DispatchQueue.main.async {
                     self.webView.evaluateJavaScript(javascript1){ obj, err in
                         if err == nil{
                             self.runOnce = true
@@ -598,13 +622,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfacademichistory001.w"{
                     let CurrentTop = UIApplication.topViewController()
                     if CurrentTop is GPACalculatorViewController{
-                        print("TESTGOING")
                         InformationHolder.WebsiteStatus = WebsitePage.AcademicHistory
                         let GPACalc = CurrentTop as! GPACalculatorViewController
                         DispatchQueue.main.async {
                         InformationHolder.SkywardWebsite.evaluateJavaScript(LegacyGradeSweeperAPI.JavaScriptToScrapeGrades){(result, error) in
                             if(error == nil){
-                                print("GOING")
                                 GPACalc.RetrieveGradeInformation(grades: LegacyGradeSweeperAPI.ScrapeLegacyGrades(configuredString: result as! String))
                             }
                             }

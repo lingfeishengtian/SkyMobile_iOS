@@ -72,7 +72,6 @@ class ModernDetailedAssignmentViewController: UIViewController, UITableViewDeleg
                 var elem = gradeElements.first?.css("a[onclick]")[1].parent!.toHTML ?? ""
                 if !elem.isEmpty{
                     elem = elem.components(separatedBy: "\"html\": \"").last?.components(separatedBy: "\", \"autoHide\"").first ?? ""
-                    print(elem)
                     let NewAssignmentDetailCell = InfoDetailType()
                     NewAssignmentDetailCell.Description = "Comments:"
                     NewAssignmentDetailCell.ExpandedDetail = elem

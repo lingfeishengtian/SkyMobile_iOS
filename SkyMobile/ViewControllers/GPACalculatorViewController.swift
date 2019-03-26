@@ -24,13 +24,13 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var FinalGPA: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var GPACalculatorTitle: UILabel!
-    @IBOutlet weak var tableViewHighConstraint: NSLayoutConstraint!
     @IBOutlet weak var AdvancedEnabler: UIButton!
     @IBOutlet weak var ModifyIfCourseCounts: UIButton!
     @IBOutlet weak var ResetAllCourseLevels: UIButton!
     @IBOutlet weak var InstructionsButton: UIButton!
     @IBOutlet weak var S2IndicatorLbl: UILabel!
     @IBOutlet weak var S1IndicatorLbl: UILabel!
+    @IBOutlet var MainGradientView: GradientView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +60,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             tableView.frame = CGRect(x: 5, y: TMPFrame + 10, width: TMP2Frame - CGFloat(10), height: tableView.frame.height)
             tableView.separatorColor = .clear
             tableView.separatorStyle = .none
+            MainGradientView.firstColor = MainGradientView.secondColor
         }else{
             let TMPFrame = FinalGPA.frame.maxY
             let TMP2Frame = self.view.frame.width
@@ -78,12 +79,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     @objc func attemptToDeselectAllInSection(_ sender: Any){
         _ = (sender as! UIButton).superview
                 let SectionNumber = (sender as! UIButton).tag
-                for RowNum in 0...tableView.numberOfRows(inSection: SectionNumber)-2{
-                    if RowNum % 2 == 0{
-                        let row = LegacyGrades[SectionNumber].Courses[RowNum]
-                        UserDefaults.standard.set("N/A", forKey: row.Class + "Level")
-                    }
-                }
+        for val in 0...LegacyGrades[SectionNumber].Courses.count-1{
+                let row = LegacyGrades[SectionNumber].Courses[val]
+                UserDefaults.standard.set("N/A", forKey: row.Class + "Level")
+        }
         tableView.reloadData()
         SetFinalAverageValues()
     }
@@ -201,6 +200,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             cell.Section = indexPath.section
             cell.Row = indexPath.row/2
             cell.frame.size = CGSize(width: self.tableView.frame.width, height: 44)
+            SetFinalAverageValues()
         }else{
             cell.isHidden = true
         }
@@ -262,7 +262,6 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             FinalGPA.text = "N/A"
         }
-        print(Count)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

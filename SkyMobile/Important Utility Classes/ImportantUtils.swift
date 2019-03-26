@@ -125,6 +125,15 @@ class ImportantUtils {
         }
     }
     
+    func GetLoadingViewText(views: UIView) -> String?{
+        for view in views.subviews{
+            if view.tag == 156{
+                return (view as? UILabel)?.text
+            }
+        }
+        return nil
+    }
+    
     func GuessClassLevel(className: String) -> String{
         if className.contains("PreA") || className.contains("Pre AP"){
             return "PreAP"

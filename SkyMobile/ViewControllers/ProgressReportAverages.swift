@@ -48,7 +48,6 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 250, width: 0, height: 0)
         view.addSubview(InformationHolder.SkywardWebsite)
         
-        print(InformationHolder.Courses)
         table.reloadData()
         table.delegate = self
         table.dataSource = self
@@ -61,6 +60,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             let NewButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ShowMoreMenuItems(_:)))
             NavBarItems.setRightBarButton(NewButton, animated: true)
             LogoutButton.isHidden = true
+            NavBarItems.setLeftBarButton(UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(Logout(_:))), animated: true)
         }
         
         LogoutButton.layer.cornerRadius = 5
@@ -136,7 +136,6 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                     ClassDescConstraint.constant = cell.frame.size.width - (cell.lblGrade.frame.size.width + cell.lblPeriod.frame.size.width + 15)
                 }
             }
-            //print(CGPoint(x: self.view.frame.maxX-50, y: cell.lblGrade.frame.minY))
             let currentColor = ClassColorsDependingOnGrade[indexPath.row/2]
             
             let grade = InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]]!
@@ -270,7 +269,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
-        print("GUESS::     ",CurrentGuess)
+        print("GUESS: ",CurrentGuess, ". Is this correct?")
         return CurrentGuess
     }
     @IBAction func goToGPACalculator(_ sender: Any) {
@@ -297,16 +296,25 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func Logout(_ sender: Any) {
+        var Message = "Are you sure you want to logout?"
+        if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+            Message.append(" This will remove your last session.")
+        }
+        
         let alertController = UIAlertController(title: "Logout",
-                                                message: "Are you sure you want to logout?",
+                                                message: Message,
                                                 preferredStyle: UIAlertController.Style.alert)
         let confirmAction = UIAlertAction(
         title: "No", style: UIAlertAction.Style.cancel) { (action) in
             // ...
         }
         let confirmedAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive){ (action) in
+            if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+                UserDefaults.standard.removeObject(forKey: "JedepomachdiniaopindieniLemachesie")
+            }
             let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
             let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            vc.didRun = false
             self.importantUtils.resetDefaults()
             self.present(vc, animated: true, completion: nil)
         }

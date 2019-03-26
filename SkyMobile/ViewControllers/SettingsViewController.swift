@@ -15,11 +15,15 @@ class SettingsViewController: UIViewController{
     @IBOutlet var WidthsToModify: [NSLayoutConstraint]!
     @IBOutlet weak var ModernUISwitch: UISwitch!
     @IBOutlet weak var AuthenticationSwitch: UISwitch!
+    @IBOutlet weak var LoginMethodSwitch: UISwitch!
     @IBOutlet var SettingsSections: [UIView]!
+    @IBOutlet weak var AuthenticationSwitchLabel: UILabel!
     
+    var isFromLockScreen = false
     var AccountsStored: [Account] = []
     var CurrentPreferences = Preferences()
     var TableView = UITableView(frame: CGRect())
+    var importantUtils = ImportantUtils()
     
     //ADD ALLOW FOR ONLY SAVE ONE ACCOUNT PREFERENCE
     override func viewDidLoad() {
@@ -33,10 +37,16 @@ class SettingsViewController: UIViewController{
         
         let Width = self.view.frame.size.width
         for Constraint in WidthsToModify{
-            Constraint.constant = Width-10
+            Constraint.constant = Width-11
         }
         for Section in SettingsSections{
             Section.layer.cornerRadius = 5
+        }
+        
+        if isFromLockScreen{
+            AuthenticationSwitch.isEnabled = false
+            AuthenticationSwitchLabel.text?.append("\nCannot enable or disable Biometric Authentication from Login Menu.")
+            backButton.title = "Back"
         }
     }
 
@@ -44,17 +54,24 @@ class SettingsViewController: UIViewController{
         InformationHolder.GlobalPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
         ModernUISwitch.isOn = InformationHolder.GlobalPreferences.ModernUI
         AuthenticationSwitch.isOn = InformationHolder.GlobalPreferences.BiometricEnabled
+        LoginMethodSwitch.isOn = InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts
     }
     
     @objc func goBack(_ sender: Any){
-        if InformationHolder.GlobalPreferences.ModernUI{
-            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-            let vc = mainStoryboard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+        if isFromLockScreen{
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             self.present(vc, animated: true, completion: nil)
         }else{
-            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-            let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
-            self.present(vc, animated: true, completion: nil)
+            if InformationHolder.GlobalPreferences.ModernUI{
+                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                let vc = mainStoryboard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+                self.present(vc, animated: true, completion: nil)
+            }else{
+                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+                self.present(vc, animated: true, completion: nil)
+            }
         }
     }
     
@@ -79,6 +96,26 @@ class SettingsViewController: UIViewController{
     @IBAction func BiometricAuthenticationSwitchChanged(_ sender: UISwitch) {
         InformationHolder.GlobalPreferences.BiometricEnabled = sender.isOn
         SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
+    }
+    
+    @IBAction func AutoLoginStorageSwitchChanged(_ sender: UISwitch) {
+        var LoginMethod = ""
+        if sender.isOn{
+            LoginMethod = "account storage"
+        }else{
+            LoginMethod = "saved session"
+        }
+        let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "Are you sure you want to change your login method to " + LoginMethod + "? SkyMobile saves all the accounts stored, so you won't lose your account data.", preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
+            InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts = sender.isOn
+            SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
+        }
+        let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
+            sender.isOn = !sender.isOn
+        }
+        alertUserSavePassword.addAction(OKAction)
+        alertUserSavePassword.addAction(Cancel)
+        self.present(alertUserSavePassword, animated: true, completion: nil)
     }
     
 }
