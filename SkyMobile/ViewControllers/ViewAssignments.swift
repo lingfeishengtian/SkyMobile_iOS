@@ -17,6 +17,7 @@ class ViewAssignments: UIViewController {
     var webView: WKWebView = WKWebView()
     var Term = "PR1"
     var Class = "NIL"
+    var Grade = ""
     var HTMLCodeFromGradeClick = " "
     var Courses: [Course] = []
     let importantUtils = ImportantUtils()
@@ -24,7 +25,9 @@ class ViewAssignments: UIViewController {
     var Assignments = AssignmentGrades(classDesc: "NIL")
     var DailyGrade = "-1000"
     var MajorGrade = "-1000"
+    var isEditingTableView = false
     
+    @IBOutlet weak var FinalGrade: UILabel!
     @IBOutlet weak var navView: UINavigationItem!
     @IBOutlet weak var lblClass: UILabel!
     @IBOutlet weak var lblTerm: UILabel!
@@ -44,6 +47,7 @@ class ViewAssignments: UIViewController {
         
         ColorsOfGrades = importantUtils.DetermineColor(fromAssignmentGrades: Assignments, gradingTerm: Term)
         GradeTableViewController.Colors = ColorsOfGrades
+        FinalGrade.text = Grade
         
         GradeTableViewController.DailyGrades = Assignments.DailyGrades
         GradeTableViewController.MajorGrades = Assignments.MajorGrades
@@ -57,12 +61,30 @@ class ViewAssignments: UIViewController {
         GradeTableViewController.HTMLCodeFromGradeClick = HTMLCodeFromGradeClick
         GradeTableViewController.headerDaily = DailyGrade
         GradeTableViewController.headerMajor = MajorGrade
-        
+        GradeTableViewController.TableView = GradeTableView
+        GradeTableViewController.grade = FinalGrade
+        GradeTableView.reloadData()
+    }
+    
+    @IBAction func AddAssignment(_ sender: Any) {
+        var MockAssignment = Assignment(classDesc: Class, assignments: "Mock Assignment", grade: 100.0)
+        MockAssignment.isEditableByUserInteraction = true
+        GradeTableViewController.DailyGrades.append(MockAssignment)
+        GradeTableViewController.Colors.append(UIColor.black)
+        for i in 0...GradeTableViewController.Colors.count-1{
+            GradeTableViewController.Colors[i] = UIColor.black
+        }
+        GradeTableViewController.didPressEditing = true
         GradeTableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        isEditingTableView = false
         GradeTableView.layer.cornerRadius = 5
         webView = InformationHolder.SkywardWebsite
         Courses = InformationHolder.Courses
@@ -76,6 +98,33 @@ class ViewAssignments: UIViewController {
         navView.hidesBackButton = false
         
         AttemptToGetHTML()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
+    @IBAction func EditAssignments(_ sender: UIButton) {
+        if isEditingTableView{
+            sender.setTitle("Edit", for: .normal)
+        }else{
+            sender.setTitle("Done", for: .normal)
+        }
+        isEditingTableView = !isEditingTableView
+        GradeTableViewController.isEditingTableView = isEditingTableView
+        GradeTableView.isEditing = isEditingTableView
     }
     
     func AttemptToGetHTML(){
@@ -87,7 +136,7 @@ class ViewAssignments: UIViewController {
                 }else{
                     return1 = obj as! String
                         self.HTMLCodeFromGradeClick = return1
-                    self.Assignments = self.importantUtils.RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: return1, term: self.Term, Class: self.Class, DailyGrade: &self.DailyGrade, MajorGrade: &self.MajorGrade)
+                        self.Assignments = self.importantUtils.RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: return1, term: self.Term, Class: self.Class, DailyGrade: &self.DailyGrade, MajorGrade: &self.MajorGrade)
                         self.SetValuesOfGradeTableView()
                 }
             }
@@ -114,6 +163,10 @@ class ViewAssignments: UIViewController {
 class AssignmentViewCells: UITableViewCell{
     @IBOutlet weak var lblAssignment: UILabel!
     @IBOutlet weak var lblGrade: UILabel!
+    
+    var Section = 0
+    var Row = 0
+    var isEditable = false
 }
 
 class HeaderCells: UITableViewCell{
@@ -125,7 +178,8 @@ class AssignmentViewTable: UITableViewController{
     var DailyGrades:[Assignment] = [];
     var MajorGrades:[Assignment] = [];
     var Colors:[UIColor] = []
-    
+    var TableView: UITableView = UITableView()
+    var isEditingTableView = false
     var webView: WKWebView = WKWebView()
     var Term = "PR1"
     var Class = "Nil"
@@ -136,6 +190,43 @@ class AssignmentViewTable: UITableViewController{
     var constraint: NSLayoutConstraint = NSLayoutConstraint()
     var headerDaily = "-1000"
     var headerMajor = "-1000"
+    var grade = UILabel()
+    var didPressEditing = false
+    
+    func reloadAverageValues(){
+        let AssignmentAverages = AddUpValues(grades: DailyGrades)
+        let MajorGradeAverages = AddUpValues(grades: MajorGrades)
+        headerDaily = String(AssignmentAverages)
+        headerMajor = String(MajorGradeAverages)
+        if AssignmentAverages == -1000.0{
+            headerDaily = "No Grade"
+            grade.text = String(MajorGradeAverages)
+        }else if MajorGradeAverages == -1000.0{
+            headerMajor = "No Grade"
+            grade.text = String(AssignmentAverages)
+        }else{
+            grade.text = String((AssignmentAverages+MajorGradeAverages)/2.0)
+        }
+        TableView.reloadData()
+    }
+    
+    func AddUpValues(grades: [Assignment]) -> Double{
+        var finale: Double = 0.0
+        var subVal = Double(grades.count)
+        for grade in grades{
+            if grade.Grade == -1000{
+                subVal -= 1
+            }else{
+                finale += grade.Grade
+            }
+        }
+        let num = finale/subVal
+        if num.isNaN{
+            return -1000.0
+        }else{
+            return Double(round(1000*(finale/subVal))/1000)
+        }
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2;
@@ -169,28 +260,97 @@ class AssignmentViewTable: UITableViewController{
         return 44;
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AssignmentViewCells
-        
-        if(indexPath.section == 0){
-            cell.lblAssignment.text = String(DailyGrades[indexPath.row].AssignmentName)
-            var grade = String(DailyGrades[indexPath.row].Grade)
-            if grade.contains("-1000"){
-                grade = " "
-            }
-            cell.lblGrade.text = grade
-            cell.lblGrade.textColor = Colors[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AssignmentViewCells
+        var AssignmentTMP = Assignment(classDesc: "", assignments: "", grade: -1000)
+        var ShouldIndex = indexPath.row
+        var grade = "-1000"
+        if(indexPath.section == 1){
+            AssignmentTMP = (MajorGrades[indexPath.row])
+            ShouldIndex += DailyGrades.count-1
         }else{
-            cell.lblAssignment.text = String(MajorGrades[indexPath.row].AssignmentName)
-            var grade = String(MajorGrades[indexPath.row].Grade)
-            if grade.contains("-1000"){
-                grade = " "
-            }
-            cell.lblGrade.text = grade
-            cell.lblGrade.textColor = Colors[indexPath.row + DailyGrades.count]
+            AssignmentTMP = DailyGrades[indexPath.row]
         }
+        cell.lblAssignment.text = String(AssignmentTMP.AssignmentName)
+        grade = String(AssignmentTMP.Grade)
+        if grade.contains("-1000"){
+            grade = " "
+        }
+        cell.lblGrade.text = grade
+        cell.lblGrade.textColor = Colors[ShouldIndex]
+        
+        var HasTextBox = false
+        for view in cell.subviews{
+            if let _ = view as? UITextField{
+                HasTextBox = true
+            }
+        }
+        
+        if didPressEditing && !HasTextBox{
+            //let FrameNewTextBoxShouldBe = cell.lblGrade.frame
+            let NewGradeTextBox = UITextField(frame: CGRect(x: cell.frame.width - 55 , y: cell.lblAssignment.frame.minY, width: 50, height: 23))
+            
+            NewGradeTextBox.keyboardType = .numberPad
+            cell.lblGrade.isHidden = true
+            NewGradeTextBox.placeholder = "100"
+            NewGradeTextBox.text = cell.lblGrade.text
+            cell.addSubview(NewGradeTextBox)
+            cell.Section = indexPath.section
+            cell.Row = indexPath.row
+            NewGradeTextBox.addTarget(self, action: #selector(NewGradeTextBoxValueDidChange(_:)), for: .editingDidEnd)
+        }
+        
         cell.frame.size = CGSize(width: cell.frame.width, height: 44)
         //tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.size.width, height: tableView.contentSize.height)
         return cell
+    }
+    
+    @objc func NewGradeTextBoxValueDidChange(_ sender: UITextField){
+        var NumTmpp = sender.text ?? ""
+        if let _ = NumTmpp.firstIndex(of: "."){
+            NumTmpp = String(NumTmpp.split(separator: ".").first ?? "")
+        }
+        if let cell = sender.superview as? AssignmentViewCells{
+            let row = TableView.indexPath(for: cell)?.row
+            NumTmpp = NumTmpp.trimmingCharacters(in: .whitespaces)
+            if TableView.indexPath(for: cell)?.section == 0{
+                DailyGrades[row!].Grade = Double(NumTmpp) ?? -1000
+            }else{
+                MajorGrades[row!].Grade = Double(NumTmpp) ?? -1000
+            }
+            reloadAverageValues()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if sourceIndexPath.section == 0{
+            let movedObject = DailyGrades[sourceIndexPath.row]
+            DailyGrades.remove(at: sourceIndexPath.row)
+            if destinationIndexPath.section == 0{
+                DailyGrades.insert(movedObject, at: destinationIndexPath.row)
+            }else{
+                MajorGrades.insert(movedObject, at: destinationIndexPath.row)
+            }
+        }else{
+            let movedObject = MajorGrades[sourceIndexPath.row]
+            MajorGrades.remove(at: sourceIndexPath.row)
+            if destinationIndexPath.section == 0{
+                DailyGrades.insert(movedObject, at: destinationIndexPath.row)
+            }else{
+                MajorGrades.insert(movedObject, at: destinationIndexPath.row)
+            }
+        }
+        for i in 0...Colors.count-1{
+            Colors[i] = UIColor.black
+        }
+        reloadAverageValues()
     }
     
     fileprivate func AttemptToDisplayDetailedAssignment(_ assignmentName: String, _ initialAmt: Int, _ vc: DetailedAssignmentViewController = DetailedAssignmentViewController(), _ vc2: ModernDetailedAssignmentViewController = ModernDetailedAssignmentViewController()) {

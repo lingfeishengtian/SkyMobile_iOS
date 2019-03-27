@@ -235,7 +235,7 @@ class ImportantUtils {
                         FinalAssignment = Assignment(classDesc: Class, assignments: "No grades here...", grade: -1000)
                     }else{
                     for elem in FoundElements{
-                        if let assinGrade = Int(elem.text!.trimmingCharacters(in: .whitespaces)){
+                        if let assinGrade = Double(elem.text!.trimmingCharacters(in: .whitespaces)){
                             grade = String(assinGrade)
                         }
                     }

@@ -96,6 +96,7 @@ struct Assignment: Hashable{
     var Class: String
     var AssignmentName: String
     var Grade: Double
+    var isEditableByUserInteraction: Bool = false
     
     var hashValue: Int {
         return Class.hashValue

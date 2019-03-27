@@ -191,6 +191,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         vc.Term = InformationHolder.AvailableTerms[indexOfOptions]
         InformationHolder.SkywardWebsite = InformationHolder.SkywardWebsite
         InformationHolder.Courses = InformationHolder.Courses
+        vc.Grade = String(InformationHolder.Courses[indexOfClass].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]]!)
         
         helperClickAssignmentValue(indexOfClass: indexOfClass, indexOfOptions: indexOfOptions)
         let javaScript = """

@@ -794,7 +794,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <items>
-                                    <navigationItem title="Assignment Grades" id="XLX-Yc-tZz"/>
+                                    <navigationItem title="Assignment Grades" id="XLX-Yc-tZz">
+                                        <barButtonItem key="rightBarButtonItem" style="plain" id="nzZ-ZR-8eP">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ola-7m-CQr">
+                                                <rect key="frame" x="329" y="7" width="30" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Edit"/>
+                                                <connections>
+                                                    <action selector="EditAssignments:" destination="ba0-tb-9Gb" eventType="touchUpInside" id="8qQ-AX-yfC"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Class" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3Q-17-yOk">
@@ -813,7 +824,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="udi-mc-YDr">
-                                <rect key="frame" x="8" y="150" width="359" height="509"/>
+                                <rect key="frame" x="8" y="177" width="359" height="482"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="header" id="MTW-IL-Jgl" customClass="HeaderCells" customModule="SkyMobile" customModuleProvider="target">
@@ -888,17 +899,35 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Grade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2r-nO-mgz">
+                                <rect key="frame" x="9" y="144" width="92" height="31"/>
+                                <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="30"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oya-Mp-EfJ">
+                                <rect key="frame" x="247" y="144" width="112" height="30"/>
+                                <state key="normal" title="Add Assignment"/>
+                                <connections>
+                                    <action selector="AddAssignment:" destination="ba0-tb-9Gb" eventType="touchUpInside" id="X2D-kR-tYF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="BJk-dn-9lD" secondAttribute="bottom" constant="8" id="6h6-Q4-TR4"/>
+                            <constraint firstItem="l2r-nO-mgz" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="2" id="3aa-Cj-cHc"/>
+                            <constraint firstItem="oya-Mp-EfJ" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="2" id="5V8-0p-MOh"/>
                             <constraint firstItem="68Q-ju-UaT" firstAttribute="trailing" secondItem="pYj-wZ-eqb" secondAttribute="trailing" id="6ih-th-TZn"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="trailing" secondItem="udi-mc-YDr" secondAttribute="trailing" constant="8" id="GuP-Y2-xxI"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="trailing" secondItem="BJk-dn-9lD" secondAttribute="trailing" constant="16" id="Kqc-x9-gSC"/>
+                            <constraint firstItem="pYj-wZ-eqb" firstAttribute="trailing" secondItem="oya-Mp-EfJ" secondAttribute="trailing" constant="16" id="MPg-jW-Rka"/>
                             <constraint firstItem="68Q-ju-UaT" firstAttribute="top" secondItem="82p-va-ndv" secondAttribute="top" id="NsN-bb-0rh"/>
                             <constraint firstItem="68Q-ju-UaT" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" id="UFS-dE-7Oy"/>
+                            <constraint firstItem="l2r-nO-mgz" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="9" id="X7U-D9-jye"/>
+                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="l2r-nO-mgz" secondAttribute="bottom" constant="2" id="ZTJ-dJ-9rk"/>
                             <constraint firstItem="t3Q-17-yOk" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="9" id="d00-Jl-Iak"/>
+                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="oya-Mp-EfJ" secondAttribute="bottom" constant="3" id="dsK-Wy-1Cd"/>
                             <constraint firstItem="BJk-dn-9lD" firstAttribute="top" secondItem="68Q-ju-UaT" secondAttribute="bottom" constant="15" id="gQm-hc-68H"/>
-                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="8" id="ktK-B4-3V5"/>
+                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="35" id="ktK-B4-3V5"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="bottom" secondItem="udi-mc-YDr" secondAttribute="bottom" constant="8" id="qX1-PP-ngR"/>
                             <constraint firstItem="t3Q-17-yOk" firstAttribute="top" secondItem="68Q-ju-UaT" secondAttribute="bottom" constant="15" id="uqI-gE-yLF"/>
                             <constraint firstItem="udi-mc-YDr" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="8" id="yWZ-4p-neO"/>
@@ -915,6 +944,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
+                        <outlet property="FinalGrade" destination="l2r-nO-mgz" id="SbM-lx-uJ8"/>
                         <outlet property="GradeTableView" destination="udi-mc-YDr" id="fht-Ji-zJX"/>
                         <outlet property="lblClass" destination="t3Q-17-yOk" id="UXZ-9B-lai"/>
                         <outlet property="lblTerm" destination="BJk-dn-9lD" id="j4Y-Bj-MWl"/>
