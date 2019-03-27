@@ -276,7 +276,11 @@ class AssignmentViewTable: UITableViewController{
             grade = " "
         }
         cell.lblGrade.text = grade
-        cell.lblGrade.textColor = Colors[ShouldIndex]
+        if didPressEditing{
+            cell.lblGrade.textColor = UIColor.black
+        }else{
+            cell.lblGrade.textColor = Colors[ShouldIndex]
+        }
         
         var HasTextBox = false
         for view in cell.subviews{
@@ -286,10 +290,9 @@ class AssignmentViewTable: UITableViewController{
         }
         
         if didPressEditing && !HasTextBox{
-            //let FrameNewTextBoxShouldBe = cell.lblGrade.frame
             let NewGradeTextBox = UITextField(frame: CGRect(x: cell.frame.width - 55 , y: cell.lblAssignment.frame.minY, width: 50, height: 23))
-            
             NewGradeTextBox.keyboardType = .numberPad
+            NewGradeTextBox.tag = 212
             cell.lblGrade.isHidden = true
             NewGradeTextBox.placeholder = "100"
             NewGradeTextBox.text = cell.lblGrade.text
@@ -297,6 +300,8 @@ class AssignmentViewTable: UITableViewController{
             cell.Section = indexPath.section
             cell.Row = indexPath.row
             NewGradeTextBox.addTarget(self, action: #selector(NewGradeTextBoxValueDidChange(_:)), for: .editingDidEnd)
+        }else if didPressEditing{
+            (cell.viewWithTag(212) as? UITextField)?.text = grade
         }
         
         cell.frame.size = CGSize(width: cell.frame.width, height: 44)
