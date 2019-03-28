@@ -12,16 +12,35 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var ShortcutItemPicked: String? = nil
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        ViewController.SetAccountsAs3DTouch()
+        
         return true
     }
 
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        ShortcutItemPicked = shortcutItem.type
+        
+        if let ShortcutOption = ShortcutItemPicked{
+            for account in ImportantUtils.GetAccountValuesFromStorage(){
+                if ShortcutOption == account.NickName{
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    vc.UserName = account.Username
+                    vc.Password = account.Password
+                    vc.ShouldLoginWhenFinishedLoadingSite = true
+                    
+                    UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
+                    break
+                }
+            }
+        }
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        ViewController.SetAccountsAs3DTouch()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

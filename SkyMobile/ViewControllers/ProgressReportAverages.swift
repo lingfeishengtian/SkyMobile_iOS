@@ -29,6 +29,8 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         //TestInject()
         if InformationHolder.GlobalPreferences.ModernUI{
+            MainGradientView.firstColor = UIColor(red: 57/255, green: 57/255, blue: 57/255, alpha: 1)
+            MainGradientView.secondColor = MainGradientView.firstColor
             MainGradientView.secondColor = MainGradientView.firstColor
             TableShouldSub = 10
         }
@@ -108,8 +110,11 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         return InformationHolder.AvailableTerms.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return InformationHolder.AvailableTerms[row]
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        if InformationHolder.GlobalPreferences.ModernUI{
+            return NSAttributedString(string: InformationHolder.AvailableTerms[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+        return NSAttributedString(string: InformationHolder.AvailableTerms[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

@@ -20,6 +20,7 @@ class ModernDetailedAssignmentViewController: UIViewController, UITableViewDeleg
     var Class = "Nil"
     var FinalValues: [InfoDetailType] = []
     var importantUtils = ImportantUtils()
+    var Grade = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,6 +147,7 @@ class ModernDetailedAssignmentViewController: UIViewController, UITableViewDeleg
         vc.HTMLCodeFromGradeClick = html
         vc.Class = self.Class
         vc.Term = self.Term
+        vc.Grade = Grade
         self.present(vc, animated: true, completion: nil)
     }
 }

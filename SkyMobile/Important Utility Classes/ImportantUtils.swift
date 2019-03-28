@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import WebKit
-import SwiftSoup
 import Kanna
 
 class ImportantUtils {
@@ -144,59 +143,6 @@ class ImportantUtils {
         }
     }
     
-    @available(*, deprecated, message: "This function still uses SwiftSoup, try to avoid using this.")
-    func GetMajorAndDailyGrades(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentGrades{
-        var DailyGrades:[Assignment] = [];
-        var MajorGrades:[Assignment] = [];
-        do{
-            //HINT: document.querySelector("#gradeInfoDialog").querySelectorAll("tbody")[2].querySelectorAll("tr.sf_Section,.odd,.even")
-            let document = try SwiftSoup.parse(htmlCode)
-            let elements: Elements = try document.select("#gradeInfoDialog")
-            let elements1: Elements = try elements.eq(0).select("tbody")
-            let finalGrades: Elements = try elements1.eq(2).select("tr.sf_Section,.odd,.even")
-            var isDaily = true
-            
-            for assignment in finalGrades{
-                var assignmentDesc = try assignment.text()
-                if assignmentDesc.contains("DAILY") {
-                    do{
-                        let dText =  try assignment.select(".bld.aRt").text()
-                        if !dText.split(separator: " ").isEmpty{
-                        DailyGrade = String(dText.split(separator: " ")[0])
-                        }
-                    }catch{}
-                    isDaily = true
-                }else if assignmentDesc.contains("MAJOR weighted at 50.00%") {
-                    do{
-                        let dText =  try assignment.select(".bld.aRt").text()
-                        if !dText.split(separator: " ").isEmpty{
-                        MajorGrade = String(dText.split(separator: " ")[0])
-                        }
-                    }catch{}
-                    isDaily = false
-                }else{
-                    assignmentDesc = assignmentDesc.components(separatedBy: " out of ").dropLast().joined()
-                    let shortened = assignmentDesc.components(separatedBy: " ").dropFirst().joined(separator: " ")
-                    let grade = shortened.components(separatedBy: "  ").last?.split(separator: " ").first
-                    let finalDesc = shortened.components(separatedBy: "  ").dropLast().joined(separator: " ").components(separatedBy: " ").dropLast().joined(separator: " ")
-                    if isDaily{
-                        DailyGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
-                    }else{
-                        MajorGrades.append(Assignment(classDesc: Class, assignments: finalDesc, grade: Double(String(grade ?? "-1000.0")) ?? -1000.0))
-                    }
-                }
-            }
-        } catch Exception.Error( _, let message) {
-            print(message)
-        } catch {
-            print("error")
-        }
-        var finalAssignment = AssignmentGrades(classDesc: Class)
-        finalAssignment.DailyGrades = DailyGrades
-        finalAssignment.MajorGrades = MajorGrades
-        return finalAssignment
-    }
-    
     func RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentGrades{
         var DailyGrades:[Assignment] = [];
         var MajorGrades:[Assignment] = [];
@@ -249,8 +195,6 @@ class ImportantUtils {
                     }
                 }
             }
-        } catch Exception.Error( _, let message) {
-            print(message)
         } catch {
             print("error")
         }
@@ -273,47 +217,6 @@ class ImportantUtils {
                 completion("Error in JavaScript")
             }
         })
-    }
-    
-    @available(*, deprecated, message: "REMOVING IN VERSION 3.1.0")
-    func parseHTMLToGetGrades(htmlCodeToParse: String) -> [Course]{
-        //Contains all courses that are available
-        var newCourse: [Course] = []
-        var classes: [String] = []
-        let cssSelectorCode = "tr[group-parent]"
-        //HINT: document.querySelectorAll("tr[group-parent]")[4].querySelectorAll("a[data-lit=\"T1\"]")[0].textContent
-        do{
-            let document = try SwiftSoup.parse(htmlCodeToParse)
-            print("Finished parsing")
-            // firn css selector
-            let elements: Elements = try document.select(cssSelectorCode)
-            //transform it into a local object (Item)
-            
-            for element in elements {
-                let text = try element.text()
-                if(text.contains("Period")){
-                    classes.append(text)
-                }
-            }
-            newCourse = SplitClassDescription(classArr: classes)
-            for elementIndex in 0...newCourse.count-1{
-                let html = try elements.eq(elementIndex).outerHtml()
-                for (term, _) in newCourse[elementIndex].Grades.Grades{
-                    let document1 = try SwiftSoup.parse(html)
-                    let gradeElem1: Elements = try document1.select("a[data-lit=\""+term+"\"]")
-                    for element in gradeElem1{
-                        newCourse[elementIndex].Grades.Grades[term] = (try element.text())
-                    }
-                }
-                //print("Class: " + text + "\nGrade: " + html)
-            }
-        } catch Exception.Error( _, let message) {
-            print(message)
-        } catch {
-            print("error")
-        }
-        print("DONE")
-        return newCourse
     }
     
     //MARK: New function using Kanna HTML parser to retrieve class data
@@ -417,9 +320,22 @@ class ImportantUtils {
         return finalPeriod
     }
     
-    func SaveAccountValuesToStorage(accounts: [Account]) {
+    static func SaveAccountValuesToStorage(accounts: [Account]) {
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: accounts)
         
         UserDefaults.standard.set(encodedData, forKey: "AccountStorageService")
+    }
+    
+    static func GetAccountValuesFromStorage() -> [Account]{
+        var accounts: [Account] = []
+        if ImportantUtils.isKeyPresentInUserDefaults(key: "AccountStorageService"){
+            if let data = UserDefaults.standard.data(forKey: "AccountStorageService"){
+                accounts = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Account]
+            }
+        }else{
+            let encoded = NSKeyedArchiver.archivedData(withRootObject: accounts)
+            UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
+        }
+        return accounts
     }
 }

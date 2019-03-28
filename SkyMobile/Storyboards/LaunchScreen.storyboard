@@ -19,20 +19,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SkyMobile" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssg-Og-gsi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="195"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="195" id="sMe-aj-Y74"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="63"/>
-                                <color key="textColor" red="0.97647058819999999" green="0.93725490199999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="53.5" y="290.5" width="268.5" height="86.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Bold" family="Avenir Next Condensed" pointSize="63"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ssg-Og-gsi" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="PF5-mT-HLb"/>
-                            <constraint firstItem="ssg-Og-gsi" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="XG8-Z2-q9D"/>
-                            <constraint firstAttribute="trailing" secondItem="ssg-Og-gsi" secondAttribute="trailing" id="fxa-T8-Tax"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2Uv-Oj-F5o"/>
+                            <constraint firstItem="ssg-Og-gsi" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="qT1-p1-y9u"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

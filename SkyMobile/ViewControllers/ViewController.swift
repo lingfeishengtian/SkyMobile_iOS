@@ -32,6 +32,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var AccountsStored: [Account] = []
     var SavedAccountsTableView = UITableView()
     var AccountFromPreviousSession = Account(nick: "", user: "", pass: "")
+    var ShouldLoginWhenFinishedLoadingSite = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +88,45 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
             UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
         }
+    }
+    
+    func DeveloperOnlyInjectAccountsForTestingONLY(){
+        var accounts = ImportantUtils.GetAccountValuesFromStorage()
+        print("Developer only account inject preparing to inject 10 accounts for testing.")
+        for i in 0...10{
+            accounts.append(Account(nick: "MockAccount\(i)", user: "999999", pass: "999999"))
+        }
+        ImportantUtils.SaveAccountValuesToStorage(accounts: accounts)
+    }
+    
+    func DeveloperOnlyAttemptToRemoveAllInjectedAccounts(){
+        var accounts = ImportantUtils.GetAccountValuesFromStorage()
+        print("Developer only account inject preparing to remove Mock Accounts.")
+        
+        for i in stride(from: accounts.count-1, to: 0, by: -1){
+            if accounts[i].NickName.contains("MockAccount"){
+                accounts.remove(at: i)
+            }
+        }
+        
+        ImportantUtils.SaveAccountValuesToStorage(accounts: accounts)
+    }
+    
+    static func SetAccountsAs3DTouch(){
+        var accounts: [Account] = ImportantUtils.GetAccountValuesFromStorage()
+
+        var NumOfAccountsToSet = accounts.count
+        if accounts.count > 4{
+            NumOfAccountsToSet = 5
+        }
+        
+        var ShortcutItems: [UIApplicationShortcutItem] = []
+        for accountInd in 0..<NumOfAccountsToSet{
+            let account = accounts[accountInd]
+            let ShortcutItem = UIApplicationShortcutItem(type: account.NickName, localizedTitle: account.NickName, localizedSubtitle: "Login to \(account.NickName)'s account.", icon: UIApplicationShortcutIcon(type:.search), userInfo: nil)
+            ShortcutItems.append(ShortcutItem)
+        }
+        UIApplication.shared.shortcutItems = ShortcutItems
     }
     
     func reloadSkyward(){
@@ -155,9 +195,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         print("Timer asynchronaly loading")
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
+        let dictionary = Bundle.main.infoDictionary!
+        let build = dictionary["CFBundleVersion"] as! String
         
         if isBeta {
-            let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
+            let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". Build: \(build) You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
             betaAlert.addAction(okAction)
             self.present(betaAlert, animated: true, completion: nil)
@@ -229,6 +271,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                                 AttemptLogin()
                             }
                         }
+                    }else if ShouldLoginWhenFinishedLoadingSite{
+                        ShouldLoginWhenFinishedLoadingSite = false
+                        AttemptLogin()
+                        didRun = true
                     }
                }
            }
@@ -394,6 +440,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             }
             PrintTerms()
             """
+        ViewController.SetAccountsAs3DTouch()
         DispatchQueue.main.async {
             self.webView.evaluateJavaScript(javascript) { (result, error) in
                 if error == nil {
@@ -447,7 +494,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             let OKAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
                 if let Input = GetTextInput.textFields![0].text{
                 self.AccountsStored[index].NickName = Input
-                    self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                    ImportantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                     self.SavedAccountsTableView.reloadData()
                 }
             })
@@ -469,7 +516,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             let Areyousure = UIAlertController(title: "Wait a minute!", message: "You're trying to delete this account from your saved accounts list. Are you sure?", preferredStyle: .alert)
             let YesAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
                 self.AccountsStored.remove(at: index.row/2)
-                self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                ImportantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                 self.SavedAccountsTableView.reloadData()
             })
             let Cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
@@ -483,7 +530,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
         editAction.backgroundColor = UIColor(red: 46/255, green: 117/255, blue: 232/255, alpha: 1)
         
-        return [deleteAction, editAction]
+        if indexPath.row % 2 == 0{
+            return [deleteAction, editAction]
+        }else{
+            return []
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -504,6 +555,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             return 5
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.SavedAccountsTableView.frame.width, height: 50))
         
@@ -518,6 +570,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             cell.addSubview(text)
             cell.backgroundColor = UIColor(red: 22/255, green: 22/255, blue: 22/255, alpha: 1)
             cell.layer.cornerRadius = 5
+            ViewController.SetAccountsAs3DTouch()
         }else{
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
@@ -559,7 +612,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
                     let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
                     self.AccountsStored.append(tmpAccount)
-                    self.importantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
+                    ImportantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                     self.getHTMLCode()
                 }
                 let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
