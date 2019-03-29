@@ -25,6 +25,7 @@ class ViewAssignments: UIViewController {
     var DailyGrade = "-1000"
     var MajorGrade = "-1000"
     var isEditingTableView = false
+    var index = -1
     
     @IBOutlet weak var FinalGrade: UILabel!
     @IBOutlet weak var navView: UINavigationItem!
@@ -103,6 +104,24 @@ class ViewAssignments: UIViewController {
         AttemptToGetHTML()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @IBAction func SaveCoursesToMain(_ sender: Any) {
+        if InformationHolder.GlobalPreferences.ModernUI{
+            let Warn = UIAlertController(title: "Warning", message: "Saving to courses will disable some features until you reset to default.", preferredStyle: .alert)
+            let Ok = UIAlertAction(title: "Do it", style: .default, handler: { alert in
+                InformationHolder.isModified = true
+                let DoubleGradeValue = (Double(self.FinalGrade.text!)!)
+                let Rounded = round(DoubleGradeValue)
+                InformationHolder.Courses[self.index].Grades.Grades[self.Term] = String(Int(Rounded))
+            })
+            let Cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+            Warn.addAction(Ok)
+            Warn.addAction(Cancel)
+            self.present(Warn, animated: true, completion: nil)
+        }else{
+            importantUtils.DisplayErrorMessage(message: "This is a Modern UI only function.")
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -396,7 +415,7 @@ class AssignmentViewTable: UITableViewController{
                 if Attempts % 20 == 0{
                     self.AttemptToClick(assignmentName: assignmentName)
                 }
-                if Attempts >= 61{
+                if Attempts >= 41{
                     self.importantUtils.DestroyLoadingView(views: (UIApplication.topViewController()?.view)!)
                     let CannotFindValidValue = UIAlertController(title: "Error", message: "An error occured and we cannot find this assignment. Maybe the website was reloaded?", preferredStyle: .alert)
                     let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -435,16 +454,8 @@ class AssignmentViewTable: UITableViewController{
         var assignmentName = ""
         if indexPath.section == 0{
             assignmentName = String(DailyGrades[indexPath.row].AssignmentName)
-            if DailyGrades[indexPath.row].Grade == -1000{
-                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
-                return
-            }
         }else{
             assignmentName = String(MajorGrades[indexPath.row].AssignmentName)
-            if MajorGrades[indexPath.row].Grade == -1000{
-                importantUtils.DisplayErrorMessage(message: "This assignment's grades haven't been put in yet silly.")
-                return
-            }
         }
         
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)

@@ -142,6 +142,8 @@ struct InformationHolder{
     static var AvailableTerms:[String] = []
     static var WebsiteStatus = WebsitePage.Login;
     static var GlobalPreferences = Preferences()
+    static var isModified = false
+    static var CoursesBackup: [Course] = []
 }
 
 enum WebsitePage {

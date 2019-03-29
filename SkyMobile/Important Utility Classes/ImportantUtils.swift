@@ -260,9 +260,32 @@ class ImportantUtils {
         return newCourse
     }
     
+    static func AttemptToParseHTMLAndGetAvailableAccounts(html: String) -> [String]{
+        var FinalList: [String] = []
+        
+        if let ParsedHTML = try? HTML(html: html, encoding: .utf8){
+            for People in ParsedHTML.css("a"){
+                if People.text != "All Students"{
+                    FinalList.append(People.text ?? "")
+                }
+            }
+        }else{
+            return ["@SWIFT_PROCEDURE_FAILED_ERROR"]
+        }
+        return FinalList
+    }
+    
     func DisplayErrorMessage(message: String){
         DestroyLoadingView(views: (UIApplication.topViewController()?.view)!)
         let CannotFindValidValue = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        CannotFindValidValue.addAction(OKOption)
+        UIApplication.topViewController()?.show(CannotFindValidValue, sender: nil)
+    }
+    
+    func DisplayWarningMessage(message: String){
+        DestroyLoadingView(views: (UIApplication.topViewController()?.view)!)
+        let CannotFindValidValue = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
         let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         CannotFindValidValue.addAction(OKOption)
         UIApplication.topViewController()?.show(CannotFindValidValue, sender: nil)

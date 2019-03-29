@@ -77,6 +77,12 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         RefreshTable()
     }
     
+    @IBAction func ResetToDefault(_ sender: Any) {
+        InformationHolder.Courses = InformationHolder.CoursesBackup
+        InformationHolder.isModified = false
+        table.reloadData()
+    }
+    
     func TestInject(){
         for _ in 1...99{
             InformationHolder.Courses.append(Course(period: 1111, classDesc: "TEST", teacher: "MR TESTER"))
@@ -156,6 +162,17 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             cell.lblGrade.textAlignment = .right
             cell.selectionStyle = UITableViewCell.SelectionStyle.none
             
+            if InformationHolder.isModified{
+                cell.backgroundColor = UIColor.black
+                cell.lblPeriod.textColor = UIColor.white
+                cell.lblGrade.textColor = UIColor.white
+                cell.lblClassDesc.textColor = UIColor.white
+            }else{
+                cell.lblPeriod.textColor = UIColor.black
+                cell.lblGrade.textColor = UIColor.black
+                cell.lblClassDesc.textColor = UIColor.black
+            }
+            
             if InformationHolder.GlobalPreferences.ModernUI{
                 cell.layer.cornerRadius = 5
             }
@@ -178,10 +195,14 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if Int(InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]] ?? "NA") != nil{
-            GetAssignments(indexOfCourse: indexPath.row/2, indexOfOptions: indexOfOptions)
+        if InformationHolder.isModified{
+            self.importantUtils.DisplayErrorMessage(message: "You modified one class, please reset classes to default to access class.")
         }else{
-            importantUtils.DisplayErrorMessage(message: "You dont have any grades in this class this term!")
+            if Int(InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]] ?? "NA") != nil{
+                GetAssignments(indexOfCourse: indexPath.row/2, indexOfOptions: indexOfOptions)
+            }else{
+                importantUtils.DisplayErrorMessage(message: "You dont have any grades in this class this term!")
+            }
         }
     }
     
@@ -194,6 +215,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         let vc : ViewAssignments = mainStoryboard.instantiateViewController(withIdentifier: "ViewAssignments") as! ViewAssignments
         vc.Class = InformationHolder.Courses[indexOfClass].Class
         vc.Term = InformationHolder.AvailableTerms[indexOfOptions]
+        vc.index = indexOfClass
         InformationHolder.SkywardWebsite = InformationHolder.SkywardWebsite
         InformationHolder.Courses = InformationHolder.Courses
         vc.Grade = String(InformationHolder.Courses[indexOfClass].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]]!)

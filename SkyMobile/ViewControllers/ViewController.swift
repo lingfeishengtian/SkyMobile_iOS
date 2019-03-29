@@ -424,17 +424,42 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             ModernLoginButton.isEnabled = bool
         }
     }
-    
+    var AccountSelectedFromParentalAccount = ""
+    var Expecting = false
     func getHTMLCode(){
-        // while(webView.url?.absoluteString != "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w"){ _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in}}
-        //view.addSubview(webView)
+                /*
+         function PrintTerms(){
+         var FinalString = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
+         let elems = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").querySelector("table[id*=\\\"grid_stuGradesGrid\\\"]").querySelectorAll("th")
+         for(var i = 0; i < elems.length; i++){
+         FinalString = FinalString + elems[i].textContent + "@SWIFT_TERM_SEPARATOR@"
+         }
+         FinalString = FinalString + "\n\n\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\n\n\n"
+         if (typeof sf_StudentList !== "undefined"){
+         return FinalString = FinalString + sf_StudentList.innerHTML
+         }else{
+         FinalString = FinalString + "@SWIFT_VALUE_DOES_NOT_EXIST"
+         }
+         return FinalString
+         }
+         PrintTerms()
+        */
         let javascript =
             """
             function PrintTerms(){
-            var FinalString = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
+             var FinalString = ""
+             if (typeof sf_StudentList !== "undefined"){
+            FinalString = FinalString + sf_StudentList.innerHTML
+             }else{
+             FinalString = FinalString + "@SWIFT_VALUE_DOES_NOT_EXIST"
+             }
+            FinalString = FinalString + "\\\n\\\n\\\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\\\n\\\n\\\n"
+            if (document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]") != null){
+            FinalString = FinalString + document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
             let elems = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").querySelector("table[id*=\\\"grid_stuGradesGrid\\\"]").querySelectorAll("th")
             for(var i = 0; i < elems.length; i++){
                 FinalString = FinalString + elems[i].textContent + "@SWIFT_TERM_SEPARATOR@"
+            }
             }
             return FinalString
             }
@@ -444,38 +469,58 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         DispatchQueue.main.async {
             self.webView.evaluateJavaScript(javascript) { (result, error) in
                 if error == nil {
-                    let returnedResults = result as! String
+                    let split = (result as! String).components(separatedBy: "@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST")
+                    let returnedResults = split.last!
+                    let ListedStudentValues = split.first!
                     let SplitString = returnedResults.components(separatedBy: "@SWIFT_HTML&TERMS_SEPARATION@")
-                    let html = SplitString[0]
-                    let terms = SplitString[1]
+                    let html = SplitString.first!
+                    let terms = SplitString.last!
                     var OptionsAllowed:[String] = []
-                    InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: html, allTheTermsSeperatedByN: terms, GradesOptionsOut: &OptionsAllowed)
-                    InformationHolder.SkywardWebsite = self.webView
-                    self.AccountFromPreviousSession = Account(nick: "", user: self.UserName, pass: self.Password)
-                    let encoded = NSKeyedArchiver.archivedData(withRootObject: self.AccountFromPreviousSession)
-                    UserDefaults.standard.set(encoded, forKey: "JedepomachdiniaopindieniLemachesie")
-                    if InformationHolder.GlobalPreferences.ModernUI{
-                        let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
-                        InformationHolder.AvailableTerms = OptionsAllowed
-                        self.present(vc, animated: true, completion: nil)
+                    if ListedStudentValues != "@SWIFT_VALUE_DOES_NOT_EXIST" && !self.Expecting{
+                        let MultipleAccountAlert = UIAlertController(title: "Parental Account Detected", message: "Select your prefered account.", preferredStyle: .alert)
+                        let FinalList = ImportantUtils.AttemptToParseHTMLAndGetAvailableAccounts(html: ListedStudentValues)
+                        for person in FinalList{
+                            let Action = UIAlertAction(title: person, style: .default, handler: { (action) in
+                                self.AccountSelectedFromParentalAccount = person
+                                self.webView.evaluateJavaScript("Array.from(sf_StudentList.querySelectorAll('a')).find(el => el.textContent === '" + person + "').click();", completionHandler: { result, err in
+                                    self.Expecting = true
+                                })
+                            })
+                            MultipleAccountAlert.addAction(Action)
+                        }
+                        self.present(MultipleAccountAlert, animated: true, completion: nil)
                     }else{
-                        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                        let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
-                        InformationHolder.AvailableTerms = OptionsAllowed
-                        self.present(vc, animated: true, completion: nil)
+                        self.AccountSelectedFromParentalAccount = ""
+                        self.Expecting = false
+                        InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: html, allTheTermsSeperatedByN: terms, GradesOptionsOut: &OptionsAllowed)
+                        InformationHolder.SkywardWebsite = self.webView
+                        InformationHolder.CoursesBackup = InformationHolder.Courses
+                        self.AccountFromPreviousSession = Account(nick: "", user: self.UserName, pass: self.Password)
+                        let encoded = NSKeyedArchiver.archivedData(withRootObject: self.AccountFromPreviousSession)
+                        UserDefaults.standard.set(encoded, forKey: "JedepomachdiniaopindieniLemachesie")
+                        if InformationHolder.GlobalPreferences.ModernUI{
+                            let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                            let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+                            InformationHolder.AvailableTerms = OptionsAllowed
+                            self.present(vc, animated: true, completion: nil)
+                        }else{
+                            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                            let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+                            InformationHolder.AvailableTerms = OptionsAllowed
+                            self.present(vc, animated: true, completion: nil)
+                        }
                     }
                 }else{
-                    self.importantUtils.DestroyLoadingView(views: self.view)
-                    let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
-                                                                   message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
-                                                                   preferredStyle: .alert)
-                    
-                    self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
+                        self.importantUtils.DestroyLoadingView(views: self.view)
+                        let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
+                                                                       message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
+                                                                       preferredStyle: .alert)
+                        
+                        self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
+                    }
                 }
             }
         }
-    }
     
     @objc func EditAccountName(sender: AnyObject){
         if sender.reuseIdentifier != "ERRORCANNOTFIND"{
@@ -657,8 +702,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     }
                     }
                 }
-                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" && InformationHolder.WebsiteStatus == WebsitePage.Home{
-                    BiometricAuthentication()
+                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" && (UIApplication.topViewController() is ViewController){
+                    if self.AccountSelectedFromParentalAccount == ""{
+                        BiometricAuthentication()
+                    }else{
+                        getHTMLCode()
+                    }
                 }
                 if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/qloggedout001.w" && !(UIApplication.topViewController() is ViewController) {
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)

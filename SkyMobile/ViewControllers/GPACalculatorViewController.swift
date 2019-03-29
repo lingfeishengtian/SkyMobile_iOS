@@ -10,7 +10,6 @@ import UIKit
 import WebKit
 
 class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var Courses = InformationHolder.Courses
     var LegacyGrades: [LegacyGrade] = []
     var importantUtils = ImportantUtils()
     var progress = 0
@@ -34,6 +33,9 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if InformationHolder.isModified{
+            importantUtils.DisplayWarningMessage(message: "For modified averages to work with GPA Calculator, you must modify FIN values. If there are no FIN values, then you have to modify S1, or S2 values for GPA Calculator to calculate your modified GPA correctly.")
+        }
         InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width:0, height: 0)
         self.view.addSubview(InformationHolder.SkywardWebsite)
         //tableView.frame.origin = CGPoint(x: 0, y: FinalGPA.frame.maxY + 10)
@@ -137,7 +139,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(Status == 0){
-            return Courses.count * 2
+            return InformationHolder.Courses.count * 2
         }else{
             return LegacyGrades[section].Courses.count * 2
         }
@@ -181,7 +183,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             var Class = ""
             var AmtOfCredits = 1.0
             if(Status == 0){
-                let tmp = Courses[indexPath.row/2]
+                let tmp = InformationHolder.Courses[indexPath.row/2]
                 Class = tmp.Class
                 AmtOfCredits = tmp.CourseCreditWorth
             }else{
@@ -226,9 +228,9 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     func SetFinalAverageValues() {
         if(Status == 0){
-            for Classe in 0...Courses.count-1{
-            let Class = Courses[Classe].Class
-            Courses[Classe].CourseCreditWorth = GetCourseCreditWorthFromLibrary(Class)
+            for Classe in 0...InformationHolder.Courses.count-1{
+            let Class = InformationHolder.Courses[Classe].Class
+            InformationHolder.Courses[Classe].CourseCreditWorth = GetCourseCreditWorthFromLibrary(Class)
             }
         }else{
             for Classe in 0...LegacyGrades.count-1{
@@ -268,7 +270,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         var Class = ""
 
         if(Status == 0){
-            Class = Courses[indexPath.row/2].Class
+            Class = InformationHolder.Courses[indexPath.row/2].Class
         }else{
             Class = LegacyGrades[indexPath.section].Courses[indexPath.row/2].Class
         }
@@ -328,7 +330,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         var NewClassAverage: Double = 0
         courseCount = 0
         if Status == 0{
-        for course in Courses{
+        for course in InformationHolder.Courses{
             if Int(course.Grades.Grades[term]!) != -1000{
                 CalculateNewClassAverageFromInformation(course, &NewClassAverage, term, &courseCount)
             }
@@ -401,7 +403,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }
         LegacyGrades = grades
         let tmp = LegacyGrades.removeFirst()
-        tmp.Courses = Courses
+        tmp.Courses = InformationHolder.Courses
         LegacyGrades.insert(tmp, at: 0)
         tableView.reloadData()
         importantUtils.DestroyLoadingView(views: self.view)
@@ -412,7 +414,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let cell = sender.superview?.superview as! CourseInfo
         let CourseCreditAmts = (Double(sender.selectedSegmentIndex) + 1.0)/2.0
         if Status == 0{
-            SetCourseCreditWorthLibrary(Courses[cell.Row].Class, credits: CourseCreditAmts)
+            SetCourseCreditWorthLibrary(InformationHolder.Courses[cell.Row].Class, credits: CourseCreditAmts)
         }else{
             SetCourseCreditWorthLibrary(LegacyGrades[cell.Section].Courses[cell.Row].Class, credits: CourseCreditAmts)
         }

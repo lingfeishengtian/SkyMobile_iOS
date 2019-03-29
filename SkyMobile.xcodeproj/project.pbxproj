@@ -23,7 +23,7 @@
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
 		96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* ProgressReportAverages.swift */; };
 		96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */; };
-		96991552224C685E0064D22F /* Credits Section.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96991551224C685E0064D22F /* Credits Section.storyboard */; };
+		96991552224C685E0064D22F /* TutorialsSectionAndCredits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96991551224C685E0064D22F /* TutorialsSectionAndCredits.storyboard */; };
 		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
 		96AEE146222EBBF800A3C0DE /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */; };
@@ -78,7 +78,7 @@
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		96987937216EDBA100274869 /* ProgressReportAverages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressReportAverages.swift; sourceTree = "<group>"; };
 		9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StressReliefAndEncouragement.storyboard; sourceTree = "<group>"; };
-		96991551224C685E0064D22F /* Credits Section.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Credits Section.storyboard"; sourceTree = "<group>"; };
+		96991551224C685E0064D22F /* TutorialsSectionAndCredits.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TutorialsSectionAndCredits.storyboard; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
 		96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
@@ -221,7 +221,7 @@
 				9636181A21812F51002A8B2B /* Main.storyboard */,
 				9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */,
 				9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */,
-				96991551224C685E0064D22F /* Credits Section.storyboard */,
+				96991551224C685E0064D22F /* TutorialsSectionAndCredits.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -347,7 +347,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96991552224C685E0064D22F /* Credits Section.storyboard in Resources */,
+				96991552224C685E0064D22F /* TutorialsSectionAndCredits.storyboard in Resources */,
 				9636181E21812F51002A8B2B /* Main.storyboard in Resources */,
 				963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */,
 				96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */,

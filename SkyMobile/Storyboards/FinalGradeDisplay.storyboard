@@ -47,7 +47,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <items>
-                                    <navigationItem title="Grades" id="ppU-23-RtK"/>
+                                    <navigationItem title="Grades" id="ppU-23-RtK">
+                                        <barButtonItem key="rightBarButtonItem" style="plain" id="Eci-L7-0fx">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AFm-Hg-GdJ">
+                                                <rect key="frame" x="249" y="7" width="110" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Reset to Default"/>
+                                                <connections>
+                                                    <action selector="ResetToDefault:" destination="HiN-PA-Crp" eventType="touchUpInside" id="HBV-G7-Rub"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pxX-wc-Asd">
@@ -795,16 +806,28 @@
                                 <rect key="contentStretch" x="0.0" y="0.5" width="1" height="1"/>
                                 <items>
                                     <navigationItem title="Assignment Grades" id="XLX-Yc-tZz">
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="nzZ-ZR-8eP">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ola-7m-CQr">
-                                                <rect key="frame" x="329" y="7" width="30" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Edit"/>
-                                                <connections>
-                                                    <action selector="EditAssignments:" destination="ba0-tb-9Gb" eventType="touchUpInside" id="8qQ-AX-yfC"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem style="plain" id="nzZ-ZR-8eP">
+                                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ola-7m-CQr">
+                                                    <rect key="frame" x="319" y="7" width="40" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Edit"/>
+                                                    <connections>
+                                                        <action selector="EditAssignments:" destination="ba0-tb-9Gb" eventType="touchUpInside" id="8qQ-AX-yfC"/>
+                                                    </connections>
+                                                </button>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" id="chR-7t-gb2">
+                                                <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="49X-SH-S2R">
+                                                    <rect key="frame" x="196" y="7" width="115" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Save To Courses"/>
+                                                    <connections>
+                                                        <action selector="SaveCoursesToMain:" destination="ba0-tb-9Gb" eventType="touchUpInside" id="ibb-j8-7TN"/>
+                                                    </connections>
+                                                </button>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -875,7 +898,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkR-d0-d5S">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grade" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkR-d0-d5S">
                                                     <rect key="frame" x="284" y="11" width="60" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -917,7 +940,10 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Grade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2r-nO-mgz">
-                                <rect key="frame" x="9" y="144" width="92" height="31"/>
+                                <rect key="frame" x="9" y="144" width="230" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="230" id="0K1-m0-c2v"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="30"/>
                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -931,22 +957,22 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="l2r-nO-mgz" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="2" id="3aa-Cj-cHc"/>
                             <constraint firstItem="oya-Mp-EfJ" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="2" id="5V8-0p-MOh"/>
                             <constraint firstItem="68Q-ju-UaT" firstAttribute="trailing" secondItem="pYj-wZ-eqb" secondAttribute="trailing" id="6ih-th-TZn"/>
+                            <constraint firstItem="l2r-nO-mgz" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="2" id="ARg-p9-1L9"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="trailing" secondItem="udi-mc-YDr" secondAttribute="trailing" constant="8" id="GuP-Y2-xxI"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="trailing" secondItem="BJk-dn-9lD" secondAttribute="trailing" constant="16" id="Kqc-x9-gSC"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="trailing" secondItem="oya-Mp-EfJ" secondAttribute="trailing" constant="16" id="MPg-jW-Rka"/>
                             <constraint firstItem="68Q-ju-UaT" firstAttribute="top" secondItem="82p-va-ndv" secondAttribute="top" id="NsN-bb-0rh"/>
                             <constraint firstItem="68Q-ju-UaT" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" id="UFS-dE-7Oy"/>
-                            <constraint firstItem="l2r-nO-mgz" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="9" id="X7U-D9-jye"/>
-                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="l2r-nO-mgz" secondAttribute="bottom" constant="2" id="ZTJ-dJ-9rk"/>
+                            <constraint firstItem="l2r-nO-mgz" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="9" id="Vdh-yf-oOu"/>
                             <constraint firstItem="t3Q-17-yOk" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="9" id="d00-Jl-Iak"/>
                             <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="oya-Mp-EfJ" secondAttribute="bottom" constant="3" id="dsK-Wy-1Cd"/>
                             <constraint firstItem="BJk-dn-9lD" firstAttribute="top" secondItem="68Q-ju-UaT" secondAttribute="bottom" constant="15" id="gQm-hc-68H"/>
                             <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="t3Q-17-yOk" secondAttribute="bottom" constant="35" id="ktK-B4-3V5"/>
                             <constraint firstItem="pYj-wZ-eqb" firstAttribute="bottom" secondItem="udi-mc-YDr" secondAttribute="bottom" constant="8" id="qX1-PP-ngR"/>
                             <constraint firstItem="t3Q-17-yOk" firstAttribute="top" secondItem="68Q-ju-UaT" secondAttribute="bottom" constant="15" id="uqI-gE-yLF"/>
+                            <constraint firstItem="udi-mc-YDr" firstAttribute="top" secondItem="l2r-nO-mgz" secondAttribute="bottom" constant="2" id="w4f-i0-G7s"/>
                             <constraint firstItem="udi-mc-YDr" firstAttribute="leading" secondItem="pYj-wZ-eqb" secondAttribute="leading" constant="8" id="yWZ-4p-neO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pYj-wZ-eqb"/>
