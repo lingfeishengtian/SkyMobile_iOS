@@ -186,3 +186,21 @@ class Preferences: NSObject, NSCoding{
         aCoder.encode(BiometricEnabled, forKey: "BiometricSecurity")
     }
 }
+
+struct District{
+    var DistrictName: String
+    var DistrictLink: URL
+    var GPACalculatorSupportType: GPACalculatorSupport
+    
+    init(name: String, URLLink: URL, gpaSupportType: GPACalculatorSupport) {
+        DistrictName = name
+        DistrictLink = URLLink
+        GPACalculatorSupportType = gpaSupportType
+    }
+}
+
+enum GPACalculatorSupport{
+    case HundredPoint
+    case FourPoint
+    case NoSupport
+}

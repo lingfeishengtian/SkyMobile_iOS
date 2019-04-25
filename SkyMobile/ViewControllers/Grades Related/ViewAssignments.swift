@@ -108,7 +108,7 @@ class ViewAssignments: UIViewController {
     
     @IBAction func SaveCoursesToMain(_ sender: Any) {
         if InformationHolder.GlobalPreferences.ModernUI{
-            let Warn = UIAlertController(title: "Warning", message: "Saving to courses will disable some features until you reset to default.", preferredStyle: .alert)
+            let Warn = UIAlertController(title: "Warning", message: "Saving to courses will disable some features until you reset to default. Saving to courses allows for your GPA to be recalculated.", preferredStyle: .alert)
             let Ok = UIAlertAction(title: "Do it", style: .default, handler: { alert in
                 InformationHolder.isModified = true
                 let DoubleGradeValue = (Double(self.FinalGrade.text!)!)
@@ -116,8 +116,8 @@ class ViewAssignments: UIViewController {
                 InformationHolder.Courses[self.index].Grades.Grades[self.Term] = String(Int(Rounded))
             })
             let Cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-            Warn.addAction(Ok)
             Warn.addAction(Cancel)
+            Warn.addAction(Ok)
             self.present(Warn, animated: true, completion: nil)
         }else{
             importantUtils.DisplayErrorMessage(message: "This is a Modern UI only function.")

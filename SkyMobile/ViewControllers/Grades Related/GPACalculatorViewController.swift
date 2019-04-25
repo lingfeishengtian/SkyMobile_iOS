@@ -51,7 +51,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         AdvancedEnabler.layer.cornerRadius = 5
         AdvancedEnabler.layer.borderWidth = 1
         AdvancedEnabler.layer.borderColor = UIColor.black.cgColor
-        SetFinalAverageValues()
+            SetFinalAverageValues()
         if isElemAccount {
             AdvancedEnabler.isHidden = true
         }
@@ -82,8 +82,12 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         _ = (sender as! UIButton).superview
                 let SectionNumber = (sender as! UIButton).tag
         for val in 0...LegacyGrades[SectionNumber].Courses.count-1{
+            if LegacyGrades[SectionNumber].Courses.count > val{
                 let row = LegacyGrades[SectionNumber].Courses[val]
                 UserDefaults.standard.set("N/A", forKey: row.Class + "Level")
+            }else{
+                break
+            }
         }
         tableView.reloadData()
         SetFinalAverageValues()
@@ -227,6 +231,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func SetFinalAverageValues() {
+    if ViewController.District.GPACalculatorSupportType != GPACalculatorSupport.NoSupport{
         if(Status == 0){
             for Classe in 0...InformationHolder.Courses.count-1{
             let Class = InformationHolder.Courses[Classe].Class
@@ -234,9 +239,11 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             }
         }else{
             for Classe in 0...LegacyGrades.count-1{
-                for Classd in 0...LegacyGrades[Classe].Courses.count-1{
-                    let Class = LegacyGrades[Classe].Courses[Classd].Class
-                        LegacyGrades[Classe].Courses[Classd].CourseCreditWorth = GetCourseCreditWorthFromLibrary(Class)
+                if !(LegacyGrades[Classe].Courses.count-1 < 0){
+                    for Classd in 0...LegacyGrades[Classe].Courses.count-1{
+                        let Class = LegacyGrades[Classe].Courses[Classd].Class
+                            LegacyGrades[Classe].Courses[Classd].CourseCreditWorth = GetCourseCreditWorthFromLibrary(Class)
+                    }
                 }
             }
         }
@@ -264,6 +271,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             FinalGPA.text = "N/A"
         }
+    }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

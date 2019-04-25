@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		21BB8D1FBB83662783105E6D /* Pods_SkyMobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3E092CD02F2501C1A578457 /* Pods_SkyMobileTests.framework */; };
 		961317A12173019E0018684F /* ViewAssignments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961317A02173019E0018684F /* ViewAssignments.swift */; };
+		961F297B22715DD4001BE296 /* DownloadUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961F297A22715DD4001BE296 /* DownloadUtility.swift */; };
+		961F297D22715FB6001BE296 /* DistrictPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961F297C22715FB6001BE296 /* DistrictPickerView.swift */; };
 		963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963383F7216ED9DA00C7C158 /* AppDelegate.swift */; };
 		963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963383FE216ED9DC00C7C158 /* Assets.xcassets */; };
 		9633840D216ED9DD00C7C158 /* SkyMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9633840C216ED9DD00C7C158 /* SkyMobileTests.swift */; };
@@ -23,7 +25,6 @@
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
 		96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* ProgressReportAverages.swift */; };
 		96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */; };
-		96991552224C685E0064D22F /* TutorialsSectionAndCredits.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96991551224C685E0064D22F /* TutorialsSectionAndCredits.storyboard */; };
 		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
 		96AEE146222EBBF800A3C0DE /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */; };
@@ -57,6 +58,8 @@
 		5DCF54703ABFFC5006713751 /* Pods-SkyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobile/Pods-SkyMobile.release.xcconfig"; sourceTree = "<group>"; };
 		68C8B590B5096B573B449CF2 /* Pods_SkyMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		961317A02173019E0018684F /* ViewAssignments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAssignments.swift; sourceTree = "<group>"; };
+		961F297A22715DD4001BE296 /* DownloadUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadUtility.swift; sourceTree = "<group>"; };
+		961F297C22715FB6001BE296 /* DistrictPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictPickerView.swift; sourceTree = "<group>"; };
 		963383F4216ED9DA00C7C158 /* SkyMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		963383F7216ED9DA00C7C158 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		963383FE216ED9DC00C7C158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -78,13 +81,11 @@
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		96987937216EDBA100274869 /* ProgressReportAverages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressReportAverages.swift; sourceTree = "<group>"; };
 		9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StressReliefAndEncouragement.storyboard; sourceTree = "<group>"; };
-		96991551224C685E0064D22F /* TutorialsSectionAndCredits.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TutorialsSectionAndCredits.storyboard; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
 		96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernDetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96E15B8522382BE200A959EC /* ModernUITabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernUITabController.swift; sourceTree = "<group>"; };
-		96EDCD30222F54BD00CDC228 /* asu_pid.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = asu_pid.entitlements; sourceTree = "<group>"; };
 		96F1BF25B5EDCC423CF69C33 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyClassScraperAPI.swift; sourceTree = "<group>"; };
 		9810368939E2DD17FF58FA56 /* Pods-SkyMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -159,12 +160,11 @@
 		963383F6216ED9DA00C7C158 /* SkyMobile */ = {
 			isa = PBXGroup;
 			children = (
-				96EDCD30222F54BD00CDC228 /* asu_pid.entitlements */,
 				96987938216EDBA100274869 /* Storyboards */,
 				96987934216EDBA100274869 /* ViewControllers */,
 				9698792D216EDB8D00274869 /* Important Utility Classes */,
-				963383F7216ED9DA00C7C158 /* AppDelegate.swift */,
 				963383FE216ED9DC00C7C158 /* Assets.xcassets */,
+				963383F7216ED9DA00C7C158 /* AppDelegate.swift */,
 				96338403216ED9DD00C7C158 /* Info.plist */,
 			);
 			path = SkyMobile;
@@ -195,6 +195,7 @@
 				96987930216EDB8D00274869 /* Types.swift */,
 				96AD03F621795F6B0057066D /* ImportantUtils.swift */,
 				96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */,
+				961F297A22715DD4001BE296 /* DownloadUtility.swift */,
 			);
 			path = "Important Utility Classes";
 			sourceTree = "<group>";
@@ -202,14 +203,8 @@
 		96987934216EDBA100274869 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				96987935216EDBA100274869 /* ViewController.swift */,
-				96987937216EDBA100274869 /* ProgressReportAverages.swift */,
-				961317A02173019E0018684F /* ViewAssignments.swift */,
-				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
-				96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */,
-				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
-				969715EF221393A200B810DD /* SettingsViewController.swift */,
-				96E15B8522382BE200A959EC /* ModernUITabController.swift */,
+				96E06FF3224EC2C200B42E7C /* Grades Related */,
+				96E06FF4224EC2E800B42E7C /* Other Views */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -221,9 +216,31 @@
 				9636181A21812F51002A8B2B /* Main.storyboard */,
 				9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */,
 				9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */,
-				96991551224C685E0064D22F /* TutorialsSectionAndCredits.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		96E06FF3224EC2C200B42E7C /* Grades Related */ = {
+			isa = PBXGroup;
+			children = (
+				96987935216EDBA100274869 /* ViewController.swift */,
+				961F297C22715FB6001BE296 /* DistrictPickerView.swift */,
+				96987937216EDBA100274869 /* ProgressReportAverages.swift */,
+				961317A02173019E0018684F /* ViewAssignments.swift */,
+				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
+				96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */,
+				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
+				96E15B8522382BE200A959EC /* ModernUITabController.swift */,
+			);
+			path = "Grades Related";
+			sourceTree = "<group>";
+		};
+		96E06FF4224EC2E800B42E7C /* Other Views */ = {
+			isa = PBXGroup;
+			children = (
+				969715EF221393A200B810DD /* SettingsViewController.swift */,
+			);
+			path = "Other Views";
 			sourceTree = "<group>";
 		};
 		A1F307161849D17B24DCD98E /* Pods */ = {
@@ -347,7 +364,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96991552224C685E0064D22F /* TutorialsSectionAndCredits.storyboard in Resources */,
 				9636181E21812F51002A8B2B /* Main.storyboard in Resources */,
 				963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */,
 				96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */,
@@ -468,10 +484,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				961F297B22715DD4001BE296 /* DownloadUtility.swift in Sources */,
 				9698793F216EDBA100274869 /* ViewController.swift in Sources */,
 				96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */,
 				96987933216EDB8D00274869 /* Types.swift in Sources */,
 				969715F0221393A200B810DD /* SettingsViewController.swift in Sources */,
+				961F297D22715FB6001BE296 /* DistrictPickerView.swift in Sources */,
 				9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */,
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
 				96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */,

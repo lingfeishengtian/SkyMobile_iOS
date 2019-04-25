@@ -23,6 +23,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBOutlet var ModernView: UIView!
     @IBOutlet weak var ModernLoginButton: UIButton!
     @IBOutlet weak var ModernTableView: UITableView!
+    @IBOutlet weak var DistrictChooser: UIPickerView!
     
     var UserName = "000000"
     var Password = "000000"
@@ -33,6 +34,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var SavedAccountsTableView = UITableView()
     var AccountFromPreviousSession = Account(nick: "", user: "", pass: "")
     var ShouldLoginWhenFinishedLoadingSite = false
+    let DistrictData = DistrictPickerView()
+    
+    static var District = DistrictPickerView.DistrictLinks[0]
+    static var LoginWebsiteURL = District.DistrictLink.absoluteString
+    
+    let BetaTesterAllowedForCurrentVersionCredentials = "62-+9m-j32la.dl"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,12 +89,24 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
             }
             
+            DistrictChooser.delegate = DistrictData
+            DistrictChooser.dataSource = DistrictData
+            DistrictData.Parent = self
+            
             SavedAccountsTableView.dataSource = self
             SavedAccountsTableView.delegate = self
         }else{
             let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
             UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func AccessTutorial(_ sender: Any) {
+        (sender as! UIButton).isHidden = true
+        
+//        let Storyboard = UIStoryboard(name: "TutorialsSectionAndCredits", bundle: Bundle.main)
+//        let ViewController = Storyboard.instantiateViewController(withIdentifier: "MainTutorialController")
+//        self.present(ViewController, animated: true, completion: nil)
     }
     
     func DeveloperOnlyInjectAccountsForTestingONLY(){
@@ -130,7 +149,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func reloadSkyward(){
-        let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+        let url = URL(string: ViewController.LoginWebsiteURL)!
         let request = URLRequest(url: url)
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
@@ -150,7 +169,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     DispatchQueue.main.async(execute: {
                         if let _ = Errors{
                             self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                            let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                            let url = URL(string: ViewController.LoginWebsiteURL)!
                             let request = URLRequest(url: url)
                             self.webView.load(request)
                             self.runOnce = false
@@ -159,7 +178,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                                 self.AttemptFinalInitBeforeLogin()
                             }else{
                                 self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                                let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                                let url = URL(string: ViewController.LoginWebsiteURL)!
                                 let request = URLRequest(url: url)
                                 self.webView.load(request)
                                 self.runOnce = false
@@ -172,13 +191,40 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 importantUtils.DisplayErrorMessage(message: "Biometrics haven't been set in settings. SkyMobile will now automatically disable biometrics.")
                 InformationHolder.GlobalPreferences.BiometricEnabled = false
                 SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
-                let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                let url = URL(string: ViewController.LoginWebsiteURL)!
                 let request = URLRequest(url: url)
                 self.webView.load(request)
                 runOnce = false
             }
         }else{
             AttemptFinalInitBeforeLogin()
+        }
+    }
+    
+    fileprivate func CheckIfBetaCredentialsAreCorrect(_ storedValue: String, _ build: String) {
+        if storedValue != BetaTesterAllowedForCurrentVersionCredentials && build.contains("private"){
+            let alert = UIAlertController(title: "Discord Private Tester", message: "Please enter your access code. This is one time only.", preferredStyle: .alert)
+            
+            alert.addTextField { (textField) in
+                textField.text = ""
+            }
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                let textField = alert?.textFields![0].text!
+                if textField == self.BetaTesterAllowedForCurrentVersionCredentials{
+                    UserDefaults.standard.set(textField!, forKey: build)
+                    let alert = UIAlertController(title: "Discord Private Tester", message: "Success, the app will exit.", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default, handler: { alert in
+                        assert(false)
+                    })
+                    alert.addAction(action)
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }else{
+                    assert(false)
+                }
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -200,9 +246,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         
         if isBeta {
             let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". Build: \(build) You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: {alert in
+                if let storedValue = UserDefaults.standard.object(forKey: build){
+                    self.CheckIfBetaCredentialsAreCorrect(storedValue as! String, build)
+                }else{
+                    self.CheckIfBetaCredentialsAreCorrect("", build)
+                }
+            })
             betaAlert.addAction(okAction)
             self.present(betaAlert, animated: true, completion: nil)
+            
             if !InformationHolder.GlobalPreferences.ModernUI{
             BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
             }
@@ -212,6 +265,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             }
         }
         
+        DistrictChooser.selectRow(0, inComponent: 0, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -258,7 +312,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w"{
+        if self.webView.url?.absoluteString == ViewController.LoginWebsiteURL{
                     importantUtils.DestroyLoadingView(views: self.view)
                 if !didRun{
                     if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
@@ -377,7 +431,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                             self.enableButton(bool: true)
                             self.changeColorOfButton(color: UIColor.red)
                             finished = true
-                            let url = URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!
+                            let url = URL(string: ViewController.LoginWebsiteURL)!
                             let request = URLRequest(url: url)
                             self.webView.load(request)
                             timer.invalidate()
@@ -427,23 +481,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var AccountSelectedFromParentalAccount = ""
     var Expecting = false
     func getHTMLCode(){
-                /*
-         function PrintTerms(){
-         var FinalString = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
-         let elems = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").querySelector("table[id*=\\\"grid_stuGradesGrid\\\"]").querySelectorAll("th")
-         for(var i = 0; i < elems.length; i++){
-         FinalString = FinalString + elems[i].textContent + "@SWIFT_TERM_SEPARATOR@"
-         }
-         FinalString = FinalString + "\n\n\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\n\n\n"
-         if (typeof sf_StudentList !== "undefined"){
-         return FinalString = FinalString + sf_StudentList.innerHTML
-         }else{
-         FinalString = FinalString + "@SWIFT_VALUE_DOES_NOT_EXIST"
-         }
-         return FinalString
-         }
-         PrintTerms()
-        */
         let javascript =
             """
             function PrintTerms(){
@@ -692,7 +729,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             if (self.webView.estimatedProgress == 1) {
                 print("### EP:", self.webView.estimatedProgress, " URL: ", self.webView.url?.absoluteString ?? "No URL?")
                 DispatchQueue.main.async {
-                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfhome01.w" && !self.runOnce{
+                    if self.webView.url?.absoluteString.contains("sfhome01.w") ?? false && !self.runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
                     self.webView.evaluateJavaScript(javascript1){ obj, err in
                         if err == nil{
@@ -702,14 +739,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     }
                     }
                 }
-                if self.webView.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfgradebook001.w" && (UIApplication.topViewController() is ViewController){
+                if self.webView.url?.absoluteString.contains("sfgradebook001.w") ?? false && (UIApplication.topViewController() is ViewController){
                     if self.AccountSelectedFromParentalAccount == ""{
                         BiometricAuthentication()
                     }else{
                         getHTMLCode()
                     }
                 }
-                if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/qloggedout001.w" && !(UIApplication.topViewController() is ViewController) {
+                if InformationHolder.SkywardWebsite.url?.absoluteString.contains("qloggedout001.w") ?? false && !(UIApplication.topViewController() is ViewController) {
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     
@@ -721,7 +758,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     InformationHolder.WebsiteStatus = WebsitePage.Login
                     UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
                 }
-                if InformationHolder.SkywardWebsite.url?.absoluteString == "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/sfacademichistory001.w"{
+                if InformationHolder.SkywardWebsite.url?.absoluteString.contains("sfacademichistory001.w") ?? false{
                     let CurrentTop = UIApplication.topViewController()
                     if CurrentTop is GPACalculatorViewController{
                         InformationHolder.WebsiteStatus = WebsitePage.AcademicHistory
