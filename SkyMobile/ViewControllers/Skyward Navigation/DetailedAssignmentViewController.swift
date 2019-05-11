@@ -32,7 +32,7 @@ class DetailedAssignmentViewController: UIViewController {
     var html = " "
     var Courses: [Course] = []
     var AssignmentNameString = ""
-    var Assignments = AssignmentGrades(classDesc: "NIL")
+    var Assignments = AssignmentBlock()
     var importantUtils = ImportantUtils()
     
     override func viewDidLoad() {

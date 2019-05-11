@@ -1,4 +1,4 @@
-framework module Pods_SkyMobile {
+module Pods_SkyMobile {
   umbrella header "Pods-SkyMobile-umbrella.h"
 
   export *

@@ -85,11 +85,11 @@ class LegacyGradeSweeperAPI{
                     tmpCourse.Class = ClassSection.components(separatedBy: " @SWIFT_GRADE_PERIOD_START ")[0]
                     var GradingPeriods = ClassSection.components(separatedBy: " @SWIFT_GRADE_PERIOD_START ")
                     GradingPeriods.removeFirst()
-                    var tmpGrades = ClassGrades(className: tmpCourse.Class)
+                    var tmpGrades: [String:String] = [:]
                     for GradingPeriod in GradingPeriods{
                         var GradeFinale = GradingPeriod.components(separatedBy: ":")
-                        tmpGrades.Grades[GradeFinale[0].trimmingCharacters(in: .whitespaces)] = GradeFinale[1].trimmingCharacters(in: .whitespaces)
-                        tmpCourse.Grades = tmpGrades
+                        tmpGrades[GradeFinale[0].trimmingCharacters(in: .whitespaces)] = GradeFinale[1].trimmingCharacters(in: .whitespaces)
+                        tmpCourse.termGrades = tmpGrades
                     }
                     tmp.Courses.append(tmpCourse)
                 }

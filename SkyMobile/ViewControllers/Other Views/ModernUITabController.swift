@@ -17,7 +17,7 @@ class ModernUITabController: UITabBarController{
             InformationHolder.SkywardWebsite.evaluateJavaScript(JS, completionHandler: nil)
         }
         if (self.tabBar.items)![1] == item{
-        if ViewController.District.GPACalculatorSupportType == GPACalculatorSupport.NoSupport{
+        if ViewController.LoginDistrict.GPACalculatorSupportType == GPACalculatorSupport.NoSupport{
             let message = "SkyMobile doesn't support GPA Calculator for this district yet."
             let CannotFindValidValue = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
             let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: { action in

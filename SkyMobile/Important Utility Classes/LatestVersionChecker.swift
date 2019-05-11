@@ -9,9 +9,5 @@
 import Foundation
 
 class LatestVersionChecker{
-    
-}
-
-class LatestDistrictDatabaseExtractor{
-    
+    //Will be implemented in version 1.2
 }

@@ -231,7 +231,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func SetFinalAverageValues() {
-    if ViewController.District.GPACalculatorSupportType != GPACalculatorSupport.NoSupport{
+    if ViewController.LoginDistrict.GPACalculatorSupportType != GPACalculatorSupport.NoSupport{
         if(Status == 0){
             for Classe in 0...InformationHolder.Courses.count-1{
             let Class = InformationHolder.Courses[Classe].Class
@@ -323,7 +323,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let CreditWorth = course.CourseCreditWorth
         let LevelAddAmt = CheckAddAmt(level: level)
         if LevelAddAmt != -1{
-            if let AttemptedDouble = Double(course.Grades.Grades[term]!){
+            if let AttemptedDouble = Double(course.termGrades[term]!){
                 NewClassAverage += ((AttemptedDouble) + Double(LevelAddAmt)) * CreditWorth
             }else{
                 FinalCount -= CreditWorth
@@ -339,7 +339,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         courseCount = 0
         if Status == 0{
         for course in InformationHolder.Courses{
-            if Int(course.Grades.Grades[term]!) != -1000{
+            if Int(course.termGrades[term]!) != -1000{
                 CalculateNewClassAverageFromInformation(course, &NewClassAverage, term, &courseCount)
             }
         }
@@ -350,22 +350,22 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
                     let className = Class.Class
                     let level = (UserDefaults.standard.object(forKey: className+"Level") as? String)
                     var ClassGrades = Class
-                    for (key, _) in ClassGrades.Grades.Grades{
-                        ClassGrades.Grades.Grades[key] = Class.Grades.Grades[key]?.trimmingCharacters(in: .whitespaces)
+                    for (key, _) in ClassGrades.termGrades{
+                        ClassGrades.termGrades[key] = Class.termGrades[key]?.trimmingCharacters(in: .whitespaces)
                     }
-                    if (ClassGrades.Grades.Grades["FIN"]) != "" && (ClassGrades.Grades.Grades["FIN"]) != "-1000"{
+                    if (ClassGrades.termGrades["FIN"]) != "" && (ClassGrades.termGrades["FIN"]) != "-1000"{
                         CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "FIN", &courseCount)
-                    }else if ClassGrades.Grades.Grades["S1"] != "" && ClassGrades.Grades.Grades["S2"] != "" && ClassGrades.Grades.Grades["S1"] != "-1000" && ClassGrades.Grades.Grades["S2"] != "-1000"{
+                    }else if ClassGrades.termGrades["S1"] != "" && ClassGrades.termGrades["S2"] != "" && ClassGrades.termGrades["S1"] != "-1000" && ClassGrades.termGrades["S2"] != "-1000"{
                         let LevelAddAmt = CheckAddAmt(level: level)
                         if LevelAddAmt != -1{
-                            NewClassAverage += ((Double(ClassGrades.Grades.Grades["S1"]!)! + Double(ClassGrades.Grades.Grades["S2"]!)!)/2 + Double(LevelAddAmt)) * CreditWorth
+                            NewClassAverage += ((Double(ClassGrades.termGrades["S1"]!)! + Double(ClassGrades.termGrades["S2"]!)!)/2 + Double(LevelAddAmt)) * CreditWorth
                         }else{
                             courseCount -= CreditWorth
                         }
                         courseCount += CreditWorth
-                    }else if ClassGrades.Grades.Grades["S2"] != "" && ClassGrades.Grades.Grades["S2"] != "-1000"{
+                    }else if ClassGrades.termGrades["S2"] != "" && ClassGrades.termGrades["S2"] != "-1000"{
                         CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "S2", &courseCount)
-                    }else if ClassGrades.Grades.Grades["S1"] != "" && ClassGrades.Grades.Grades["S1"] != "-1000"{
+                    }else if ClassGrades.termGrades["S1"] != "" && ClassGrades.termGrades["S1"] != "-1000"{
                         CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "S1", &courseCount)
                     }
                 }
@@ -399,7 +399,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         for LEG in grades{
                 var prog = 0
                 for Class in LEG.Courses{
-                    if(Class.Grades.Grades["FIN"] == ""){
+                    if(Class.termGrades["FIN"] == ""){
                         LEG.Courses.remove(at: prog)
                         prog-=1
                     }

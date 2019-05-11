@@ -36,11 +36,24 @@ class DistrictPickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        ViewController.District = DistrictPickerView.DistrictLinks[row]
-        ViewController.LoginWebsiteURL = DistrictPickerView.DistrictLinks[row].DistrictLink.absoluteString
-        print("Attempted to change to ", ViewController.LoginWebsiteURL)
+        ViewController.LoginDistrict = DistrictPickerView.DistrictLinks[row]
+        print("Attempted to change to ", ViewController.LoginDistrict.DistrictLink.absoluteString)
         if let view = Parent{
             view.reloadSkyward()
         }
+    }
+}
+
+class StatePickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return DistrictSearcher.stateSelections.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: DistrictSearcher.stateSelections[row].name, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
 }

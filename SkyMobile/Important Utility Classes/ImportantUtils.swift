@@ -25,51 +25,61 @@ class ImportantUtils {
         }
     }
     
-    func DetermineColor(fromClassGrades classes: [Course] = [],fromAssignmentGrades assignments: AssignmentGrades = AssignmentGrades(classDesc: "NIL"), gradingTerm: String) -> [UIColor] {
-        var finalColors: [UIColor] = []
-        var high:Double = -9999.0;
-        var low:Double = 9999.0;
-        var finalGrades:[Double] = []
-        
-        if(classes.isEmpty){
-            for grade in assignments.DailyGrades{
-                finalGrades.append(grade.Grade)
-            }
-            for grade in assignments.MajorGrades{
-                finalGrades.append(grade.Grade)
-            }
-        }else{
-            for course in classes{
-                finalGrades.append(Double(course.Grades.Grades[gradingTerm] ?? "-1000") ?? -1000.0)
-            }
+//    func DetermineColor(fromClassGrades classes: [Course] = [],fromAssignmentGrades assignments: AssignmentBlock = AssignmentGrades(classDesc: "NIL"), gradingTerm: String) -> [UIColor] {
+//        var finalColors: [UIColor] = []
+//        var high:Double = -9999.0;
+//        var low:Double = 9999.0;
+//        var finalGrades:[Double] = []
+//
+//        if(classes.isEmpty){
+//            for grade in assignments.DailyGrades{
+//                finalGrades.append(grade.Grade)
+//            }
+//            for grade in assignments.MajorGrades{
+//                finalGrades.append(grade.Grade)
+//            }
+//        }else{
+//            for course in classes{
+//                finalGrades.append(Double(course.Grades.Grades[gradingTerm] ?? "-1000") ?? -1000.0)
+//            }
+//        }
+//        findMaxAndLowOf(finalGrades, &high, &low)
+//
+//        for Grade in finalGrades{
+//            if Grade != -1000.0{
+////                let greenVal = CGFloat(Double(Grade)/Double(100) )
+////                var red = CGFloat((Double(Grade+(low-1))/Double(high)) * 10)
+////                if Grade == low{
+////                    red = red  * 0.7
+////                }
+//                let green = Double(Grade)*2.55/255
+//                let red = (1.0-green)*6.0
+//
+//                let color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
+//                finalColors.append(color)
+//                //print(color)
+//                //finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))
+//            }else{
+//                finalColors.append(UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0))
+//            }
+//        }
+//        return finalColors
+//    }
+    
+    func DetermineColor(from num: Double) -> UIColor{
+        if num != -1000.0{
+            let green = Double(num)*2.55/255
+            let red = (1.0-green)*6.0
+            
+            return UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
         }
-        findMaxAndLowOf(finalGrades, &high, &low)
-        
-        for Grade in finalGrades{
-            if Grade != -1000.0{
-//                let greenVal = CGFloat(Double(Grade)/Double(100) )
-//                var red = CGFloat((Double(Grade+(low-1))/Double(high)) * 10)
-//                if Grade == low{
-//                    red = red  * 0.7
-//                }
-                let green = Double(Grade)*2.55/255
-                let red = (1.0-green)*6.0
-                
-                let color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
-                finalColors.append(color)
-                //print(color)
-                //finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))
-            }else{
-                finalColors.append(UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0))
-            }
-        }
-        return finalColors
+        return UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0)
     }
     
     func GetAverageFromSemester(courses: [Course], termName: String) -> Int{
         var finalGrades: Int = 0;
         for course in courses{
-            let grade = Int(course.Grades.Grades[termName] ?? "-1000")
+            let grade = Int(course.termGrades[termName] ?? "-1000")
             if grade != -1000{
                 finalGrades += grade!
             }
@@ -143,65 +153,62 @@ class ImportantUtils {
         }
     }
     
-    func RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentGrades{
-        var DailyGrades:[Assignment] = [];
-        var MajorGrades:[Assignment] = [];
+    func RetrieveGradesAndAssignmentsFromSelectedTermAndCourse(htmlCode: String, term: String, Class: String, DailyGrade: inout String, MajorGrade: inout String) -> AssignmentBlock{
+        var finAssignmentBlock = AssignmentBlock()
         do{
             //HINT: document.querySelector("#gradeInfoDialog").querySelectorAll("tbody")[2].querySelectorAll("tr.sf_Section,.odd,.even")
-            let document = try HTML(html: htmlCode, encoding: .utf8)
-            let elements = document.css("#gradeInfoDialog")
-            let elements1 = elements.first!.css("tbody")
-            let finalGrades = elements1.first!.css("tr.sf_Section,.odd,.even")
-            var isDaily = true
-            var findingFirstGrade = true
+            let document = try? HTML(html: htmlCode, encoding: .utf8)
+            let elements = document?.css("tbody").first?.css("tbody")
+            let finalGrades = elements![(elements?.count)!-1].css("tr")
+            
+            var stillScrapingSections = false
             
             for assignment in finalGrades{
-                let assignmentDesc = assignment.text
+                var assignmentDescription = assignment.text
+                let separatedTdValues = assignment.css("td")
+                
                 if (assignment.toHTML?.contains("sf_Section"))!{
-                    if assignmentDesc!.contains("DAILY") {
-                            let dText =   assignment.css(".bld.aRt").first!.text
-                            if !dText!.split(separator: " ").isEmpty{
-                                DailyGrade = String(dText!.split(separator: " ")[0])
+                        var weightAttempt: String? = nil
+                        var grade: String? = nil
+                        
+                        if(separatedTdValues[1].text!.contains("weighted at ")){
+                            weightAttempt = separatedTdValues[1].text!.components(separatedBy: "weighted at ").last?.replacingOccurrences(of: "%", with: "").replacingOccurrences(of: ")", with: "")
+                            assignmentDescription = separatedTdValues[1].text!.components(separatedBy: "weighted at ").first?.replacingOccurrences(of: " (", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                        }
+                        
+                        for elem in separatedTdValues{
+                            if (Double(elem.text!) != nil){
+                                grade = elem.text!
                             }
-                        isDaily = true
-                    }else if assignmentDesc!.contains("MAJOR") {
-                            let dText =  assignment.css(".bld.aRt").first!.text
-                            if !dText!.split(separator: " ").isEmpty{
-                                MajorGrade = String(dText!.split(separator: " ")[0])
-                            }
-                        isDaily = false
-                    }
-                    findingFirstGrade = false
-                }else if !findingFirstGrade{
-                    let FoundElements = assignment.css("td")
+                        }
+                        
+                        if (!stillScrapingSections){
+                        finAssignmentBlock.AllAssignmentSections.append(MainAssignmentSection(assignmentDescription ?? "", weightAttempt, grade))
+                            stillScrapingSections = true
+                        }else{
+                            finAssignmentBlock.AllAssignmentSections[finAssignmentBlock.AllAssignmentSections.endIndex - 1].minorSections.append(MinorAssignmentSection(assignmentDescription ?? "", weightAttempt!, grade ?? ""))
+                        }
+                }else{
+                    stillScrapingSections = false
                     var grade = ""
-                    var assignmentDesc = ""
-                    var FinalAssignment = Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade)) ?? -1000.0)
-                    if FoundElements.count <= 1{
+                        var FinalAssignment = Assignment(classDesc: Class, assignments: assignmentDescription!, grade: Double(String(grade)) ?? -1000.0)
+                    if separatedTdValues.count <= 1{
                         FinalAssignment = Assignment(classDesc: Class, assignments: "No grades here...", grade: -1000)
+                        FinalAssignment.AssignmentTag = 1
                     }else{
-                    for elem in FoundElements{
+                    for elem in separatedTdValues{
                         if let assinGrade = Double(elem.text!.trimmingCharacters(in: .whitespaces)){
                             grade = String(assinGrade)
                         }
                     }
-                    assignmentDesc = FoundElements[1].text!
-                        FinalAssignment = Assignment(classDesc: Class, assignments: assignmentDesc, grade: Double(String(grade )) ?? -1000.0)
+                    assignmentDescription = separatedTdValues[1].text!
+                        FinalAssignment = Assignment(classDesc: Class, assignments: assignmentDescription!, grade: Double(String(grade )) ?? -1000.0)
                     }
-                    if isDaily{
-                        DailyGrades.append(FinalAssignment)
-                    }else{
-                        MajorGrades.append(FinalAssignment)
-                    }
+                    finAssignmentBlock.placeAssignmentInLastMainAvailable(assignment: FinalAssignment)
                 }
             }
-        } catch {
-            print("error")
         }
-        var finalAssignment = AssignmentGrades(classDesc: Class)
-        finalAssignment.DailyGrades = DailyGrades
-        finalAssignment.MajorGrades = MajorGrades
-        return finalAssignment
+        return finAssignmentBlock
     }
     
     func delay(_ delay:Double, closure:@escaping ()->()) {
@@ -253,7 +260,7 @@ class ImportantUtils {
                             Grades[GradesOptionsOut[index]] = element.text
                             index += 1
                         }
-                    newCourse[elementIndex].Grades.Grades = Grades
+                    newCourse[elementIndex].termGrades = Grades
                     //print("Class: " + text + "\nGrade: " + html)
                 }
             }
@@ -360,5 +367,24 @@ class ImportantUtils {
             UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
         }
         return accounts
+    }
+    
+    static func SaveDistrictToStorage(district: District) {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: district)
+        
+        UserDefaults.standard.set(encodedData, forKey: "JefoSelechDieDistraichtein")
+    }
+    
+    static func GetDistrictsFromStorage() -> District{
+        var district: District = District(name: "FORT BEND ISD", URLLink: URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!, gpaSupportType: GPACalculatorSupport.HundredPoint)
+        if ImportantUtils.isKeyPresentInUserDefaults(key: "JefoSelechDieDistraichtein"){
+            if let data = UserDefaults.standard.data(forKey: "JefoSelechDieDistraichtein"){
+                district = NSKeyedUnarchiver.unarchiveObject(with: data) as! District
+            }
+        }else{
+            let encoded = NSKeyedArchiver.archivedData(withRootObject: district)
+            UserDefaults.standard.set(encoded, forKey: "JefoSelechDieDistraichtein")
+        }
+        return district
     }
 }

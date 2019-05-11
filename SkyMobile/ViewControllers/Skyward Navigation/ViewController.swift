@@ -11,6 +11,8 @@ import UIKit
 import WebKit
 import SystemConfiguration
 import LocalAuthentication
+import GoogleMobileAds
+import Kanna
 
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var UsernameField: UITextField!
@@ -23,10 +25,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBOutlet var ModernView: UIView!
     @IBOutlet weak var ModernLoginButton: UIButton!
     @IBOutlet weak var ModernTableView: UITableView!
-    @IBOutlet weak var DistrictChooser: UIPickerView!
+    @IBOutlet weak var DistrictChooserBackview: UIView!
+    @IBOutlet weak var CloseDistrictChooser: UIButton!
+    @IBOutlet weak var StatePicker: UIPickerView!
+    @IBOutlet weak var DistrictName: UITextField!
+    @IBOutlet weak var LoginTitle: UINavigationItem!
     
-    var UserName = "000000"
-    var Password = "000000"
+    var UserName = ""
+    var Password = ""
     let importantUtils = ImportantUtils()
     var didRun = false
     var webView = WKWebView()
@@ -35,15 +41,18 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var AccountFromPreviousSession = Account(nick: "", user: "", pass: "")
     var ShouldLoginWhenFinishedLoadingSite = false
     let DistrictData = DistrictPickerView()
+    let StateDelegate = StatePickerView()
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.dark))
+    let stateObserver = LoginPortalSearcherObserver()
     
-    static var District = DistrictPickerView.DistrictLinks[0]
-    static var LoginWebsiteURL = District.DistrictLink.absoluteString
+    static var LoginSession = false
+    static var LoginDistrict = ImportantUtils.GetDistrictsFromStorage()
     
     let BetaTesterAllowedForCurrentVersionCredentials = "62-+9m-j32la.dl"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ViewController.LoginSession = false
         InformationHolder.GlobalPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
         let Prefs = InformationHolder.GlobalPreferences
         if Prefs.ModernUI{
@@ -69,8 +78,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         ModernLoginButton.layer.borderWidth = 1.0
         ModernLoginButton.layer.borderColor = UIColor.black.cgColor
         SavedAccountsTableView.separatorColor = UIColor.clear
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        DistrictChooserBackview.layer.cornerRadius = 10.0
+        view.addSubview(blurEffectView)
+        blurEffectView.alpha = 0
+        StatePicker.delegate = StateDelegate
         
         if isConnectedToNetwork() {
+            LoginTitle.title = ViewController.LoginDistrict.DistrictName
+            DistrictSearcher.initStateSelections(observer: stateObserver, picker: StatePicker)
             webView.navigationDelegate = self
             webView.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
             view.addSubview(webView)
@@ -89,10 +106,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
             }
             
-            DistrictChooser.delegate = DistrictData
-            DistrictChooser.dataSource = DistrictData
             DistrictData.Parent = self
-            
             SavedAccountsTableView.dataSource = self
             SavedAccountsTableView.delegate = self
         }else{
@@ -101,18 +115,102 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     
-    @IBAction func AccessTutorial(_ sender: Any) {
-        (sender as! UIButton).isHidden = true
-        
-//        let Storyboard = UIStoryboard(name: "TutorialsSectionAndCredits", bundle: Bundle.main)
-//        let ViewController = Storyboard.instantiateViewController(withIdentifier: "MainTutorialController")
-//        self.present(ViewController, animated: true, completion: nil)
+    func isNew() -> Bool {
+        if ImportantUtils.isKeyPresentInUserDefaults(key: "NeueUserV"){
+            return false
+        }else{
+            UserDefaults.standard.set(false, forKey: "NeueUserV")
+            return true
+        }
+    }
+    
+    @IBAction func SubmitDistrictSearchForm(_ sender: Any) {
+        importantUtils.CreateLoadingView(view: self.view, message: "Searching...")
+        let UserText = DistrictName.text
+        if (UserText!.count) >= 3 {
+            //skyAcademy.window.document.querySelector("#loginResults")
+            let javascript = """
+            skyAcademy.window.document.querySelector("#txtSearch").value = "\(UserText ?? "")"
+            skyAcademy.window.document.querySelector("#ddlStates").value = \(DistrictSearcher.stateSelections[StatePicker.selectedRow(inComponent: 0)].value)
+            skyAcademy.window.document.querySelector("#btnSearch").click()
+            skyAcademy.window.document.querySelector("#lblDistrict").textContent
+            """
+            var Attempts = 0
+            Timer.scheduledTimer(withTimeInterval: TimeInterval(1.0), repeats: true){ timer in
+                LoginPortalSearcherObserver.webView.evaluateJavaScript(javascript){ (result, err) in
+                    Attempts += 1
+                    if Attempts >= 30{
+                        self.importantUtils.DestroyLoadingView(views: self.view)
+                        self.importantUtils.DisplayErrorMessage(message: "Internet error...")
+                        timer.invalidate()
+                    }
+                    if err == nil{
+                        if (result as! String).contains(UserText!){
+                            self.EvaluateOptions()
+                            timer.invalidate()
+                        }
+                    }else{
+                        print(err!)
+                    }
+                }
+            }
+        }else{
+            importantUtils.DisplayErrorMessage(message: "Text has to be at least 3 characters")
+        }
+    }
+    
+    func EvaluateOptions(){
+        var DistrictArray: [District] = []
+        LoginPortalSearcherObserver.webView.evaluateJavaScript("skyAcademy.window.document.querySelector(\"#loginResults > div.login-flex-container.rowCount\").innerHTML"){ (result, err) in
+            if err == nil{
+                let html = result as! String
+                
+                if let document = try? HTML(html: html, encoding: .utf8){
+                    let TableElements = document.css("table")
+                    var Current = ""
+                    
+                    for elem in TableElements{
+                        if elem.css("tr").count > 1{
+                            Current = elem.css("tbody > tr > td > div").first?.text ?? "Not a district"
+                        }else{
+                            if elem.text?.contains("Family Access LoginParents & StudentsGo") ?? false{
+                                let link = elem.css("td > a").first?["href"]
+                                var Support = GPACalculatorSupport.NoSupport
+                                if Current == "FORT BEND ISD"{
+                                    Support = GPACalculatorSupport.HundredPoint
+                                }
+                                let newDistrict = District(name: Current, URLLink: URL(string: link!)!, gpaSupportType: Support)
+                                DistrictArray.append(newDistrict)
+                            }
+                        }
+                    }
+                }
+                let ChooseDistrict = UIAlertController(title: "Choose your district!", message: "We found these districts from your search query, choose one!", preferredStyle: .alert)
+                for district in DistrictArray{
+                    let action = UIAlertAction(title: district.DistrictName, style: .default, handler: { action in
+                        ViewController.LoginDistrict = district
+                        self.reloadSkyward()
+                        self.LoginTitle.title = district.DistrictName
+                        ImportantUtils.SaveDistrictToStorage(district: district)
+                    })
+                    ChooseDistrict.addAction(action)
+                }
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {alert in
+                    self.importantUtils.DestroyLoadingView(views: self.view)
+                })
+                ChooseDistrict.addAction(cancel)
+                self.present(ChooseDistrict, animated: true, completion: nil)
+            }else{
+                self.importantUtils.DestroyLoadingView(views: self.view)
+                self.importantUtils.DisplayErrorMessage(message: "No districts were found! If your district contains a number, try searching by that number.")
+            }
+        }
     }
     
     func DeveloperOnlyInjectAccountsForTestingONLY(){
         var accounts = ImportantUtils.GetAccountValuesFromStorage()
         print("Developer only account inject preparing to inject 10 accounts for testing.")
-        for i in 0...10{
+        for i in 0...4{
             accounts.append(Account(nick: "MockAccount\(i)", user: "999999", pass: "999999"))
         }
         ImportantUtils.SaveAccountValuesToStorage(accounts: accounts)
@@ -148,8 +246,32 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         UIApplication.shared.shortcutItems = ShortcutItems
     }
     
+    @IBAction func DistrictMenuPopup(_ sender: Any) {
+        if DistrictSearcher.stateSelectionsFinishedInit{
+            if (self.blurEffectView.alpha == 0){
+                self.blurEffectView.fadeIn()
+                self.DistrictChooserBackview.fadeIn()
+                self.CloseDistrictChooser.fadeIn()
+            }else{
+                self.blurEffectView.fadeOut()
+                self.DistrictChooserBackview.fadeOut()
+                self.CloseDistrictChooser.fadeOut()
+            }
+            view.bringSubviewToFront(DistrictChooserBackview)
+            view.bringSubviewToFront(CloseDistrictChooser)
+        }else{
+            importantUtils.DisplayErrorMessage(message: "Sorry, we are still loading the district searcher!")
+        }
+    }
+    
+    func CreateOrDestroyBlur(){
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+    }
+    
     func reloadSkyward(){
-        let url = URL(string: ViewController.LoginWebsiteURL)!
+        let url = ViewController.LoginDistrict.DistrictLink
         let request = URLRequest(url: url)
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
@@ -169,7 +291,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     DispatchQueue.main.async(execute: {
                         if let _ = Errors{
                             self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                            let url = URL(string: ViewController.LoginWebsiteURL)!
+                            let url = ViewController.LoginDistrict.DistrictLink
                             let request = URLRequest(url: url)
                             self.webView.load(request)
                             self.runOnce = false
@@ -178,7 +300,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                                 self.AttemptFinalInitBeforeLogin()
                             }else{
                                 self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                                let url = URL(string: ViewController.LoginWebsiteURL)!
+                                let url = ViewController.LoginDistrict.DistrictLink
                                 let request = URLRequest(url: url)
                                 self.webView.load(request)
                                 self.runOnce = false
@@ -191,7 +313,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 importantUtils.DisplayErrorMessage(message: "Biometrics haven't been set in settings. SkyMobile will now automatically disable biometrics.")
                 InformationHolder.GlobalPreferences.BiometricEnabled = false
                 SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
-                let url = URL(string: ViewController.LoginWebsiteURL)!
+                let url = ViewController.LoginDistrict.DistrictLink
                 let request = URLRequest(url: url)
                 self.webView.load(request)
                 runOnce = false
@@ -229,8 +351,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        importantUtils.CreateLoadingView(view: self.view, message: "Loading Skyward...")
+        importantUtils.CreateLoadingView(view: self.view, message: "Loading...")
         reloadSkyward()
+        self.view.addSubview(LoginPortalSearcherObserver.webView)
         
         Timer.scheduledTimer(withTimeInterval: 10, repeats: false){ timer in
             print("Idle for too long, assuming infinite looped. Exiting all loops")
@@ -265,7 +388,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             }
         }
         
-        DistrictChooser.selectRow(0, inComponent: 0, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -312,7 +434,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if self.webView.url?.absoluteString == ViewController.LoginWebsiteURL{
+        if self.webView.url?.absoluteString == ViewController.LoginDistrict.DistrictLink.absoluteString{
                     importantUtils.DestroyLoadingView(views: self.view)
                 if !didRun{
                     if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
@@ -431,7 +553,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                             self.enableButton(bool: true)
                             self.changeColorOfButton(color: UIColor.red)
                             finished = true
-                            let url = URL(string: ViewController.LoginWebsiteURL)!
+                            let url = ViewController.LoginDistrict.DistrictLink
                             let request = URLRequest(url: url)
                             self.webView.load(request)
                             timer.invalidate()
@@ -653,6 +775,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             cell.backgroundColor = UIColor(red: 22/255, green: 22/255, blue: 22/255, alpha: 1)
             cell.layer.cornerRadius = 5
             ViewController.SetAccountsAs3DTouch()
+            if !InformationHolder.GlobalPreferences.ModernUI{
+                text.textColor = UIColor.black
+                cell.backgroundColor = UIColor.clear
+            }
         }else{
             cell.backgroundColor = UIColor.clear
             cell.selectionStyle = .none
@@ -662,10 +788,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row % 2 == 0 {
+            self.importantUtils.CreateLoadingView(view: self.view, message: "Reloading SkyMobile")
             let AccountSelected = AccountsStored[indexPath.row/2]
             self.UserName = AccountSelected.Username
             self.Password = AccountSelected.Password
-            self.AttemptLogin()
+            ViewController.LoginDistrict = AccountSelected.district
+            self.ShouldLoginWhenFinishedLoadingSite = true
+            self.reloadSkyward()
         }else{
             return
         }
@@ -693,6 +822,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "We've detected that you are a new user! Would you like to save your credentials?", preferredStyle: .alert)
                 let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
                     let tmpAccount = Account(nick: self.UserName, user: self.UserName, pass: self.Password)
+                    tmpAccount.district = ViewController.LoginDistrict
                     self.AccountsStored.append(tmpAccount)
                     ImportantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                     self.getHTMLCode()
@@ -728,6 +858,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             // When page load finishes. Should work on each page reload.
             if (self.webView.estimatedProgress == 1) {
                 print("### EP:", self.webView.estimatedProgress, " URL: ", self.webView.url?.absoluteString ?? "No URL?")
+                
+                if self.webView.url?.absoluteString.contains(ViewController.LoginDistrict.DistrictLink.absoluteString) ?? false && self.ShouldLoginWhenFinishedLoadingSite{
+                    AttemptLogin()
+                    self.ShouldLoginWhenFinishedLoadingSite = false
+                }
+                
                 DispatchQueue.main.async {
                     if self.webView.url?.absoluteString.contains("sfhome01.w") ?? false && !self.runOnce{
                     let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
@@ -804,3 +940,27 @@ extension UIDevice {
     }
 }
 
+extension UIView {
+    
+    func fadeIn(duration: TimeInterval = 0.5,
+                delay: TimeInterval = 0.0,
+                completion: @escaping ((Bool) -> Void) = {(finished: Bool) -> Void in }) {
+        UIView.animate(withDuration: duration,
+                       delay: delay,
+                       options: UIView.AnimationOptions.curveEaseIn,
+                       animations: {
+                        self.alpha = 1.0
+        }, completion: completion)
+    }
+    
+    func fadeOut(duration: TimeInterval = 0.5,
+                 delay: TimeInterval = 0.0,
+                 completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in }) {
+        UIView.animate(withDuration: duration,
+                       delay: delay,
+                       options: UIView.AnimationOptions.curveEaseIn,
+                       animations: {
+                        self.alpha = 0.0
+        }, completion: completion)
+    }
+}

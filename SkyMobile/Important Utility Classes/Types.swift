@@ -9,47 +9,12 @@
 import Foundation
 import WebKit
 
-struct ClassGrades: Hashable{
-    var ClassName: String
-    
-    var Grades: [String: String] =
-    ["PR1":"-1000",
-     "PR2":"-1000",
-     "T1": "-1000",
-     "PR3":"-1000",
-     "PR4":"-1000",
-     "T2":"-1000",
-     "SE1":"-1000",
-     "S1":"-1000",
-     "PR5":"-1000",
-     "PR6":"-1000",
-     "T3":"-1000",
-     "PR7":"-1000",
-     "PR8":"-1000",
-     "T4":"-1000",
-     "SE2":"-1000",
-     "S2":"-1000",
-     "FIN":"-1000"]
-    
-    var hashValue: Int {
-        return ClassName.hashValue
-    }
-    
-    init(className: String) {
-        ClassName = className
-    }
-}
-
-func ==(lhs: ClassGrades, rhs: ClassGrades) -> Bool {
-    return lhs.ClassName == rhs.ClassName
-}
-
 struct Course: Hashable {
     var Period: Int
     var Class: String
     var Teacher: String
-    var Grades: ClassGrades
     var CourseCreditWorth = 1.0
+    var termGrades: [String: String] = [:]
     
     var hashValue: Int {
         return Class.hashValue
@@ -59,14 +24,12 @@ struct Course: Hashable {
         Period = period
         Class = classDesc
         Teacher = teacher
-        Grades = ClassGrades(className: classDesc)
         CourseCreditWorth = courseWorth
     }
     init(period: Int, classDesc: String, teacher: String){
         Period = period
         Class = classDesc
         Teacher = teacher
-        Grades = ClassGrades(className: classDesc)
     }
 }
 
@@ -74,29 +37,11 @@ func ==(lhs: Course, rhs: Course) -> Bool {
     return lhs.Class == rhs.Class
 }
 
-struct AssignmentGrades: Hashable{
-    var Class: String
-    var DailyGrades:[Assignment] = []
-    var MajorGrades:[Assignment] = []
-    
-    var hashValue: Int {
-        return Class.hashValue
-    }
-    
-    init(classDesc: String) {
-        Class = classDesc
-    }
-}
-
-func ==(lhs: AssignmentGrades, rhs: AssignmentGrades) -> Bool {
-    return lhs.Class == rhs.Class
-}
-
 struct Assignment: Hashable{
     var Class: String
     var AssignmentName: String
     var Grade: Double
-    var isEditableByUserInteraction: Bool = false
+    var AssignmentTag = 0
     
     var hashValue: Int {
         return Class.hashValue
@@ -117,6 +62,7 @@ class Account: NSObject, NSCoding{
     var NickName: String
     var Username: String
     var Password: String
+    var district = District(name: "FBISD", URLLink: URL(string: "https://skyward-fbprod.iscorp.com/scripts/wsisa.dll/WService=wsedufortbendtx/seplog01.w")!, gpaSupportType: GPACalculatorSupport.HundredPoint)
     
     init(nick: String, user: String, pass: String) {
         NickName = nick
@@ -128,11 +74,47 @@ class Account: NSObject, NSCoding{
         self.NickName = decoder.decodeObject(forKey: "nick") as! String
         self.Username = decoder.decodeObject(forKey: "user") as! String
         self.Password = decoder.decodeObject(forKey: "pass") as! String
+        self.district = decoder.decodeObject(forKey: "dist") as! District
     }
     func encode(with code: NSCoder){
         code.encode(NickName, forKey: "nick")
         code.encode(Username, forKey: "user")
         code.encode(Password, forKey: "pass")
+        code.encode(district, forKey: "dist")
+    }
+}
+
+struct AssignmentBlock{
+    var AllAssignmentSections : [MainAssignmentSection] = []
+    
+    mutating func placeAssignmentInLastMainAvailable(assignment: Assignment) {
+        AllAssignmentSections[AllAssignmentSections.endIndex - 1].assignmentList.append(assignment)
+    }
+}
+
+struct MainAssignmentSection {
+    var name: String
+    var weightIfApplicable : String?
+    var minorSections:[MinorAssignmentSection] =  []
+    var assignmentList: [Assignment] = []
+    var grade: String?
+    
+    init(_ Name:String, _ weight: String?, _ Grade: String?) {
+        name = Name
+        weightIfApplicable = weight
+        grade = Grade
+    }
+}
+
+struct MinorAssignmentSection {
+    var name: String
+    var weight: String
+    var grade: String
+    
+    init(_ Name:String, _ Weight: String, _ Grade: String) {
+        name = Name
+        weight = Weight
+        grade = Grade
     }
 }
 
@@ -165,41 +147,57 @@ class LegacyGrade{
 
 class Preferences: NSObject, NSCoding{
     var AutoLoginMethodDoesStoreAllAvailableAccounts = true
-    var ModernUI = true //Currently being implemented
+    var ModernUI = true
     var BiometricEnabled = false
+    var LogoutOnExitOfApplication = false
     
-    init(loginMethodStore: Bool = true, modern: Bool = true, biometricEnacted: Bool = false){
+    init(loginMethodStore: Bool = true, modern: Bool = true, biometricEnacted: Bool = false, logoutOnExitOfApplication: Bool = false){
         AutoLoginMethodDoesStoreAllAvailableAccounts = loginMethodStore
         ModernUI = modern
         BiometricEnabled = biometricEnacted
+        LogoutOnExitOfApplication = logoutOnExitOfApplication
     }
     
     required convenience init(coder aDecoder: NSCoder) {
         let foundAutoLoginMethodDoesStoreAllAvailableAccounts = aDecoder.decodeBool(forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
         let foundModernUI = aDecoder.decodeBool(forKey: "ModernUI")
         let foundBiometricOption = aDecoder.decodeBool(forKey: "BiometricSecurity")
-        self.init(loginMethodStore: foundAutoLoginMethodDoesStoreAllAvailableAccounts, modern: foundModernUI, biometricEnacted: foundBiometricOption)
+        let foundLogoutOnExit = aDecoder.decodeBool(forKey: "LogoutOnExit")
+        self.init(loginMethodStore: foundAutoLoginMethodDoesStoreAllAvailableAccounts, modern: foundModernUI, biometricEnacted: foundBiometricOption, logoutOnExitOfApplication: foundLogoutOnExit)
     }
     func encode(with aCoder: NSCoder) {
         aCoder.encode(AutoLoginMethodDoesStoreAllAvailableAccounts,forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
         aCoder.encode(ModernUI, forKey: "ModernUI")
         aCoder.encode(BiometricEnabled, forKey: "BiometricSecurity")
+        aCoder.encode(LogoutOnExitOfApplication, forKey: "LogoutOnExit")
     }
 }
 
-struct District{
+class District : NSObject, NSCoding{
     var DistrictName: String
     var DistrictLink: URL
-    var GPACalculatorSupportType: GPACalculatorSupport
+    var GPACalculatorSupportType: GPACalculatorSupport = GPACalculatorSupport.NoSupport
     
     init(name: String, URLLink: URL, gpaSupportType: GPACalculatorSupport) {
         DistrictName = name
         DistrictLink = URLLink
         GPACalculatorSupportType = gpaSupportType
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.DistrictName = aDecoder.decodeObject(forKey: "dName") as! String
+        self.DistrictLink = aDecoder.decodeObject(forKey: "dLink") as! URL
+        self.GPACalculatorSupportType = GPACalculatorSupport(rawValue: aDecoder.decodeInteger(forKey: "dType")) ?? GPACalculatorSupport.NoSupport
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(DistrictName, forKey: "dName")
+        aCoder.encode(DistrictLink, forKey: "dLink")
+        aCoder.encode(GPACalculatorSupportType.rawValue, forKey: "dType")
+    }
 }
 
-enum GPACalculatorSupport{
+enum GPACalculatorSupport: Int{
     case HundredPoint
     case FourPoint
     case NoSupport

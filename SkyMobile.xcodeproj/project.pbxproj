@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		21BB8D1FBB83662783105E6D /* Pods_SkyMobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3E092CD02F2501C1A578457 /* Pods_SkyMobileTests.framework */; };
+		1BECEB46C569F9A113281945 /* libPods-SkyMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817E8D4846C63EC3810B4C6C /* libPods-SkyMobile.a */; };
 		961317A12173019E0018684F /* ViewAssignments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961317A02173019E0018684F /* ViewAssignments.swift */; };
-		961F297B22715DD4001BE296 /* DownloadUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961F297A22715DD4001BE296 /* DownloadUtility.swift */; };
+		961F297B22715DD4001BE296 /* LatestVersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961F297A22715DD4001BE296 /* LatestVersionChecker.swift */; };
 		961F297D22715FB6001BE296 /* DistrictPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961F297C22715FB6001BE296 /* DistrictPickerView.swift */; };
 		963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963383F7216ED9DA00C7C158 /* AppDelegate.swift */; };
 		963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963383FE216ED9DC00C7C158 /* Assets.xcassets */; };
@@ -25,14 +25,16 @@
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
 		96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987937216EDBA100274869 /* ProgressReportAverages.swift */; };
 		96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */; };
+		96A289D72283A07D00AFDD3A /* SearchForDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A289D62283A07D00AFDD3A /* SearchForDistrict.swift */; };
 		96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */; };
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
 		96AEE146222EBBF800A3C0DE /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */; };
+		96B5834A228718DC00572D80 /* OfflineGradeStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */; };
 		96DE3F84223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */; };
 		96E15B8622382BE200A959EC /* ModernUITabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E15B8522382BE200A959EC /* ModernUITabController.swift */; };
 		96FC4857222B7D76007645DD /* LegacyClassScraperAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */; };
-		A905FC23AAD23599C1E4AD73 /* Pods_SkyMobileUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D0677DC7402EE3B17AA8E /* Pods_SkyMobileUITests.framework */; };
-		AF883E160812D4E74F086120 /* Pods_SkyMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C8B590B5096B573B449CF2 /* Pods_SkyMobile.framework */; };
+		C78E9EB6305D87A224BB97E6 /* libPods-SkyMobileUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF8E9D4C388809B10EFADDE /* libPods-SkyMobileUITests.a */; };
+		F05E766E2EC69175035230B4 /* libPods-SkyMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E28CEA9F4BCB5371598633B0 /* libPods-SkyMobileTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +58,10 @@
 		4BD4A5B8D9F348C87AD96051 /* Pods-SkyMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobile/Pods-SkyMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		5187BD4E98B14D527C912BA9 /* Pods-SkyMobileUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5DCF54703ABFFC5006713751 /* Pods-SkyMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobile/Pods-SkyMobile.release.xcconfig"; sourceTree = "<group>"; };
-		68C8B590B5096B573B449CF2 /* Pods_SkyMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DF8E9D4C388809B10EFADDE /* libPods-SkyMobileUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkyMobileUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		817E8D4846C63EC3810B4C6C /* libPods-SkyMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkyMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		961317A02173019E0018684F /* ViewAssignments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAssignments.swift; sourceTree = "<group>"; };
-		961F297A22715DD4001BE296 /* DownloadUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadUtility.swift; sourceTree = "<group>"; };
+		961F297A22715DD4001BE296 /* LatestVersionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestVersionChecker.swift; sourceTree = "<group>"; };
 		961F297C22715FB6001BE296 /* DistrictPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictPickerView.swift; sourceTree = "<group>"; };
 		963383F4216ED9DA00C7C158 /* SkyMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		963383F7216ED9DA00C7C158 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,17 +84,18 @@
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		96987937216EDBA100274869 /* ProgressReportAverages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressReportAverages.swift; sourceTree = "<group>"; };
 		9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StressReliefAndEncouragement.storyboard; sourceTree = "<group>"; };
+		96A289D62283A07D00AFDD3A /* SearchForDistrict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchForDistrict.swift; sourceTree = "<group>"; };
 		96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
 		96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineGradeStorageManager.swift; sourceTree = "<group>"; };
 		96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernDetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96E15B8522382BE200A959EC /* ModernUITabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernUITabController.swift; sourceTree = "<group>"; };
 		96F1BF25B5EDCC423CF69C33 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyClassScraperAPI.swift; sourceTree = "<group>"; };
 		9810368939E2DD17FF58FA56 /* Pods-SkyMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		CADC84CC32D12ADB14ECC7AC /* Pods-SkyMobileUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileUITests/Pods-SkyMobileUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		D32D0677DC7402EE3B17AA8E /* Pods_SkyMobileUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobileUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3E092CD02F2501C1A578457 /* Pods_SkyMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SkyMobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E28CEA9F4BCB5371598633B0 /* libPods-SkyMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SkyMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96AEE146222EBBF800A3C0DE /* LocalAuthentication.framework in Frameworks */,
-				AF883E160812D4E74F086120 /* Pods_SkyMobile.framework in Frameworks */,
+				1BECEB46C569F9A113281945 /* libPods-SkyMobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21BB8D1FBB83662783105E6D /* Pods_SkyMobileTests.framework in Frameworks */,
+				F05E766E2EC69175035230B4 /* libPods-SkyMobileTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A905FC23AAD23599C1E4AD73 /* Pods_SkyMobileUITests.framework in Frameworks */,
+				C78E9EB6305D87A224BB97E6 /* libPods-SkyMobileUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,9 +132,9 @@
 			children = (
 				96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */,
 				963975B72190F35300BDE6F9 /* iAd.framework */,
-				68C8B590B5096B573B449CF2 /* Pods_SkyMobile.framework */,
-				F3E092CD02F2501C1A578457 /* Pods_SkyMobileTests.framework */,
-				D32D0677DC7402EE3B17AA8E /* Pods_SkyMobileUITests.framework */,
+				817E8D4846C63EC3810B4C6C /* libPods-SkyMobile.a */,
+				E28CEA9F4BCB5371598633B0 /* libPods-SkyMobileTests.a */,
+				7DF8E9D4C388809B10EFADDE /* libPods-SkyMobileUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -191,11 +195,11 @@
 		9698792D216EDB8D00274869 /* Important Utility Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9698792E216EDB8D00274869 /* GradientView.swift */,
 				96987930216EDB8D00274869 /* Types.swift */,
 				96AD03F621795F6B0057066D /* ImportantUtils.swift */,
 				96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */,
-				961F297A22715DD4001BE296 /* DownloadUtility.swift */,
+				961F297A22715DD4001BE296 /* LatestVersionChecker.swift */,
+				96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */,
 			);
 			path = "Important Utility Classes";
 			sourceTree = "<group>";
@@ -203,7 +207,7 @@
 		96987934216EDBA100274869 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				96E06FF3224EC2C200B42E7C /* Grades Related */,
+				96E06FF3224EC2C200B42E7C /* Skyward Navigation */,
 				96E06FF4224EC2E800B42E7C /* Other Views */,
 			);
 			path = ViewControllers;
@@ -220,7 +224,7 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		96E06FF3224EC2C200B42E7C /* Grades Related */ = {
+		96E06FF3224EC2C200B42E7C /* Skyward Navigation */ = {
 			isa = PBXGroup;
 			children = (
 				96987935216EDBA100274869 /* ViewController.swift */,
@@ -229,16 +233,18 @@
 				961317A02173019E0018684F /* ViewAssignments.swift */,
 				96AD03F421795B4A0057066D /* DetailedAssignmentViewController.swift */,
 				96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */,
-				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
-				96E15B8522382BE200A959EC /* ModernUITabController.swift */,
 			);
-			path = "Grades Related";
+			path = "Skyward Navigation";
 			sourceTree = "<group>";
 		};
 		96E06FF4224EC2E800B42E7C /* Other Views */ = {
 			isa = PBXGroup;
 			children = (
+				9698792E216EDB8D00274869 /* GradientView.swift */,
 				969715EF221393A200B810DD /* SettingsViewController.swift */,
+				96E15B8522382BE200A959EC /* ModernUITabController.swift */,
+				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
+				96A289D62283A07D00AFDD3A /* SearchForDistrict.swift */,
 			);
 			path = "Other Views";
 			sourceTree = "<group>";
@@ -267,7 +273,6 @@
 				963383F0216ED9DA00C7C158 /* Sources */,
 				963383F1216ED9DA00C7C158 /* Frameworks */,
 				963383F2216ED9DA00C7C158 /* Resources */,
-				023A08938D7D6132AB2ABB57 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -389,28 +394,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		023A08938D7D6132AB2ABB57 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SkyMobile/Pods-SkyMobile-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SkyMobile/Pods-SkyMobile-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		82B26A79300953D90FC7D25B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -484,11 +467,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				961F297B22715DD4001BE296 /* DownloadUtility.swift in Sources */,
+				961F297B22715DD4001BE296 /* LatestVersionChecker.swift in Sources */,
 				9698793F216EDBA100274869 /* ViewController.swift in Sources */,
 				96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */,
 				96987933216EDB8D00274869 /* Types.swift in Sources */,
 				969715F0221393A200B810DD /* SettingsViewController.swift in Sources */,
+				96A289D72283A07D00AFDD3A /* SearchForDistrict.swift in Sources */,
 				961F297D22715FB6001BE296 /* DistrictPickerView.swift in Sources */,
 				9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */,
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
@@ -496,6 +480,7 @@
 				96FC4857222B7D76007645DD /* LegacyClassScraperAPI.swift in Sources */,
 				96E15B8622382BE200A959EC /* ModernUITabController.swift in Sources */,
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
+				96B5834A228718DC00572D80 /* OfflineGradeStorageManager.swift in Sources */,
 				96987931216EDB8D00274869 /* GradientView.swift in Sources */,
 				961317A12173019E0018684F /* ViewAssignments.swift in Sources */,
 				96DE3F84223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift in Sources */,
@@ -661,12 +646,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ling.feishangtian.SkyMobile;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SkyMobile.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
@@ -685,12 +670,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ling.feishangtian.SkyMobile;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SkyMobile.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;

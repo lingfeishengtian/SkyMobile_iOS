@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import WebKit
+import GoogleMobileAds
 
 class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
     
@@ -18,8 +19,9 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var NavBarItems: UINavigationItem!
     @IBOutlet var MainGradientView: GradientView!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
+    @IBOutlet weak var AdBanner: GADBannerView!
+    
     let importantUtils = ImportantUtils()
-    var ClassColorsDependingOnGrade: [UIColor] = []
     var TableShouldSub = 0
     
     var indexOfOptions = 0;
@@ -28,6 +30,10 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         //TestInject()
+        AdBanner.adUnitID = "ca-app-pub-8149085154540848/1241734917"
+        AdBanner.rootViewController = self
+        AdBanner.load(GADRequest())
+        
         if InformationHolder.GlobalPreferences.ModernUI{
             MainGradientView.firstColor = UIColor(red: 57/255, green: 57/255, blue: 57/255, alpha: 1)
             MainGradientView.secondColor = MainGradientView.firstColor
@@ -43,7 +49,6 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         }
         let ShouldBeDisplay = GuessShouldDisplayScreen(Courses: InformationHolder.Courses)
         indexOfOptions = InformationHolder.AvailableTerms.firstIndex(of: ShouldBeDisplay)!
-        ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: InformationHolder.AvailableTerms[indexOfOptions])
         
         //InformationHolder.SkywardWebsite.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
         table.frame.origin = CGPoint(x: pickTerm.frame.minX, y: pickTerm.frame.maxY)
@@ -91,7 +96,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     
     func RefreshTable(){
         let TableContentHeight = table.contentSize.height
-        let TableCalculatedHeight = self.view.frame.size.height - table.frame.minY
+        let TableCalculatedHeight = self.view.frame.size.height - 50 - table.frame.minY - AdBanner.frame.height
         let WidthOfFrame = self.view.frame.width
         if TableContentHeight > TableCalculatedHeight{
             table.isScrollEnabled = true
@@ -125,7 +130,6 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             indexOfOptions = row
-            ClassColorsDependingOnGrade = importantUtils.DetermineColor(fromClassGrades: InformationHolder.Courses, gradingTerm: InformationHolder.AvailableTerms[indexOfOptions])
             table.reloadData()
             RefreshTable()
     }
@@ -147,17 +151,21 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                     ClassDescConstraint.constant = cell.frame.size.width - (cell.lblGrade.frame.size.width + cell.lblPeriod.frame.size.width + 15)
                 }
             }
-            let currentColor = ClassColorsDependingOnGrade[indexPath.row/2]
             
-            let grade = InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]]!
+            let grade = InformationHolder.Courses[indexPath.row/2].termGrades[InformationHolder.AvailableTerms[indexOfOptions]]!
             if(grade == "-1000"){
                 cell.lblGrade.text = " "
             }else{
                 cell.lblGrade.text = (grade)
+                if let gradeAsNum = Double(grade){
+                    cell.backgroundColor = importantUtils.DetermineColor(from: gradeAsNum)
+                }else{
+                    cell.backgroundColor = UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0)
+                }
             }
+            
             //cell.lblClassDesc.sizeToFit()
             //Add cell color!!!!
-            cell.backgroundColor = currentColor
             cell.alpha = CGFloat(0.7)
             cell.lblGrade.textAlignment = .right
             cell.selectionStyle = UITableViewCell.SelectionStyle.none
@@ -198,7 +206,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         if InformationHolder.isModified{
             self.importantUtils.DisplayErrorMessage(message: "You modified one class, please reset classes to default to access class.")
         }else{
-            if Int(InformationHolder.Courses[indexPath.row/2].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]] ?? "NA") != nil{
+            if Int(InformationHolder.Courses[indexPath.row/2].termGrades[InformationHolder.AvailableTerms[indexOfOptions]] ?? "NA") != nil{
                 GetAssignments(indexOfCourse: indexPath.row/2, indexOfOptions: indexOfOptions)
             }else{
                 importantUtils.DisplayErrorMessage(message: "You dont have any grades in this class this term!")
@@ -218,7 +226,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         vc.index = indexOfClass
         InformationHolder.SkywardWebsite = InformationHolder.SkywardWebsite
         InformationHolder.Courses = InformationHolder.Courses
-        vc.Grade = String(InformationHolder.Courses[indexOfClass].Grades.Grades[InformationHolder.AvailableTerms[indexOfOptions]]!)
+        vc.Grade = String(InformationHolder.Courses[indexOfClass].termGrades[InformationHolder.AvailableTerms[indexOfOptions]]!)
         
         helperClickAssignmentValue(indexOfClass: indexOfClass, indexOfOptions: indexOfOptions)
         let javaScript = """
@@ -257,29 +265,11 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             }
         }
         }
-            // for _ in 1...10{
-//            _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
-//                if vc.Assignments.DailyGrades.isEmpty && vc.Assignments.MajorGrades.isEmpty{
-//                    InformationHolder.SkywardWebsite.evaluateJavaScript(javaScript){ (result, error) in
-//                        if error == nil {
-//                            let resultString = result as! String
-//                            //if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
-//                            if resultString.contains(self.Options[indexOfOptions] + " Progress Report"){
-//                                vc.HTMLCodeFromGradeClick = result as! String
-//                                vc.Assignments = self.importantUtils.GetMajorAndDailyGrades(htmlCode: resultString, term: vc.Term, Class: vc.Class)
-//                                vc.ColorsOfGrades = self.importantUtils.DetermineColor(fromAssignmentGrades: vc.Assignments, gradingTerm: vc.Term)
-//                                vc.SetValuesOfGradeTableView()
-//                                vc.GradeTableView.reloadData()
-//                                timer.invalidate()
-//                            }
-//                        }
-//                    }}else{ timer.invalidate() }
-//            }
     }
     
     func IsElementaryAccount(Courses: [Course]) -> Bool{
         for course in InformationHolder.Courses{
-            for (term, grade) in course.Grades.Grades{
+            for (term, grade) in course.termGrades{
                 if(grade != "-1000" && (term.contains("PR"))){
                     return false
                 }
@@ -292,7 +282,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         var CurrentGuess = InformationHolder.AvailableTerms[0]
         for term in InformationHolder.AvailableTerms{
             for course in InformationHolder.Courses{
-                if Int(course.Grades.Grades[term] ?? "NA") != nil && term != "S1" && term != "S2"{
+                if Int(course.termGrades[term] ?? "NA") != nil && term != "S1" && term != "S2"{
                     CurrentGuess = term
                 }
             }
