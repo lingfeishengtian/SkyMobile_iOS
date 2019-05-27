@@ -46,13 +46,18 @@ class LegacyGradeSweeperAPI{
                                                     var Classes = Values[1].querySelectorAll("tr");
                                                     var Grades = Values[0].querySelectorAll("tr");
                                                     let isElem = true
-                                                    if(Values[0].querySelectorAll("tr")[1].textContent.includes("PR1")){ isElem = false }
+                                                    if(Values[0].querySelectorAll("tr")[1].textContent.includes("S1")){ isElem = false }
                                                     if(!isElem){
                                                     for(var j = 0; j < Classes.length; j++){
                                                         if(Classes[j].textContent.includes("Grade")){
                                                             finalString = finalString + "\\n @SWIFT_GRADE_NAME_CODEX " + Classes[j].textContent
                                                         }else
                                                         if(Classes[j].textContent.includes("Class") && Classes[j].textContent.includes("Terms")){
+                                                        let theOptions = Grades[j].querySelectorAll("td")
+                                                            Options = []
+                                                            for(var t = 0; t < theOptions.length; t++){
+                                                                 Options[t] = theOptions[t].textContent
+                                                            }
                                                         }else{
                                                         finalString = finalString + " @SWIFT_CLASS_CODEX_START " + Classes[j].querySelector("td").textContent
                                                         var CurrentGrades = Grades[j].querySelectorAll("td");
@@ -80,7 +85,7 @@ class LegacyGradeSweeperAPI{
                 tmp.Grade = GradeSection.components(separatedBy: "@SWIFT_CLASS_CODEX_START")[0]
                 var Classes = GradeSection.components(separatedBy: "@SWIFT_CLASS_CODEX_START")
                 Classes.removeFirst()
-                var tmpCourse = Course(period: -1, classDesc: "", teacher: "")
+                var tmpCourse = Course(period: "-1", classDesc: "", teacher: "")
                 for ClassSection in Classes{
                     tmpCourse.Class = ClassSection.components(separatedBy: " @SWIFT_GRADE_PERIOD_START ")[0]
                     var GradingPeriods = ClassSection.components(separatedBy: " @SWIFT_GRADE_PERIOD_START ")

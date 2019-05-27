@@ -33,6 +33,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if InformationHolder.isModified{
             importantUtils.DisplayWarningMessage(message: "For modified averages to work with GPA Calculator, you must modify FIN values. If there are no FIN values, then you have to modify S1, or S2 values for GPA Calculator to calculate your modified GPA correctly.")
         }
@@ -323,7 +324,8 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let CreditWorth = course.CourseCreditWorth
         let LevelAddAmt = CheckAddAmt(level: level)
         if LevelAddAmt != -1{
-            if let AttemptedDouble = Double(course.termGrades[term]!){
+            let termString = course.termGrades[term] ?? ""
+            if let AttemptedDouble = Double(termString){
                 NewClassAverage += ((AttemptedDouble) + Double(LevelAddAmt)) * CreditWorth
             }else{
                 FinalCount -= CreditWorth
@@ -396,19 +398,19 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
     
     func RetrieveGradeInformation(grades: [LegacyGrade]){
         //var temp = LegacyGrade(sectionName: "", courses: [])
-        for LEG in grades{
-                var prog = 0
-                for Class in LEG.Courses{
-                    if(Class.termGrades["FIN"] == ""){
-                        LEG.Courses.remove(at: prog)
-                        prog-=1
-                    }
-                    prog += 1
-                    if prog >= LEG.Courses.count-1{
-                        prog = 0
-                    }
-                }
-        }
+//        for LEG in grades{
+//                var prog = 0
+//                for Class in LEG.Courses{
+//                    if(Class.termGrades["FIN"] == ""){
+//                        LEG.Courses.remove(at: prog)
+//                        prog-=1
+//                    }
+//                    prog += 1
+//                    if prog >= LEG.Courses.count-1{
+//                        prog = 0
+//                    }
+//                }
+//        }
         LegacyGrades = grades
         let tmp = LegacyGrades.removeFirst()
         tmp.Courses = InformationHolder.Courses

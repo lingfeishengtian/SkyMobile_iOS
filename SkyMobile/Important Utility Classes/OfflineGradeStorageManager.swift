@@ -8,4 +8,4 @@
 
 import Foundation
 
-//To be implemented in version 2.0
+//To be implemented in version 3.0

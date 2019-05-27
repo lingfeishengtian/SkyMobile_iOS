@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let ShortcutOption = ShortcutItemPicked{
             for account in ImportantUtils.GetAccountValuesFromStorage(){
                 if ShortcutOption == account.NickName{
-                    let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
                     let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     vc.UserName = account.Username
                     vc.Password = account.Password

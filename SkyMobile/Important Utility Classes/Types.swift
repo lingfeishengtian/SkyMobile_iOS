@@ -10,23 +10,19 @@ import Foundation
 import WebKit
 
 struct Course: Hashable {
-    var Period: Int
+    var Period: String
     var Class: String
     var Teacher: String
     var CourseCreditWorth = 1.0
     var termGrades: [String: String] = [:]
     
-    var hashValue: Int {
-        return Class.hashValue
-    }
-    
-    init(period: Int, classDesc: String, teacher: String, courseWorth: Double) {
+    init(period: String, classDesc: String, teacher: String, courseWorth: Double) {
         Period = period
         Class = classDesc
         Teacher = teacher
         CourseCreditWorth = courseWorth
     }
-    init(period: Int, classDesc: String, teacher: String){
+    init(period: String, classDesc: String, teacher: String){
         Period = period
         Class = classDesc
         Teacher = teacher
@@ -42,10 +38,6 @@ struct Assignment: Hashable{
     var AssignmentName: String
     var Grade: Double
     var AssignmentTag = 0
-    
-    var hashValue: Int {
-        return Class.hashValue
-    }
     
     init(classDesc: String, assignments: String, grade: Double) {
         Class = classDesc
@@ -122,17 +114,9 @@ struct InformationHolder{
     static var SkywardWebsite: WKWebView = WKWebView()
     static var Courses: [Course] = []
     static var AvailableTerms:[String] = []
-    static var WebsiteStatus = WebsitePage.Login;
     static var GlobalPreferences = Preferences()
     static var isModified = false
     static var CoursesBackup: [Course] = []
-}
-
-enum WebsitePage {
-    case Login
-    case Home
-    case Gradebook
-    case AcademicHistory
 }
 
 class LegacyGrade{
@@ -150,12 +134,14 @@ class Preferences: NSObject, NSCoding{
     var ModernUI = true
     var BiometricEnabled = false
     var LogoutOnExitOfApplication = false
+    var ShowUpdateNotif = false
     
-    init(loginMethodStore: Bool = true, modern: Bool = true, biometricEnacted: Bool = false, logoutOnExitOfApplication: Bool = false){
+    init(loginMethodStore: Bool = true, modern: Bool = true, biometricEnacted: Bool = false, logoutOnExitOfApplication: Bool = false, showUpdateNotif: Bool = false){
         AutoLoginMethodDoesStoreAllAvailableAccounts = loginMethodStore
         ModernUI = modern
         BiometricEnabled = biometricEnacted
         LogoutOnExitOfApplication = logoutOnExitOfApplication
+        ShowUpdateNotif = showUpdateNotif
     }
     
     required convenience init(coder aDecoder: NSCoder) {
@@ -163,13 +149,15 @@ class Preferences: NSObject, NSCoding{
         let foundModernUI = aDecoder.decodeBool(forKey: "ModernUI")
         let foundBiometricOption = aDecoder.decodeBool(forKey: "BiometricSecurity")
         let foundLogoutOnExit = aDecoder.decodeBool(forKey: "LogoutOnExit")
-        self.init(loginMethodStore: foundAutoLoginMethodDoesStoreAllAvailableAccounts, modern: foundModernUI, biometricEnacted: foundBiometricOption, logoutOnExitOfApplication: foundLogoutOnExit)
+        let ShowUpdateNotif = aDecoder.decodeBool(forKey: "ShowUpdateNotif")
+        self.init(loginMethodStore: foundAutoLoginMethodDoesStoreAllAvailableAccounts, modern: foundModernUI, biometricEnacted: foundBiometricOption, logoutOnExitOfApplication: foundLogoutOnExit, showUpdateNotif: ShowUpdateNotif)
     }
     func encode(with aCoder: NSCoder) {
         aCoder.encode(AutoLoginMethodDoesStoreAllAvailableAccounts,forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
         aCoder.encode(ModernUI, forKey: "ModernUI")
         aCoder.encode(BiometricEnabled, forKey: "BiometricSecurity")
         aCoder.encode(LogoutOnExitOfApplication, forKey: "LogoutOnExit")
+        aCoder.encode(ShowUpdateNotif, forKey: "ShowUpdateNotif")
     }
 }
 

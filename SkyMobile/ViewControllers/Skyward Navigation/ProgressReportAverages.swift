@@ -11,7 +11,7 @@ import UIKit
 import WebKit
 import GoogleMobileAds
 
-class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource{
+class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, GADBannerViewDelegate{
     
     @IBOutlet weak var LogoutButton: UIButton!
     @IBOutlet weak var pickTerm: UIPickerView!
@@ -30,8 +30,12 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         //TestInject()
+        self.view.addSubview(InformationHolder.SkywardWebsite)
+        
+        ViewController.LoginSession = true
         AdBanner.adUnitID = "ca-app-pub-8149085154540848/1241734917"
         AdBanner.rootViewController = self
+        AdBanner.delegate = self
         AdBanner.load(GADRequest())
         
         if InformationHolder.GlobalPreferences.ModernUI{
@@ -77,6 +81,10 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
     }
     
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        print(error)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         RefreshTable()
@@ -90,7 +98,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     
     func TestInject(){
         for _ in 1...99{
-            InformationHolder.Courses.append(Course(period: 1111, classDesc: "TEST", teacher: "MR TESTER"))
+            InformationHolder.Courses.append(Course(period: "1111", classDesc: "TEST", teacher: "MR TESTER"))
     }
     }
     
@@ -330,7 +338,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
                 UserDefaults.standard.removeObject(forKey: "JedepomachdiniaopindieniLemachesie")
             }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
             let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             vc.didRun = false
             self.importantUtils.resetDefaults()

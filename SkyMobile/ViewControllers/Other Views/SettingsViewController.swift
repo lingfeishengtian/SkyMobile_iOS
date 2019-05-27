@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController{
     @IBOutlet weak var AuthenticationSwitch: UISwitch!
     @IBOutlet weak var LoginMethodSwitch: UISwitch!
     @IBOutlet var SettingsSections: [UIView]!
-    @IBOutlet weak var AuthenticationSwitchLabel: UILabel!
+    @IBOutlet weak var ShowUpdateEveryTime: UISwitch!
     
     var isFromLockScreen = false
     var AccountsStored: [Account] = []
@@ -45,7 +45,6 @@ class SettingsViewController: UIViewController{
         
         if isFromLockScreen{
             AuthenticationSwitch.isEnabled = false
-            AuthenticationSwitchLabel.text?.append("\nCannot enable or disable Biometric Authentication from Login Menu.")
             backButton.title = "Back"
         }
     }
@@ -55,11 +54,12 @@ class SettingsViewController: UIViewController{
         ModernUISwitch.isOn = InformationHolder.GlobalPreferences.ModernUI
         AuthenticationSwitch.isOn = InformationHolder.GlobalPreferences.BiometricEnabled
         LoginMethodSwitch.isOn = InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts
+        ShowUpdateEveryTime.isOn = InformationHolder.GlobalPreferences.ShowUpdateNotif
     }
     
     @objc func goBack(_ sender: Any){
         if isFromLockScreen{
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
             let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             self.present(vc, animated: true, completion: nil)
         }else{
@@ -95,6 +95,11 @@ class SettingsViewController: UIViewController{
     
     @IBAction func BiometricAuthenticationSwitchChanged(_ sender: UISwitch) {
         InformationHolder.GlobalPreferences.BiometricEnabled = sender.isOn
+        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
+    }
+    
+    @IBAction func ShowUpdateSwitchChanged(_ sender: UISwitch) {
+        InformationHolder.GlobalPreferences.ShowUpdateNotif = sender.isOn
         SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
     }
     

@@ -32,4 +32,21 @@ class ModernUITabController: UITabBarController{
 
 class CreditsSection : UIViewController{
     
+    @IBAction func goBack(_ sender: Any) {
+        if ViewController.LoginSession{
+            let storyboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            var vc: UIViewController
+            if InformationHolder.GlobalPreferences.ModernUI{
+                vc = storyboard.instantiateViewController(withIdentifier: "ModernUITableSelection")
+            }else{
+                vc = storyboard.instantiateViewController(withIdentifier: "SettingsViewController")
+            }
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
+            let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
 }

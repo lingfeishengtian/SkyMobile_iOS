@@ -13,13 +13,12 @@
 		961F297D22715FB6001BE296 /* DistrictPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961F297C22715FB6001BE296 /* DistrictPickerView.swift */; };
 		963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963383F7216ED9DA00C7C158 /* AppDelegate.swift */; };
 		963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 963383FE216ED9DC00C7C158 /* Assets.xcassets */; };
-		9633840D216ED9DD00C7C158 /* SkyMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9633840C216ED9DD00C7C158 /* SkyMobileTests.swift */; };
-		96338418216ED9DD00C7C158 /* SkyMobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96338417216ED9DD00C7C158 /* SkyMobileUITests.swift */; };
 		9636181D21812F51002A8B2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181921812F50002A8B2B /* LaunchScreen.storyboard */; };
-		9636181E21812F51002A8B2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Main.storyboard */; };
+		9636181E21812F51002A8B2B /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Login.storyboard */; };
 		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
 		969715F0221393A200B810DD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969715EF221393A200B810DD /* SettingsViewController.swift */; };
+		9697E227229060B300E0A2BF /* InhalationExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9697E226229060B300E0A2BF /* InhalationExercise.swift */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
 		96987933216EDB8D00274869 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987930216EDB8D00274869 /* Types.swift */; };
 		9698793F216EDBA100274869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96987935216EDBA100274869 /* ViewController.swift */; };
@@ -30,6 +29,8 @@
 		96AD03F721795F6B0057066D /* ImportantUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AD03F621795F6B0057066D /* ImportantUtils.swift */; };
 		96AEE146222EBBF800A3C0DE /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */; };
 		96B5834A228718DC00572D80 /* OfflineGradeStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */; };
+		96D32902228B75FD002816A6 /* Launcher.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96D32901228B75FD002816A6 /* Launcher.storyboard */; };
+		96D32905228B7B49002816A6 /* LaunchingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D32904228B7B49002816A6 /* LaunchingScreen.swift */; };
 		96DE3F84223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */; };
 		96E15B8622382BE200A959EC /* ModernUITabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E15B8522382BE200A959EC /* ModernUITabController.swift */; };
 		96FC4857222B7D76007645DD /* LegacyClassScraperAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */; };
@@ -68,17 +69,16 @@
 		963383FE216ED9DC00C7C158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96338403216ED9DD00C7C158 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96338408216ED9DD00C7C158 /* SkyMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9633840C216ED9DD00C7C158 /* SkyMobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyMobileTests.swift; sourceTree = "<group>"; };
 		9633840E216ED9DD00C7C158 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96338413216ED9DD00C7C158 /* SkyMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		96338417216ED9DD00C7C158 /* SkyMobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyMobileUITests.swift; sourceTree = "<group>"; };
 		96338419216ED9DD00C7C158 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9636181921812F50002A8B2B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9636181A21812F51002A8B2B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9636181A21812F51002A8B2B /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
 		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		963975B72190F35300BDE6F9 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		969715EF221393A200B810DD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		9697E226229060B300E0A2BF /* InhalationExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InhalationExercise.swift; sourceTree = "<group>"; };
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		96987930216EDB8D00274869 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		96987935216EDBA100274869 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +89,8 @@
 		96AD03F621795F6B0057066D /* ImportantUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportantUtils.swift; sourceTree = "<group>"; };
 		96AEE145222EBBF800A3C0DE /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineGradeStorageManager.swift; sourceTree = "<group>"; };
+		96D32901228B75FD002816A6 /* Launcher.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launcher.storyboard; sourceTree = "<group>"; };
+		96D32904228B7B49002816A6 /* LaunchingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchingScreen.swift; sourceTree = "<group>"; };
 		96DE3F83223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernDetailedAssignmentViewController.swift; sourceTree = "<group>"; };
 		96E15B8522382BE200A959EC /* ModernUITabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModernUITabController.swift; sourceTree = "<group>"; };
 		96F1BF25B5EDCC423CF69C33 /* Pods-SkyMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SkyMobileTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SkyMobileTests/Pods-SkyMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				96987938216EDBA100274869 /* Storyboards */,
 				96987934216EDBA100274869 /* ViewControllers */,
+				9697E2252290607000E0A2BF /* Stress Relief */,
 				9698792D216EDB8D00274869 /* Important Utility Classes */,
 				963383FE216ED9DC00C7C158 /* Assets.xcassets */,
 				963383F7216ED9DA00C7C158 /* AppDelegate.swift */,
@@ -177,7 +180,6 @@
 		9633840B216ED9DD00C7C158 /* SkyMobileTests */ = {
 			isa = PBXGroup;
 			children = (
-				9633840C216ED9DD00C7C158 /* SkyMobileTests.swift */,
 				9633840E216ED9DD00C7C158 /* Info.plist */,
 			);
 			path = SkyMobileTests;
@@ -186,10 +188,17 @@
 		96338416216ED9DD00C7C158 /* SkyMobileUITests */ = {
 			isa = PBXGroup;
 			children = (
-				96338417216ED9DD00C7C158 /* SkyMobileUITests.swift */,
 				96338419216ED9DD00C7C158 /* Info.plist */,
 			);
 			path = SkyMobileUITests;
+			sourceTree = "<group>";
+		};
+		9697E2252290607000E0A2BF /* Stress Relief */ = {
+			isa = PBXGroup;
+			children = (
+				9697E226229060B300E0A2BF /* InhalationExercise.swift */,
+			);
+			path = "Stress Relief";
 			sourceTree = "<group>";
 		};
 		9698792D216EDB8D00274869 /* Important Utility Classes */ = {
@@ -207,6 +216,7 @@
 		96987934216EDBA100274869 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				96D32903228B7B12002816A6 /* Launching Screen */,
 				96E06FF3224EC2C200B42E7C /* Skyward Navigation */,
 				96E06FF4224EC2E800B42E7C /* Other Views */,
 			);
@@ -217,11 +227,20 @@
 			isa = PBXGroup;
 			children = (
 				9636181921812F50002A8B2B /* LaunchScreen.storyboard */,
-				9636181A21812F51002A8B2B /* Main.storyboard */,
+				96D32901228B75FD002816A6 /* Launcher.storyboard */,
+				9636181A21812F51002A8B2B /* Login.storyboard */,
 				9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */,
 				9699154F224C68340064D22F /* StressReliefAndEncouragement.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		96D32903228B7B12002816A6 /* Launching Screen */ = {
+			isa = PBXGroup;
+			children = (
+				96D32904228B7B49002816A6 /* LaunchingScreen.swift */,
+			);
+			path = "Launching Screen";
 			sourceTree = "<group>";
 		};
 		96E06FF3224EC2C200B42E7C /* Skyward Navigation */ = {
@@ -369,11 +388,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9636181E21812F51002A8B2B /* Main.storyboard in Resources */,
+				9636181E21812F51002A8B2B /* Login.storyboard in Resources */,
 				963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */,
 				96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */,
 				9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */,
 				9636181D21812F51002A8B2B /* LaunchScreen.storyboard in Resources */,
+				96D32902228B75FD002816A6 /* Launcher.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +502,9 @@
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
 				96B5834A228718DC00572D80 /* OfflineGradeStorageManager.swift in Sources */,
 				96987931216EDB8D00274869 /* GradientView.swift in Sources */,
+				96D32905228B7B49002816A6 /* LaunchingScreen.swift in Sources */,
 				961317A12173019E0018684F /* ViewAssignments.swift in Sources */,
+				9697E227229060B300E0A2BF /* InhalationExercise.swift in Sources */,
 				96DE3F84223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,7 +513,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9633840D216ED9DD00C7C158 /* SkyMobileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,7 +520,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96338418216ED9DD00C7C158 /* SkyMobileUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,7 +666,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -654,7 +674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.SkyMobile.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -670,7 +690,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N74E93PMQ8;
 				INFOPLIST_FILE = SkyMobile/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -678,7 +698,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.SkyMobile.SkyMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

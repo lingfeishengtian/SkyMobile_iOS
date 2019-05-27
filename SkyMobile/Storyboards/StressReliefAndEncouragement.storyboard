@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Inhalation Exercise-->
         <scene sceneID="ecW-9u-JUy">
             <objects>
-                <viewController storyboardIdentifier="Credits" id="Tim-MP-Dks" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InhalationExercise" id="Tim-MP-Dks" customClass="InhalationExercise" customModule="SkyMobile" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yY6-sy-5bz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BnE-i3-Mmf">
+                                <rect key="frame" x="0.0" y="36" width="375" height="57.5"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Paa-xZ-Zle">
+                                <rect key="frame" x="152" y="136" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Let's Start"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.66143056512770348" green="0.67892605622204538" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BnE-i3-Mmf" firstAttribute="trailing" secondItem="iys-wz-OGL" secondAttribute="trailing" id="Mk6-Uv-hvZ"/>
+                            <constraint firstItem="BnE-i3-Mmf" firstAttribute="top" secondItem="iys-wz-OGL" secondAttribute="top" constant="16" id="RGi-Uz-0Vi"/>
+                            <constraint firstItem="BnE-i3-Mmf" firstAttribute="leading" secondItem="iys-wz-OGL" secondAttribute="leading" id="c4R-eN-0xm"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="iys-wz-OGL"/>
                     </view>
+                    <connections>
+                        <outlet property="announcementLabel" destination="BnE-i3-Mmf" id="ah5-uZ-RRo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Miz-FT-vdO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1001" y="-88"/>
+            <point key="canvasLocation" x="-1002.4" y="-88.605697151424295"/>
         </scene>
     </scenes>
 </document>

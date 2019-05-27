@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import WebKit
-import SystemConfiguration
 import LocalAuthentication
 import GoogleMobileAds
 import Kanna
@@ -48,8 +47,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     static var LoginSession = false
     static var LoginDistrict = ImportantUtils.GetDistrictsFromStorage()
     
-    let BetaTesterAllowedForCurrentVersionCredentials = "62-+9m-j32la.dl"
-
     override func viewDidLoad() {
         super.viewDidLoad()
         ViewController.LoginSession = false
@@ -85,7 +82,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         blurEffectView.alpha = 0
         StatePicker.delegate = StateDelegate
         
-        if isConnectedToNetwork() {
+        if ImportantUtils.isConnectedToNetwork() {
             LoginTitle.title = ViewController.LoginDistrict.DistrictName
             DistrictSearcher.initStateSelections(observer: stateObserver, picker: StatePicker)
             webView.navigationDelegate = self
@@ -109,9 +106,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             DistrictData.Parent = self
             SavedAccountsTableView.dataSource = self
             SavedAccountsTableView.delegate = self
-        }else{
-            let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
-            UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
         }
     }
     
@@ -231,7 +225,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     
     static func SetAccountsAs3DTouch(){
         var accounts: [Account] = ImportantUtils.GetAccountValuesFromStorage()
-
+        
         var NumOfAccountsToSet = accounts.count
         if accounts.count > 4{
             NumOfAccountsToSet = 5
@@ -323,71 +317,69 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     
-    fileprivate func CheckIfBetaCredentialsAreCorrect(_ storedValue: String, _ build: String) {
-        if storedValue != BetaTesterAllowedForCurrentVersionCredentials && build.contains("private"){
-            let alert = UIAlertController(title: "Discord Private Tester", message: "Please enter your access code. This is one time only.", preferredStyle: .alert)
-            
-            alert.addTextField { (textField) in
-                textField.text = ""
-            }
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                let textField = alert?.textFields![0].text!
-                if textField == self.BetaTesterAllowedForCurrentVersionCredentials{
-                    UserDefaults.standard.set(textField!, forKey: build)
-                    let alert = UIAlertController(title: "Discord Private Tester", message: "Success, the app will exit.", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "OK", style: .default, handler: { alert in
-                        assert(false)
-                    })
-                    alert.addAction(action)
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }else{
-                    assert(false)
-                }
-            }))
-            
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
-        importantUtils.CreateLoadingView(view: self.view, message: "Loading...")
-        reloadSkyward()
-        self.view.addSubview(LoginPortalSearcherObserver.webView)
-        
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: false){ timer in
-            print("Idle for too long, assuming infinite looped. Exiting all loops")
-            if self.importantUtils.GetLoadingViewText(views: self.view) == "Loading Skyward..."{
-                self.importantUtils.DestroyLoadingView(views: self.view)
-            }
-        }
-        print("Timer asynchronaly loading")
-        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
-        let isBeta = (appVersion?.lowercased().contains("beta"))! || (appVersion?.lowercased().contains("vb"))!
-        let dictionary = Bundle.main.infoDictionary!
-        let build = dictionary["CFBundleVersion"] as! String
-        
-        if isBeta {
-            let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". Build: \(build) You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: {alert in
-                if let storedValue = UserDefaults.standard.object(forKey: build){
-                    self.CheckIfBetaCredentialsAreCorrect(storedValue as! String, build)
-                }else{
-                    self.CheckIfBetaCredentialsAreCorrect("", build)
-                }
-            })
-            betaAlert.addAction(okAction)
-            self.present(betaAlert, animated: true, completion: nil)
+        if ImportantUtils.isConnectedToNetwork(){
+            importantUtils.CreateLoadingView(view: self.view, message: "Loading...")
+            reloadSkyward()
+            self.view.addSubview(LoginPortalSearcherObserver.webView)
             
-            if !InformationHolder.GlobalPreferences.ModernUI{
-            BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
+            DispatchQueue.main.async {
+                _ = try? LatestVersionChecker.isUpdateAvailable { (update, error) in
+                    if let error = error {
+                        print(error)
+                    } else if let update = update {
+                        let info = Bundle.main.infoDictionary
+                        let currentVersion = info?["CFBundleShortVersionString"] as? String
+                        if update != currentVersion{
+                            if !ImportantUtils.isKeyPresentInUserDefaults(key: "NotifyAboutVersion\(update)") || InformationHolder.GlobalPreferences.ShowUpdateNotif{
+                                let alerttingLogout = UIAlertController(title: "Update Available!", message: "There's an update available, go to the app store to download it!", preferredStyle: .alert)
+                                let action = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                                alerttingLogout.addAction(action)
+                                self.present(alerttingLogout, animated: true, completion: nil)
+                                
+                                UserDefaults.standard.set(true, forKey: "NotifyAboutVersion\(update)")
+                            }
+                        }
+                    }
+                }
+            }
+            
+            Timer.scheduledTimer(withTimeInterval: 10, repeats: false){ timer in
+                print("Idle for too long, assuming infinite looped. Exiting all loops")
+                if self.importantUtils.GetLoadingViewText(views: self.view) == "Loading Skyward..."{
+                    self.importantUtils.DestroyLoadingView(views: self.view)
+                }
+            }
+            
+            print("Timer asynchronaly loading")
+            let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+            let dictionary = Bundle.main.infoDictionary!
+            let build = dictionary["CFBundleVersion"] as! String
+            let isBeta = (build.lowercased().contains("beta")) || (build.lowercased().contains("b"))
+            
+            if isBeta {
+                let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". Build: \(build) You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                betaAlert.addAction(okAction)
+                self.present(betaAlert, animated: true, completion: nil)
+                
+                if !InformationHolder.GlobalPreferences.ModernUI{
+                    BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
+                }
+            }else{
+                if !InformationHolder.GlobalPreferences.ModernUI{
+                    BetaInfoDisplayer.isHidden = true
+                }
             }
         }else{
-            if !InformationHolder.GlobalPreferences.ModernUI{
-            BetaInfoDisplayer.isHidden = true
-            }
+            self.importantUtils.DestroyLoadingView(views: self.view)
+            let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { action in
+                self.goBackToLauncher(self)
+            })
+            alerttingLogout.addAction(okAction)
+            self.present(alerttingLogout, animated: true, completion: nil)
         }
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -395,33 +387,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             UsernameField.underlined()
             PasswordField.underlined()
         }
-    }
-    
-    func isConnectedToNetwork() -> Bool {
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-        
-        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                SCNetworkReachabilityCreateWithAddress(nil, $0)
-            }
-        }) else {
-            return false
-        }
-        
-        var flags: SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
-            return false
-        }
-        if flags.isEmpty {
-            return false
-        }
-        
-        let isReachable = flags.contains(.reachable)
-        let needsConnection = flags.contains(.connectionRequired)
-        
-        return (isReachable && !needsConnection)
     }
     
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
@@ -435,25 +400,25 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if self.webView.url?.absoluteString == ViewController.LoginDistrict.DistrictLink.absoluteString{
-                    importantUtils.DestroyLoadingView(views: self.view)
-                if !didRun{
-                    if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
-                        if ImportantUtils.isKeyPresentInUserDefaults(key: "JedepomachdiniaopindieniLemachesie"){
-                            if let data = UserDefaults.standard.data(forKey: "JedepomachdiniaopindieniLemachesie"){
-                                AccountFromPreviousSession = NSKeyedUnarchiver.unarchiveObject(with: data) as! Account
-                                UserName = AccountFromPreviousSession.Username
-                                Password = AccountFromPreviousSession.Password
-                                didRun = true
-                                AttemptLogin()
-                            }
+            importantUtils.DestroyLoadingView(views: self.view)
+            if !didRun{
+                if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+                    if ImportantUtils.isKeyPresentInUserDefaults(key: "JedepomachdiniaopindieniLemachesie"){
+                        if let data = UserDefaults.standard.data(forKey: "JedepomachdiniaopindieniLemachesie"){
+                            AccountFromPreviousSession = NSKeyedUnarchiver.unarchiveObject(with: data) as! Account
+                            UserName = AccountFromPreviousSession.Username
+                            Password = AccountFromPreviousSession.Password
+                            didRun = true
+                            AttemptLogin()
                         }
-                    }else if ShouldLoginWhenFinishedLoadingSite{
-                        ShouldLoginWhenFinishedLoadingSite = false
-                        AttemptLogin()
-                        didRun = true
                     }
-               }
-           }
+                }else if ShouldLoginWhenFinishedLoadingSite{
+                    ShouldLoginWhenFinishedLoadingSite = false
+                    AttemptLogin()
+                    didRun = true
+                }
+            }
+        }
     }
     
     @objc func ShowError() {
@@ -530,18 +495,17 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         var finished = false;
         //while !finished{
         var times = 0
-        importantUtils.CreateLoadingView(view: self.view, message: "Logging in...")
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){timer in
-                if finished == true{
-                    timer.invalidate()
-                }
-                if times >= 40 {
-                    timer.invalidate()
-                    self.importantUtils.DestroyLoadingView(views: self.view)
-                    self.importantUtils.DisplayErrorMessage(message: "Failed to Login, please retry!")
-                }
-                times+=1
-                DispatchQueue.main.async {
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){timer in
+            if finished == true{
+                timer.invalidate()
+            }
+            if times >= 40 {
+                timer.invalidate()
+                self.importantUtils.DestroyLoadingView(views: self.view)
+                self.importantUtils.DisplayErrorMessage(message: "Failed to Login, please retry!")
+            }
+            times+=1
+            DispatchQueue.main.async {
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error != nil{
                         if InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
@@ -559,27 +523,27 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                             timer.invalidate()
                         }
                     }else{
-                    if let out = result as? String{
-                        if (out.contains("fail")){
-                            self.importantUtils.DestroyLoadingView(views: self.view)
-                            let Invalid = UIAlertController(title: "Uh-Oh", message: "Invalid login or password!", preferredStyle: .alert)
-                            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-                            Invalid.addAction(ok)
-                            self.present(Invalid, animated: true, completion: nil)
-                            self.enableButton(bool: true)
-                            self.changeColorOfButton(color: UIColor.red)
-                            finished = true
-                            timer.invalidate()
+                        if let out = result as? String{
+                            if (out.contains("fail")){
+                                self.importantUtils.DestroyLoadingView(views: self.view)
+                                let Invalid = UIAlertController(title: "Uh-Oh", message: "Invalid login or password!", preferredStyle: .alert)
+                                let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+                                Invalid.addAction(ok)
+                                self.present(Invalid, animated: true, completion: nil)
+                                self.enableButton(bool: true)
+                                self.changeColorOfButton(color: UIColor.red)
+                                finished = true
+                                timer.invalidate()
+                            }
+                            if (out).contains("clicked"){
+                                finished = true
+                                timer.invalidate()
+                            }
                         }
-                        if (out).contains("clicked"){
-                            finished = true
-                            timer.invalidate()
-                        }
+                    }
                 }
-                    }
-                    }
+            }
         }
-    }
         //perform(#selector(ShowError), with: nil, afterDelay: 40)
     }
     
@@ -604,7 +568,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     var Expecting = false
     func getHTMLCode(){
         let javascript =
-            """
+        """
             function PrintTerms(){
              var FinalString = ""
              if (typeof sf_StudentList !== "undefined"){
@@ -670,16 +634,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         }
                     }
                 }else{
-                        self.importantUtils.DestroyLoadingView(views: self.view)
-                        let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
-                                                                       message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
-                                                                       preferredStyle: .alert)
-                        
-                        self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
-                    }
+                    self.importantUtils.DestroyLoadingView(views: self.view)
+                    let ErrorWhilstLoadingHTML = UIAlertController(title: "Uh-Oh",
+                                                                   message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
+                                                                   preferredStyle: .alert)
+                    
+                    self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
                 }
             }
         }
+    }
     
     @objc func EditAccountName(sender: AnyObject){
         if sender.reuseIdentifier != "ERRORCANNOTFIND"{
@@ -697,7 +661,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             let OKAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
                 if let Input = GetTextInput.textFields![0].text{
-                self.AccountsStored[index].NickName = Input
+                    self.AccountsStored[index].NickName = Input
                     ImportantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
                     self.SavedAccountsTableView.reloadData()
                 }
@@ -728,7 +692,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             Areyousure.addAction(YesAction)
             self.present(Areyousure, animated: true, completion: nil)
         }
-
+        
         let editAction = UITableViewRowAction(style: .normal, title: "Edit"){(row, index) in
             self.EditAccountName(sender: self.SavedAccountsTableView.cellForRow(at: indexPath) ?? UITableViewCell(style: .default, reuseIdentifier: "ERRORCANNOTFIND"))
         }
@@ -801,14 +765,13 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
     {
-            return UITableViewCell.EditingStyle.none
+        return UITableViewCell.EditingStyle.none
     }
     var runOnce = false
     
     fileprivate func AttemptFinalInitBeforeLogin() {
         importantUtils.DestroyLoadingView(views: self.view)
         importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
-        InformationHolder.WebsiteStatus = WebsitePage.Gradebook
         
         if InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
             var isAccountPresentInStorage = false
@@ -841,8 +804,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     
+    @IBAction func goBackToLauncher(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Launcher", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "Launcher") as! LaunchingScreen
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(vc, animated: false, completion: nil)
+    }
+    
     /*
- 
+     
      Important note to take note of.
      
      iOS 11 WebView observe value sometimes cannot unwrap webview values
@@ -853,7 +828,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         if keyPath == #keyPath(WKWebView.url) {
             print("### URL:", self.webView.url!)
         }
-
+        
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
             // When page load finishes. Should work on each page reload.
             if (self.webView.estimatedProgress == 1) {
@@ -866,13 +841,12 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 
                 DispatchQueue.main.async {
                     if self.webView.url?.absoluteString.contains("sfhome01.w") ?? false && !self.runOnce{
-                    let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
-                    self.webView.evaluateJavaScript(javascript1){ obj, err in
-                        if err == nil{
-                            self.runOnce = true
-                            InformationHolder.WebsiteStatus = WebsitePage.Home
+                        let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
+                        self.webView.evaluateJavaScript(javascript1){ obj, err in
+                            if err == nil{
+                                self.runOnce = true
+                            }
                         }
-                    }
                     }
                 }
                 if self.webView.url?.absoluteString.contains("sfgradebook001.w") ?? false && (UIApplication.topViewController() is ViewController){
@@ -883,7 +857,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     }
                 }
                 if InformationHolder.SkywardWebsite.url?.absoluteString.contains("qloggedout001.w") ?? false && !(UIApplication.topViewController() is ViewController) {
-                    let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
                     let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     
                     let alerttingLogout = UIAlertController(title: "Oh No!", message: "Looks like you have been automatically logged out!", preferredStyle: .alert)
@@ -891,26 +865,24 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         UIApplication.topViewController()!.present(vc, animated: true, completion: nil)
                     })
                     alerttingLogout.addAction(OK)
-                    InformationHolder.WebsiteStatus = WebsitePage.Login
                     UIApplication.topViewController()!.present(alerttingLogout, animated: true, completion: nil)
                 }
                 if InformationHolder.SkywardWebsite.url?.absoluteString.contains("sfacademichistory001.w") ?? false{
                     let CurrentTop = UIApplication.topViewController()
                     if CurrentTop is GPACalculatorViewController{
-                        InformationHolder.WebsiteStatus = WebsitePage.AcademicHistory
                         let GPACalc = CurrentTop as! GPACalculatorViewController
                         DispatchQueue.main.async {
-                        InformationHolder.SkywardWebsite.evaluateJavaScript(LegacyGradeSweeperAPI.JavaScriptToScrapeGrades){(result, error) in
-                            if(error == nil){
-                                GPACalc.RetrieveGradeInformation(grades: LegacyGradeSweeperAPI.ScrapeLegacyGrades(configuredString: result as! String))
-                            }
+                            InformationHolder.SkywardWebsite.evaluateJavaScript(LegacyGradeSweeperAPI.JavaScriptToScrapeGrades){(result, error) in
+                                if(error == nil){
+                                    GPACalc.RetrieveGradeInformation(grades: LegacyGradeSweeperAPI.ScrapeLegacyGrades(configuredString: result as! String))
+                                }
                             }
                         }
                     }
                 }
+            }
         }
-        }
-}
+    }
 }
 
 extension UITextField {

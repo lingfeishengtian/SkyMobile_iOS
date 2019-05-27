@@ -1,10 +1,10 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '11.0'
+platform :ios, '10.0'
 
 target 'SkyMobile' do
 
   # Pods for SkyMobile
-  pod 'Kanna', '~> 4.0.0'
+  pod 'Kanna', '~> 5.0.0'
   pod 'Google-Mobile-Ads-SDK'
 
   target 'SkyMobileTests' do

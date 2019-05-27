@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import WebKit
 import Kanna
+import SystemConfiguration
 
 class ImportantUtils {
     fileprivate func findMaxAndLowOf(_ finalGrades: [Double], _ high: inout Double, _ low: inout Double) {
@@ -303,44 +304,18 @@ class ImportantUtils {
         for Class in classArr{
             if Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n").count <= 1{
                 let current = Course(
-                    period: Int(Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0])!,
+                    period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
                     classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
                     teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "(\n")[0].components(separatedBy: "\n\n\n")[0])
                 
                 finalPeriod.append(current)
             }else{
                 let current = Course(
-                    period: Int(Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0])!,
+                    period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
                     classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
                     teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[1].components(separatedBy: "\n\n\n")[0])
                 
                 finalPeriod.append(current)
-            }
-        }
-        
-        //        for testCase in finalPeriod{
-        //            print("Class: " + testCase.Class + "\nPeriod: " + String(testCase.Period) + "\nTeacher: " + testCase.Teacher)
-        //        }
-        return finalPeriod
-    }
-    
-    fileprivate func SplitClassDescription(classArr: [String]) -> [Course]{
-        var finalPeriod: [Course] = []
-        for Class in classArr{
-            if Class.components(separatedBy: " Period")[1].components(separatedBy: ") ").count <= 1{
-                let current = Course(
-                    period: Int(Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[0].components(separatedBy: "(")[0])!,
-                    classDesc: Class.components(separatedBy: " Period")[0],
-                    teacher: Class.components(separatedBy: " Period")[1].components(separatedBy: "( ")[0])
-                
-                finalPeriod.append(current)
-            }else{
-            let current = Course(
-                period: Int(Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[0].components(separatedBy: "(")[0])!,
-                classDesc: Class.components(separatedBy: " Period")[0],
-                teacher: Class.components(separatedBy: " Period")[1].components(separatedBy: ") ")[1])
-            
-            finalPeriod.append(current)
             }
         }
         
@@ -386,5 +361,32 @@ class ImportantUtils {
             UserDefaults.standard.set(encoded, forKey: "JefoSelechDieDistraichtein")
         }
         return district
+    }
+    
+    static func isConnectedToNetwork() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        }) else {
+            return false
+        }
+        
+        var flags: SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        if flags.isEmpty {
+            return false
+        }
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        
+        return (isReachable && !needsConnection)
     }
 }
