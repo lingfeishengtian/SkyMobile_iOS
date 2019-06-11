@@ -18,24 +18,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BnE-i3-Mmf">
-                                <rect key="frame" x="0.0" y="36" width="375" height="57.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Watch the colors fly by." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BnE-i3-Mmf">
+                                <rect key="frame" x="5" y="66" width="364" height="205"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="50"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Paa-xZ-Zle">
-                                <rect key="frame" x="152" y="136" width="71" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BsL-FR-VcB">
+                                <rect key="frame" x="16" y="18" width="30" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Let's Start"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <state key="normal" title=" ╳">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="goBackToStartup:" destination="Tim-MP-Dks" eventType="touchUpInside" id="hpJ-yq-eUk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.66143056512770348" green="0.67892605622204538" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="BnE-i3-Mmf" firstAttribute="trailing" secondItem="iys-wz-OGL" secondAttribute="trailing" id="Mk6-Uv-hvZ"/>
-                            <constraint firstItem="BnE-i3-Mmf" firstAttribute="top" secondItem="iys-wz-OGL" secondAttribute="top" constant="16" id="RGi-Uz-0Vi"/>
-                            <constraint firstItem="BnE-i3-Mmf" firstAttribute="leading" secondItem="iys-wz-OGL" secondAttribute="leading" id="c4R-eN-0xm"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="iys-wz-OGL"/>
                     </view>
                     <connections>

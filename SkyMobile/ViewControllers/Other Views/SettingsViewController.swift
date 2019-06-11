@@ -9,118 +9,176 @@
 import Foundation
 import UIKit
 
-class SettingsViewController: UIViewController{
+class PreferenceLoader{
+    static func loadPreferencesFromJSON() -> [Preference]{
+        let currentVersion = PreferenceLoader.getCurrentVersionPrefs()
+        if ImportantUtils.isKeyPresentInUserDefaults(key: "settingsPrefs"){
+            if let data = UserDefaults.standard.data(forKey: "settingsPrefs"){
+                let storedPrefs = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Preference]
+                if PreferenceLoader.doPrefsContainDiscrepencies(pref1: storedPrefs, pref2: currentVersion){
+                    return mergePrefs(stored: storedPrefs, pref2: currentVersion)
+                }else{
+                    return storedPrefs
+                }
+            }
+        }else{
+            return currentVersion
+        }
+        return []
+    }
     
-    @IBOutlet weak var SettingsNavigationItem: UINavigationItem!
-    @IBOutlet var WidthsToModify: [NSLayoutConstraint]!
-    @IBOutlet weak var ModernUISwitch: UISwitch!
-    @IBOutlet weak var AuthenticationSwitch: UISwitch!
-    @IBOutlet weak var LoginMethodSwitch: UISwitch!
-    @IBOutlet var SettingsSections: [UIView]!
-    @IBOutlet weak var ShowUpdateEveryTime: UISwitch!
+    static func doPrefsContainDiscrepencies(pref1: [Preference], pref2:[Preference]) -> Bool{
+        if pref1.count != pref2.count{
+            return true
+        }
+        
+        for pref in pref1{
+            for compPref in pref2{
+                if compPref.id == pref.id && (compPref.title != pref.title || compPref.desc != pref.desc || compPref.editableOnLockscreen != pref.editableOnLockscreen){
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    static func mergePrefs(stored: [Preference], pref2: [Preference]) -> [Preference]{
+        var finPref: [Preference] = stored
+        for pref in pref2{
+            var found = false
+            for compPref in finPref{
+                if compPref.id == pref.id{
+                    compPref.title = pref.title
+                    compPref.desc = pref.desc
+                    compPref.editableOnLockscreen = pref.editableOnLockscreen
+                    found = true
+                }
+            }
+            if !found{
+                finPref.append(pref)
+            }
+        }
+        
+        return finPref
+    }
+    
+    static func getCurrentVersionPrefs() -> [Preference]{
+        if let path = Bundle.main.path(forResource: "preferences", ofType: "json"){
+            do{
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let jsonResult = try JSONDecoder().decode(PreferenceParent.self, from: data)
+                return jsonResult.preferences
+            }catch let error{
+                print(error)
+            }
+        }
+        return []
+    }
+    
+    static func writePreferencesToPrefs(arr: [Preference]){
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: arr)
+        UserDefaults.standard.set(encodedData, forKey: "settingsPrefs")
+    }
+    
+    static func findPref(prefID: String) -> Bool{
+        for pref in InformationHolder.GlobalPreferences{
+            if pref.id == prefID{
+                return pref.defaultBool
+            }
+        }
+        return false
+    }
+    
+    static func findPrefIndex(prefID: String) -> Int{
+        for ind in 0...InformationHolder.GlobalPreferences.count{
+            if InformationHolder.GlobalPreferences[ind].id == prefID{
+                return ind
+            }
+        }
+        return -1
+    }
+}
+
+class PreferenceController: UIViewController{
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var navBar: UINavigationItem!
     
     var isFromLockScreen = false
-    var AccountsStored: [Account] = []
-    var CurrentPreferences = Preferences()
-    var TableView = UITableView(frame: CGRect())
-    var importantUtils = ImportantUtils()
     
-    //ADD ALLOW FOR ONLY SAVE ONE ACCOUNT PREFERENCE
     override func viewDidLoad() {
-        let backButton = UIBarButtonItem(title: "Refresh", style: .done, target: self, action: #selector(goBack(_:)))
-        
-        self.SettingsNavigationItem.leftBarButtonItem = backButton
-        SettingsNavigationItem.hidesBackButton = false
-        
-        CurrentPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
-        SetupPreferences()
-        
-        let Width = self.view.frame.size.width
-        for Constraint in WidthsToModify{
-            Constraint.constant = Width-11
-        }
-        for Section in SettingsSections{
-            Section.layer.cornerRadius = 5
-        }
+        super.viewDidLoad()
         
         if isFromLockScreen{
-            AuthenticationSwitch.isEnabled = false
-            backButton.title = "Back"
+            navBar.leftBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .cancel, target: self, action: #selector(goBackToHome(sender:)))
+        }else{
+            navBar.leftBarButtonItem = UIBarButtonItem.init(title: "Refresh", style: .done, target: self, action: #selector(goBackToHome(sender:)))
         }
-    }
-
-    func SetupPreferences(){
-        InformationHolder.GlobalPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
-        ModernUISwitch.isOn = InformationHolder.GlobalPreferences.ModernUI
-        AuthenticationSwitch.isOn = InformationHolder.GlobalPreferences.BiometricEnabled
-        LoginMethodSwitch.isOn = InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts
-        ShowUpdateEveryTime.isOn = InformationHolder.GlobalPreferences.ShowUpdateNotif
+        loadPrefsIntoUI()
     }
     
-    @objc func goBack(_ sender: Any){
+    @objc func goBackToHome(sender: Any){
         if isFromLockScreen{
             let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
             let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
             self.present(vc, animated: true, completion: nil)
         }else{
-            if InformationHolder.GlobalPreferences.ModernUI{
-                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            if PreferenceLoader.findPref(prefID: "modernUI"){
                 let vc = mainStoryboard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
                 self.present(vc, animated: true, completion: nil)
             }else{
-                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+                let vc = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
                 self.present(vc, animated: true, completion: nil)
             }
         }
     }
     
-    static func LoadPreferencesFromSavedLibrary() -> Preferences{
-        if let data = UserDefaults.standard.data(forKey: "Preferences"){
-            return NSKeyedUnarchiver.unarchiveObject(with: data) as! Preferences
+    func loadPrefsIntoUI(){
+        let frame = self.view.frame
+        for ind in 0...InformationHolder.GlobalPreferences.count-1{
+            let pref = InformationHolder.GlobalPreferences[ind]
+            let viewHeight = 60
+            let view = PreferenceBundle(frame: CGRect(x: 10, y: ind * viewHeight + 10 * (ind + 1), width: Int(frame.width - 20), height: viewHeight), pref: pref, shouldBeAbleToEdit: pref.editableOnLockscreen || !isFromLockScreen)
+
+            scrollView.addSubview(view)
         }
-        return Preferences()
     }
+}
+
+class PreferenceBundle: UIView{
+    let preferenceStored: Preference
     
-    static func SavePreferencesIntoLibraryAndApplication(pref: Preferences){
-        InformationHolder.GlobalPreferences = pref
-        let ArchivedPrefs = NSKeyedArchiver.archivedData(withRootObject: pref)
-        UserDefaults.standard.set(ArchivedPrefs, forKey: "Preferences")
-    }
-    
-    @IBAction func ModernUISwitchChanged(_ sender: UISwitch) {
-        InformationHolder.GlobalPreferences.ModernUI = sender.isOn
-        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
-    }
-    
-    @IBAction func BiometricAuthenticationSwitchChanged(_ sender: UISwitch) {
-        InformationHolder.GlobalPreferences.BiometricEnabled = sender.isOn
-        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
-    }
-    
-    @IBAction func ShowUpdateSwitchChanged(_ sender: UISwitch) {
-        InformationHolder.GlobalPreferences.ShowUpdateNotif = sender.isOn
-        SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
-    }
-    
-    @IBAction func AutoLoginStorageSwitchChanged(_ sender: UISwitch) {
-        var LoginMethod = ""
-        if sender.isOn{
-            LoginMethod = "account storage"
-        }else{
-            LoginMethod = "saved session"
+    init(frame: CGRect, pref: Preference, shouldBeAbleToEdit editable: Bool = true) {
+        preferenceStored = pref
+        super.init(frame: frame)
+        let viewHeight = Int(self.frame.height)
+        self.backgroundColor = UIColor.black
+        self.layer.cornerRadius = 10.0
+        self.isHidden = false
+        let onOff = UISwitch(frame: CGRect(x: Int(self.frame.width - 60), y: viewHeight/2 - 15, width: 25, height: viewHeight))
+        onOff.isOn = preferenceStored.defaultBool
+        let title = UILabel(frame: CGRect(x: 10, y: 0, width: Int(self.frame.width), height: viewHeight))
+        title.textColor = UIColor.white
+        title.backgroundColor = UIColor.clear
+        title.text = preferenceStored.title
+        title.font = UIFont.systemFont(ofSize: 20)
+        onOff.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
+        if !editable{
+            onOff.isEnabled = false
         }
-        let alertUserSavePassword = UIAlertController(title: "Hey there!", message: "Are you sure you want to change your login method to " + LoginMethod + "? SkyMobile saves all the accounts stored, so you won't lose your account data.", preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "Save", style: .default){ alert in
-            InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts = sender.isOn
-            SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
-        }
-        let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
-            sender.isOn = !sender.isOn
-        }
-        alertUserSavePassword.addAction(OKAction)
-        alertUserSavePassword.addAction(Cancel)
-        self.present(alertUserSavePassword, animated: true, completion: nil)
+        self.addSubview(title)
+        self.addSubview(onOff)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        preferenceStored = Preference(iid: "Test", ititle: "test", idesc: "no", iBoolL: false)
+        super.init(coder: aDecoder)
+        print("This function should not be used...")
+    }
+    
+    @objc func switchChanged(sender: Any){
+        preferenceStored.defaultBool = !preferenceStored.defaultBool
+        PreferenceLoader.writePreferencesToPrefs(arr: InformationHolder.GlobalPreferences)
+    }
 }

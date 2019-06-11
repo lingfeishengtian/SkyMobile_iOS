@@ -18,6 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         
+        InformationHolder.GlobalPreferences = PreferenceLoader.loadPreferencesFromJSON()
+        if PreferenceLoader.findPref(prefID: "skipStartup"){
+            
+            let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
+            let vc : ViewController = mainStoryboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = vc
+            self.window?.makeKeyAndVisible()
+        }
+        
         ViewController.SetAccountsAs3DTouch()
         return true
     }

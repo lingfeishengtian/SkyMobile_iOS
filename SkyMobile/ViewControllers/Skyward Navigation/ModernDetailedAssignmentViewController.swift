@@ -46,13 +46,6 @@ class ModernDetailedAssignmentViewController: UIViewController, UITableViewDeleg
                     let tdElements = trElem.css("td")
                     if tdElements.count == 1{
                         let NewAssignmentDetailCell = InfoDetailType()
-//                        NewAssignmentDetailCell.Description = UILabel(frame: CGRect(x: 5, y: 0, width: self.view.frame.size.width - 20, height: 44))
-//                        NewAssignmentDetailCell.ExpandedDetail = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-//                        NewAssignmentDetailCell.ExpandedDetail.isHidden = true
-//                        NewAssignmentDetailCell.Description.numberOfLines = 10
-//                        NewAssignmentDetailCell.Description.lineBreakMode = .byWordWrapping
-//                        NewAssignmentDetailCell.Description.text = tdElements.first?.text
-//                        NewAssignmentDetailCell.Description.sizeThatFits(CGSize(width: self.view.frame.size.width - 10, height: 999))
                         NewAssignmentDetailCell.ExpandedDetail = (tdElements.first?.text)!
                         NewAssignmentDetailCell.count = 1
                         FinalValues.append(NewAssignmentDetailCell)

@@ -29,6 +29,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     @IBOutlet weak var StatePicker: UIPickerView!
     @IBOutlet weak var DistrictName: UITextField!
     @IBOutlet weak var LoginTitle: UINavigationItem!
+    @IBOutlet weak var toolBarSettings: UIButton!
+    @IBOutlet weak var toolbarDistrictSearcher: UIButton!
+    @IBOutlet weak var toolbarTopConstraint: NSLayoutConstraint!
     
     var UserName = ""
     var Password = ""
@@ -49,23 +52,39 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ViewController.LoginSession = false
-        InformationHolder.GlobalPreferences = SettingsViewController.LoadPreferencesFromSavedLibrary()
-        let Prefs = InformationHolder.GlobalPreferences
-        if Prefs.ModernUI{
-            self.view = ModernView
+        
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
+        if appVersion?.hasPrefix("2") ?? false && !ImportantUtils.isKeyPresentInUserDefaults(key: "updatedToNewPreferenceLoader"){
+            let CannotFindValidValue = UIAlertController(title: "Thanks for updating!", message: "SkyMobile has a redesigned settings menu which we call \"PreferenceLoader\". This increases the speed of loading settings and gives you a better experience! Unfortunately, all of your older preferences have been lost, you can go to SkyMobile settings and recustomize the settings.", preferredStyle: .alert)
+            let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            CannotFindValidValue.addAction(OKOption)
+            UIApplication.topViewController()?.show(CannotFindValidValue, sender: nil)
+            UserDefaults.standard.set(true, forKey: "updatedToNewPreferenceLoader")
         }
-        if InformationHolder.GlobalPreferences.ModernUI{
+        
+        ViewController.LoginSession = false
+        if PreferenceLoader.findPref(prefID: "modernUI"){
+            self.view = ModernView
             SavedAccountsTableView = ModernTableView
         }else{
             SavedAccountsTableView = OldSaveAccount
         }
         
-        if Prefs.AutoLoginMethodDoesStoreAllAvailableAccounts{
+        if PreferenceLoader.findPref(prefID: "loginStorage"){
             ModernTableView.isHidden = false
         }else{
             ModernTableView.isHidden = true
         }
+        
+        var origImage = UIImage(named: "SettingsIcon");
+        var tintedImage = origImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        toolBarSettings.setImage(tintedImage, for: .normal)
+        toolBarSettings.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
+        origImage = UIImage(named: "TabBar_Search_2x")
+        tintedImage = origImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        toolbarDistrictSearcher.setImage(tintedImage, for: .normal)
+        toolbarDistrictSearcher.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
+        
         ModernUsernameTextField.borderStyle = .roundedRect
         ModernUsernameTextField.textColor = UIColor.white
         ModernPasswordTextField.borderStyle = .roundedRect
@@ -81,6 +100,14 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         view.addSubview(blurEffectView)
         blurEffectView.alpha = 0
         StatePicker.delegate = StateDelegate
+        
+        if PreferenceLoader.findPref(prefID: "useToolbar"){
+            LoginTitle.rightBarButtonItems = []
+        }else{
+            toolbarTopConstraint.constant = 20
+            toolBarSettings.isHidden = true
+            toolbarDistrictSearcher.isHidden = true
+        }
         
         if ImportantUtils.isConnectedToNetwork() {
             LoginTitle.title = ViewController.LoginDistrict.DistrictName
@@ -270,10 +297,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         self.webView.navigationDelegate = self
         self.webView.uiDelegate = self
         webView.load(request)
+        InformationHolder.SkywardWebsite.load(request)
     }
     
     func BiometricAuthentication(){
-        if InformationHolder.GlobalPreferences.BiometricEnabled{
+        if PreferenceLoader.findPref(prefID: "loginAuth"){
             let BiometricAuthenticationContext = LAContext()
             let BiometricAuthenticationPolicy = LAPolicy.deviceOwnerAuthenticationWithBiometrics
             
@@ -285,19 +313,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     DispatchQueue.main.async(execute: {
                         if let _ = Errors{
                             self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                            let url = ViewController.LoginDistrict.DistrictLink
-                            let request = URLRequest(url: url)
-                            self.webView.load(request)
-                            self.runOnce = false
                         }else{
                             if Status{
                                 self.AttemptFinalInitBeforeLogin()
                             }else{
                                 self.importantUtils.DisplayErrorMessage(message: "Verification failed, try again.")
-                                let url = ViewController.LoginDistrict.DistrictLink
-                                let request = URLRequest(url: url)
-                                self.webView.load(request)
-                                self.runOnce = false
                             }
                         }
                     })
@@ -305,8 +325,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             }else{
                 importantUtils.DestroyLoadingView(views: self.view)
                 importantUtils.DisplayErrorMessage(message: "Biometrics haven't been set in settings. SkyMobile will now automatically disable biometrics.")
-                InformationHolder.GlobalPreferences.BiometricEnabled = false
-                SettingsViewController.SavePreferencesIntoLibraryAndApplication(pref: InformationHolder.GlobalPreferences)
+                InformationHolder.GlobalPreferences[PreferenceLoader.findPrefIndex(prefID: "loginAuth")].defaultBool = false
+                PreferenceLoader.writePreferencesToPrefs(arr: InformationHolder.GlobalPreferences)
                 let url = ViewController.LoginDistrict.DistrictLink
                 let request = URLRequest(url: url)
                 self.webView.load(request)
@@ -331,7 +351,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         let info = Bundle.main.infoDictionary
                         let currentVersion = info?["CFBundleShortVersionString"] as? String
                         if update != currentVersion{
-                            if !ImportantUtils.isKeyPresentInUserDefaults(key: "NotifyAboutVersion\(update)") || InformationHolder.GlobalPreferences.ShowUpdateNotif{
+                            if !ImportantUtils.isKeyPresentInUserDefaults(key: "NotifyAboutVersion\(update)") || PreferenceLoader.findPref(prefID: "showUpdate"){
                                 let alerttingLogout = UIAlertController(title: "Update Available!", message: "There's an update available, go to the app store to download it!", preferredStyle: .alert)
                                 let action = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
                                 alerttingLogout.addAction(action)
@@ -352,25 +372,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             }
             
             print("Timer asynchronaly loading")
-            let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
-            let dictionary = Bundle.main.infoDictionary!
-            let build = dictionary["CFBundleVersion"] as! String
-            let isBeta = (build.lowercased().contains("beta")) || (build.lowercased().contains("b"))
-            
-            if isBeta {
-                let betaAlert = UIAlertController(title: "Hey there!", message: "We noticed you are on a beta version of SkyMobile, " + appVersion! + " to be exact. You are running iOS " + UIDevice.current.systemVersion + ". Build: \(build) You will need these pieces of info to send to the developer if you detect any bugs. If there is a release that is out and you are a regular user, please switch to that version. (FYI: This message only appears on betas!)" , preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                betaAlert.addAction(okAction)
-                self.present(betaAlert, animated: true, completion: nil)
-                
-                if !InformationHolder.GlobalPreferences.ModernUI{
-                    BetaInfoDisplayer.text?.append(appVersion! + " on iOS " + UIDevice.current.systemVersion + " using an " + UIDevice.current.modelName)
-                }
-            }else{
-                if !InformationHolder.GlobalPreferences.ModernUI{
-                    BetaInfoDisplayer.isHidden = true
-                }
-            }
         }else{
             self.importantUtils.DestroyLoadingView(views: self.view)
             let alerttingLogout = UIAlertController(title: "Oh No!", message: "SkyMobile needs internet to run, it currently doesn't cache user grades, so this app will be unavailable until you connect to internet. Thanks!", preferredStyle: .alert)
@@ -383,7 +384,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     override func viewDidLayoutSubviews() {
-        if !InformationHolder.GlobalPreferences.ModernUI{
+        if !PreferenceLoader.findPref(prefID: "modernUI"){
             UsernameField.underlined()
             PasswordField.underlined()
         }
@@ -402,7 +403,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         if self.webView.url?.absoluteString == ViewController.LoginDistrict.DistrictLink.absoluteString{
             importantUtils.DestroyLoadingView(views: self.view)
             if !didRun{
-                if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+                if !PreferenceLoader.findPref(prefID: "loginStorage"){
                     if ImportantUtils.isKeyPresentInUserDefaults(key: "JedepomachdiniaopindieniLemachesie"){
                         if let data = UserDefaults.standard.data(forKey: "JedepomachdiniaopindieniLemachesie"){
                             AccountFromPreviousSession = NSKeyedUnarchiver.unarchiveObject(with: data) as! Account
@@ -434,10 +435,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         self.changeColorOfButton(color: .black)
         self.enableButton(bool: true)
     }
+    
     @IBAction func SubmitForm(_ sender: Any) {
         enableButton(bool: false)
         changeColorOfButton(color: .gray)
-        if !InformationHolder.GlobalPreferences.ModernUI{
+        if !PreferenceLoader.findPref(prefID: "modernUI"){
             if let u = UsernameField.text, let p = PasswordField.text{
                 if !u.isEmpty && !p.isEmpty{
                     UserName = u
@@ -472,6 +474,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func AttemptLogin() {
+        importantUtils.DestroyLoadingView(views: self.view)
         importantUtils.CreateLoadingView(view: self.view, message: "Logging in...")
         let javascript = "login.value = \"\(UserName)\"; password.value = \"\(Password)\"; bLogin.click();"
         DispatchQueue.main.async {
@@ -508,7 +511,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             DispatchQueue.main.async {
                 self.webView.evaluateJavaScript(javascrip1t) { (result, error) in
                     if error != nil{
-                        if InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+                        if PreferenceLoader.findPref(prefID: "loginStorage"){
                             self.importantUtils.DestroyLoadingView(views: self.view)
                             let Invalid = UIAlertController(title: "Uh-Oh", message: "A network error occurred. The network probably changed.", preferredStyle: .alert)
                             let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -548,7 +551,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     
     func changeColorOfButton(color: UIColor){
-        if !InformationHolder.GlobalPreferences.ModernUI{
+        if !PreferenceLoader.findPref(prefID: "modernUI"){
             SubmitBtn.setTitleColor(color, for: .normal)
         }else{
             ModernLoginButton.setTitleColor(color, for: .normal)
@@ -558,7 +561,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     func enableButton(bool: Bool){
-        if !InformationHolder.GlobalPreferences.ModernUI{
+        if !PreferenceLoader.findPref(prefID: "modernUI"){
             SubmitBtn.isEnabled = bool
         }else{
             ModernLoginButton.isEnabled = bool
@@ -566,9 +569,50 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     var AccountSelectedFromParentalAccount = ""
     var Expecting = false
+    var indexOfSpecifiedGradeGrid = 0
+    
+    func checkForMultipleStudentGradeGrids(){
+        DispatchQueue.main.async {
+            self.webView.evaluateJavaScript(#"document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]").length"#) { (result, error) in
+                if error == nil{
+                    let intResult = result as! Int
+                    if intResult > 1{
+                        self.webView.evaluateJavaScript(#"""
+                            finText = ""
+                            gradeList = document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")
+                            for (var ind = 0; ind < gradeList.length; ind++){
+                            finText += gradeList[ind].querySelector("div.sfTag").textContent.split("    ")[0]
+                            if (ind != gradeList.length-1){ finText += "\n"}
+                            }
+                            finText
+                        """#) { (result, error) in
+                            if error == nil{
+                                let resultString = result as! String
+                                let splitString = resultString.components(separatedBy: "\n")
+                                let alertForMultipleGradesDetected = UIAlertController(title: "More than one school!", message: "You're taking school at multiple places! Select the grades you want to see...", preferredStyle: .alert)
+                                for res in splitString{
+                                    let action = UIAlertAction(title: res, style: .default, handler: { alert in
+                                        self.indexOfSpecifiedGradeGrid = splitString.firstIndex(of: res) ?? 0
+                                        self.getHTMLCode()
+                                    })
+                                    alertForMultipleGradesDetected.addAction(action)
+                                }
+                                UIApplication.topViewController()?.present(alertForMultipleGradesDetected, animated: true, completion: nil)
+                            }
+                        }
+                    }else{
+                        self.getHTMLCode()
+                    }
+                }else{
+                    self.getHTMLCode()
+                }
+            }
+        }
+    }
+    
     func getHTMLCode(){
         let javascript =
-        """
+        #"""
             function PrintTerms(){
              var FinalString = ""
              if (typeof sf_StudentList !== "undefined"){
@@ -576,10 +620,11 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
              }else{
              FinalString = FinalString + "@SWIFT_VALUE_DOES_NOT_EXIST"
              }
-            FinalString = FinalString + "\\\n\\\n\\\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\\\n\\\n\\\n"
-            if (document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]") != null){
-            FinalString = FinalString + document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
-            let elems = document.querySelector("div[id^=\\\"grid_stuGradesGrid\\\"]").querySelector("table[id*=\\\"grid_stuGradesGrid\\\"]").querySelectorAll("th")
+            FinalString = FinalString + "\n\n\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\n\n\n"
+            if (document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)] != null){
+            let gridList = document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)]
+            FinalString = FinalString + gridList.innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
+            let elems = gridList.querySelector("table[id*=\"grid_stuGradesGrid\"]").querySelectorAll("th")
             for(var i = 0; i < elems.length; i++){
                 FinalString = FinalString + elems[i].textContent + "@SWIFT_TERM_SEPARATOR@"
             }
@@ -587,7 +632,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             return FinalString
             }
             PrintTerms()
-            """
+            """#
         ViewController.SetAccountsAs3DTouch()
         DispatchQueue.main.async {
             self.webView.evaluateJavaScript(javascript) { (result, error) in
@@ -599,19 +644,17 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     let html = SplitString.first!
                     let terms = SplitString.last!
                     var OptionsAllowed:[String] = []
-                    if ListedStudentValues != "@SWIFT_VALUE_DOES_NOT_EXIST" && !self.Expecting{
-                        let MultipleAccountAlert = UIAlertController(title: "Parental Account Detected", message: "Select your prefered account.", preferredStyle: .alert)
-                        let FinalList = ImportantUtils.AttemptToParseHTMLAndGetAvailableAccounts(html: ListedStudentValues)
-                        for person in FinalList{
-                            let Action = UIAlertAction(title: person, style: .default, handler: { (action) in
-                                self.AccountSelectedFromParentalAccount = person
-                                self.webView.evaluateJavaScript("Array.from(sf_StudentList.querySelectorAll('a')).find(el => el.textContent === '" + person + "').click();", completionHandler: { result, err in
-                                    self.Expecting = true
-                                })
-                            })
-                            MultipleAccountAlert.addAction(Action)
-                        }
-                        self.present(MultipleAccountAlert, animated: true, completion: nil)
+                    
+                    if ListedStudentValues.contains("@SWIFT_VALUE_DOES_NOT_EXIST"){
+                        InformationHolder.isParentAccount = false
+                    }
+                    if(UIApplication.topViewController() is ProgressReportAverages){
+                        self.Expecting = true
+                    }
+                    if !ListedStudentValues.contains("@SWIFT_VALUE_DOES_NOT_EXIST") && !self.Expecting{
+                        InformationHolder.childrenAccounts = ImportantUtils.AttemptToParseHTMLAndGetAvailableAccounts(html: ListedStudentValues)
+                        ImportantUtils.popupPreferredChildMenu(viewToPresentOn: UIApplication.topViewController()!, webview: self.webView)
+                        InformationHolder.isParentAccount = true
                     }else{
                         self.AccountSelectedFromParentalAccount = ""
                         self.Expecting = false
@@ -621,16 +664,16 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         self.AccountFromPreviousSession = Account(nick: "", user: self.UserName, pass: self.Password)
                         let encoded = NSKeyedArchiver.archivedData(withRootObject: self.AccountFromPreviousSession)
                         UserDefaults.standard.set(encoded, forKey: "JedepomachdiniaopindieniLemachesie")
-                        if InformationHolder.GlobalPreferences.ModernUI{
+                        if PreferenceLoader.findPref(prefID: "modernUI"){
                             let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                             let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
                             InformationHolder.AvailableTerms = OptionsAllowed
-                            self.present(vc, animated: true, completion: nil)
+                            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
                         }else{
                             let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
                             let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
                             InformationHolder.AvailableTerms = OptionsAllowed
-                            self.present(vc, animated: true, completion: nil)
+                            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
                         }
                     }
                 }else{
@@ -639,7 +682,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                                                                    message: "An error has occured and your grades couldn't be loaded into memory, please report to developer. error " + error.debugDescription,
                                                                    preferredStyle: .alert)
                     
-                    self.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
+                    UIApplication.topViewController()?.present(ErrorWhilstLoadingHTML, animated: true, completion: nil)
                 }
             }
         }
@@ -674,7 +717,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     
     @IBAction func SettingsViewTouched(_ sender: Any) {
         let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-        let vc : SettingsViewController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+        let vc : PreferenceController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! PreferenceController
         vc.isFromLockScreen = true
         self.present(vc, animated: true, completion: nil)
     }
@@ -739,7 +782,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             cell.backgroundColor = UIColor(red: 22/255, green: 22/255, blue: 22/255, alpha: 1)
             cell.layer.cornerRadius = 5
             ViewController.SetAccountsAs3DTouch()
-            if !InformationHolder.GlobalPreferences.ModernUI{
+            if !PreferenceLoader.findPref(prefID: "modernUI"){
                 text.textColor = UIColor.black
                 cell.backgroundColor = UIColor.clear
             }
@@ -756,6 +799,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             let AccountSelected = AccountsStored[indexPath.row/2]
             self.UserName = AccountSelected.Username
             self.Password = AccountSelected.Password
+            self.runOnce = false
             ViewController.LoginDistrict = AccountSelected.district
             self.ShouldLoginWhenFinishedLoadingSite = true
             self.reloadSkyward()
@@ -773,7 +817,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         importantUtils.DestroyLoadingView(views: self.view)
         importantUtils.CreateLoadingView(view: self.view, message: "Getting your grades...")
         
-        if InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+        if PreferenceLoader.findPref(prefID: "loginStorage"){
             var isAccountPresentInStorage = false
             for Account in AccountsStored{
                 if Account.Username == self.UserName{
@@ -788,19 +832,19 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     tmpAccount.district = ViewController.LoginDistrict
                     self.AccountsStored.append(tmpAccount)
                     ImportantUtils.SaveAccountValuesToStorage(accounts: self.AccountsStored)
-                    self.getHTMLCode()
+                    self.checkForMultipleStudentGradeGrids()
                 }
                 let Cancel = UIAlertAction(title: "Cancel", style: .cancel){ alert in
-                    self.getHTMLCode()
+                    self.checkForMultipleStudentGradeGrids()
                 }
                 alertUserSavePassword.addAction(OKAction)
                 alertUserSavePassword.addAction(Cancel)
                 self.present(alertUserSavePassword, animated: true, completion: nil)
             }else{
-                getHTMLCode()
+                checkForMultipleStudentGradeGrids()
             }
         }else{
-            getHTMLCode()
+            checkForMultipleStudentGradeGrids()
         }
     }
     
@@ -839,21 +883,27 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     self.ShouldLoginWhenFinishedLoadingSite = false
                 }
                 
-                DispatchQueue.main.async {
                     if self.webView.url?.absoluteString.contains("sfhome01.w") ?? false && !self.runOnce{
                         let javascript1 = "document.querySelector('a[data-nav=\"sfgradebook001.w\"]').click()"
+                        DispatchQueue.main.async {
                         self.webView.evaluateJavaScript(javascript1){ obj, err in
                             if err == nil{
+                                self.importantUtils.DestroyLoadingView(views: self.view)
+                                self.importantUtils.CreateLoadingView(view: self.view, message: "Loading Gradebook")
                                 self.runOnce = true
                             }
                         }
                     }
                 }
-                if self.webView.url?.absoluteString.contains("sfgradebook001.w") ?? false && (UIApplication.topViewController() is ViewController){
-                    if self.AccountSelectedFromParentalAccount == ""{
-                        BiometricAuthentication()
+                if self.webView.url?.absoluteString.contains("sfgradebook001.w") ?? false{
+                    if (UIApplication.topViewController() is ViewController){
+                        if self.AccountSelectedFromParentalAccount == ""{
+                            BiometricAuthentication()
+                        }else{
+                            checkForMultipleStudentGradeGrids()
+                        }
                     }else{
-                        getHTMLCode()
+                        checkForMultipleStudentGradeGrids()
                     }
                 }
                 if InformationHolder.SkywardWebsite.url?.absoluteString.contains("qloggedout001.w") ?? false && !(UIApplication.topViewController() is ViewController) {

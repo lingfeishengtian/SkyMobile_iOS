@@ -17,8 +17,8 @@ class ModernUITabController: UITabBarController{
             InformationHolder.SkywardWebsite.evaluateJavaScript(JS, completionHandler: nil)
         }
         if (self.tabBar.items)![1] == item{
-        if ViewController.LoginDistrict.GPACalculatorSupportType == GPACalculatorSupport.NoSupport{
-            let message = "SkyMobile doesn't support GPA Calculator for this district yet."
+        if ViewController.LoginDistrict.GPACalculatorSupportType == GPACalculatorSupport.NoSupport || InformationHolder.isElementary{
+            let message = "SkyMobile doesn't support GPA Calculator for this account yet."
             let CannotFindValidValue = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
             let OKOption = UIAlertAction(title: "OK", style: .cancel, handler: { action in
                 self.selectedIndex = 0
@@ -36,7 +36,7 @@ class CreditsSection : UIViewController{
         if ViewController.LoginSession{
             let storyboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
             var vc: UIViewController
-            if InformationHolder.GlobalPreferences.ModernUI{
+            if PreferenceLoader.findPref(prefID: "modernUI"){
                 vc = storyboard.instantiateViewController(withIdentifier: "ModernUITableSelection")
             }else{
                 vc = storyboard.instantiateViewController(withIdentifier: "SettingsViewController")

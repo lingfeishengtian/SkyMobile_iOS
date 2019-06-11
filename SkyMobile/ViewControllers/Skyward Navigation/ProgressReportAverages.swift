@@ -20,6 +20,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet var MainGradientView: GradientView!
     @IBOutlet weak var moreMenuItemsStackView: UIStackView!
     @IBOutlet weak var AdBanner: GADBannerView!
+    @IBOutlet weak var switchChild: UIButton!
     
     let importantUtils = ImportantUtils()
     var TableShouldSub = 0
@@ -38,19 +39,16 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         AdBanner.delegate = self
         AdBanner.load(GADRequest())
         
-        if InformationHolder.GlobalPreferences.ModernUI{
+        if !InformationHolder.isParentAccount{
+            switchChild.isHidden = true
+        }
+        if PreferenceLoader.findPref(prefID: "modernUI"){
             MainGradientView.firstColor = UIColor(red: 57/255, green: 57/255, blue: 57/255, alpha: 1)
             MainGradientView.secondColor = MainGradientView.firstColor
             MainGradientView.secondColor = MainGradientView.firstColor
             TableShouldSub = 10
         }
-        if IsElementaryAccount(Courses: InformationHolder.Courses){
-            for option in InformationHolder.AvailableTerms{
-                if option.contains("PR") || option.contains("S"){
-                    InformationHolder.AvailableTerms.remove(at: InformationHolder.AvailableTerms.firstIndex(of: option)!)
-                }
-            }
-        }
+        InformationHolder.isElementary = IsElementaryAccount(Courses: InformationHolder.Courses)
         let ShouldBeDisplay = GuessShouldDisplayScreen(Courses: InformationHolder.Courses)
         indexOfOptions = InformationHolder.AvailableTerms.firstIndex(of: ShouldBeDisplay)!
         
@@ -67,7 +65,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         pickTerm.delegate = self
         pickTerm.dataSource = self
 
-        if !InformationHolder.GlobalPreferences.ModernUI{
+        if !PreferenceLoader.findPref(prefID: "modernUI"){
             let NewButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ShowMoreMenuItems(_:)))
             NavBarItems.setRightBarButton(NewButton, animated: true)
             LogoutButton.isHidden = true
@@ -79,6 +77,11 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         LogoutButton.layer.borderColor = UIColor.black.cgColor
         RefreshTable()
         pickTerm.selectRow(indexOfOptions, inComponent: 0, animated: true)
+    }
+    
+    @IBAction func switchChild(_ sender: Any) {
+        ImportantUtils.popupPreferredChildMenu(viewToPresentOn: self, webview: InformationHolder.SkywardWebsite)
+        importantUtils.CreateLoadingView(view: self.view, message: "Switching accounts...")
     }
     
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
@@ -130,7 +133,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        if InformationHolder.GlobalPreferences.ModernUI{
+        if PreferenceLoader.findPref(prefID: "modernUI"){
             return NSAttributedString(string: InformationHolder.AvailableTerms[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         }
         return NSAttributedString(string: InformationHolder.AvailableTerms[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
@@ -163,6 +166,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             let grade = InformationHolder.Courses[indexPath.row/2].termGrades[InformationHolder.AvailableTerms[indexOfOptions]]!
             if(grade == "-1000"){
                 cell.lblGrade.text = " "
+                cell.backgroundColor = UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0)
             }else{
                 cell.lblGrade.text = (grade)
                 if let gradeAsNum = Double(grade){
@@ -189,7 +193,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                 cell.lblClassDesc.textColor = UIColor.black
             }
             
-            if InformationHolder.GlobalPreferences.ModernUI{
+            if PreferenceLoader.findPref(prefID: "modernUI"){
                 cell.layer.cornerRadius = 5
             }
         }else{
@@ -202,7 +206,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
         if indexPath.row % 2 == 0{
             return 44
         }else{
-            if InformationHolder.GlobalPreferences.ModernUI{
+            if PreferenceLoader.findPref(prefID: "modernUI"){
                 return 3
             }else{
                 return 0
@@ -308,22 +312,14 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     //TODO: Add ScrollView for all pages
     //TODO: Create the settings
     @IBAction func goToSettings(_ sender: Any) {
-        let appVersion = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String)?.lowercased()
-        if (appVersion?.starts(with: "2."))! || (appVersion?.starts(with: "b2."))! || (appVersion?.starts(with: "vb2."))!{
-            let alert = UIAlertController(title: "Sorry", message: "The version of the app is too old, please update to modify your settings.", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
-        }else{
-            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-            let vc : SettingsViewController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
-            self.present(vc, animated: true, completion: nil)
-        }
+        let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+        let vc : PreferenceController = mainStoryboard.instantiateViewController(withIdentifier: "SettingsViewController") as! PreferenceController
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func Logout(_ sender: Any) {
         var Message = "Are you sure you want to logout?"
-        if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+        if !PreferenceLoader.findPref(prefID: "loginStorage"){
             Message.append(" This will remove your last session.")
         }
         
@@ -335,7 +331,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
             // ...
         }
         let confirmedAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive){ (action) in
-            if !InformationHolder.GlobalPreferences.AutoLoginMethodDoesStoreAllAvailableAccounts{
+            if !PreferenceLoader.findPref(prefID: "loginStorage"){
                 UserDefaults.standard.removeObject(forKey: "JedepomachdiniaopindieniLemachesie")
             }
             let mainStoryboard = UIStoryboard(name: "Login", bundle: Bundle.main)
@@ -350,14 +346,14 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func ShowMoreMenuItems(_ sender: Any) {
-        if InformationHolder.GlobalPreferences.ModernUI{
+        if PreferenceLoader.findPref(prefID: "modernUI"){
             goToSettings(sender)
         }else{
             UIView.animate(withDuration: 0.5, delay: 0.0, options: [.transitionCurlDown] ,animations: {
                 for view in self.moreMenuItemsStackView.arrangedSubviews{
                     let btn = view as? UIButton
                     btn?.backgroundColor = .clear
-                    if InformationHolder.GlobalPreferences.ModernUI{
+                    if PreferenceLoader.findPref(prefID: "modernUI"){
                         btn?.backgroundColor = UIColor(red: 57/255, green: 57/255, blue: 57/255, alpha: 1)
                         btn?.setTitleColor(UIColor.white, for: .normal)
                     }

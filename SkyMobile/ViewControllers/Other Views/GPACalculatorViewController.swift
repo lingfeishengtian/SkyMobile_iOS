@@ -52,11 +52,12 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         AdvancedEnabler.layer.cornerRadius = 5
         AdvancedEnabler.layer.borderWidth = 1
         AdvancedEnabler.layer.borderColor = UIColor.black.cgColor
-            SetFinalAverageValues()
-        if isElemAccount {
+        if InformationHolder.isElementary {
             AdvancedEnabler.isHidden = true
+        }else{
+            SetFinalAverageValues()
         }
-        if InformationHolder.GlobalPreferences.ModernUI{
+        if PreferenceLoader.findPref(prefID: "modernUI"){
             navItems.setLeftBarButton(nil, animated: false)
             let TMPFrame = FinalGPA.frame.maxY
             let TMP2Frame = self.view.frame.width
@@ -114,7 +115,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             NewGrade.addSubview(GradeLabel)
             NewGrade.addSubview(DeselectButton)
             NewGrade.backgroundColor = UIColor.white
-            if InformationHolder.GlobalPreferences.ModernUI{
+            if PreferenceLoader.findPref(prefID: "modernUI"){
                 NewGrade.layer.borderColor = UIColor.black.cgColor
                 NewGrade.layer.borderWidth = 1
                 NewGrade.layer.cornerRadius = 5
@@ -181,7 +182,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CourseInfo
         
         if indexPath.row % 2 == 0{
-            if InformationHolder.GlobalPreferences.ModernUI{
+            if PreferenceLoader.findPref(prefID: "modernUI"){
                 cell.selectionStyle = .none
                 cell.layer.cornerRadius = 5
             }
@@ -207,7 +208,10 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
             cell.Section = indexPath.section
             cell.Row = indexPath.row/2
             cell.frame.size = CGSize(width: self.tableView.frame.width, height: 44)
-            SetFinalAverageValues()
+            
+            if !InformationHolder.isElementary{
+                SetFinalAverageValues()
+            }
         }else{
             cell.isHidden = true
         }
@@ -299,7 +303,9 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         
         UserDefaults.standard.set(newLevel, forKey: Class + "Level")
         self.tableView.reloadData()
-        SetFinalAverageValues()
+        if !InformationHolder.isElementary{
+            SetFinalAverageValues()
+        }
     }
     
     fileprivate func CheckAddAmt(level: String?) -> Int{

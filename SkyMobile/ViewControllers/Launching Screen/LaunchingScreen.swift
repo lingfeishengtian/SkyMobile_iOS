@@ -74,7 +74,15 @@ class LaunchingScreen: UIViewController, CAAnimationDelegate {
     }
     
     @IBAction func needHelp(_ sender: Any) {
-        importantUtils.DisplayErrorMessage(message: "Sorry, this is currently being developed. Update your app to get this feature in the future.")
+        let storyboard = UIStoryboard(name: "StressReliefAndEncouragement", bundle: Bundle.main)
+        let vc : InhalationExercise = storyboard.instantiateViewController(withIdentifier: "InhalationExercise") as! InhalationExercise
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(vc, animated: false, completion: nil)
     }
     
     func organizeGradients(){

@@ -55,6 +55,7 @@ class LoginPortalSearcherObserver: NSObject{
                 if(LoginPortalSearcherObserver.webView.url?.absoluteString == "https://www.skyward.com/parents-and-students/district-login-search"){
                     LoginPortalSearcherObserver.webView.evaluateJavaScript(DistrictSearcher.getStateOptionsJavascript){ (result, err) in
                         if (err == nil){
+                            DistrictSearcher.stateSelections = []
                             let resultText = result as! String
                             let separated = resultText.components(separatedBy: "@SWIFT_SEPARATED_STATE_THIS_IS_NOT_A_STATE_NAME_ABCFFF133@")
                             

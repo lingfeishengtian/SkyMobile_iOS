@@ -17,6 +17,7 @@
 		9636181E21812F51002A8B2B /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Login.storyboard */; };
 		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
+		967A998822AE0D180063155E /* preferences.json in Resources */ = {isa = PBXBuildFile; fileRef = 967A998722AE0D180063155E /* preferences.json */; };
 		969715F0221393A200B810DD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969715EF221393A200B810DD /* SettingsViewController.swift */; };
 		9697E227229060B300E0A2BF /* InhalationExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9697E226229060B300E0A2BF /* InhalationExercise.swift */; };
 		96987931216EDB8D00274869 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9698792E216EDB8D00274869 /* GradientView.swift */; };
@@ -77,6 +78,7 @@
 		9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
 		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		963975B72190F35300BDE6F9 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		967A998722AE0D180063155E /* preferences.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = preferences.json; sourceTree = "<group>"; };
 		969715EF221393A200B810DD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9697E226229060B300E0A2BF /* InhalationExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InhalationExercise.swift; sourceTree = "<group>"; };
 		9698792E216EDB8D00274869 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 			children = (
 				9698792E216EDB8D00274869 /* GradientView.swift */,
 				969715EF221393A200B810DD /* SettingsViewController.swift */,
+				967A998722AE0D180063155E /* preferences.json */,
 				96E15B8522382BE200A959EC /* ModernUITabController.swift */,
 				9636182121813063002A8B2B /* GPACalculatorViewController.swift */,
 				96A289D62283A07D00AFDD3A /* SearchForDistrict.swift */,
@@ -392,6 +395,7 @@
 				963383FF216ED9DC00C7C158 /* Assets.xcassets in Resources */,
 				96991550224C68340064D22F /* StressReliefAndEncouragement.storyboard in Resources */,
 				9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */,
+				967A998822AE0D180063155E /* preferences.json in Resources */,
 				9636181D21812F51002A8B2B /* LaunchScreen.storyboard in Resources */,
 				96D32902228B75FD002816A6 /* Launcher.storyboard in Resources */,
 			);

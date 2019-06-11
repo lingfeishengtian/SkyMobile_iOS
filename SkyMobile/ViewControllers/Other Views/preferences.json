@@ -1,0 +1,40 @@
+{
+  "preferences":[
+  
+  { "id": "modernUI",
+    "title":"Modern Look",
+   "desc": "",
+   "defaultBool": true,
+    "editableOnLockscreen": true},
+   
+  { "id": "loginAuth",
+  "title":"Login Authentication",
+   "desc": "",
+   "defaultBool": false,
+  "editableOnLockscreen": false},
+   
+   { "id": "loginStorage",
+   "title":"Store Multiple Accounts",
+   "desc": "Disabling this option will automatically load the previously stored session.",
+   "defaultBool": true,
+    "editableOnLockscreen": true},
+   
+   { "id": "showUpdate",
+   "title":"Show Update Everytime",
+   "desc": "",
+   "defaultBool": false,
+    "editableOnLockscreen": true},
+   
+  { "id": "useToolbar",
+  "title":"Toolbar",
+   "desc": "The toolbar is a better way to view your navigation options.",
+   "defaultBool": true,
+    "editableOnLockscreen": true},
+  
+  { "id": "skipStartup",
+      "title":"Skip Startup Menu",
+      "desc": "",
+      "defaultBool": false,
+      "editableOnLockscreen": true}
+]
+}

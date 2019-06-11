@@ -144,6 +144,9 @@
                         <outlet property="StatePicker" destination="k5e-8I-aKs" id="Nsy-4r-FHv"/>
                         <outlet property="SubmitBtn" destination="3Li-xE-Vsq" id="25k-JI-eAQ"/>
                         <outlet property="UsernameField" destination="SN2-Pa-1b9" id="u8K-ez-ibD"/>
+                        <outlet property="toolBarSettings" destination="JRc-M7-bWM" id="77v-jU-NsG"/>
+                        <outlet property="toolbarDistrictSearcher" destination="rTj-4B-5Xj" id="0nZ-MX-ZBw"/>
+                        <outlet property="toolbarTopConstraint" destination="K7z-Qk-YON" id="GFe-TA-fGG"/>
                     </connections>
                 </viewController>
                 <view contentMode="scaleToFill" id="9We-oA-uA1">
@@ -179,7 +182,7 @@
                             </items>
                         </navigationBar>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VGB-bt-Jfk">
-                            <rect key="frame" x="16" y="115" width="342" height="50"/>
+                            <rect key="frame" x="16" y="155" width="342" height="50"/>
                             <color key="backgroundColor" red="0.086274509803921567" green="0.086274509803921567" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="AeI-vQ-gKx"/>
@@ -194,7 +197,7 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="czq-zd-wJg">
-                            <rect key="frame" x="16" y="180" width="342" height="50"/>
+                            <rect key="frame" x="16" y="220" width="342" height="50"/>
                             <color key="backgroundColor" red="0.086544689119171014" green="0.086544689119171014" blue="0.086544689119171014" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="bTm-28-a2Y"/>
@@ -209,7 +212,7 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gEG-uR-C0h">
-                            <rect key="frame" x="10" y="291" width="354" height="310"/>
+                            <rect key="frame" x="10" y="331" width="354" height="270"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <prototypes>
                                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="GbG-q9-YiV">
@@ -224,7 +227,7 @@
                             <sections/>
                         </tableView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xW0-iB-2GT">
-                            <rect key="frame" x="90" y="238" width="194" height="45"/>
+                            <rect key="frame" x="90" y="278" width="194" height="45"/>
                             <color key="backgroundColor" red="0.33090925669999999" green="0.59089655480000003" blue="0.79116742230000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="uBX-jj-hy4"/>
@@ -300,6 +303,26 @@
                                 <action selector="DistrictMenuPopup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NxV-3e-z5F"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-M7-bWM">
+                            <rect key="frame" x="203" y="110" width="102" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title=" Settings" image="SettingsIcon">
+                                <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="SettingsViewTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9z1-bD-OeG"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTj-4B-5Xj">
+                            <rect key="frame" x="16" y="110" width="179" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title=" District Searcher" image="TabBar_Search_2x">
+                                <color key="titleShadowColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="DistrictMenuPopup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7MV-qf-XWP"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.22364799222797926" green="0.22364799222797926" blue="0.22364799222797926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -311,7 +334,7 @@
                         <constraint firstItem="xW0-iB-2GT" firstAttribute="leading" secondItem="xk1-t5-ryn" secondAttribute="leading" constant="90" id="ChN-W1-fLo"/>
                         <constraint firstItem="7OL-Bu-t3p" firstAttribute="trailing" secondItem="xk1-t5-ryn" secondAttribute="trailing" id="Dcl-WV-Uxt"/>
                         <constraint firstItem="RKE-By-OzI" firstAttribute="top" secondItem="jgf-7C-ZA1" secondAttribute="bottom" constant="8" id="FKy-gI-5eO"/>
-                        <constraint firstItem="VGB-bt-Jfk" firstAttribute="top" secondItem="7OL-Bu-t3p" secondAttribute="bottom" constant="20" id="K7z-Qk-YON"/>
+                        <constraint firstItem="VGB-bt-Jfk" firstAttribute="top" secondItem="7OL-Bu-t3p" secondAttribute="bottom" constant="60" id="K7z-Qk-YON"/>
                         <constraint firstItem="RKE-By-OzI" firstAttribute="leading" secondItem="xk1-t5-ryn" secondAttribute="leading" constant="67" id="NER-38-hwq"/>
                         <constraint firstItem="xW0-iB-2GT" firstAttribute="top" secondItem="czq-zd-wJg" secondAttribute="bottom" constant="8" id="V4I-2U-KfM"/>
                         <constraint firstItem="gEG-uR-C0h" firstAttribute="top" secondItem="xW0-iB-2GT" secondAttribute="bottom" constant="8" id="Xr1-bo-g82"/>
@@ -335,5 +358,6 @@
     </scenes>
     <resources>
         <image name="SettingsIcon" width="30" height="30"/>
+        <image name="TabBar_Search_2x" width="30" height="31"/>
     </resources>
 </document>

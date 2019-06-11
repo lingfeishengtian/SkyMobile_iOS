@@ -231,7 +231,7 @@ class ImportantUtils {
     func ParseHTMLAndRetrieveGrades(html: String, allTheTermsSeperatedByN terms: String, GradesOptionsOut:inout [String]) -> [Course]{
         var newCourse: [Course] = []
         var classes: [String] = []
-        let cssSelectorCode = "tr[group-parent]"
+        let cssSelectorCode = #"div[id^="grid_classDesc"]"#
         
             if let document = try? HTML(html: html, encoding: .utf8){
                 let elements = document.css(cssSelectorCode)
@@ -302,20 +302,27 @@ class ImportantUtils {
     fileprivate func SplitClassDescriptionForKanna(classArr: [String]) -> [Course]{
         var finalPeriod: [Course] = []
         for Class in classArr{
-            if Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n").count <= 1{
-                let current = Course(
-                    period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
-                    classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
-                    teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "(\n")[0].components(separatedBy: "\n\n\n")[0])
-                
-                finalPeriod.append(current)
+            if Class.contains("Period"){
+                if Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n").count <= 1{
+                    if Class.contains("\n\n\n"){
+                        let current = Course(
+                            period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
+                            classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
+                            teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "(\n")[0].components(separatedBy: "\n\n\n")[0])
+                            finalPeriod.append(current)
+                    }else{
+                        finalPeriod.append(Course(period: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "\n\n")[0], classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n")[1], teacher: ""))
+                    }
+                }else{
+                    let current = Course(
+                        period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
+                        classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
+                        teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[1].components(separatedBy: "\n\n\n")[0])
+                    
+                    finalPeriod.append(current)
+                }
             }else{
-                let current = Course(
-                    period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
-                    classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
-                    teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[1].components(separatedBy: "\n\n\n")[0])
-                
-                finalPeriod.append(current)
+                finalPeriod.append(Course(period: "0", classDesc: Class, teacher: ""))
             }
         }
         
@@ -388,5 +395,21 @@ class ImportantUtils {
         let needsConnection = flags.contains(.connectionRequired)
         
         return (isReachable && !needsConnection)
+    }
+    
+    static func popupPreferredChildMenu(viewToPresentOn view: UIViewController, webview: WKWebView){
+        let MultipleAccountAlert = UIAlertController(title: "Parental Account Menu", message: "Select your preferred account.", preferredStyle: .alert)
+        for person in InformationHolder.childrenAccounts{
+            let Action = UIAlertAction(title: person, style: .default, handler: { (action) in
+                if view is ViewController{
+                    (view as! ViewController).AccountSelectedFromParentalAccount = person
+                    (view as! ViewController).Expecting = true
+                }
+                webview.evaluateJavaScript("Array.from(sf_StudentList.querySelectorAll('a')).find(el => el.textContent === '" + person + "').click();", completionHandler: { result, err in
+                })
+            })
+            MultipleAccountAlert.addAction(Action)
+        }
+        view.present(MultipleAccountAlert, animated: true, completion: nil)
     }
 }

@@ -84,7 +84,7 @@ class ViewAssignments: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func SaveCoursesToMain(_ sender: Any) {
-        if InformationHolder.GlobalPreferences.ModernUI{
+        if PreferenceLoader.findPref(prefID: "modernUI"){
             let Warn = UIAlertController(title: "Warning", message: "Saving to courses will disable some features until you reset to default. Saving to courses allows for your GPA to be recalculated.", preferredStyle: .alert)
             let Ok = UIAlertAction(title: "Do it", style: .default, handler: { alert in
                 InformationHolder.isModified = true
@@ -147,7 +147,7 @@ class ViewAssignments: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @objc func goBack(_ sender: Any) {
-        if InformationHolder.GlobalPreferences.ModernUI{
+        if PreferenceLoader.findPref(prefID: "modernUI"){
             let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
             let vc = mainStoryboard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
             self.present(vc, animated: true, completion: nil)

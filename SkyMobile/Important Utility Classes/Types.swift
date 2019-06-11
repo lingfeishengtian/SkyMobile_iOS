@@ -114,9 +114,12 @@ struct InformationHolder{
     static var SkywardWebsite: WKWebView = WKWebView()
     static var Courses: [Course] = []
     static var AvailableTerms:[String] = []
-    static var GlobalPreferences = Preferences()
+    static var GlobalPreferences : [Preference] = []
     static var isModified = false
     static var CoursesBackup: [Course] = []
+    static var isElementary = false
+    static var isParentAccount = false
+    static var childrenAccounts:[String] = []
 }
 
 class LegacyGrade{
@@ -126,38 +129,6 @@ class LegacyGrade{
     init(sectionName: String,courses: [Course]) {
         Courses = courses
         Grade = sectionName
-    }
-}
-
-class Preferences: NSObject, NSCoding{
-    var AutoLoginMethodDoesStoreAllAvailableAccounts = true
-    var ModernUI = true
-    var BiometricEnabled = false
-    var LogoutOnExitOfApplication = false
-    var ShowUpdateNotif = false
-    
-    init(loginMethodStore: Bool = true, modern: Bool = true, biometricEnacted: Bool = false, logoutOnExitOfApplication: Bool = false, showUpdateNotif: Bool = false){
-        AutoLoginMethodDoesStoreAllAvailableAccounts = loginMethodStore
-        ModernUI = modern
-        BiometricEnabled = biometricEnacted
-        LogoutOnExitOfApplication = logoutOnExitOfApplication
-        ShowUpdateNotif = showUpdateNotif
-    }
-    
-    required convenience init(coder aDecoder: NSCoder) {
-        let foundAutoLoginMethodDoesStoreAllAvailableAccounts = aDecoder.decodeBool(forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
-        let foundModernUI = aDecoder.decodeBool(forKey: "ModernUI")
-        let foundBiometricOption = aDecoder.decodeBool(forKey: "BiometricSecurity")
-        let foundLogoutOnExit = aDecoder.decodeBool(forKey: "LogoutOnExit")
-        let ShowUpdateNotif = aDecoder.decodeBool(forKey: "ShowUpdateNotif")
-        self.init(loginMethodStore: foundAutoLoginMethodDoesStoreAllAvailableAccounts, modern: foundModernUI, biometricEnacted: foundBiometricOption, logoutOnExitOfApplication: foundLogoutOnExit, showUpdateNotif: ShowUpdateNotif)
-    }
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(AutoLoginMethodDoesStoreAllAvailableAccounts,forKey: "AutoLoginMethodDoesStoreAllAvailableAccounts")
-        aCoder.encode(ModernUI, forKey: "ModernUI")
-        aCoder.encode(BiometricEnabled, forKey: "BiometricSecurity")
-        aCoder.encode(LogoutOnExitOfApplication, forKey: "LogoutOnExit")
-        aCoder.encode(ShowUpdateNotif, forKey: "ShowUpdateNotif")
     }
 }
 
@@ -189,4 +160,37 @@ enum GPACalculatorSupport: Int{
     case HundredPoint
     case FourPoint
     case NoSupport
+}
+
+struct PreferenceParent: Decodable{
+    var preferences: [Preference]
+}
+
+class Preference: NSObject, Decodable, NSCoding{
+    var id: String
+    var title: String
+    var desc: String
+    var defaultBool: Bool
+    var editableOnLockscreen = true
+    
+    init(iid: String, ititle: String, idesc: String, iBoolL: Bool) {
+        id = iid
+        title = ititle
+        desc = idesc
+        defaultBool = iBoolL
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.id = aDecoder.decodeObject(forKey: "id") as? String ?? ""
+        self.title = aDecoder.decodeObject(forKey: "title") as? String ?? ""
+        self.desc = aDecoder.decodeObject(forKey: "desc") as? String ?? ""
+        self.defaultBool = aDecoder.decodeBool(forKey: "bool")
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: "id")
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(desc, forKey: "desc")
+        aCoder.encode(defaultBool, forKey: "bool")
+    }
 }

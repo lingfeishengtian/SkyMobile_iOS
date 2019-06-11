@@ -40,6 +40,18 @@ class InhalationExercise: UIViewController, CAAnimationDelegate {
         }
     }
     
+    @IBAction func goBackToStartup(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Launcher", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "Launcher") as! LaunchingScreen
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(vc, animated: false, completion: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
