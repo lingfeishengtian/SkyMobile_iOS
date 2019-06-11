@@ -231,7 +231,7 @@ class ImportantUtils {
     func ParseHTMLAndRetrieveGrades(html: String, allTheTermsSeperatedByN terms: String, GradesOptionsOut:inout [String]) -> [Course]{
         var newCourse: [Course] = []
         var classes: [String] = []
-        let cssSelectorCode = #"div[id^="grid_classDesc"]"#
+        let cssSelectorCode = #"tr.odd:not([group-child]),tr.even:not([group-child])"#
         
             if let document = try? HTML(html: html, encoding: .utf8){
                 let elements = document.css(cssSelectorCode)
@@ -304,14 +304,15 @@ class ImportantUtils {
         for Class in classArr{
             if Class.contains("Period"){
                 if Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n").count <= 1{
-                    if Class.contains("\n\n\n"){
+                    if Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n").count < 2{
                         let current = Course(
                             period: (Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: ")\n")[0].components(separatedBy: "(")[0]),
                             classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1],
                             teacher: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "(\n")[0].components(separatedBy: "\n\n\n")[0])
+                        
                             finalPeriod.append(current)
                     }else{
-                        finalPeriod.append(Course(period: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "\n\n")[0], classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n")[1], teacher: ""))
+                        finalPeriod.append(Course(period: Class.components(separatedBy: "\nPeriod")[1].components(separatedBy: "\n\n\n")[0], classDesc: Class.components(separatedBy: "\nPeriod")[0].components(separatedBy: "\n\n\n")[1], teacher: ""))
                     }
                 }else{
                     let current = Course(

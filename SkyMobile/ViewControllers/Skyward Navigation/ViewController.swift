@@ -621,7 +621,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
              FinalString = FinalString + "@SWIFT_VALUE_DOES_NOT_EXIST"
              }
             FinalString = FinalString + "\n\n\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\n\n\n"
-            if (document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)] != null){
+                if (document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)] != null){
             let gridList = document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)]
             FinalString = FinalString + gridList.innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
             let elems = gridList.querySelector("table[id*=\"grid_stuGradesGrid\"]").querySelectorAll("th")
