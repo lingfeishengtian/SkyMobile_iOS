@@ -9,9 +9,6 @@
 import UIKit
 import WebKit
 
-
-//TODO: Fix bug that crashes app when trying to view grades at Semester levels
-
 class ViewAssignments: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var webView: WKWebView = WKWebView()
     var Term = "PR1"

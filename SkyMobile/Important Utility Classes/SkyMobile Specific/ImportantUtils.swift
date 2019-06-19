@@ -26,47 +26,6 @@ class ImportantUtils {
         }
     }
     
-//    func DetermineColor(fromClassGrades classes: [Course] = [],fromAssignmentGrades assignments: AssignmentBlock = AssignmentGrades(classDesc: "NIL"), gradingTerm: String) -> [UIColor] {
-//        var finalColors: [UIColor] = []
-//        var high:Double = -9999.0;
-//        var low:Double = 9999.0;
-//        var finalGrades:[Double] = []
-//
-//        if(classes.isEmpty){
-//            for grade in assignments.DailyGrades{
-//                finalGrades.append(grade.Grade)
-//            }
-//            for grade in assignments.MajorGrades{
-//                finalGrades.append(grade.Grade)
-//            }
-//        }else{
-//            for course in classes{
-//                finalGrades.append(Double(course.Grades.Grades[gradingTerm] ?? "-1000") ?? -1000.0)
-//            }
-//        }
-//        findMaxAndLowOf(finalGrades, &high, &low)
-//
-//        for Grade in finalGrades{
-//            if Grade != -1000.0{
-////                let greenVal = CGFloat(Double(Grade)/Double(100) )
-////                var red = CGFloat((Double(Grade+(low-1))/Double(high)) * 10)
-////                if Grade == low{
-////                    red = red  * 0.7
-////                }
-//                let green = Double(Grade)*2.55/255
-//                let red = (1.0-green)*6.0
-//
-//                let color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: 0, alpha: 1)
-//                finalColors.append(color)
-//                //print(color)
-//                //finalColors.append(UIColor(red: 1 - red, green: greenVal, blue: 0, alpha: 1))
-//            }else{
-//                finalColors.append(UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0))
-//            }
-//        }
-//        return finalColors
-//    }
-    
     func DetermineColor(from num: Double) -> UIColor{
         if num != -1000.0{
             let green = Double(num)*2.55/255
@@ -231,11 +190,11 @@ class ImportantUtils {
     func ParseHTMLAndRetrieveGrades(html: String, allTheTermsSeperatedByN terms: String, GradesOptionsOut:inout [String]) -> [Course]{
         var newCourse: [Course] = []
         var classes: [String] = []
-        let cssSelectorCode = #"tr.odd:not([group-child]),tr.even:not([group-child])"#
         
             if let document = try? HTML(html: html, encoding: .utf8){
-                let elements = document.css(cssSelectorCode)
+                let elements = document.css(#"tr.odd:not([group-child]),tr.even:not([group-child])"#)
                 //MARK: Retrieving classes
+                
                 for element in elements {
                     let text = element.text
                     if(text!.contains("Period")){
@@ -249,6 +208,10 @@ class ImportantUtils {
                         Grades[elem] = "-1000"
                         GradesOptionsOut.append(elem)
                     }
+                }
+                
+                if elements.count == 0 && GradesOptionsOut.count == 0{
+                    return []
                 }
                 
                 newCourse = SplitClassDescriptionForKanna(classArr: classes)

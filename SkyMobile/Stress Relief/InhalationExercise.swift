@@ -8,6 +8,8 @@
 
 import UIKit
 
+//IMPLELEMENT FADING TEXT BY YIFAN MA
+
 class InhalationExercise: UIViewController, CAAnimationDelegate {
     @IBOutlet weak var announcementLabel: UILabel!
     

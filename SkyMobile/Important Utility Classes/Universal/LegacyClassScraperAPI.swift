@@ -9,35 +9,7 @@
 class LegacyGradeSweeperAPI{
     static let JavaScriptToScrapeGrades = """
                                             var p = $( "[id^=grid_gradeGrid_]" ).not( "[vpaginate='no']" )
-                                                var Options = [ "CP1",
-                                                                "PR1",
-                                                                "CP2",
-                                                                "PR2",
-                                                                "CT1",
-                                                                "T1",
-                                                                "CP3",
-                                                                "PR3",
-                                                                "CP4",
-                                                                "PR4",
-                                                                "CT2",
-                                                                "T2",
-                                                                "SE1",
-                                                                "S1",
-                                                                "CP5",
-                                                                "PR5",
-                                                                "CP6",
-                                                                "PR6",
-                                                                "CT3",
-                                                                "T3",
-                                                                "CP7",
-                                                                "PR7",
-                                                                "CP8",
-                                                                "PR8",
-                                                                "CT4",
-                                                                "T4",
-                                                                "SE2",
-                                                                "S2",
-                                                                "FIN"]
+                                                var Options = \(InformationHolder.AvailableTerms)
 
                                             function GetValuesOfLegacy(){
                                             var finalString = "";

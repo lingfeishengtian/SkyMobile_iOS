@@ -35,6 +35,12 @@
       "title":"Skip Startup Menu",
       "desc": "",
       "defaultBool": false,
+      "editableOnLockscreen": true},
+  
+  { "id": "easterEggs",
+      "title":"Easter Eggs",
+      "desc": "",
+      "defaultBool": true,
       "editableOnLockscreen": true}
 ]
 }

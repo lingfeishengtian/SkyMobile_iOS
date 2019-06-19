@@ -120,6 +120,7 @@ struct InformationHolder{
     static var isElementary = false
     static var isParentAccount = false
     static var childrenAccounts:[String] = []
+    static var indexOfStudentGrid = 0
 }
 
 class LegacyGrade{

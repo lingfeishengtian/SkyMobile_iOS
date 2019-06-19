@@ -163,7 +163,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
                 }
             }
             
-            let grade = InformationHolder.Courses[indexPath.row/2].termGrades[InformationHolder.AvailableTerms[indexOfOptions]]!
+            let grade = InformationHolder.Courses[indexPath.row/2].termGrades[InformationHolder.AvailableTerms[indexOfOptions]] ?? "-1000"
             if(grade == "-1000"){
                 cell.lblGrade.text = " "
                 cell.backgroundColor = UIColor(red: 0, green: 0.8471, blue: 0.8039, alpha: 1.0)
@@ -227,7 +227,8 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     fileprivate func helperClickAssignmentValue(indexOfClass: Int, indexOfOptions: Int){
-        InformationHolder.SkywardWebsite.evaluateJavaScript("document.querySelectorAll(\"tr[group-parent]\")["+String(indexOfClass)+"].querySelector(\"a[data-lit=\\\"" + InformationHolder.AvailableTerms[indexOfOptions] + "\\\"]\").click();", completionHandler: nil)
+        let compiledJS = #"document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(InformationHolder.indexOfStudentGrid)].querySelectorAll("tr.odd:not([group-child]),tr.even:not([group-child])")[\#(String(indexOfClass))].querySelector("a[data-lit=\"\#(InformationHolder.AvailableTerms[indexOfOptions])\"]").click();"#
+        InformationHolder.SkywardWebsite.evaluateJavaScript(compiledJS, completionHandler: nil)
     }
     
     func GetAssignments(indexOfCourse indexOfClass: Int, indexOfOptions:Int){
@@ -291,7 +292,7 @@ class ProgressReportAverages: UIViewController, UITableViewDelegate, UITableView
     }
     
     func GuessShouldDisplayScreen(Courses: [Course]) -> String{
-        var CurrentGuess = InformationHolder.AvailableTerms[0]
+        var CurrentGuess = InformationHolder.AvailableTerms.first ?? ""
         for term in InformationHolder.AvailableTerms{
             for course in InformationHolder.Courses{
                 if Int(course.termGrades[term] ?? "NA") != nil && term != "S1" && term != "S2"{

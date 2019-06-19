@@ -147,7 +147,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     
     @IBAction func SubmitDistrictSearchForm(_ sender: Any) {
         importantUtils.CreateLoadingView(view: self.view, message: "Searching...")
-        let UserText = DistrictName.text
+        let UserText = DistrictName.text?.lowercased()
         if (UserText!.count) >= 3 {
             //skyAcademy.window.document.querySelector("#loginResults")
             let javascript = """
@@ -569,7 +569,6 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
     }
     var AccountSelectedFromParentalAccount = ""
     var Expecting = false
-    var indexOfSpecifiedGradeGrid = 0
     
     func checkForMultipleStudentGradeGrids(){
         DispatchQueue.main.async {
@@ -592,7 +591,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                                 let alertForMultipleGradesDetected = UIAlertController(title: "More than one school!", message: "You're taking school at multiple places! Select the grades you want to see...", preferredStyle: .alert)
                                 for res in splitString{
                                     let action = UIAlertAction(title: res, style: .default, handler: { alert in
-                                        self.indexOfSpecifiedGradeGrid = splitString.firstIndex(of: res) ?? 0
+                                        InformationHolder.indexOfStudentGrid = splitString.firstIndex(of: res) ?? 0
                                         self.getHTMLCode()
                                     })
                                     alertForMultipleGradesDetected.addAction(action)
@@ -610,6 +609,21 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
         }
     }
     
+    func useFakeAccount(accountName: String, courses: [Course], name: String){
+        InformationHolder.Courses = courses
+        InformationHolder.AvailableTerms = [name]
+        if PreferenceLoader.findPref(prefID: "modernUI"){
+            let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+        }else{
+            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+            let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+        }
+        
+    }
+    
     func getHTMLCode(){
         let javascript =
         #"""
@@ -621,8 +635,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
              FinalString = FinalString + "@SWIFT_VALUE_DOES_NOT_EXIST"
              }
             FinalString = FinalString + "\n\n\n@SWIFT_DETERMINE_IF_STUDENT_LIST_EXIST\n\n\n"
-                if (document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)] != null){
-            let gridList = document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(self.indexOfSpecifiedGradeGrid)]
+                if (document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(InformationHolder.indexOfStudentGrid)] != null){
+            let gridList = document.querySelectorAll("div[id^=\"grid_stuGradesGrid\"]")[\#(InformationHolder.indexOfStudentGrid)]
             FinalString = FinalString + gridList.innerHTML + "@SWIFT_HTML&TERMS_SEPARATION@"
             let elems = gridList.querySelector("table[id*=\"grid_stuGradesGrid\"]").querySelectorAll("th")
             for(var i = 0; i < elems.length; i++){
@@ -659,21 +673,26 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                         self.AccountSelectedFromParentalAccount = ""
                         self.Expecting = false
                         InformationHolder.Courses = self.importantUtils.ParseHTMLAndRetrieveGrades(html: html, allTheTermsSeperatedByN: terms, GradesOptionsOut: &OptionsAllowed)
-                        InformationHolder.SkywardWebsite = self.webView
-                        InformationHolder.CoursesBackup = InformationHolder.Courses
-                        self.AccountFromPreviousSession = Account(nick: "", user: self.UserName, pass: self.Password)
-                        let encoded = NSKeyedArchiver.archivedData(withRootObject: self.AccountFromPreviousSession)
-                        UserDefaults.standard.set(encoded, forKey: "JedepomachdiniaopindieniLemachesie")
-                        if PreferenceLoader.findPref(prefID: "modernUI"){
-                            let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                            let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
-                            InformationHolder.AvailableTerms = OptionsAllowed
-                            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                        if InformationHolder.Courses.count == 0{
+                            self.importantUtils.DestroyLoadingView(views: self.view)
+                            self.importantUtils.DisplayErrorMessage(message: "No classes were found.")
                         }else{
-                            let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
-                            let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
-                            InformationHolder.AvailableTerms = OptionsAllowed
-                            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                            InformationHolder.SkywardWebsite = self.webView
+                            InformationHolder.CoursesBackup = InformationHolder.Courses
+                            self.AccountFromPreviousSession = Account(nick: "", user: self.UserName, pass: self.Password)
+                            let encoded = NSKeyedArchiver.archivedData(withRootObject: self.AccountFromPreviousSession)
+                            UserDefaults.standard.set(encoded, forKey: "JedepomachdiniaopindieniLemachesie")
+                            if PreferenceLoader.findPref(prefID: "modernUI"){
+                                let mainStoryBoard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                                let vc = mainStoryBoard.instantiateViewController(withIdentifier: "ModernUITableSelection") as! ModernUITabController
+                                InformationHolder.AvailableTerms = OptionsAllowed
+                                UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                            }else{
+                                let mainStoryboard = UIStoryboard(name: "FinalGradeDisplay", bundle: Bundle.main)
+                                let vc : ProgressReportAverages = mainStoryboard.instantiateViewController(withIdentifier: "FinalGradeDisplay") as! ProgressReportAverages
+                                InformationHolder.AvailableTerms = OptionsAllowed
+                                UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+                            }
                         }
                     }
                 }else{
@@ -801,12 +820,72 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             self.Password = AccountSelected.Password
             self.runOnce = false
             ViewController.LoginDistrict = AccountSelected.district
-            self.ShouldLoginWhenFinishedLoadingSite = true
-            self.reloadSkyward()
+            
+            var fakeCourses: [Course] = [
+                Course(period: "1", classDesc: "Sexiness", teacher: "DAVID"),
+                Course(period: "2", classDesc: "Smartness", teacher: "DAVID"),
+                Course(period: "3", classDesc: "Hotness", teacher: "DAVID"),
+                Course(period: "4", classDesc: "Cuteness", teacher: "DAVID"),
+                Course(period: "5", classDesc: "Funnyness", teacher: "DAVID"),
+                Course(period: "6", classDesc: "Charmingness", teacher: "DAVID")
+            ]
+            
+            var name = ""
+            switch AccountSelected.NickName{
+            case "SDD":
+                name = "David"
+            case "TTHAN":
+                name = "爸爸"
+            case "LimeiHuang":
+                name = "妈妈"
+            case "ALMASTERDADDY":
+                name = "ALBON"
+            default:
+                break
+            }
+            
+            let fakeTerms = [name : "99999"]
+            
+            for ind in 0...fakeCourses.count-1{
+                fakeCourses[ind].termGrades = fakeTerms
+            }
+            
+            if PreferenceLoader.findPref(prefID: "easterEggs"){
+                if AccountSelected.NickName == "TTHAN"{
+                    fakeCourses[0].Class = "帅"
+                    fakeCourses[1].Class = "聪明"
+                    fakeCourses[2].Class = "好心"
+                    fakeCourses[3].Class = "爱心"
+                    fakeCourses[4].Class = "文明行为"
+                    fakeCourses.remove(at: 5)
+                    useFakeAccount(accountName: AccountSelected.NickName, courses: fakeCourses, name: name)
+                }else if AccountSelected.NickName == "LimeiHuang"{
+                    fakeCourses[0].Class = "美"
+                    fakeCourses[1].Class = "聪明"
+                    fakeCourses[2].Class = "好心"
+                    fakeCourses[3].Class = "爱心"
+                    fakeCourses[4].Class = "文明行为"
+                    fakeCourses[5].Class = "强壮"
+                    useFakeAccount(accountName: AccountSelected.NickName, courses: fakeCourses, name: name)
+                }else if AccountSelected.NickName == "SDD"{
+                    useFakeAccount(accountName: AccountSelected.NickName, courses: fakeCourses, name: name)
+                }else if AccountSelected.NickName == "ALMASTERDADDY"{
+                    fakeCourses.append(Course(period: "7", classDesc: "Unbelievably Hot", teacher: "ALMASTER"))
+                    fakeCourses[6].termGrades = [name : "Infinite"]
+                    useFakeAccount(accountName: AccountSelected.NickName, courses: fakeCourses, name: name)
+                }else{
+                    self.ShouldLoginWhenFinishedLoadingSite = true
+                    self.reloadSkyward()
+                }
+            }else{
+                self.ShouldLoginWhenFinishedLoadingSite = true
+                self.reloadSkyward()
+            }
         }else{
             return
         }
     }
+    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle
     {
         return UITableViewCell.EditingStyle.none

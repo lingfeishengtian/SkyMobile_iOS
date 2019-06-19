@@ -26,7 +26,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oIw-b0-7aA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172" y="-1229"/>
+            <point key="canvasLocation" x="556" y="-1254"/>
         </scene>
         <!--Progress Report Averages-->
         <scene sceneID="969-9g-5Xl">
@@ -1118,7 +1118,7 @@
 Special thanks to the iOS Team.
 Yifan Ma
 Damian Lall
-
+ Thanks to Lani Hong for letting us use her account for SkyMobile_Android testing purposes. 
 Special thanks to the beta testers.
 Kishlaya Rastogi
 Damian Lall
@@ -1176,7 +1176,7 @@ We hope SkyMobile satisfies you and you can enjoy the app as much as we have enj
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lzg-rQ-NhU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828" y="-466.41679160419795"/>
+            <point key="canvasLocation" x="1146" y="851"/>
         </scene>
     </scenes>
     <resources>

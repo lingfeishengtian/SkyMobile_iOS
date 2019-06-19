@@ -17,6 +17,8 @@
 		9636181E21812F51002A8B2B /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181A21812F51002A8B2B /* Login.storyboard */; };
 		9636181F21812F51002A8B2B /* FinalGradeDisplay.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */; };
 		9636182221813063002A8B2B /* GPACalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636182121813063002A8B2B /* GPACalculatorViewController.swift */; };
+		96733C4E22B0391200CD6077 /* PreferenceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96733C4D22B0391200CD6077 /* PreferenceLoader.swift */; };
+		96733C5022B0392700CD6077 /* PreferenceBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96733C4F22B0392700CD6077 /* PreferenceBundle.swift */; };
 		967A998822AE0D180063155E /* preferences.json in Resources */ = {isa = PBXBuildFile; fileRef = 967A998722AE0D180063155E /* preferences.json */; };
 		969715F0221393A200B810DD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969715EF221393A200B810DD /* SettingsViewController.swift */; };
 		9697E227229060B300E0A2BF /* InhalationExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9697E226229060B300E0A2BF /* InhalationExercise.swift */; };
@@ -78,6 +80,8 @@
 		9636181B21812F51002A8B2B /* FinalGradeDisplay.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FinalGradeDisplay.storyboard; sourceTree = "<group>"; };
 		9636182121813063002A8B2B /* GPACalculatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPACalculatorViewController.swift; sourceTree = "<group>"; };
 		963975B72190F35300BDE6F9 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		96733C4D22B0391200CD6077 /* PreferenceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceLoader.swift; sourceTree = "<group>"; };
+		96733C4F22B0392700CD6077 /* PreferenceBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceBundle.swift; sourceTree = "<group>"; };
 		967A998722AE0D180063155E /* preferences.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = preferences.json; sourceTree = "<group>"; };
 		969715EF221393A200B810DD /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9697E226229060B300E0A2BF /* InhalationExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InhalationExercise.swift; sourceTree = "<group>"; };
@@ -195,6 +199,27 @@
 			path = SkyMobileUITests;
 			sourceTree = "<group>";
 		};
+		96733C4B22B038A500CD6077 /* SkyMobile Specific */ = {
+			isa = PBXGroup;
+			children = (
+				96987930216EDB8D00274869 /* Types.swift */,
+				96AD03F621795F6B0057066D /* ImportantUtils.swift */,
+				961F297A22715DD4001BE296 /* LatestVersionChecker.swift */,
+				96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */,
+			);
+			path = "SkyMobile Specific";
+			sourceTree = "<group>";
+		};
+		96733C4C22B038BB00CD6077 /* Universal */ = {
+			isa = PBXGroup;
+			children = (
+				96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */,
+				96733C4D22B0391200CD6077 /* PreferenceLoader.swift */,
+				96733C4F22B0392700CD6077 /* PreferenceBundle.swift */,
+			);
+			path = Universal;
+			sourceTree = "<group>";
+		};
 		9697E2252290607000E0A2BF /* Stress Relief */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,11 +231,8 @@
 		9698792D216EDB8D00274869 /* Important Utility Classes */ = {
 			isa = PBXGroup;
 			children = (
-				96987930216EDB8D00274869 /* Types.swift */,
-				96AD03F621795F6B0057066D /* ImportantUtils.swift */,
-				96FC4856222B7D76007645DD /* LegacyClassScraperAPI.swift */,
-				961F297A22715DD4001BE296 /* LatestVersionChecker.swift */,
-				96B58349228718DC00572D80 /* OfflineGradeStorageManager.swift */,
+				96733C4C22B038BB00CD6077 /* Universal */,
+				96733C4B22B038A500CD6077 /* SkyMobile Specific */,
 			);
 			path = "Important Utility Classes";
 			sourceTree = "<group>";
@@ -502,6 +524,7 @@
 				96AD03F521795B4A0057066D /* DetailedAssignmentViewController.swift in Sources */,
 				96987941216EDBA100274869 /* ProgressReportAverages.swift in Sources */,
 				96FC4857222B7D76007645DD /* LegacyClassScraperAPI.swift in Sources */,
+				96733C4E22B0391200CD6077 /* PreferenceLoader.swift in Sources */,
 				96E15B8622382BE200A959EC /* ModernUITabController.swift in Sources */,
 				963383F8216ED9DA00C7C158 /* AppDelegate.swift in Sources */,
 				96B5834A228718DC00572D80 /* OfflineGradeStorageManager.swift in Sources */,
@@ -509,6 +532,7 @@
 				96D32905228B7B49002816A6 /* LaunchingScreen.swift in Sources */,
 				961317A12173019E0018684F /* ViewAssignments.swift in Sources */,
 				9697E227229060B300E0A2BF /* InhalationExercise.swift in Sources */,
+				96733C5022B0392700CD6077 /* PreferenceBundle.swift in Sources */,
 				96DE3F84223AC4C900D2B715 /* ModernDetailedAssignmentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
