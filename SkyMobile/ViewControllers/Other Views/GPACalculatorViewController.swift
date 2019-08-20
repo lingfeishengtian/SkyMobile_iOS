@@ -270,7 +270,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
         var Count = 0.0
         let FinalTermAverage = reloadGPAValues(term: "FIN", courseCount: &Count)
         if(String(FinalTermAverage) != "nan" && Count != 0){
-        FinalGPA.text = String(FinalTermAverage)
+            FinalGPA.text = String(FinalTermAverage)
         }else if(S1AverageInt != "nan" && S2AverageInt != "nan" && Status == 0){
             FinalGPA.text = String((Double(S1AverageInt)! + Double(S2AverageInt)!)/2.0)
         }else{
@@ -361,9 +361,7 @@ class GPACalculatorViewController: UIViewController, UITableViewDelegate, UITabl
                     for (key, _) in ClassGrades.termGrades{
                         ClassGrades.termGrades[key] = Class.termGrades[key]?.trimmingCharacters(in: .whitespaces)
                     }
-                    if (ClassGrades.termGrades["FIN"]) != "" && (ClassGrades.termGrades["FIN"]) != "-1000"{
-                        CalculateNewClassAverageFromInformation(ClassGrades, &NewClassAverage, "FIN", &courseCount)
-                    }else if ClassGrades.termGrades["S1"] != "" && ClassGrades.termGrades["S2"] != "" && ClassGrades.termGrades["S1"] != "-1000" && ClassGrades.termGrades["S2"] != "-1000"{
+                    if ClassGrades.termGrades["S1"] != "" && ClassGrades.termGrades["S2"] != "" && ClassGrades.termGrades["S1"] != "-1000" && ClassGrades.termGrades["S2"] != "-1000"{
                         let LevelAddAmt = CheckAddAmt(level: level)
                         if LevelAddAmt != -1{
                             NewClassAverage += ((Double(ClassGrades.termGrades["S1"]!)! + Double(ClassGrades.termGrades["S2"]!)!)/2 + Double(LevelAddAmt)) * CreditWorth

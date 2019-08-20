@@ -970,6 +970,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                                 self.importantUtils.DestroyLoadingView(views: self.view)
                                 self.importantUtils.CreateLoadingView(view: self.view, message: "Loading Gradebook")
                                 self.runOnce = true
+                            }else{
+                                self.importantUtils.DestroyLoadingView(views: self.view)
+                                self.importantUtils.DisplayErrorMessage(message: "Your grading period has ended.")
                             }
                         }
                     }

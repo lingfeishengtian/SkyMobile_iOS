@@ -74,15 +74,16 @@ class LaunchingScreen: UIViewController, CAAnimationDelegate {
     }
     
     @IBAction func needHelp(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "StressReliefAndEncouragement", bundle: Bundle.main)
-        let vc : InhalationExercise = storyboard.instantiateViewController(withIdentifier: "InhalationExercise") as! InhalationExercise
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromRight
-        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
-        view.window!.layer.add(transition, forKey: kCATransition)
-        present(vc, animated: false, completion: nil)
+        importantUtils.DisplayErrorMessage(message: "Stress Relief has been taken down for this version due to its incompleteness.")
+//        let storyboard = UIStoryboard(name: "StressReliefAndEncouragement", bundle: Bundle.main)
+//        let vc : InhalationExercise = storyboard.instantiateViewController(withIdentifier: "InhalationExercise") as! InhalationExercise
+//        let transition = CATransition()
+//        transition.duration = 0.5
+//        transition.type = CATransitionType.push
+//        transition.subtype = CATransitionSubtype.fromRight
+//        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+//        view.window!.layer.add(transition, forKey: kCATransition)
+//        present(vc, animated: false, completion: nil)
     }
     
     func organizeGradients(){
