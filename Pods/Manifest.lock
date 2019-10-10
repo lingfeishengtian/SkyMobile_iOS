@@ -35,7 +35,7 @@ DEPENDENCIES:
   - Kanna (~> 5.0.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUtilities
@@ -51,4 +51,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 653609fe78fa0cba0b61a059c912739ddab81d13
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.3

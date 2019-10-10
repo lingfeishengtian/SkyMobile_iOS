@@ -130,6 +130,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                 UserDefaults.standard.set(encoded, forKey: "AccountStorageService")
             }
             
+        
             DistrictData.Parent = self
             SavedAccountsTableView.dataSource = self
             SavedAccountsTableView.delegate = self
@@ -363,7 +364,15 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
                     }
                 }
             }
-            
+            if ImportantUtils.isKeyPresentInUserDefaults(key: "ShowNewAppNotif"){
+                if let data = UserDefaults.standard.string(forKey: "ShowNewAppNotif"){
+                    if data != "NOMOREPLZ" {
+                        showDownDiag()
+                    }
+                }
+            }else{
+                showDownDiag()
+            }
             Timer.scheduledTimer(withTimeInterval: 10, repeats: false){ timer in
                 print("Idle for too long, assuming infinite looped. Exiting all loops")
                 if self.importantUtils.GetLoadingViewText(views: self.view) == "Loading Skyward..."{
@@ -381,6 +390,25 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UITa
             alerttingLogout.addAction(okAction)
             self.present(alerttingLogout, animated: true, completion: nil)
         }
+    }
+    
+    func showDownDiag(){
+        UserDefaults.standard.set("PLZ UPDATE", forKey: "ShowNewAppNotif")
+        let alertController = UIAlertController(title: "Hey There!",
+                                                                       message: "There's a new SkyMobile out called SkyMobile gradebook on the app store. It's completely redesigned and fixes many bugs. SkyMobile Grade Viewer will no longer be updated.",
+                                                                       preferredStyle: UIAlertController.Style.alert)
+                               let confirmAction = UIAlertAction(
+                               title: "OK", style: UIAlertAction.Style.destructive) { (action) in
+                                  let url = URL(string: "https://apps.apple.com/app/id1477786177")
+                                UIApplication.shared.openURL(url!)
+                               }
+                               let dontshowagain = UIAlertAction(
+                               title: "Don't show me again", style: UIAlertAction.Style.destructive) { (action) in
+                               UserDefaults.standard.set("NOMOREPLZ", forKey: "ShowNewAppNotif")
+                               }
+                               alertController.addAction(dontshowagain)
+                               alertController.addAction(confirmAction)
+                               self.present(alertController, animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
